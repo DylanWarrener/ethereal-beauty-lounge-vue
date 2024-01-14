@@ -1,0 +1,39 @@
+{
+	"include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vite.config.*"],
+	"compilerOptions": {
+		/* Type Checking */
+		"strict": true,
+
+		/* Modules */
+		"module": "ESNext",
+		"moduleResolution": "node16",
+		"paths": {
+			"@base/*": ["./*"],
+			"@src/*": ["./src/*"],
+			"@assets/*": ["./assets/*"],
+			"@styles/*": ["./styles/*"],
+			"@themes/*": ["./themes/*"],
+			"@pages/*": ["./pages/*"],
+			"@stores/*": ["./stores/*"],
+			"@components/*": ["./components/*"],
+			"@constants/*": ["./constants/*"],
+			"@enums/*": ["./enums/*"],
+			"@utils/*": ["./utils/*"],
+			"@plugins/*": ["./plugins/*"]
+		},
+		"types": ["node"],
+
+		/* Emit */
+		"importsNotUsedAsValues": "remove",
+		"noEmit": true,
+		"sourceMap": true,
+
+		/* Interop Constraints */
+		"forceConsistentCasingInFileNames": true,
+
+		/* Language and Environment */
+		"target": "ESNEXT"
+
+		//"composite": true,
+	}
+}
