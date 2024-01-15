@@ -1,4 +1,4 @@
-<template>Portfolio</template>
+<template><p>Portfolio</p></template>
 
 <script lang="ts">
 import { defineComponent } from "vue";

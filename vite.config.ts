@@ -21,6 +21,7 @@ export default defineConfig({
 			"@pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
 			"@stores": fileURLToPath(new URL("./src/stores", import.meta.url)),
 			"@components": fileURLToPath(new URL("./src/components", import.meta.url)),
+			"@declarations": fileURLToPath(new URL("./src/declarations", import.meta.url)),
 			"@constants": fileURLToPath(new URL("./src/constants", import.meta.url)),
 			"@enums": fileURLToPath(new URL("./src/enums", import.meta.url)),
 			"@utils": fileURLToPath(new URL("./src/utils", import.meta.url)),

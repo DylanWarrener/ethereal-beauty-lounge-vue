@@ -1,9 +1,9 @@
-<template><p>Home</p></template>
+<template><p>Sign in</p></template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "home-page-component",
+	name: "sign-in-page-component",
 });
 </script>
