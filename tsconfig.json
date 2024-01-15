@@ -1,27 +1,27 @@
 {
-	"include": ["env.d.ts", "src/**/*", "src/**/*.vue", "vite.config.*"],
+	"include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts", "env.d.ts"],
 	"compilerOptions": {
 		/* Type Checking */
 		"strict": true,
 
 		/* Modules */
-		"module": "ESNext",
-		"moduleResolution": "node16",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 		"paths": {
 			"@base/*": ["./*"],
 			"@src/*": ["./src/*"],
-			"@assets/*": ["./assets/*"],
-			"@styles/*": ["./styles/*"],
-			"@themes/*": ["./themes/*"],
-			"@pages/*": ["./pages/*"],
-			"@stores/*": ["./stores/*"],
-			"@components/*": ["./components/*"],
-			"@constants/*": ["./constants/*"],
-			"@enums/*": ["./enums/*"],
-			"@utils/*": ["./utils/*"],
-			"@plugins/*": ["./plugins/*"]
+			"@assets/*": ["./src/assets/*"],
+			"@styles/*": ["./src/styles/*"],
+			"@themes/*": ["./src/themes/*"],
+			"@pages/*": ["./src/pages/*"],
+			"@stores/*": ["./src/stores/*"],
+			"@components/*": ["./src/components/*"],
+			"@constants/*": ["./src/constants/*"],
+			"@enums/*": ["./src/enums/*"],
+			"@utils/*": ["./src/utils/*"],
+			"@plugins/*": ["./src/plugins/*"]
 		},
-		"types": ["node"],
+		"types": ["node", "vite/client"],
 
 		/* Emit */
 		"importsNotUsedAsValues": "remove",
@@ -30,10 +30,13 @@
 
 		/* Interop Constraints */
 		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
 
 		/* Language and Environment */
-		"target": "ESNEXT"
+		"target": "ESNEXT",
+		"useDefineForClassFields": true,
 
-		//"composite": true,
+		/* Completeness */
+		"skipLibCheck": true
 	}
 }

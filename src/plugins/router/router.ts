@@ -1,23 +1,37 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import { createRouter, createWebHistory } from "vue-router";
+
+// Child components -> dynamically imported (only imported when requested to reduce bundle size)
+const Home = () => import("@pages/page-home.vue");
+const Portfolio = () => import("@pages/page-portfolio.vue");
+const About = () => import("@pages/page-about.vue");
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
-		{
-			path: '/',
-			name: 'home',
-			component: HomeView,
-		},
-		{
-			path: '/about',
-			name: 'about',
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import('../views/AboutView.vue'),
-		},
+		{ path: "/", name: "home", component: Home },
+		{ path: "/portfolio", name: "portfolio", component: Portfolio },
+		{ path: "/about", name: "about", component: About },
+		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
+	scrollBehavior(to, from, savedPosition) {
+		let retVal;
+		if (savedPosition) {
+			retVal = savedPosition;
+		} else {
+			if (to.hash) {
+				retVal = {
+					el: to.hash,
+					behavior: "smooth",
+				};
+			} else {
+				retVal = {
+					top: 0,
+					behavior: "smooth",
+				};
+			}
+		}
+		return retVal;
+	},
 });
 
 export default router;
