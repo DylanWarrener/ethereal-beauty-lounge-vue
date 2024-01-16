@@ -1,12 +1,12 @@
-<template><p>Footer</p></template>
+<template><p style="border: 2px solid green">Footer</p></template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
-import useFooterStore from "@stores/store-footer.js";
+import useFooterStore from '@stores/store-footer.js';
 
 export default defineComponent({
-	name: "footer-component",
+	name: 'footer-component',
 	setup() {
 		const storeHeader = useFooterStore();
 		return { storeHeader };

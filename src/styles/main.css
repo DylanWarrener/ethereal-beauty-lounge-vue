@@ -1,0 +1,7 @@
+@import './base.css';
+
+#app {
+	border: 2px solid black;
+	margin: 0 auto;
+	padding: 0 auto;
+}

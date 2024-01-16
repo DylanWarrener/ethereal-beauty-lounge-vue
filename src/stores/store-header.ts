@@ -1,19 +1,17 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
 // Interfaces
-import IHeaderState from "@declarations/common/header/interfaces/common-interface-header.js";
-import IHeaderAppBarState, {
-	IHeaderAppBarIcons,
-} from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
+import IHeaderState from '@declarations/common/header/interfaces/common-interface-header.js';
+import IHeaderAppBarState, { IHeaderAppBarIcons } from '@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js';
 import IHeaderNavigationDrawersState, {
 	IHeaderNavigationLinksDrawerState,
 	IHeaderNavigationProfileDrawerState,
-} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
+} from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
 
 // Constants
-import { icons, tooltips } from "@constants/common/primitive/common-constants-primative.js";
+import { icons, tooltips } from '@constants/common/primitive/common-constants-primative.js';
 
-const useHeaderStore = defineStore("header-store", {
+const useHeaderStore = defineStore('header-store', {
 	state: (): IHeaderState => ({
 		appBar: {
 			icons: {
