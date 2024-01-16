@@ -1,9 +1,18 @@
-export default interface IHeaderNavigationDrawersState {
-	links: IHeaderNavigationLinksDrawerState;
-	profile: IHeaderNavigationProfileDrawerState;
+export default interface IHeaderNavigationState {
+	links: IHeaderNavigationLinksState;
+	profile: IHeaderNavigationProfileState;
 }
-export interface IHeaderNavigationDrawersCommonState {
-	open: boolean;
+export interface IHeaderNavigationCommonState {
+	items: IHeaderNavigationCommonObjectState;
+	drawer: boolean;
 }
-export interface IHeaderNavigationLinksDrawerState extends IHeaderNavigationDrawersCommonState {}
-export interface IHeaderNavigationProfileDrawerState extends IHeaderNavigationDrawersCommonState {}
+export interface IHeaderNavigationCommonObjectState {
+	[key: string]: IHeaderNavigationCommonItemState;
+}
+export interface IHeaderNavigationCommonItemState {
+	title: string;
+	icon: string;
+	link: string;
+}
+export interface IHeaderNavigationLinksState extends IHeaderNavigationCommonState {}
+export interface IHeaderNavigationProfileState extends IHeaderNavigationCommonState {}

@@ -9,17 +9,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Components
-import HeaderComp from '@components/common/header/common-header.vue';
-import FooterComp from '@components/common/footer/common-footer.vue';
+import HeaderComp from "@components/common/header/common-header.vue";
+import FooterComp from "@components/common/footer/common-footer.vue";
 
 export default defineComponent({
-	name: 'app-component',
+	name: "app-component",
 	components: {
-		'header-container-component': HeaderComp,
-		'footer-container-component': FooterComp,
+		"header-container-component": HeaderComp,
+		"footer-container-component": FooterComp,
 	},
 });
 </script>

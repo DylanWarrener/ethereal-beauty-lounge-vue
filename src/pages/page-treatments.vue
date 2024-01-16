@@ -1,9 +1,9 @@
-<template>About page</template>
+<template>Treatments page</template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "about-page-component",
+	name: "treatments-page-component",
 });
 </script>
