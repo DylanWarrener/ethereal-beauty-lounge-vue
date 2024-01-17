@@ -1,5 +1,5 @@
 export default interface IHeaderNavigationState {
-	links: IHeaderNavigationLinksState;
+	menu: IHeaderNavigationMenuState;
 	profile: IHeaderNavigationProfileState;
 }
 export interface IHeaderNavigationCommonState {
@@ -14,5 +14,5 @@ export interface IHeaderNavigationCommonItemState {
 	icon: string;
 	link: string;
 }
-export interface IHeaderNavigationLinksState extends IHeaderNavigationCommonState {}
+export interface IHeaderNavigationMenuState extends IHeaderNavigationCommonState {}
 export interface IHeaderNavigationProfileState extends IHeaderNavigationCommonState {}

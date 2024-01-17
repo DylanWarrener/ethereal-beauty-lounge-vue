@@ -1,43 +1,45 @@
-import { mdiMenu } from "@mdi/js";
-import { mdiHome } from "@mdi/js";
-import { mdiEmail } from "@mdi/js";
-import { mdiCommentQuestion } from "@mdi/js";
-import { mdiInformation } from "@mdi/js";
-import { mdiStore } from "@mdi/js";
-import { mdiLotion } from "@mdi/js";
-import { mdiLogin } from "@mdi/js";
-import { mdiBasketOutline } from "@mdi/js";
-import { mdiMagnify } from "@mdi/js";
+import { mdiMenu } from '@mdi/js';
+import { mdiHome } from '@mdi/js';
+import { mdiEmail } from '@mdi/js';
+import { mdiCommentQuestion } from '@mdi/js';
+import { mdiInformation } from '@mdi/js';
+import { mdiStore } from '@mdi/js';
+import { mdiLotion } from '@mdi/js';
+import { mdiLogin } from '@mdi/js';
+import { mdiBasketOutline } from '@mdi/js';
+import { mdiMagnify } from '@mdi/js';
+import { mdiAccount } from '@mdi/js';
 
 // ---------------------------------------------------------------------------------------------------------
 // TEXT
 // ---------------------------------------------------------------------------------------------------------
 export const txtGeneral = {
-	toggle: "Toggle",
+	toggle: 'Toggle',
 };
 export const txtAppBar = {
-	menu: "Menu",
-	search: "Search",
-	basket: "Basket",
-	login: "Log in",
+	menu: 'Menu',
+	search: 'Search',
+	basket: 'Basket',
+	login: 'Log in',
+	profile: 'Profile',
 };
 export const txtNavigation = {
-	home: "home",
-	treatments: "treatments",
-	portfolio: "portfolio",
-	store: "store",
-	contact: "contact",
-	reviews: "reviews",
-	about: "about",
+	home: 'home',
+	treatments: 'treatments',
+	portfolio: 'portfolio',
+	store: 'store',
+	contact: 'contact',
+	reviews: 'reviews',
+	about: 'about',
 };
 export const txtNavigationLinks = {
-	home: "/",
-	treatments: "/treatments",
-	portfolio: "/portfolio",
-	store: "/store",
-	contact: "/contact",
-	reviews: "/reviews",
-	about: "/about",
+	home: '/',
+	treatments: '/treatments',
+	portfolio: '/portfolio',
+	store: '/store',
+	contact: '/contact',
+	reviews: '/reviews',
+	about: '/about',
 };
 
 // ---------------------------------------------------------------------------------------------------------
@@ -48,6 +50,7 @@ export const iconsAppBar = {
 	search: mdiMagnify,
 	basket: mdiBasketOutline,
 	login: mdiLogin,
+	profile: mdiAccount,
 };
 export const iconsNavigation = {
 	home: mdiHome,
@@ -66,4 +69,5 @@ export const tooltipsAppBar = {
 	search: txtAppBar.search,
 	basket: `${txtGeneral.toggle} ${txtAppBar.basket.toLowerCase()}`,
 	login: txtAppBar.login,
+	profile: txtAppBar.profile,
 };

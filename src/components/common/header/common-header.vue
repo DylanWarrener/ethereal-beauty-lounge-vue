@@ -3,58 +3,89 @@
 		<img-container-component></img-container-component>
 		<tooltip-container-component
 			location="bottom"
-			:id="appbarMenuBtn"
+			:id="IDAppbarMenuBtn"
 			:icon="appBarIcons.menu.icon"
 			:tooltip="appBarIcons.menu.tooltip"
-			:toggled-tooltip="appBarIcons.menu.showTooltip"
-			@toggle-drawer="linkDrawer = !linkDrawer"
+			:tooltip-opened="appBarIcons.menu.showTooltip"
+			@toggle-drawer="menuDrawer = !menuDrawer"
 		></tooltip-container-component>
 		<v-app-bar-title class="text-capitalize">{{ appBarTitle }}</v-app-bar-title>
-		<v-btn variant="text" :icon="appBarIcons.search.icon"></v-btn>
-		<v-btn variant="text" :icon="appBarIcons.basket.icon"></v-btn>
+
+		<tooltip-container-component
+			location="bottom"
+			:id="IDAppbarSearchBtn"
+			:icon="appBarIcons.search.icon"
+			:tooltip="appBarIcons.search.tooltip"
+			:tooltip-opened="appBarIcons.search.showTooltip"
+			@toggle-drawer="searchDrawer = !searchDrawer"
+		></tooltip-container-component>
+		<tooltip-container-component
+			location="bottom"
+			:id="IDAppbarBasketBtn"
+			:icon="appBarIcons.basket.icon"
+			:tooltip="appBarIcons.basket.tooltip"
+			:tooltip-opened="appBarIcons.basket.showTooltip"
+			@toggle-drawer="basketDrawer = !basketDrawer"
+		></tooltip-container-component>
 		<v-divider vertical inset class="mx-2 border-opacity-75"></v-divider>
-		<v-btn variant="text" :icon="appBarIcons.login.icon"></v-btn>
+		<tooltip-container-component
+			location="bottom"
+			:id="IDAppbarLoginBtn"
+			:icon="appBarIcons.login.icon"
+			:tooltip="appBarIcons.login.tooltip"
+			:tooltip-opened="appBarIcons.login.showTooltip"
+			@toggle-drawer="loginDrawer = !loginDrawer"
+		></tooltip-container-component>
 	</v-app-bar>
-	<navigation-drawer-links-component></navigation-drawer-links-component>
+	<navigation-drawer-menu-component></navigation-drawer-menu-component>
 	<navigation-drawer-profile-component></navigation-drawer-profile-component>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { RouteRecordName } from "vue-router";
+import { defineComponent } from 'vue';
+import { RouteRecordName } from 'vue-router';
 
 // Stores
-import useHeaderStore from "@stores/store-header.js";
+import useHeaderStore from '@stores/store-header.js';
 
 // Components
-import ImgComp from "@components/common/img/common-img.vue";
-import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
-import NavigationDrawerLinksComp from "@components/uncommon/header/uncommon-header-navigation-links.vue";
-import NavigationDrawerProfileComp from "@components/uncommon/header/uncommon-header-navigation-profile.vue";
+import ImgComp from '@components/common/img/common-img.vue';
+import TooltipComp from '@components/common/tooltip/common-tooltip.vue';
+import NavigationDrawerMenuComp from '@components/uncommon/header/uncommon-header-navigation-menu.vue';
+import NavigationDrawerProfileComp from '@components/uncommon/header/uncommon-header-navigation-profile.vue';
 
 // Interfaces
-import { IHeaderAppbarIconsState } from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
+import { IHeaderAppbarIconsState } from '@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js';
 
 // Enums
-import { ElementIDs } from "@enums/enums.js";
+import { ElementIDs } from '@enums/enums.js';
 
 export default defineComponent({
-	name: "header-component",
+	name: 'header-component',
 	components: {
-		"img-container-component": ImgComp,
-		"tooltip-container-component": TooltipComp,
-		"navigation-drawer-links-component": NavigationDrawerLinksComp,
-		"navigation-drawer-profile-component": NavigationDrawerProfileComp,
+		'img-container-component': ImgComp,
+		'tooltip-container-component': TooltipComp,
+		'navigation-drawer-menu-component': NavigationDrawerMenuComp,
+		'navigation-drawer-profile-component': NavigationDrawerProfileComp,
 	},
 	computed: {
 		// IDs
-		appbarMenuBtn(): string {
+		IDAppbarMenuBtn(): string {
 			return ElementIDs.APPBAR_MENU_BTN;
+		},
+		IDAppbarSearchBtn(): string {
+			return ElementIDs.APPBAR_SEARCH_BTN;
+		},
+		IDAppbarBasketBtn(): string {
+			return ElementIDs.APPBAR_BASKET_BTN;
+		},
+		IDAppbarLoginBtn(): string {
+			return ElementIDs.APPBAR_LOGIN_BTN;
 		},
 
 		// Text
 		appBarTitle(): string {
-			let retVal: string = "";
+			let retVal: string = '';
 			if (this.$route.name) {
 				const currentPageName: RouteRecordName = this.$route.name;
 				retVal = currentPageName.toString();
@@ -68,12 +99,38 @@ export default defineComponent({
 		},
 
 		// Conditional
-		linkDrawer: {
+		menuDrawer: {
 			get(): boolean {
-				return this.storeHeader.getNavigationLinksDrawer;
+				debugger;
+				return this.storeHeader.getAppBarMenuDrawer;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setNavigationLinksDrawer(newValue);
+				debugger;
+				this.storeHeader.setAppBarMenuDrawer(newValue);
+			},
+		},
+		searchDrawer: {
+			get(): boolean {
+				return this.storeHeader.getAppBarSearchDrawer;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarSearchDrawer(newValue);
+			},
+		},
+		basketDrawer: {
+			get(): boolean {
+				return this.storeHeader.getAppBarBasketDrawer;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarBasketDrawer(newValue);
+			},
+		},
+		loginDrawer: {
+			get(): boolean {
+				return this.storeHeader.getAppBarLoginDrawer;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarLoginDrawer(newValue);
 			},
 		},
 	},

@@ -12,23 +12,22 @@ import useHeaderStore from '@stores/store-header.js';
 import NavigationContainerComp from '@components/common/navigation/common-navigation.vue';
 
 // Interfaces
-import { IHeaderNavigationProfileState } from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+import { IHeaderNavigationMenuState } from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
 
 export default defineComponent({
-	name: 'header-navigation-profile-component',
+	name: 'header-navigation-links-component',
 	components: {
 		'navigation-container-component': NavigationContainerComp,
 	},
 	computed: {
 		/* Data */
-		navigation(): IHeaderNavigationProfileState {
-			return this.storeHeader.getNavigationProfile;
+		navigation(): IHeaderNavigationMenuState {
+			return this.storeHeader.getNavigationMenu;
 		},
 	},
 	methods: {
 		toggleDrawer(newValue: boolean): void {
-			debugger;
-			this.storeHeader.setAppBarProfileDrawer(newValue);
+			this.storeHeader.setAppBarMenuDrawer(newValue);
 		},
 	},
 	setup() {

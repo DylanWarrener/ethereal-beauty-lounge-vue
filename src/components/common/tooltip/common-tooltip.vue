@@ -1,5 +1,5 @@
 <template>
-	<v-tooltip v-model="toggledTooltip">
+	<v-tooltip v-model="tooltipOpen">
 		<template #activator="{ props }">
 			<v-btn variant="text" :id="id" :icon="icon" v-bind="props" @click.left="toggleClickHander"></v-btn>
 		</template>
@@ -8,19 +8,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: "tooltip-container-component",
+	name: 'tooltip-container-component',
 	props: {
 		id: { type: String, required: false },
 		icon: { type: String, required: true },
 		tooltip: { type: String, required: false },
-		toggledTooltip: { type: Boolean, required: true },
+		tooltipOpened: { type: Boolean, required: true },
+	},
+	data() {
+		return {
+			tooltipOpen: false,
+		};
 	},
 	methods: {
 		toggleClickHander(): void {
-			this.$emit("toggle-drawer");
+			this.$emit('toggle-drawer');
+		},
+	},
+	watch: {
+		toggleTooltip(): void {
+			this.tooltipOpen = this.tooltipOpened;
 		},
 	},
 });
