@@ -1,5 +1,5 @@
 <template>
-	<div class="h-100 px-4" style="width: 200px">
+	<div class="h-100" style="width: 100px">
 		<v-img class="w-100 h-100" src="logo-transparent.png"></v-img>
 	</div>
 </template>

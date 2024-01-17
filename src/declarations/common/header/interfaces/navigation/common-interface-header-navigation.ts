@@ -1,18 +1,26 @@
 export default interface IHeaderNavigationState {
-	menu: IHeaderNavigationMenuState;
-	profile: IHeaderNavigationProfileState;
+	mobileMenu: IHeaderNavigationMobileMenuState;
+	nonMobileMenu: IHeaderNavigationNonMobileMenuState;
 }
-export interface IHeaderNavigationCommonState {
-	items: IHeaderNavigationCommonObjectState;
-	drawer: boolean;
-}
-export interface IHeaderNavigationCommonObjectState {
-	[key: string]: IHeaderNavigationCommonItemState;
-}
+
+// ---------------------------------------------------------------------------------------------------------
+// COMMON
+// ---------------------------------------------------------------------------------------------------------
 export interface IHeaderNavigationCommonItemState {
 	title: string;
-	icon: string;
-	link: string;
+	icon?: string;
+	link?: string;
 }
-export interface IHeaderNavigationMenuState extends IHeaderNavigationCommonState {}
-export interface IHeaderNavigationProfileState extends IHeaderNavigationCommonState {}
+export interface IHeaderNavigationCommonNonMobileItemState extends IHeaderNavigationCommonItemState {
+	items?: IHeaderNavigationCommonItemState[];
+}
+
+// ---------------------------------------------------------------------------------------------------------
+// UNCOMMON
+// ---------------------------------------------------------------------------------------------------------
+export interface IHeaderNavigationMobileMenuState {
+	items: IHeaderNavigationCommonItemState[];
+}
+export interface IHeaderNavigationNonMobileMenuState {
+	items: IHeaderNavigationCommonNonMobileItemState[];
+}

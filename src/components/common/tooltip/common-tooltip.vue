@@ -1,19 +1,27 @@
 <template>
 	<v-tooltip v-model="tooltipOpen">
 		<template #activator="{ props }">
-			<v-btn variant="text" :id="id" :icon="icon" v-bind="props" @click.left="toggleClickHander"></v-btn>
+			<v-btn
+				variant="text"
+				:id="id"
+				:class="classBtn"
+				:icon="icon"
+				v-bind="props"
+				@click.left="drawerClickHander"
+			></v-btn>
 		</template>
 		<span>{{ tooltip }}</span>
 	</v-tooltip>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: 'tooltip-container-component',
+	name: "tooltip-container-component",
 	props: {
 		id: { type: String, required: false },
+		classBtn: { type: String, required: false },
 		icon: { type: String, required: true },
 		tooltip: { type: String, required: false },
 		tooltipOpened: { type: Boolean, required: true },
@@ -24,13 +32,8 @@ export default defineComponent({
 		};
 	},
 	methods: {
-		toggleClickHander(): void {
-			this.$emit('toggle-drawer');
-		},
-	},
-	watch: {
-		toggleTooltip(): void {
-			this.tooltipOpen = this.tooltipOpened;
+		drawerClickHander(): void {
+			this.$emit("toggle-drawer");
 		},
 	},
 });

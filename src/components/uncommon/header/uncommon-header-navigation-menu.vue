@@ -1,33 +1,37 @@
 <template>
-	<navigation-container-component :navigation="navigation" @toggle-drawer="toggleDrawer"></navigation-container-component>
+	<navigation-container-component
+		location="bottom"
+		:navigation="menuNavigation"
+		:drawer="menuDrawer"
+	></navigation-container-component>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Stores
-import useHeaderStore from '@stores/store-header.js';
+import useHeaderStore from "@stores/store-header.js";
 
 // Components
-import NavigationContainerComp from '@components/common/navigation/common-navigation.vue';
+import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
 
 // Interfaces
-import { IHeaderNavigationMenuState } from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+import { IHeaderNavigationCommonItemState } from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 export default defineComponent({
-	name: 'header-navigation-links-component',
+	name: "header-navigation-links-component",
 	components: {
-		'navigation-container-component': NavigationContainerComp,
+		"navigation-container-component": NavigationContainerComp,
 	},
 	computed: {
 		/* Data */
-		navigation(): IHeaderNavigationMenuState {
-			return this.storeHeader.getNavigationMenu;
+		menuNavigation(): IHeaderNavigationCommonItemState[] {
+			return this.storeHeader.getNavigationMobileMenu;
 		},
-	},
-	methods: {
-		toggleDrawer(newValue: boolean): void {
-			this.storeHeader.setAppBarMenuDrawer(newValue);
+
+		/* Conditional */
+		menuDrawer(): boolean {
+			return this.storeHeader.getAppBarMenuDrawer;
 		},
 	},
 	setup() {

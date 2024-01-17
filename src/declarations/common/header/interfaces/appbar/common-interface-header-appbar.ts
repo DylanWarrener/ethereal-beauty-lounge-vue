@@ -13,4 +13,5 @@ export interface IHeaderAppbarIconsState {
 	basket: IHeaderAppBarCommonIconState;
 	login: IHeaderAppBarCommonIconState;
 	profile: IHeaderAppBarCommonIconState;
+	options: IHeaderAppBarCommonIconState;
 }

@@ -1,24 +1,25 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 // Interfaces
-import IHeaderState from '@declarations/common/header/interfaces/common-interface-header.js';
-import IHeaderAppBarState, { IHeaderAppbarIconsState } from '@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js';
-import { IHeaderNavigationMenuState, IHeaderNavigationProfileState } from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+import IHeaderState from "@declarations/common/header/interfaces/common-interface-header.js";
+import IHeaderAppBarState, {
+	IHeaderAppbarIconsState,
+} from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
+import {
+	IHeaderNavigationCommonItemState,
+	IHeaderNavigationCommonNonMobileItemState,
+} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 // Constants
+import { NAVIGATION_MOBLE_MENU, NAVIGATION_NON_MOBILE_MENU } from "@constants/common/arrays/common-constants-arrays.js";
 import {
-	// Text
-	txtNavigation,
-	txtNavigationLinks,
-
 	// Icons
 	iconsAppBar,
-	iconsNavigation,
 	tooltipsAppBar,
-} from '@constants/common/primitive/common-constants-primative.js';
+} from "@base/src/constants/common/objects/common-constants-objects.js";
 
 // Enums
-import { StoreIDs } from '@enums/enums.js';
+import { StoreIDs } from "@enums/enums.js";
 
 const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	state: (): IHeaderState => ({
@@ -54,47 +55,20 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 					showTooltip: false,
 					showDrawer: false,
 				},
+				options: {
+					icon: iconsAppBar.options,
+					tooltip: tooltipsAppBar.options,
+					showTooltip: false,
+					showDrawer: false,
+				},
 			},
 		},
 		navigation: {
-			menu: {
-				items: {
-					home: {
-						title: txtNavigation.home,
-						icon: iconsNavigation.home,
-						link: txtNavigationLinks.home,
-					},
-					treatments: {
-						title: txtNavigation.treatments,
-						icon: iconsNavigation.treatments,
-						link: txtNavigationLinks.treatments,
-					},
-					store: {
-						title: txtNavigation.store,
-						icon: iconsNavigation.store,
-						link: txtNavigationLinks.store,
-					},
-					contact: {
-						title: txtNavigation.contact,
-						icon: iconsNavigation.contact,
-						link: txtNavigationLinks.contact,
-					},
-					reviews: {
-						title: txtNavigation.reviews,
-						icon: iconsNavigation.reviews,
-						link: txtNavigationLinks.reviews,
-					},
-					about: {
-						title: txtNavigation.about,
-						icon: iconsNavigation.about,
-						link: txtNavigationLinks.about,
-					},
-				},
-				drawer: false,
+			mobileMenu: {
+				items: NAVIGATION_MOBLE_MENU,
 			},
-			profile: {
-				items: {},
-				drawer: false,
+			nonMobileMenu: {
+				items: NAVIGATION_NON_MOBILE_MENU,
 			},
 		},
 	}),
@@ -107,10 +81,13 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		getAppBarBasketDrawer: (state: IHeaderState): boolean => state.appBar.icons.basket.showDrawer,
 		getAppBarLoginDrawer: (state: IHeaderState): boolean => state.appBar.icons.login.showDrawer,
 		getAppBarProfileDrawer: (state: IHeaderState): boolean => state.appBar.icons.profile.showDrawer,
+		getAppBarOptionsDrawer: (state: IHeaderState): boolean => state.appBar.icons.options.showDrawer,
 
 		/* Navigation */
-		getNavigationMenu: (state: IHeaderState): IHeaderNavigationMenuState => state.navigation.menu,
-		getNavigationProfile: (state: IHeaderState): IHeaderNavigationProfileState => state.navigation.profile,
+		getNavigationMobileMenu: (state: IHeaderState): IHeaderNavigationCommonItemState[] =>
+			state.navigation.mobileMenu.items,
+		getNavigationNonMobileMenu: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] =>
+			state.navigation.nonMobileMenu.items,
 	},
 	actions: {
 		/* AppBar */
@@ -125,17 +102,6 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		},
 		setAppBarLoginDrawer(newValue: boolean): void {
 			this.appBar.icons.login.showDrawer = newValue;
-		},
-		setAppBarProfileDrawer(newValue: boolean): void {
-			this.appBar.icons.profile.showDrawer = newValue;
-		},
-
-		/* Navigation */
-		setNavigationMenuDrawer(newValue: boolean): void {
-			this.navigation.menu.drawer = newValue;
-		},
-		setNavigationProfileDrawer(newValue: boolean): void {
-			this.navigation.profile.drawer = newValue;
 		},
 	},
 });

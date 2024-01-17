@@ -1,34 +1,40 @@
 <template>
-	<v-navigation-drawer temporary class="bg-accent" v-model="drawer">
+	<v-navigation-drawer temporary class="bg-accent" v-model="drawerOpen">
 		<v-list nav variant="text" base-color="white" color="black">
-			<v-list-item :prepend-icon="value.icon" :title="value.title.toUpperCase()" :to="value.link" :key="key" v-for="(value, key) in navigation.items"></v-list-item>
+			<v-list-item
+				:prepend-icon="item.icon"
+				:title="item.title.toUpperCase()"
+				:to="item.link"
+				:key="index"
+				v-for="(item, index) in navigation"
+			></v-list-item>
 		</v-list>
 	</v-navigation-drawer>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Stores
-import useHeaderStore from '@stores/store-header.js';
+import useHeaderStore from "@stores/store-header.js";
 
 // Interfaces
-import { IHeaderNavigationCommonState } from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+import { IHeaderNavigationCommonItemState } from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 export default defineComponent({
-	name: 'navigation-container',
+	name: "navigation-container",
 	props: {
-		navigation: { type: Object as () => IHeaderNavigationCommonState, required: true },
+		navigation: { type: Array<IHeaderNavigationCommonItemState>, required: true },
+		drawer: { type: Boolean, required: true },
 	},
 	data() {
 		return {
-			drawer: false,
+			drawerOpen: false,
 		};
 	},
 	watch: {
 		drawer(): void {
-			debugger;
-			this.$emit('toggle-drawer', this.drawer);
+			this.drawerOpen = this.drawer;
 		},
 	},
 	setup() {

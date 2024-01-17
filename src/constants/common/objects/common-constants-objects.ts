@@ -1,45 +1,50 @@
-import { mdiMenu } from '@mdi/js';
-import { mdiHome } from '@mdi/js';
-import { mdiEmail } from '@mdi/js';
-import { mdiCommentQuestion } from '@mdi/js';
-import { mdiInformation } from '@mdi/js';
-import { mdiStore } from '@mdi/js';
-import { mdiLotion } from '@mdi/js';
-import { mdiLogin } from '@mdi/js';
-import { mdiBasketOutline } from '@mdi/js';
-import { mdiMagnify } from '@mdi/js';
-import { mdiAccount } from '@mdi/js';
+import {
+	mdiMenu,
+	mdiHome,
+	mdiEmail,
+	mdiCommentQuestion,
+	mdiInformation,
+	mdiStore,
+	mdiLotion,
+	mdiLogin,
+	mdiBasketOutline,
+	mdiMagnify,
+	mdiAccount,
+	mdiDotsVertical,
+	mdiMenuDown,
+} from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
 // TEXT
 // ---------------------------------------------------------------------------------------------------------
 export const txtGeneral = {
-	toggle: 'Toggle',
+	toggle: "Toggle",
 };
 export const txtAppBar = {
-	menu: 'Menu',
-	search: 'Search',
-	basket: 'Basket',
-	login: 'Log in',
-	profile: 'Profile',
+	menu: "Menu",
+	search: "Search",
+	basket: "Basket",
+	login: "Log in",
+	profile: "Profile",
+	options: "Options",
 };
-export const txtNavigation = {
-	home: 'home',
-	treatments: 'treatments',
-	portfolio: 'portfolio',
-	store: 'store',
-	contact: 'contact',
-	reviews: 'reviews',
-	about: 'about',
+export const txtRouteNames = {
+	home: "home",
+	treatments: "treatments",
+	portfolio: "portfolio",
+	store: "store",
+	contact: "contact",
+	reviews: "reviews",
+	about: "about",
 };
-export const txtNavigationLinks = {
-	home: '/',
-	treatments: '/treatments',
-	portfolio: '/portfolio',
-	store: '/store',
-	contact: '/contact',
-	reviews: '/reviews',
-	about: '/about',
+export const txtRouteLinks = {
+	home: "/",
+	treatments: "/treatments",
+	portfolio: "/portfolio",
+	store: "/store",
+	contact: "/contact",
+	reviews: "/reviews",
+	about: "/about",
 };
 
 // ---------------------------------------------------------------------------------------------------------
@@ -51,6 +56,7 @@ export const iconsAppBar = {
 	basket: mdiBasketOutline,
 	login: mdiLogin,
 	profile: mdiAccount,
+	options: mdiDotsVertical,
 };
 export const iconsNavigation = {
 	home: mdiHome,
@@ -59,15 +65,17 @@ export const iconsNavigation = {
 	contact: mdiEmail,
 	reviews: mdiCommentQuestion,
 	about: mdiInformation,
+	information: mdiMenuDown,
 };
 
 // ---------------------------------------------------------------------------------------------------------
 // TOOLTIPS
 // ---------------------------------------------------------------------------------------------------------
 export const tooltipsAppBar = {
-	menu: `${txtGeneral.toggle} ${txtAppBar.menu.toLowerCase()}`,
+	menu: txtAppBar.menu,
 	search: txtAppBar.search,
-	basket: `${txtGeneral.toggle} ${txtAppBar.basket.toLowerCase()}`,
+	basket: txtAppBar.basket,
 	login: txtAppBar.login,
 	profile: txtAppBar.profile,
+	options: txtAppBar.options,
 };
