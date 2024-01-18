@@ -2,17 +2,18 @@
 import {
 	IHeaderNavigationCommonItemState,
 	IHeaderNavigationCommonNonMobileItemState,
-} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
+} from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
 
 // Constants
 import {
 	// Text
 	txtRouteNames,
 	txtRouteLinks,
+	txtNavigationGroups,
 
 	// Icons
 	iconsNavigation,
-} from "@base/src/constants/common/objects/common-constants-objects.js";
+} from '@base/src/constants/common/objects/common-constants-objects.js';
 
 export const NAVIGATION_MOBLE_MENU: IHeaderNavigationCommonItemState[] = [
 	{
@@ -60,7 +61,7 @@ export const NAVIGATION_NON_MOBILE_MENU: IHeaderNavigationCommonNonMobileItemSta
 		link: txtRouteLinks.store,
 	},
 	{
-		title: txtRouteNames.information,
+		title: txtNavigationGroups.information,
 		icon: iconsNavigation.information,
 		items: [
 			{

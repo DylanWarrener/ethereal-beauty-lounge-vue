@@ -31,22 +31,9 @@
 			@click="navigatePage(outerItem.title)"
 		>
 			{{ outerItem.title }}
-			<v-menu
-				open-on-hover
-				location="bottom"
-				transition="slide-y-transition"
-				activator="parent"
-				v-if="outerItem.items"
-			>
-				<v-list>
-					<v-list-item
-						color="accent"
-						:title="innerItem.title.toUpperCase()"
-						:to="innerItem.link"
-						:key="index"
-						v-for="(innerItem, index) in outerItem.items"
-					>
-					</v-list-item>
+			<v-menu close-on-content-click location="bottom" transition="slide-y-transition" activator="parent" v-if="outerItem.items">
+				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
+					<v-list-item :title="innerItem.title.toUpperCase()" :to="innerItem.link" :key="index" v-for="(innerItem, index) in outerItem.items"></v-list-item>
 				</v-list>
 			</v-menu>
 		</v-btn>
@@ -86,33 +73,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { RouteRecordName } from "vue-router";
+import { defineComponent } from 'vue';
+import { RouteRecordName } from 'vue-router';
 
 // Stores
-import useHeaderStore from "@stores/store-header.js";
+import useHeaderStore from '@stores/store-header.js';
 
 // Components
-import ImgComp from "@components/common/img/common-img.vue";
-import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
-import NavigationDrawerMenuComp from "@components/uncommon/header/uncommon-header-navigation-menu.vue";
+import ImgComp from '@components/common/img/common-img.vue';
+import TooltipComp from '@components/common/tooltip/common-tooltip.vue';
+import NavigationDrawerMenuComp from '@components/uncommon/header/uncommon-header-navigation-menu.vue';
+import DialogLoginComp from '@components/uncommon/dialog/uncommon-dialog-login.vue';
 
 // Interfaces
-import { IHeaderAppbarIconsState } from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
+import { IHeaderAppbarIconsState } from '@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js';
 import {
 	IHeaderNavigationCommonItemState,
 	IHeaderNavigationCommonNonMobileItemState,
-} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
+} from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
 
 // Enums
-import { ElementIDs } from "@enums/enums.js";
+import { ElementIDs } from '@enums/enums.js';
 
 export default defineComponent({
-	name: "header-component",
+	name: 'header-component',
 	components: {
-		"img-container-component": ImgComp,
-		"tooltip-container-component": TooltipComp,
-		"navigation-drawer-menu-component": NavigationDrawerMenuComp,
+		'img-container-component': ImgComp,
+		'tooltip-container-component': TooltipComp,
+		'navigation-drawer-menu-component': NavigationDrawerMenuComp,
+		'dialog-login-component': DialogLoginComp,
 	},
 	computed: {
 		// IDs
@@ -134,7 +123,7 @@ export default defineComponent({
 
 		// Text
 		appBarTitle(): string {
-			let retVal: string = "";
+			let retVal: string = '';
 			if (this.$route.name) {
 				const currentPageName: RouteRecordName = this.$route.name;
 				retVal = currentPageName.toString();
@@ -197,10 +186,10 @@ export default defineComponent({
 	},
 	methods: {
 		navigatePage(routeName: string): void {
+			debugger;
 			const allRoutes = this.$router.getRoutes();
-			allRoutes.forEach((element) => {
-				if (element.name !== "") this.$router.push({ name: routeName });
-			});
+			const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
+			if (isRouteNameValid) this.$router.push({ name: routeName });
 		},
 	},
 	setup() {

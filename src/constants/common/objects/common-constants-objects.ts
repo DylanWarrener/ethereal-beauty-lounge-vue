@@ -12,39 +12,42 @@ import {
 	mdiAccount,
 	mdiDotsVertical,
 	mdiMenuDown,
-} from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+} from '@constants/common/primitives/icons/common-constants-primative-icons.js';
 
 // ---------------------------------------------------------------------------------------------------------
 // TEXT
 // ---------------------------------------------------------------------------------------------------------
 export const txtGeneral = {
-	toggle: "Toggle",
+	toggle: 'Toggle',
 };
 export const txtAppBar = {
-	menu: "Menu",
-	search: "Search",
-	basket: "Basket",
-	login: "Log in",
-	profile: "Profile",
-	options: "Options",
+	menu: 'Menu',
+	search: 'Search',
+	basket: 'Basket',
+	login: 'Log in',
+	profile: 'Profile',
+	options: 'Options',
+};
+export const txtNavigationGroups = {
+	information: 'information',
 };
 export const txtRouteNames = {
-	home: "home",
-	treatments: "treatments",
-	portfolio: "portfolio",
-	store: "store",
-	contact: "contact",
-	reviews: "reviews",
-	about: "about",
+	home: 'home',
+	treatments: 'treatments',
+	portfolio: 'portfolio',
+	store: 'store',
+	contact: 'contact',
+	reviews: 'reviews',
+	about: 'about',
 };
 export const txtRouteLinks = {
-	home: "/",
-	treatments: "/treatments",
-	portfolio: "/portfolio",
-	store: "/store",
-	contact: "/contact",
-	reviews: "/reviews",
-	about: "/about",
+	home: '/',
+	treatments: '/treatments',
+	portfolio: '/portfolio',
+	store: '/store',
+	contact: '/contact',
+	reviews: '/reviews',
+	about: '/about',
 };
 
 // ---------------------------------------------------------------------------------------------------------
