@@ -11,6 +11,7 @@ import { mdiMagnify } from "@mdi/js";
 import { mdiAccount } from "@mdi/js";
 import { mdiDotsVertical } from "@mdi/js";
 import { mdiMenuDown } from "@mdi/js";
+import { mdiClose } from "@mdi/js";
 
 export {
 	mdiMenu,
@@ -26,4 +27,5 @@ export {
 	mdiAccount,
 	mdiDotsVertical,
 	mdiMenuDown,
+	mdiClose,
 };

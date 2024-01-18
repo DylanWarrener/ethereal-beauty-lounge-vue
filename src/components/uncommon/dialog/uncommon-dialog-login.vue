@@ -1,84 +1,65 @@
 <template>
-	<v-dialog transition="dialog-top-transition" width="auto" v-model="loginDrawer">
-		<v-card>
-			<v-toolbar color="accent">
-				<img-container-component style-container="width: 200px"></img-container-component>
-				<tooltip-container-component
-					location="bottom"
-					:id="IDDialogCloseBtn"
-					:icon="appBarIcons.menu.icon"
-					:tooltip="appBarIcons.menu.tooltip"
-					:tooltip-opened="appBarIcons.menu.showTooltip"
-					@toggle-drawer="menuDrawer = !menuDrawer"
-				></tooltip-container-component>
-			</v-toolbar>
-			<v-card-text>
-				<div class="text-h2 pa-12">Hello world!</div>
-			</v-card-text>
-			<v-card-actions class="justify-end">
-				<v-btn variant="text" @click.left="loginDrawer = !loginDrawer">Close</v-btn>
-			</v-card-actions>
-		</v-card>
-	</v-dialog>
+	<dialog-container-component
+		:dialog-state="data_dialogLoginBtnCloseDrawerState"
+		:tooltip-state="data_dialogLoginBtnCloseTooltipDrawerState"
+		@toggle-drawer="toggleDrawer"
+	>
+		<template #content>
+			<v-col cols="12" style="border: 2px solid black">
+				<h1 class="text-center">Log in to Ethereal Beauty Lounge</h1>
+				<p class="text-center">
+					Sign in with Google or Email, to save your preferences; including health forms, bank details and
+					more.
+				</p>
+			</v-col>
+			<v-col cols="12" class="d-flex justify-space-evenly" style="border: 2px solid yellow">
+				<v-btn class="bg-blue" variant="text" color="accent">Log in with Google</v-btn>
+				<v-btn class="bg-blue" variant="text" color="accent">Log in with Email</v-btn>
+			</v-col>
+		</template>
+	</dialog-container-component>
 </template>
 
 <script lang="ts">
-/*
-<dialog-container-component>
-		<template #btn>
-			<template></template>
-		</template>
-		<tooltip-container-component
-			location="bottom"
-			class-btn="d-none d-sm-flex"
-			:id="IDAppbarLoginBtn"
-			:icon="appBarIcons.login.icon"
-			:tooltip="appBarIcons.login.tooltip"
-			:tooltip-opened="appBarIcons.login.showTooltip"
-			@toggle-drawer="loginDrawer = !loginDrawer"
-		></tooltip-container-component>
-	</dialog-container-component>
-*/
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Stores
-import useHeaderStore from '@stores/store-header.js';
+import { useCommonStore } from "@plugins/pinia/pinia.js";
 
 // Components
-import DialogContainerComp from '@components/common/dialog/common-dialog.vue';
-import ImgComp from '@components/common/img/common-img.vue';
+import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
-// Enums
-import { ElementIDs } from '@enums/enums.js';
+// Interfaces
+import { IDialogLoginState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
 
 export default defineComponent({
-	name: 'dialog-component',
+	name: "dialog-component",
 	components: {
-		'dialog-container-component': DialogContainerComp,
-		'img-container-component': ImgComp,
-		'tooltip-container-component': TooltipComp,
+		"dialog-container-component": DialogContainerComp,
 	},
 	computed: {
-		// IDs
-		IDDialogCloseBtn(): string {
-			return ElementIDs.DIALOG_LOGIN_CLOSE_BTN;
+		/* Data */
+		// Read only
+		data_dialogLogin(): IDialogLoginState {
+			return this.storeCommon.getDialogLoginState;
 		},
-
-		// Data
-
-		// Conditional
-		loginDrawer: {
-			get(): boolean {
-				return this.storeHeader.getAppBarLoginDrawer;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarLoginDrawer(newValue);
-			},
+		data_dialogLoginBtnCloseDrawerState(): boolean {
+			return this.data_dialogLogin.showDialog;
+		},
+		// Read & Write
+		data_dialogLoginBtnCloseTooltipDrawerState(): boolean {
+			return this.storeCommon.getDialogLoginBtnCloseTooltipDrawerState;
+		},
+	},
+	methods: {
+		toggleDrawer(): void {
+			debugger;
+			this.storeCommon.setDialogLoginBtnCloseDrawerState(this.data_dialogLoginBtnCloseDrawerState);
 		},
 	},
 	setup() {
-		const storeHeader = useHeaderStore();
-		return { storeHeader };
+		const storeCommon = useCommonStore();
+		return { storeCommon };
 	},
 });
 </script>

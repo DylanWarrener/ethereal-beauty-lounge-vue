@@ -1,23 +1,25 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
 // Interfaces
-import IHeaderState from '@declarations/common/header/interfaces/common-interface-header.js';
-import IHeaderAppBarState, { IHeaderAppbarIconsState } from '@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js';
+import IHeaderState from "@declarations/common/header/interfaces/common-interface-header.js";
+import IHeaderAppBarState, {
+	IHeaderAppbarIconsState,
+} from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
 import {
 	IHeaderNavigationCommonItemState,
 	IHeaderNavigationCommonNonMobileItemState,
-} from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 // Constants
-import { NAVIGATION_MOBLE_MENU, NAVIGATION_NON_MOBILE_MENU } from '@constants/common/arrays/common-constants-arrays.js';
+import { NAVIGATION_MOBLE_MENU, NAVIGATION_NON_MOBILE_MENU } from "@constants/common/arrays/common-constants-arrays.js";
 import {
 	// Icons
 	iconsAppBar,
 	tooltipsAppBar,
-} from '@base/src/constants/common/objects/common-constants-objects.js';
+} from "@base/src/constants/common/objects/common-constants-objects.js";
 
 // Enums
-import { StoreIDs } from '@enums/enums.js';
+import { StoreIDs } from "@enums/enums.js";
 
 const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	state: (): IHeaderState => ({
@@ -69,13 +71,6 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 				items: NAVIGATION_NON_MOBILE_MENU,
 			},
 		},
-		dialog: {
-			login: {
-				icon: '',
-				tooltip: '',
-				showTooltip: false,
-			},
-		},
 	}),
 	getters: {
 		/* AppBar */
@@ -89,8 +84,10 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		getAppBarOptionsDrawer: (state: IHeaderState): boolean => state.appBar.icons.options.showDrawer,
 
 		/* Navigation */
-		getNavigationMobileMenu: (state: IHeaderState): IHeaderNavigationCommonItemState[] => state.navigation.mobileMenu.items,
-		getNavigationNonMobileMenu: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] => state.navigation.nonMobileMenu.items,
+		getNavigationMobileMenu: (state: IHeaderState): IHeaderNavigationCommonItemState[] =>
+			state.navigation.mobileMenu.items,
+		getNavigationNonMobileMenu: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] =>
+			state.navigation.nonMobileMenu.items,
 	},
 	actions: {
 		/* AppBar */
