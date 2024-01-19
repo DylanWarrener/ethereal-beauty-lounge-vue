@@ -35,12 +35,12 @@ export const useCommonStore = defineStore("common-store", {
 		getDialogDefaultState: (state: ICommonState): IDialogDefaultState => state.dialog.default,
 		// Login
 		getDialogLoginState: (state: ICommonState): IDialogLoginState => state.dialog.login,
-		getDialogLoginBtnCloseDrawerState: (state: ICommonState): boolean => state.dialog.login.showDialog,
+		getDialogLoginDrawerState: (state: ICommonState): boolean => state.dialog.login.showDialog,
 		getDialogLoginBtnCloseTooltipDrawerState: (state: ICommonState): boolean => state.dialog.login.showTooltip,
 	},
 	actions: {
 		/* Dialog */
-		setDialogLoginBtnCloseDrawerState(newValue: boolean): void {
+		setDialogLoginDrawerState(newValue: boolean): void {
 			this.dialog.login.showDialog = newValue;
 		},
 		setDialogLoginBtnCloseTooltipDrawerState(newValue: boolean): void {

@@ -1,8 +1,8 @@
 <template>
 	<navigation-container-component
 		location="bottom"
-		:navigation="menuNavigation"
-		:drawer="menuDrawer"
+		:navigation="data_mobileMenuNavigation"
+		v-model="data_appBarMobileMenuBtnDrawerState"
 	></navigation-container-component>
 </template>
 
@@ -25,13 +25,16 @@ export default defineComponent({
 	},
 	computed: {
 		/* Data */
-		menuNavigation(): IHeaderNavigationCommonItemState[] {
-			return this.storeHeader.getNavigationMobileMenu;
+		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
+			return this.storeHeader.getNavigationMobileMenuState;
 		},
-
-		/* Conditional */
-		menuDrawer(): boolean {
-			return this.storeHeader.getAppBarMenuDrawer;
+		data_appBarMobileMenuBtnDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getNavigationMobileMenuDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setNavigationMobileMenuDrawerState(newValue);
+			},
 		},
 	},
 	setup() {

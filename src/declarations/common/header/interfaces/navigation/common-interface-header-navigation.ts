@@ -20,7 +20,9 @@ export interface IHeaderNavigationCommonNonMobileItemState extends IHeaderNaviga
 // ---------------------------------------------------------------------------------------------------------
 export interface IHeaderNavigationMobileMenuState {
 	items: IHeaderNavigationCommonItemState[];
+	showDrawer: boolean;
 }
 export interface IHeaderNavigationNonMobileMenuState {
 	items: IHeaderNavigationCommonNonMobileItemState[];
+	showDrawer: boolean;
 }

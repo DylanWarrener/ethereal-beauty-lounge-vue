@@ -7,6 +7,7 @@ export const enum ElementIDs {
 	APPBAR_OPTIONS_BTN = "appbar_options_btn",
 
 	/* Dialog */
+	DIALOG_LOGIN = "dialog_login",
 	DIALOG_LOGIN_CLOSE_BTN = "dialog_login_close_btn",
 }
 export const enum StoreIDs {

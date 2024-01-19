@@ -29,46 +29,42 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 					icon: iconsAppBar.menu,
 					tooltip: tooltipsAppBar.menu,
 					showTooltip: false,
-					showDrawer: false,
 				},
 				search: {
 					icon: iconsAppBar.search,
 					tooltip: tooltipsAppBar.search,
 					showTooltip: false,
-					showDrawer: false,
 				},
 				basket: {
 					icon: iconsAppBar.basket,
 					tooltip: tooltipsAppBar.basket,
 					showTooltip: false,
-					showDrawer: false,
 				},
 				login: {
 					icon: iconsAppBar.login,
 					tooltip: tooltipsAppBar.login,
 					showTooltip: false,
-					showDrawer: false,
 				},
 				profile: {
 					icon: iconsAppBar.profile,
 					tooltip: tooltipsAppBar.profile,
 					showTooltip: false,
-					showDrawer: false,
 				},
 				options: {
 					icon: iconsAppBar.options,
 					tooltip: tooltipsAppBar.options,
 					showTooltip: false,
-					showDrawer: false,
 				},
 			},
 		},
 		navigation: {
 			mobileMenu: {
 				items: NAVIGATION_MOBLE_MENU,
+				showDrawer: false,
 			},
 			nonMobileMenu: {
 				items: NAVIGATION_NON_MOBILE_MENU,
+				showDrawer: false,
 			},
 		},
 	}),
@@ -76,32 +72,37 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		/* AppBar */
 		getAppBar: (state: IHeaderState): IHeaderAppBarState => state.appBar,
 		getAppBarIcons: (state: IHeaderState): IHeaderAppbarIconsState => state.appBar.icons,
-		getAppBarMenuDrawer: (state: IHeaderState): boolean => state.appBar.icons.menu.showDrawer,
-		getAppBarSearchDrawer: (state: IHeaderState): boolean => state.appBar.icons.search.showDrawer,
-		getAppBarBasketDrawer: (state: IHeaderState): boolean => state.appBar.icons.basket.showDrawer,
-		getAppBarLoginDrawer: (state: IHeaderState): boolean => state.appBar.icons.login.showDrawer,
-		getAppBarProfileDrawer: (state: IHeaderState): boolean => state.appBar.icons.profile.showDrawer,
-		getAppBarOptionsDrawer: (state: IHeaderState): boolean => state.appBar.icons.options.showDrawer,
 
 		/* Navigation */
-		getNavigationMobileMenu: (state: IHeaderState): IHeaderNavigationCommonItemState[] =>
+		getNavigationMobileMenuState: (state: IHeaderState): IHeaderNavigationCommonItemState[] =>
 			state.navigation.mobileMenu.items,
-		getNavigationNonMobileMenu: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] =>
+		getNavigationMobileMenuDrawerState: (state: IHeaderState): boolean => state.navigation.mobileMenu.showDrawer,
+		getNavigationNonMobileMenuState: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] =>
 			state.navigation.nonMobileMenu.items,
+		getNavigationNonMobileMenuDrawerState: (state: IHeaderState): boolean =>
+			state.navigation.nonMobileMenu.showDrawer,
 	},
 	actions: {
 		/* AppBar */
-		setAppBarMenuDrawer(newValue: boolean): void {
-			this.appBar.icons.menu.showDrawer = newValue;
+		// App bar icon drawer states
+		setNavigationMobileMenuDrawerState(newValue: boolean): void {
+			this.navigation.mobileMenu.showDrawer = newValue;
 		},
-		setAppBarSearchDrawer(newValue: boolean): void {
-			this.appBar.icons.search.showDrawer = newValue;
+		// App bar icon tooltip drawer states
+		setAppBarMobileMenuTooltipDrawer(newValue: boolean): void {
+			this.appBar.icons.menu.showTooltip = newValue;
 		},
-		setAppBarBasketDrawer(newValue: boolean): void {
-			this.appBar.icons.basket.showDrawer = newValue;
+		setAppBarSearchTooltipDrawer(newValue: boolean): void {
+			this.appBar.icons.search.showTooltip = newValue;
 		},
-		setAppBarLoginDrawer(newValue: boolean): void {
-			this.appBar.icons.login.showDrawer = newValue;
+		setAppBarBasketTooltipDrawer(newValue: boolean): void {
+			this.appBar.icons.basket.showTooltip = newValue;
+		},
+		setAppBarLoginTooltipDrawer(newValue: boolean): void {
+			this.appBar.icons.login.showTooltip = newValue;
+		},
+		setAppBarOptionsTooltipDrawer(newValue: boolean): void {
+			this.appBar.icons.options.showTooltip = newValue;
 		},
 	},
 });

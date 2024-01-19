@@ -24,7 +24,6 @@ export default defineComponent({
 		classBtn: { type: String, required: false },
 		icon: { type: String, required: true },
 		tooltip: { type: String, required: false },
-		tooltipDrawerState: { type: Boolean, required: true },
 	},
 	data() {
 		return {
@@ -33,13 +32,12 @@ export default defineComponent({
 	},
 	methods: {
 		drawerHandler(): void {
-			debugger;
-			this.$emit("toggle-drawer");
+			this.$emit("toggle-drawer-state");
 		},
 	},
 	watch: {
 		tooltipDrawer(): void {
-			this.$emit("toggle-tooltip-drawer", this.tooltipDrawer);
+			this.$emit("toggle-tooltip-drawer-state", this.tooltipDrawer);
 		},
 	},
 });

@@ -1,23 +1,39 @@
 <template>
-	<v-app-bar elevation="0" color="accent" scroll-behavior="hide">
+	<v-app-bar elevation="0" scroll-behavior="hide" color="accent">
 		<!-- APP BAR LEFT -->
-		<img-container-component></img-container-component>
+		<!-- <img-container-component></img-container-component> -->
+		<v-card
+			hover
+			exact
+			class="py-2"
+			width="200"
+			height="100"
+			variant="flat"
+			elevation="0"
+			color="transparent"
+			style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 119, 145, 1) 100%)"
+			:to="txt_homePageLink"
+			v-ripple="{ class: 'text-accent' }"
+		>
+			<v-img src="logo-transparent.png" width="200" height="100"></v-img>
+		</v-card>
 		<tooltip-container-component
 			location="bottom"
 			class-btn="d-md-none"
 			:id="id_appBarMobileMenuBtn"
 			:icon="icon_appBarMobileMenuBtn"
 			:tooltip="tooltip_appBarMobileMenuBtn"
-			:tooltip-drawer-state="data_appBarMobileMenuBtnTooltipDrawer"
-			@toggle-tooltip-drawer="data_navigationMobileMenuDrawer = !data_navigationMobileMenuDrawer"
+			@toggle-tooltip-drawer-state="toggleAppBarMobileMenuTooltipDrawerState"
+			@toggle-drawer-state="toggleAppBarMobileMenuBtnDrawerState"
 		></tooltip-container-component>
 		<tooltip-container-component
 			location="bottom"
+			class-btn="ml-4"
 			:id="id_appBarSearchBtn"
 			:icon="icon_appBarSearchBtn"
 			:tooltip="tooltip_appBarSearchBtn"
-			:tooltip-drawer-state="data_appBarSearchBtnTooltipDrawer"
-			@toggle-tooltip-drawer="data_searchDrawer = !data_searchDrawer"
+			@toggle-tooltip-drawer-state="toggleAppBarSearchTooltipDrawerState"
+			@toggle-drawer-state=""
 		></tooltip-container-component>
 		<v-app-bar-title class="d-none d-md-flex text-capitalize">{{ txt_appBarTitle }}</v-app-bar-title>
 		<v-spacer></v-spacer>
@@ -57,8 +73,8 @@
 			:id="id_appBarBasketBtn"
 			:icon="icon_appBarBasketBtn"
 			:tooltip="tooltip_appBarBasketBtn"
-			:tooltip-drawer-state="data_appBarBasketBtnTooltipDrawer"
-			@toggle-tooltip-drawer="data_basketMenuDrawer = !data_basketMenuDrawer"
+			@toggle-tooltip-drawer-state="toggleAppBarBasketTooltipDrawerState"
+			@toggle-drawer-state=""
 		></tooltip-container-component>
 		<v-divider vertical inset class="mx-2 border-opacity-75"></v-divider>
 		<tooltip-container-component
@@ -67,9 +83,8 @@
 			:id="id_appbarLoginBtn"
 			:icon="icon_appBarLoginBtn"
 			:tooltip="tooltip_appBarLoginBtn"
-			:tooltip-drawer-state="data_appBarLoginBtnTooltipDrawer"
-			@toggle-tooltip-drawer="toggleLoginTooltipDrawer"
-			@toggle-drawer="toggleLoginDrawer"
+			@toggle-tooltip-drawer-state="toggleAppBarLoginTooltipDrawerState"
+			@toggle-drawer-state="toggleAppBarLoginBtnDrawerState"
 		></tooltip-container-component>
 		<tooltip-container-component
 			location="bottom"
@@ -77,8 +92,8 @@
 			:id="id_appBarOptionsBtn"
 			:icon="icon_appBarOptionsBtn"
 			:tooltip="tooltip_appBarOptionsBtn"
-			:tooltip-drawer-state="data_appBarOptionsBtnTooltipDrawer"
-			@toggle-tooltip-drawer="data_optionsSpeedDialDrawer = !data_optionsSpeedDialDrawer"
+			@toggle-tooltip-drawer-state="toggleAppBarOptionsTooltipDrawerState"
+			@toggle-drawer-state=""
 		></tooltip-container-component>
 	</v-app-bar>
 	<navigation-drawer-menu-component></navigation-drawer-menu-component>
@@ -95,7 +110,7 @@ import useHeaderStore from "@stores/store-header.js";
 // Components
 import ImgComp from "@components/common/img/common-img.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
-import NavigationDrawerMenuComp from "@components/uncommon/header/uncommon-header-navigation-menu.vue";
+import NavigationDrawerMenuComp from "@components/uncommon/header/navigation/uncommon-header-navigation-menu.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 
 // Interfaces
@@ -107,6 +122,9 @@ import {
 
 // Enums
 import { ElementIDs } from "@enums/enums.js";
+
+// Constants
+import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "header-component",
@@ -125,6 +143,9 @@ export default defineComponent({
 				retVal = currentPageName.toString();
 			}
 			return retVal;
+		},
+		txt_homePageLink(): string {
+			return txtRouteLinks.home;
 		},
 		// IDs
 		id_appBarMobileMenuBtn(): string {
@@ -177,10 +198,17 @@ export default defineComponent({
 		},
 
 		/* Data */
-		// Read only
 		data_appBarIcons(): IHeaderAppbarIconsState {
 			return this.storeHeader.getAppBarIcons;
 		},
+		// App bar icon drawer states
+		data_appBarMobileMenuBtnDrawerState(): boolean {
+			return this.storeHeader.navigation.mobileMenu.showDrawer;
+		},
+		data_appBarLoginBtnDrawerState(): boolean {
+			return this.storeCommon.getDialogLoginDrawerState;
+		},
+		// App bar icon tooltip drawer states
 		data_appBarMobileMenuBtnTooltipDrawer(): boolean {
 			return this.data_appBarIcons.menu.showTooltip;
 		},
@@ -196,64 +224,51 @@ export default defineComponent({
 		data_appBarOptionsBtnTooltipDrawer(): boolean {
 			return this.data_appBarIcons.options.showTooltip;
 		},
-		data_dialogLoginDrawer(): boolean {
-			return this.storeCommon.getDialogLoginBtnCloseDrawerState;
-		},
-		// Read & Write
-		data_navigationMobileMenuDrawer: {
+		data_dialogLoginDrawerState: {
 			get(): boolean {
-				return this.storeHeader.getAppBarMenuDrawer;
+				return this.storeCommon.getDialogLoginDrawerState;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarMenuDrawer(newValue);
-			},
-		},
-		data_searchDrawer: {
-			get(): boolean {
-				return this.storeHeader.getAppBarSearchDrawer;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarSearchDrawer(newValue);
-			},
-		},
-		data_basketMenuDrawer: {
-			get(): boolean {
-				return this.storeHeader.getAppBarBasketDrawer;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarBasketDrawer(newValue);
-			},
-		},
-		data_optionsSpeedDialDrawer: {
-			get(): boolean {
-				return this.storeHeader.getAppBarLoginDrawer;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarLoginDrawer(newValue);
+				this.storeCommon.setDialogLoginDrawerState(newValue);
 			},
 		},
 
 		navigationMobileMenu(): IHeaderNavigationCommonItemState[] {
-			return this.storeHeader.getNavigationMobileMenu;
+			return this.storeHeader.getNavigationMobileMenuState;
 		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
-			return this.storeHeader.getNavigationNonMobileMenu;
+			return this.storeHeader.getNavigationNonMobileMenuState;
 		},
 	},
 	methods: {
 		/* Events */
 		navigatePage(routeName: string): void {
-			debugger;
 			const allRoutes = this.$router.getRoutes();
 			const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
 			if (isRouteNameValid) this.$router.push({ name: routeName });
 		},
-		toggleLoginDrawer(): void {
-			debugger;
-			this.storeCommon.setDialogLoginBtnCloseDrawerState(!this.data_dialogLoginDrawer);
+		// App bar icon drawer state
+		toggleAppBarMobileMenuBtnDrawerState(): void {
+			this.storeHeader.setNavigationMobileMenuDrawerState(!this.data_appBarMobileMenuBtnDrawerState);
 		},
-		toggleLoginTooltipDrawer(newValue: boolean): void {
-			this.storeCommon.setDialogLoginBtnCloseTooltipDrawerState(newValue);
+		toggleAppBarLoginBtnDrawerState(): void {
+			this.storeCommon.setDialogLoginDrawerState(!this.data_appBarLoginBtnDrawerState);
+		},
+		// App bar icon tooltip drawer state
+		toggleAppBarMobileMenuTooltipDrawerState(newValue: boolean): void {
+			this.storeHeader.setAppBarMobileMenuTooltipDrawer(newValue);
+		},
+		toggleAppBarSearchTooltipDrawerState(newValue: boolean): void {
+			this.storeHeader.setAppBarSearchTooltipDrawer(newValue);
+		},
+		toggleAppBarBasketTooltipDrawerState(newValue: boolean): void {
+			this.storeHeader.setAppBarBasketTooltipDrawer(newValue);
+		},
+		toggleAppBarLoginTooltipDrawerState(newValue: boolean): void {
+			this.storeHeader.setAppBarLoginTooltipDrawer(newValue);
+		},
+		toggleAppBarOptionsTooltipDrawerState(newValue: boolean): void {
+			this.storeHeader.setAppBarOptionsTooltipDrawer(newValue);
 		},
 	},
 	setup() {
