@@ -1,61 +1,48 @@
 <template>
-	<v-card>
+	<v-card style="border: 2px solid black">
 		<!-- Header -->
-		<slot name="header"></slot>
-
-		<slot name="img"></slot>
-		<slot name="other"></slot>
-		<v-card-item class="pa-4" v-if="title || subtitle">
+		<slot name="card-header"></slot>
+		<slot name="card-img"></slot>
+		<slot name="card-other"></slot>
+		<v-card-item class="pa-4" style="border: 2px solid red">
 			<!-- Title -->
-			<v-card-title class="pa-2 text-wrap" :class="titleClass">
-				<slot name="title">
-					<h1>{{ title }}</h1>
-				</slot>
+			<v-card-title class="pa-12 text-center" :tag="tag_cardTitle" :class="titleClass" style="border: 2px solid green">
+				<slot name="card-title"></slot>
 			</v-card-title>
 
 			<!-- Subtitle -->
-			<v-card-subtitle class="pa-2 text-wrap" :class="subtitleClass">
-				<slot name="subtitle">
-					<h3>{{ subtitle }}</h3>
-				</slot>
+			<v-card-subtitle class="d-flex text-wrap pa-2" :tag="tag_cardSubtitle" :class="subtitleClass" style="border: 2px solid blue">
+				<slot name="card-subtitle"></slot>
 			</v-card-subtitle>
 		</v-card-item>
 
 		<!-- Content -->
-		<v-card-text class="pa-0" :class="contentClass">
-			<slot name="content"></slot>
+		<v-card-text :class="contentClass" style="border: 2px solid red">
+			<v-container style="border: 2px solid blue">
+				<v-row class="d-flex justify-space-evenly" dense style="border: 2px solid green">
+					<slot name="card-content"></slot>
+				</v-row>
+			</v-container>
 		</v-card-text>
 
 		<!-- Actions -->
-		<v-card-actions class="pa-4 d-flex" :class="actionClass" v-if="btnText">
-			<slot name="actions">
-				<v-btn
-					variant="outlined"
-					size="large"
-					min-width="200"
-					:id="actionBtnId"
-					:class="actionBtnClass"
-					:color="actionBtnColor"
-					:text="btnText"
-					@click="scrollTo"
-				></v-btn>
-			</slot>
+		<v-card-actions class="pa-4 d-flex" style="border: 2px solid black" :class="actionClass" v-if="btnText">
+			<slot name="card-actions"></slot>
 		</v-card-actions>
 	</v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: "dialog-component",
+	name: 'card-container-component',
 	props: {
-		cardClass: { type: String, required: false, default: "bg-background-secondary" },
+		cardClass: { type: String, required: false, default: 'bg-background-secondary' },
 		titleClass: { type: String, required: false },
 		subtitleClass: { type: String, required: false },
 		contentClass: { type: String, required: false },
-		actionClass: { type: String, required: false, default: "justify-end" },
-		actionBtnId: { type: String, required: true },
+		actionClass: { type: String, required: false, default: 'justify-end' },
 		actionBtnClass: { type: String, required: false },
 		actionBtnColor: { type: String, required: false },
 		cardStyle: { type: String, required: false },
@@ -63,6 +50,25 @@ export default defineComponent({
 		subtitle: { type: String, required: false },
 		text: { type: String, required: false },
 		btnText: { type: String, required: false },
+	},
+	computed: {
+		/* Text */
+		tag_cardTitle(): string {
+			let retVal: string = '';
+			if (this.titleClass) {
+				const [type, heading]: string[] = this.titleClass.split('-');
+				retVal = heading;
+			}
+			return retVal;
+		},
+		tag_cardSubtitle(): string {
+			let retVal: string = '';
+			if (this.subtitleClass) {
+				const [type, heading]: string[] = this.subtitleClass.split('-');
+				retVal = heading;
+			}
+			return retVal;
+		},
 	},
 });
 </script>

@@ -1,1 +1,79 @@
-@import "./vuetify";
+@import './typeography';
+@import './vuetify';
+
+/*RESPONSIVE SCREEN SIZES */
+$extra_small: 600px; // < 600px
+$small: 960px; // 600px > < 960px
+$medium: 1264px; // 960px > < 1264px
+$large: 1904px; // 1264px > < 1904px
+$extra_large: 1904px; // > 1904px
+
+/* MEDIA QUERIES */
+@media all and (min-width: $medium) {
+	body {
+		font-size: $font_size_pc_body;
+	}
+}
+
+/* ELEMENTS */
+$html: 62.5%; // (1.8rem = 18px)
+
+/* APP */
+html {
+	font-size: $html !important;
+}
+body {
+	font-size: $font_size_mobile_body;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	max-width: $font_width_all;
+	cursor: text;
+}
+h1 {
+	font-size: $font_size_pc_h1;
+	line-height: $font_line_height_pc_h1;
+	font-weight: bolder;
+	text-transform: uppercase;
+	padding: 32px 0;
+}
+h2 {
+	font-size: $font_size_pc_h2;
+	line-height: $font_line_height_pc_h2;
+	font-weight: bold;
+	text-transform: capitalize;
+	padding: 16px 0;
+}
+h3 {
+	font-size: $font_size_pc_h3;
+	line-height: $font_line_height_pc_h3;
+	font-weight: normal;
+	font-style: italic;
+	padding: 8px 0;
+}
+h4 {
+	font-size: $font_size_pc_h4;
+	line-height: $font_line_height_pc_h4;
+	font-weight: bold;
+	text-transform: capitalize;
+	padding: 8px 0;
+}
+h5 {
+	font-size: $font_size_pc_h5;
+	line-height: $font_line_height_pc_h5;
+	font-weight: normal;
+	font-style: italic;
+	padding: 4px 0;
+}
+h6 {
+	font-size: $font_size_pc_h6;
+	line-height: $font_line_height_pc_h6;
+	font-weight: bold;
+	font-style: italic;
+	font-variant: small-caps;
+	padding: 4px 0;
+}

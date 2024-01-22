@@ -1,24 +1,26 @@
 <template>
-	<p style="border: 2px solid blue">Home</p>
-	<v-img style="border: 2px solid red" :src="img">This is supposed to be the img</v-img>
+	<h1>Heading 1</h1>
+	<h2>Heading 2</h2>
+	<h3>Heading 3</h3>
+	<h4>Heading 4</h4>
+	<h5>Heading 5</h5>
+	<h6>Heading 6</h6>
+	<p>Body</p>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 // Stores
-import useHeaderStore from "@stores/store-header.js";
+import useHeaderStore from '@stores/store-header.js';
 
-import Logo from "../assets/png/logo/logo-transparent.png?raw";
+import Logo from '../assets/png/logo/logo-transparent.png?raw';
 
 export default defineComponent({
-	name: "home-page-component",
+	name: 'home-page-component',
 	computed: {
 		img() {
 			return Logo;
-		},
-		menuToggle(): boolean {
-			return this.storeHeader.getAppBarMenuDrawer;
 		},
 	},
 	setup() {

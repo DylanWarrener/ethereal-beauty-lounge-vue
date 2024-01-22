@@ -1,0 +1,80 @@
+/* FONT FAMILY */
+$font_family_primary: Arial, 'Roboto', 'Lato', sans-serif !important;
+$font_family_secondary: 'Work Sans', Arial, 'Lato', sans-serif !important;
+
+/* FONT SIZE */
+$font_size_golden_ratio: 1.618;
+
+$font_size_pc_body: 1.8rem;
+$font_size_pc_h1: 6.2rem;
+$font_size_pc_h2: 4.6rem;
+$font_size_pc_h3: 3rem;
+$font_size_pc_h4: 2.6rem;
+$font_size_pc_h5: 2.2rem;
+$font_size_pc_h6: 1.8rem;
+$font_size_pc_btn: 1.2rem;
+$font_size_pc_i: 1.2rem;
+$font_size_pc_icon: 1.8rem;
+
+$font_size_mobile_body: 1.6rem;
+$font_size_mobile_h1: 6rem;
+$font_size_mobile_h2: 4.4rem;
+$font_size_mobile_h3: 2.8rem;
+$font_size_mobile_h4: 2.4rem;
+$font_size_mobile_h5: 2rem;
+$font_size_mobile_h6: 1.6rem;
+$font_size_mobile_btn: 1rem;
+$font_size_mobile_i: 1.2rem;
+$font_size_mobile_icon: 1.6rem;
+
+/* FONT TRANSFORM */
+$font_transform_global: none;
+$font_transform_h1: uppercase;
+$font_transform_h2: capitalize;
+$font_transform_h3: capitalize;
+
+/* FONT WEIGHT */
+$font_weight_global: normal;
+$font_weight_h1: bolder;
+$font_weight_h2: bold;
+$font_weight_h3: bold;
+$font_weight_h4: '';
+$font_weight_p: '';
+
+/* FONT STYLE */
+$font_style_global: normal;
+$font_style_h1: '';
+$font_style_h2: '';
+$font_style_h3: italic;
+$font_style_h4: italic;
+$font_style_p: '';
+
+/* FONT VARIANT */
+$font_variant_global: normal;
+$font_variant_h1: '';
+$font_variant_h2: small-caps;
+$font_variant_h3: '';
+$font_variant_h4: '';
+$font_variant_p: common-ligatures tabular-nums;
+
+/* FONT LINE HEIGHT */
+$font_line_height_multiplier: 1.2;
+
+$font_line_height_pc_body: $font_size_pc_body * $font_line_height_multiplier;
+$font_line_height_pc_h1: $font_size_pc_h1 * $font_line_height_multiplier;
+$font_line_height_pc_h2: $font_size_pc_h2 * $font_line_height_multiplier;
+$font_line_height_pc_h3: $font_size_pc_h3 * $font_line_height_multiplier;
+$font_line_height_pc_h4: $font_size_pc_h4 * $font_line_height_multiplier;
+$font_line_height_pc_h5: $font_size_pc_h5 * $font_line_height_multiplier;
+$font_line_height_pc_h6: $font_size_pc_h6 * $font_line_height_multiplier;
+
+$font_line_height_mobile_body: $font_size_mobile_body * $font_line_height_multiplier;
+$font_line_height_mobile_h1: $font_size_mobile_h1 * $font_line_height_multiplier;
+$font_line_height_mobile_h2: $font_size_mobile_h2 * $font_line_height_multiplier;
+$font_line_height_mobile_h3: $font_size_mobile_h3 * $font_line_height_multiplier;
+$font_line_height_mobile_h4: $font_size_mobile_h4 * $font_line_height_multiplier;
+$font_line_height_mobile_h5: $font_size_mobile_h5 * $font_line_height_multiplier;
+$font_line_height_mobile_h6: $font_size_mobile_h6 * $font_line_height_multiplier;
+
+/* FONT WIDTH */
+$font_width_all: 75ch;
