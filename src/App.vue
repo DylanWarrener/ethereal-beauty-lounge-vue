@@ -10,19 +10,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Components
-import DialogLoginComp from '@components/uncommon/dialog/uncommon-dialog-login.vue';
-import HeaderComp from '@components/common/header/common-header.vue';
-import FooterComp from '@components/common/footer/common-footer.vue';
+import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
+import HeaderComp from "@components/common/header/common-header.vue";
+import FooterComp from "@components/common/footer/common-footer.vue";
 
 export default defineComponent({
-	name: 'app-component',
+	name: "app-component",
 	components: {
-		'dialog-login-component': DialogLoginComp,
-		'header-container-component': HeaderComp,
-		'footer-container-component': FooterComp,
+		"dialog-login-component": DialogLoginComp,
+		"header-container-component": HeaderComp,
+		"footer-container-component": FooterComp,
 	},
 });
 </script>

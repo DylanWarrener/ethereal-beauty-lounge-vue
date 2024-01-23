@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: 'image-container-component',
+	name: "image-container-component",
 	props: {
-		styleContainer: { type: String, required: false, default: 'width: 100px' },
+		styleContainer: { type: String, required: false, default: "width: 100px" },
 	},
 });
 </script>

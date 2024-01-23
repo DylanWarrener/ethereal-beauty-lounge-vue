@@ -17,25 +17,21 @@
 		>
 			<v-img src="logo-transparent.png" width="200" height="100"></v-img>
 		</v-card>
-		<tooltip-container-component
-			location="bottom"
-			class-btn="d-md-none"
-			:id="id_appBarMobileMenuBtn"
-			:icon="icon_appBarMobileMenuBtn"
-			:tooltip="tooltip_appBarMobileMenuBtn"
-			@toggle-tooltip-drawer-state="toggleAppBarMobileMenuTooltipDrawerState"
-			@toggle-drawer-state="toggleAppBarMobileMenuBtnDrawerState"
-		></tooltip-container-component>
-		<tooltip-container-component
-			location="bottom"
-			class-btn="ml-4"
-			:id="id_appBarSearchBtn"
-			:icon="icon_appBarSearchBtn"
-			:tooltip="tooltip_appBarSearchBtn"
-			@toggle-tooltip-drawer-state="toggleAppBarSearchTooltipDrawerState"
-			@toggle-drawer-state=""
-		></tooltip-container-component>
-		<v-app-bar-title class="d-none d-md-flex text-capitalize">{{ txt_appBarTitle }}</v-app-bar-title>
+		<menu-container-component
+			menu-location="bottom"
+			btn-class="d-flex d-md-none"
+			:tooltip-text="tooltip_appBarMobileMenuBtn"
+			:btn-id="id_appBarMobileMenuBtn"
+			:btn-icon="icon_appBarMobileMenuBtn"
+			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
+		></menu-container-component>
+		<menu-container-component
+			menu-location="bottom"
+			:tooltip-text="tooltip_appBarSearchBtn"
+			:btn-id="id_appBarSearchBtn"
+			:btn-icon="icon_appBarSearchBtn"
+			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
+		></menu-container-component>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE -->
@@ -67,40 +63,37 @@
 		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-75"></v-divider>
 
 		<!-- APP BAR RIGHT -->
-		<tooltip-container-component
-			location="bottom"
-			class-btn="d-none d-sm-flex"
-			:id="id_appBarBasketBtn"
-			:icon="icon_appBarBasketBtn"
-			:tooltip="tooltip_appBarBasketBtn"
-			@toggle-tooltip-drawer-state="toggleAppBarBasketTooltipDrawerState"
-			@toggle-drawer-state=""
-		></tooltip-container-component>
+		<menu-container-component
+			menu-location="bottom"
+			btn-class="d-none d-sm-flex"
+			:tooltip-text="tooltip_appBarBasketBtn"
+			:btn-id="id_appBarBasketBtn"
+			:btn-icon="icon_appBarBasketBtn"
+			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
+		></menu-container-component>
 		<v-divider vertical inset class="mx-2 border-opacity-75"></v-divider>
-		<tooltip-container-component
-			location="bottom"
-			class-btn="d-none d-sm-flex"
-			:id="id_appbarLoginBtn"
-			:icon="icon_appBarLoginBtn"
-			:tooltip="tooltip_appBarLoginBtn"
-			@toggle-tooltip-drawer-state="toggleAppBarLoginTooltipDrawerState"
-			@toggle-drawer-state="toggleAppBarLoginBtnDrawerState"
-		></tooltip-container-component>
-		<tooltip-container-component
-			location="bottom"
-			class-btn="d-sm-none"
-			:id="id_appBarOptionsBtn"
-			:icon="icon_appBarOptionsBtn"
-			:tooltip="tooltip_appBarOptionsBtn"
-			@toggle-tooltip-drawer-state="toggleAppBarOptionsTooltipDrawerState"
-			@toggle-drawer-state=""
-		></tooltip-container-component>
+		<menu-container-component
+			menu-location="bottom"
+			btn-class="d-none d-sm-flex"
+			:tooltip-text="tooltip_appBarLoginBtn"
+			:btn-id="id_appbarLoginBtn"
+			:btn-icon="icon_appBarLoginBtn"
+			@toggle-menu-drawer="data_appBarLoginDrawerState = !data_appBarLoginDrawerState"
+		></menu-container-component>
+		<menu-container-component
+			menu-location="bottom"
+			btn-class="d-sm-none"
+			:tooltip-text="tooltip_appBarOptionsBtn"
+			:btn-id="id_appBarOptionsBtn"
+			:btn-icon="icon_appBarOptionsBtn"
+			@toggle-menu-drawer="data_appBarOptionsDrawerState = !data_appBarOptionsDrawerState"
+		></menu-container-component>
 	</v-app-bar>
-	<navigation-drawer-menu-component></navigation-drawer-menu-component>
+	<navigation-mobile-menu-component></navigation-mobile-menu-component>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, mergeProps } from "vue";
 import { RouteRecordName } from "vue-router";
 
 // Stores
@@ -108,9 +101,11 @@ import { useCommonStore } from "@plugins/pinia/pinia.js";
 import useHeaderStore from "@stores/store-header.js";
 
 // Components
+import MenuComp from "@components/common/menu/common-menu.vue";
 import ImgComp from "@components/common/img/common-img.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
-import NavigationDrawerMenuComp from "@components/uncommon/header/navigation/uncommon-header-navigation-menu.vue";
+import BtnComp from "@components/common/button/common-btn.vue";
+import NavigationMobileMenuComp from "@components/uncommon/navigation/uncommon-header-navigation-menu.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 
 // Interfaces
@@ -129,21 +124,15 @@ import { txtRouteLinks } from "@constants/common/objects/common-constants-object
 export default defineComponent({
 	name: "header-component",
 	components: {
+		"menu-container-component": MenuComp,
 		"img-container-component": ImgComp,
 		"tooltip-container-component": TooltipComp,
-		"navigation-drawer-menu-component": NavigationDrawerMenuComp,
+		"button-container-component": BtnComp,
+		"navigation-mobile-menu-component": NavigationMobileMenuComp,
 		"dialog-login-component": DialogLoginComp,
 	},
 	computed: {
 		/* Text */
-		txt_appBarTitle(): string {
-			let retVal: string = "";
-			if (this.$route.name) {
-				const currentPageName: RouteRecordName = this.$route.name;
-				retVal = currentPageName.toString();
-			}
-			return retVal;
-		},
 		txt_homePageLink(): string {
 			return txtRouteLinks.home;
 		},
@@ -201,35 +190,44 @@ export default defineComponent({
 		data_appBarIcons(): IHeaderAppbarIconsState {
 			return this.storeHeader.getAppBarIcons;
 		},
-		// App bar icon drawer states
-		data_appBarMobileMenuBtnDrawerState(): boolean {
-			return this.storeHeader.navigation.mobileMenu.showDrawer;
-		},
-		data_appBarLoginBtnDrawerState(): boolean {
-			return this.storeCommon.getDialogLoginDrawerState;
-		},
-		// App bar icon tooltip drawer states
-		data_appBarMobileMenuBtnTooltipDrawer(): boolean {
-			return this.data_appBarIcons.menu.showTooltip;
-		},
-		data_appBarSearchBtnTooltipDrawer(): boolean {
-			return this.data_appBarIcons.search.showTooltip;
-		},
-		data_appBarBasketBtnTooltipDrawer(): boolean {
-			return this.data_appBarIcons.basket.showTooltip;
-		},
-		data_appBarLoginBtnTooltipDrawer(): boolean {
-			return this.data_appBarIcons.login.showTooltip;
-		},
-		data_appBarOptionsBtnTooltipDrawer(): boolean {
-			return this.data_appBarIcons.options.showTooltip;
-		},
-		data_dialogLoginDrawerState: {
+		data_appBarMobileMenuDrawerState: {
 			get(): boolean {
-				return this.storeCommon.getDialogLoginDrawerState;
+				return this.storeHeader.getAppBarMobileMenuDrawerState;
 			},
 			set(newValue: boolean): void {
-				this.storeCommon.setDialogLoginDrawerState(newValue);
+				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
+			},
+		},
+		data_appBarSearchDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getAppBarSearchDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarSearchDrawerState(newValue);
+			},
+		},
+		data_appBarBasketDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getAppBarBasketDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarBasketDrawerState(newValue);
+			},
+		},
+		data_appBarLoginDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getAppBarLoginDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarLoginDrawerState(newValue);
+			},
+		},
+		data_appBarOptionsDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getAppBarOptionsDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarOptionsDrawerState(newValue);
 			},
 		},
 
@@ -242,33 +240,11 @@ export default defineComponent({
 	},
 	methods: {
 		/* Events */
+		mergeProps,
 		navigatePage(routeName: string): void {
 			const allRoutes = this.$router.getRoutes();
 			const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
 			if (isRouteNameValid) this.$router.push({ name: routeName });
-		},
-		// App bar icon drawer state
-		toggleAppBarMobileMenuBtnDrawerState(): void {
-			this.storeHeader.setNavigationMobileMenuDrawerState(!this.data_appBarMobileMenuBtnDrawerState);
-		},
-		toggleAppBarLoginBtnDrawerState(): void {
-			this.storeCommon.setDialogLoginDrawerState(!this.data_appBarLoginBtnDrawerState);
-		},
-		// App bar icon tooltip drawer state
-		toggleAppBarMobileMenuTooltipDrawerState(newValue: boolean): void {
-			this.storeHeader.setAppBarMobileMenuTooltipDrawer(newValue);
-		},
-		toggleAppBarSearchTooltipDrawerState(newValue: boolean): void {
-			this.storeHeader.setAppBarSearchTooltipDrawer(newValue);
-		},
-		toggleAppBarBasketTooltipDrawerState(newValue: boolean): void {
-			this.storeHeader.setAppBarBasketTooltipDrawer(newValue);
-		},
-		toggleAppBarLoginTooltipDrawerState(newValue: boolean): void {
-			this.storeHeader.setAppBarLoginTooltipDrawer(newValue);
-		},
-		toggleAppBarOptionsTooltipDrawerState(newValue: boolean): void {
-			this.storeHeader.setAppBarOptionsTooltipDrawer(newValue);
 		},
 	},
 	setup() {

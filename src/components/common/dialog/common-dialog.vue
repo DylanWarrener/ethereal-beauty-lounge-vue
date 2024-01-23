@@ -5,18 +5,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Stores
-import useEventStore from '@stores/store-events.js';
+import useEventStore from "@stores/store-events.js";
 
 // Components
-import ImgComp from '@components/common/img/common-img.vue';
+import ImgComp from "@components/common/img/common-img.vue";
 
 export default defineComponent({
-	name: 'dialog-component',
+	name: "dialog-component",
 	components: {
-		'img-container-component': ImgComp,
+		"img-container-component": ImgComp,
 	},
 	props: {
 		dialogState: { type: Boolean, required: true },
@@ -29,31 +29,31 @@ export default defineComponent({
 	computed: {
 		/* CSS */
 		maxWidth(): string {
-			let retVal: string = '';
+			let retVal: string = "";
 			switch (this.$vuetify.display.name) {
-				case 'xs':
-				case 'sm':
-					retVal = '80%';
+				case "xs":
+				case "sm":
+					retVal = "80%";
 					break;
-				case 'md':
-				case 'lg':
-				case 'xl':
-				case 'xxl':
-					retVal = '50%';
+				case "md":
+				case "lg":
+				case "xl":
+				case "xxl":
+					retVal = "50%";
 					break;
 			}
 			return retVal;
 		},
 		maxHeight(): string {
-			let retVal: string = '';
+			let retVal: string = "";
 			switch (this.$vuetify.display.name) {
-				case 'xs':
-				case 'sm':
-				case 'md':
-				case 'lg':
-				case 'xl':
-				case 'xxl':
-					retVal = '80%';
+				case "xs":
+				case "sm":
+				case "md":
+				case "lg":
+				case "xl":
+				case "xxl":
+					retVal = "80%";
 					break;
 			}
 			return retVal;

@@ -2,7 +2,7 @@
 	<navigation-container-component
 		location="bottom"
 		:navigation="data_mobileMenuNavigation"
-		v-model="data_appBarMobileMenuBtnDrawerState"
+		v-model="data_appBarMobileMenuDrawerState"
 	></navigation-container-component>
 </template>
 
@@ -28,13 +28,8 @@ export default defineComponent({
 		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
 			return this.storeHeader.getNavigationMobileMenuState;
 		},
-		data_appBarMobileMenuBtnDrawerState: {
-			get(): boolean {
-				return this.storeHeader.getNavigationMobileMenuDrawerState;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setNavigationMobileMenuDrawerState(newValue);
-			},
+		data_appBarMobileMenuDrawerState(): boolean {
+			return this.storeHeader.getAppBarMobileMenuDrawerState;
 		},
 	},
 	setup() {
