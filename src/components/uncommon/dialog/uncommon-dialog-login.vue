@@ -1,18 +1,20 @@
 <template>
 	<dialog-container-component :dialog-state="data_dialogLoginDrawerState">
 		<template #dialog-content>
-			<card-container-component title-class="text-h2" subtitle-class="text-h3">
+			<card-container-component title-class="text-h2">
 				<template #card-header>
 					<v-toolbar color="accent" style="position: sticky; z-index: 1">
 						<v-spacer></v-spacer>
-						<tooltip-container-component
-							location="bottom"
-							:id="id_dialogCloseBtn"
-							:icon="icon_dialogCloseBtn"
-							:tooltip="tooltip_dialogCloseBtn"
-							@toggle-tooltip-drawer-state="toggleTooltipDrawerState"
-							@toggle-drawer-state="data_dialogLoginDrawerState = false"
-						></tooltip-container-component>
+						<v-tooltip location="bottom" :text="tooltip_dialogCloseBtn">
+							<template #activator="{ props: tooltip }">
+								<button-container-component
+									:id="id_dialogCloseBtn"
+									:icon="icon_dialogCloseBtn"
+									v-bind="tooltip"
+									@click="data_dialogLoginDrawerState = !data_dialogLoginDrawerState"
+								></button-container-component>
+							</template>
+						</v-tooltip>
 					</v-toolbar>
 				</template>
 				<template #card-title>Log In</template>
@@ -31,11 +33,12 @@ import { defineComponent } from 'vue';
 
 // Stores
 import { useCommonStore } from '@plugins/pinia/pinia.js';
+import useHeaderStore from '@stores/store-header.js';
 
 // Components
 import DialogContainerComp from '@components/common/dialog/common-dialog.vue';
 import CardContainerComp from '@components/common/card/common-card.vue';
-import TooltipContainerComp from '@components/common/tooltip/common-tooltip.vue';
+import BtnContainerComp from '@components/common/button/common-btn.vue';
 
 // Interfaces
 import { IDialogDefaultState, IDialogLoginState } from '@declarations/common/dialog/interfaces/common-interface-dialog.js';
@@ -48,30 +51,13 @@ export default defineComponent({
 	components: {
 		'dialog-container-component': DialogContainerComp,
 		'card-container-component': CardContainerComp,
-		'tooltip-container-component': TooltipContainerComp,
+		'button-container-component': BtnContainerComp,
 	},
 	computed: {
 		/* Text */
 		// IDs
 		id_dialogCloseBtn(): string {
 			return ElementIDs.DIALOG_LOGIN_CLOSE_BTN;
-		},
-		// Tags
-		tag_dialogTitle(): string {
-			let retVal: string = '';
-			switch (this.$vuetify.display.name) {
-				case 'xs':
-				case 'sm':
-					retVal = 'h4';
-					break;
-				case 'md':
-				case 'lg':
-				case 'xl':
-				case 'xxl':
-					retVal = 'h3';
-					break;
-			}
-			return retVal;
 		},
 		// Tooltips
 		tooltip_dialogCloseBtn(): string {
@@ -81,24 +67,6 @@ export default defineComponent({
 		/* Icons */
 		icon_dialogCloseBtn(): string {
 			return this.data_dialogDefaultState.icons.close.icon;
-		},
-
-		/* CSS */
-		css_dialogTitle(): string {
-			let retVal: string = '';
-			switch (this.$vuetify.display.name) {
-				case 'xs':
-				case 'sm':
-					retVal = 'd-flex d-md-none text-h4';
-					break;
-				case 'md':
-				case 'lg':
-				case 'xl':
-				case 'xxl':
-					retVal = 'd-none d-md-flex text-h3';
-					break;
-			}
-			return retVal;
 		},
 
 		/* Data */
@@ -112,21 +80,17 @@ export default defineComponent({
 		// Read & Write
 		data_dialogLoginDrawerState: {
 			get(): boolean {
-				return this.storeCommon.getDialogLoginDrawerState;
+				return this.storeHeader.getAppBarLoginDrawerState;
 			},
 			set(newValue: boolean): void {
-				this.storeCommon.setDialogLoginDrawerState(newValue);
+				this.storeHeader.setAppBarLoginDrawerState(newValue);
 			},
-		},
-	},
-	methods: {
-		toggleTooltipDrawerState(newValue: boolean): void {
-			this.storeCommon.setDialogLoginBtnCloseTooltipDrawerState(newValue);
 		},
 	},
 	setup() {
 		const storeCommon = useCommonStore();
-		return { storeCommon };
+		const storeHeader = useHeaderStore();
+		return { storeCommon, storeHeader };
 	},
 });
 </script>

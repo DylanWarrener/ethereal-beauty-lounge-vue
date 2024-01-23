@@ -1,11 +1,5 @@
 <template>
-	<v-menu
-		:top="data_locationTop"
-		:right="data_locationRight"
-		:bottom="data_locationBottom"
-		:left="data_locationLeft"
-		:transition="menuTransition"
-	>
+	<v-menu :top="data_locationTop" :right="data_locationRight" :bottom="data_locationBottom" :left="data_locationLeft" :transition="menuTransition">
 		<template #activator="{ props: menu }">
 			<v-tooltip location="bottom" :text="tooltipText">
 				<template #activator="{ props: tooltip }">
@@ -23,20 +17,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, mergeProps } from "vue";
+import { defineComponent, mergeProps } from 'vue';
 
 // Components
-import BtnComp from "@components/common/button/common-btn.vue";
+import BtnComp from '@components/common/button/common-btn.vue';
 
 export default defineComponent({
-	name: "menu-container-component",
+	name: 'menu-container-component',
 	components: {
-		"button-container-component": BtnComp,
+		'button-container-component': BtnComp,
 	},
 	props: {
 		menuLocation: { type: String, required: true },
-		menuTransition: { type: String, required: false, default: "slide-y-transition" },
-		tooltipLocation: { type: String, required: false, default: "bottom" },
+		menuTransition: { type: String, required: false, default: 'slide-y-transition' },
+		tooltipLocation: { type: String, required: false, default: 'bottom' },
 		tooltipText: { type: String, required: true },
 		btnId: { type: String, required: true },
 		btnClass: { type: String, required: false },
@@ -45,23 +39,23 @@ export default defineComponent({
 	computed: {
 		/* Data */
 		data_locationTop(): boolean {
-			return this.isLocationValid("top");
+			return this.isLocationValid('top');
 		},
 		data_locationRight(): boolean {
-			return this.isLocationValid("right");
+			return this.isLocationValid('right');
 		},
 		data_locationBottom(): boolean {
-			return this.isLocationValid("bottom");
+			return this.isLocationValid('bottom');
 		},
 		data_locationLeft(): boolean {
-			return this.isLocationValid("left");
+			return this.isLocationValid('left');
 		},
 	},
 	methods: {
 		/* Events */
 		mergeProps,
 		showMenuDrawer(): void {
-			this.$emit("toggle-menu-drawer");
+			this.$emit('toggle-menu-drawer');
 		},
 
 		/* Utils */

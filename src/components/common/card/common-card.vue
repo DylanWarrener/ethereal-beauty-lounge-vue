@@ -6,12 +6,12 @@
 		<slot name="card-other"></slot>
 		<v-card-item class="pa-4" style="border: 2px solid red">
 			<!-- Title -->
-			<v-card-title class="pa-12 text-center" :tag="tag_cardTitle" :class="titleClass" style="border: 2px solid green">
+			<v-card-title class="text-center font-weight-bold" :tag="tag_cardTitle" :class="titleClass" style="border: 2px solid green">
 				<slot name="card-title"></slot>
 			</v-card-title>
 
 			<!-- Subtitle -->
-			<v-card-subtitle class="d-flex text-wrap pa-2" :tag="tag_cardSubtitle" :class="subtitleClass" style="border: 2px solid blue">
+			<v-card-subtitle class="d-flex pa-2 text-wrap" :tag="tag_cardSubtitle" :class="subtitleClass" style="border: 2px solid blue">
 				<slot name="card-subtitle"></slot>
 			</v-card-subtitle>
 		</v-card-item>
@@ -66,6 +66,8 @@ export default defineComponent({
 			if (this.subtitleClass) {
 				const [type, heading]: string[] = this.subtitleClass.split('-');
 				retVal = heading;
+			} else {
+				retVal = 'p';
 			}
 			return retVal;
 		},
