@@ -47,8 +47,7 @@ import { VExpandTransition } from "vuetify/components/transitions";
 import { Resize, Ripple } from "vuetify/directives";
 
 // Styles
-import "vuetify/styles";
-import "vuetify/dist/vuetify.min.css"; // Not sure what this is
+import "@styles/main.scss";
 
 // Material design icons
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
