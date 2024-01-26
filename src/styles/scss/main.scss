@@ -1,0 +1,12 @@
+@use 'vuetify/styles' with (
+    $font-size-root: 1.8rem,
+);
+@import "./typeography.scss";
+
+/* ELEMENTS */
+// Base
+html {
+    font-size: $font-size-html !important;
+}
+
+/* MEDIA QUERIES */
