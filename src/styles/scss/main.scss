@@ -1,12 +1,25 @@
-@use 'vuetify/styles' with (
-    $font-size-root: 1.8rem,
-);
-@import "./typeography.scss";
+/* VUETIFY DEFAULT STYLES */
+    // @use 'vuetify/settings' with (
+    //     $font-size-root: $font_size_mobile_body,
+    // );
 
-/* ELEMENTS */
-// Base
-html {
-    font-size: $font-size-html !important;
-}
+/* PARTIALS */
+    @import "partials/mixins";
+    @import "partials/display";
+    @import "partials/typeography";
+
+/* ROOT STYLES */
+    // DEFAULT (small to large mobiles) - < 600px
+    html {
+        font-size: 62.5%;
+    }
+    body {
+        font-size: $font_size_mobile_body;
+        background-color: red;
+    }
 
 /* MEDIA QUERIES */
+    @import "media-queries";
+
+/* FULLS */
+    @import "vuetify";

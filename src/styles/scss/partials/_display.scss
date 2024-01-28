@@ -1,0 +1,13 @@
+/*RESPONSIVE SCREEN SIZES */
+// MOBILES (SMALL - LARGE) - 0px >< 600px
+$screen_mobile_small_to_large: 600px; 
+// TABLET (SMALL - MEDIUM) - 600px >< 960px
+$screen_tablet_small_to_medium: 960px; 
+// LARGE TABLET TO LAPTOP - 960px >< 1280px
+$screen_tablet_to_large_laptop: 1280px;
+// LAPTOP TO DESKTOP - 1280px >< 1920px 
+$screen_laptop_to_desktop: 1920px;
+// 1080p TO 1440p DESKTOP - 1920px >< 2560px
+$screen_desktop_hd: 2560px; 
+// 4K & ULTRA WIDE - > 2560px
+$screen_desktop_hd_4k: 2560px;
