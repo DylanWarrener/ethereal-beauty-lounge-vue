@@ -1,0 +1,4 @@
+/* VUETIFY DEFAULT STYLES */
+@use 'vuetify/settings' with (
+    $font-size-root: 18px,
+);

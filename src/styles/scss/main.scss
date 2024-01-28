@@ -1,25 +1,23 @@
-/* VUETIFY DEFAULT STYLES */
-    // @use 'vuetify/settings' with (
-    //     $font-size-root: $font_size_mobile_body,
-    // );
+/* FULLS */
+    @import "screens/desktop";
+    @import "screens/desktop-wide";
+    @import "vuetify";
 
 /* PARTIALS */
     @import "partials/mixins";
     @import "partials/display";
     @import "partials/typeography";
 
-/* ROOT STYLES */
-    // DEFAULT (small to large mobiles) - < 600px
-    html {
-        font-size: 62.5%;
-    }
-    body {
-        font-size: $font_size_mobile_body;
-        background-color: red;
-    }
-
 /* MEDIA QUERIES */
+    @import "screens/mobile";
     @import "media-queries";
 
-/* FULLS */
-    @import "vuetify";
+/* ROOT STYLES */
+    // DEFAULT (small to large mobiles) - < 600px
+    // html {
+    //     font-size: 62.5%;
+    // }
+    // body {
+    //     font-size: $font_size_mobile_body;
+    //     background-color: red;
+    // }
