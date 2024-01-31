@@ -52,6 +52,9 @@ import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 // Themes
 import { light } from "@themes/themes.js";
 
+// Styles
+import "@styles/scss/main.scss";
+
 const vuetify = createVuetify({
 	icons: {
 		defaultSet: "mdi",

@@ -1,8 +1,5 @@
 import { createApp } from "vue";
 
-// Global styles
-import "@styles/scss/main.scss";
-
 // Parent component
 import App from "@src/App.vue";
 
