@@ -1,4 +1,5 @@
 <template>
+	<canvas-container-component :src="canvasIMG"></canvas-container-component>
 	<h1>HEADING 1</h1>
 	<h2>HEADING 2</h2>
 	<h3>HEADING 3</h3>
@@ -12,23 +13,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-// Stores
-import useHeaderStore from '@stores/store-header.js';
-
-import Logo from '../assets/png/logo/logo-transparent.png?raw';
+// Components
+import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 
 export default defineComponent({
-	name: 'home-page-component',
-	computed: {
-		img() {
-			return Logo;
-		},
+	name: "home-page-component",
+	components: {
+		"canvas-container-component": CanvasContainerComp,
 	},
-	setup() {
-		const storeHeader = useHeaderStore();
-		return { storeHeader };
+	computed: {
+		/* IMGs */
+		canvasIMG(): string {
+			return "";
+		},
 	},
 });
 </script>

@@ -7,194 +7,210 @@
 
 /* ROOT STYLES */
 html {
-    font-size: 62.5%;
+	font-size: 62.5%;
 }
-body, p, span {
-    font-size: $font_size_mobile_body;
-    line-height: $font_line_height_mobile_body;
+body {
+	margin: 0;
+	padding: 0;
+}
+body,
+p,
+span {
+	font-size: $font_size_mobile_body;
+	line-height: $font_line_height_mobile_body;
 }
 h1 {
-    font-size: $font_size_mobile_h1;
-    line-height: $font_line_height_mobile_h1;
+	font-size: $font_size_mobile_h1;
+	line-height: $font_line_height_mobile_h1;
 }
 h2 {
-    font-size: $font_size_mobile_h2;
-    line-height: $font_line_height_mobile_h2;
+	font-size: $font_size_mobile_h2;
+	line-height: $font_line_height_mobile_h2;
 }
 h3 {
-    font-size: $font_size_mobile_h3;
-    line-height: $font_line_height_mobile_h3;
+	font-size: $font_size_mobile_h3;
+	line-height: $font_line_height_mobile_h3;
 }
 h4 {
-    font-size: $font_size_mobile_h4;
-    line-height: $font_line_height_mobile_h4;
+	font-size: $font_size_mobile_h4;
+	line-height: $font_line_height_mobile_h4;
 }
 h5 {
-    font-size: $font_size_mobile_h5;
-    line-height: $font_line_height_mobile_h5;
+	font-size: $font_size_mobile_h5;
+	line-height: $font_line_height_mobile_h5;
 }
 h6 {
-    font-size: $font_size_mobile_h6;
-    line-height: $font_line_height_mobile_h6;
+	font-size: $font_size_mobile_h6;
+	line-height: $font_line_height_mobile_h6;
 }
 
 /* MEDIA QUERIES */
 // TABLET (SMALL - MEDIUM) - 600px >< 960px
 @media only screen and (min-width: $screen_mobile_small_to_large) {
-    body, p, span {
-        font-size: $font_size_tablet_body;
-        line-height: $font_line_height_tablet_body;
-    }
-    h1 {
-        font-size: $font_size_tablet_h1;
-        line-height: $font_line_height_tablet_h1;
-    }
-    h2 {
-        font-size: $font_size_tablet_h2;
-        line-height: $font_line_height_tablet_h2;
-    }
-    h3 {
-        font-size: $font_size_tablet_h3;
-        line-height: $font_line_height_tablet_h3;
-    }
-    h4 {
-        font-size: $font_size_tablet_h4;
-        line-height: $font_line_height_tablet_h4;
-    }
-    h5 {
-        font-size: $font_size_tablet_h5;
-        line-height: $font_line_height_tablet_h5;
-    }
-    h6 {
-        font-size: $font_size_tablet_h6;
-        line-height: $font_line_height_tablet_h6;
-    }
+	body,
+	p,
+	span {
+		font-size: $font_size_tablet_body;
+		line-height: $font_line_height_tablet_body;
+	}
+	h1 {
+		font-size: $font_size_tablet_h1;
+		line-height: $font_line_height_tablet_h1;
+	}
+	h2 {
+		font-size: $font_size_tablet_h2;
+		line-height: $font_line_height_tablet_h2;
+	}
+	h3 {
+		font-size: $font_size_tablet_h3;
+		line-height: $font_line_height_tablet_h3;
+	}
+	h4 {
+		font-size: $font_size_tablet_h4;
+		line-height: $font_line_height_tablet_h4;
+	}
+	h5 {
+		font-size: $font_size_tablet_h5;
+		line-height: $font_line_height_tablet_h5;
+	}
+	h6 {
+		font-size: $font_size_tablet_h6;
+		line-height: $font_line_height_tablet_h6;
+	}
 }
 
 // LARGE TABLET TO LAPTOP - 960px >< 1280px
 @media only screen and (min-width: $screen_tablet_small_to_medium) {
-    body, p, span {
-        font-size: $font_size_tablet_laptop_body;
-        line-height: $font_line_height_tablet_laptop_body;
-    }
-    h1 {
-        font-size: $font_size_tablet_laptop_h1;
-        line-height: $font_line_height_tablet_laptop_h1;
-    }
-    h2 {
-        font-size: $font_size_tablet_laptop_h2;
-        line-height: $font_line_height_tablet_laptop_h2;
-    }
-    h3 {
-        font-size: $font_size_tablet_laptop_h3;
-        line-height: $font_line_height_tablet_laptop_h3;
-    }
-    h4 {
-        font-size: $font_size_tablet_laptop_h4;
-        line-height: $font_line_height_tablet_laptop_h4;
-    }
-    h5 {
-        font-size: $font_size_tablet_laptop_h5;
-        line-height: $font_line_height_tablet_laptop_h5;
-    }
-    h6 {
-        font-size: $font_size_tablet_laptop_h6;
-        line-height: $font_line_height_tablet_laptop_h6;
-    }
+	body,
+	p,
+	span {
+		font-size: $font_size_tablet_laptop_body;
+		line-height: $font_line_height_tablet_laptop_body;
+	}
+	h1 {
+		font-size: $font_size_tablet_laptop_h1;
+		line-height: $font_line_height_tablet_laptop_h1;
+	}
+	h2 {
+		font-size: $font_size_tablet_laptop_h2;
+		line-height: $font_line_height_tablet_laptop_h2;
+	}
+	h3 {
+		font-size: $font_size_tablet_laptop_h3;
+		line-height: $font_line_height_tablet_laptop_h3;
+	}
+	h4 {
+		font-size: $font_size_tablet_laptop_h4;
+		line-height: $font_line_height_tablet_laptop_h4;
+	}
+	h5 {
+		font-size: $font_size_tablet_laptop_h5;
+		line-height: $font_line_height_tablet_laptop_h5;
+	}
+	h6 {
+		font-size: $font_size_tablet_laptop_h6;
+		line-height: $font_line_height_tablet_laptop_h6;
+	}
 }
 
 // LAPTOP TO DESKTOP - 1280px >< 1920px
 @media only screen and (min-width: $screen_tablet_to_large_laptop) {
-    body, p, span {
-        font-size: $font_size_laptop_desktop_body;
-        line-height: $font_line_height_laptop_desktop_body;
-    }
-    h1 {
-        font-size: $font_size_laptop_desktop_h1;
-        line-height: $font_line_height_laptop_desktop_h1;
-    }
-    h2 {
-        font-size: $font_size_laptop_desktop_h2;
-        line-height: $font_line_height_laptop_desktop_h2;
-    }
-    h3 {
-        font-size: $font_size_laptop_desktop_h3;
-        line-height: $font_line_height_laptop_desktop_h3;
-    }
-    h4 {
-        font-size: $font_size_laptop_desktop_h4;
-        line-height: $font_line_height_laptop_desktop_h4;
-    }
-    h5 {
-        font-size: $font_size_laptop_desktop_h5;
-        line-height: $font_line_height_laptop_desktop_h5;
-    }
-    h6 {
-        font-size: $font_size_laptop_desktop_h6;
-        line-height: $font_line_height_laptop_desktop_h6;
-    }
+	body,
+	p,
+	span {
+		font-size: $font_size_laptop_desktop_body;
+		line-height: $font_line_height_laptop_desktop_body;
+	}
+	h1 {
+		font-size: $font_size_laptop_desktop_h1;
+		line-height: $font_line_height_laptop_desktop_h1;
+	}
+	h2 {
+		font-size: $font_size_laptop_desktop_h2;
+		line-height: $font_line_height_laptop_desktop_h2;
+	}
+	h3 {
+		font-size: $font_size_laptop_desktop_h3;
+		line-height: $font_line_height_laptop_desktop_h3;
+	}
+	h4 {
+		font-size: $font_size_laptop_desktop_h4;
+		line-height: $font_line_height_laptop_desktop_h4;
+	}
+	h5 {
+		font-size: $font_size_laptop_desktop_h5;
+		line-height: $font_line_height_laptop_desktop_h5;
+	}
+	h6 {
+		font-size: $font_size_laptop_desktop_h6;
+		line-height: $font_line_height_laptop_desktop_h6;
+	}
 }
 
 // 1080p TO 1440p DESKTOP - 1920px >< 2560px
 @media only screen and (min-width: $screen_laptop_to_desktop) {
-    body, p, span {
-        font-size: $font_size_desktop_body;
-        line-height: $font_line_height_desktop_body;
-    }
-    h1 {
-        font-size: $font_size_desktop_h1;
-        line-height: $font_line_height_desktop_h1;
-    }
-    h2 {
-        font-size: $font_size_desktop_h2;
-        line-height: $font_line_height_desktop_h2;
-    }
-    h3 {
-        font-size: $font_size_desktop_h3;
-        line-height: $font_line_height_desktop_h3;
-    }
-    h4 {
-        font-size: $font_size_desktop_h4;
-        line-height: $font_line_height_desktop_h4;
-    }
-    h5 {
-        font-size: $font_size_desktop_h5;
-        line-height: $font_line_height_desktop_h5;
-    }
-    h6 {
-        font-size: $font_size_desktop_h6;
-        line-height: $font_line_height_desktop_h6;
-    }
+	body,
+	p,
+	span {
+		font-size: $font_size_desktop_body;
+		line-height: $font_line_height_desktop_body;
+	}
+	h1 {
+		font-size: $font_size_desktop_h1;
+		line-height: $font_line_height_desktop_h1;
+	}
+	h2 {
+		font-size: $font_size_desktop_h2;
+		line-height: $font_line_height_desktop_h2;
+	}
+	h3 {
+		font-size: $font_size_desktop_h3;
+		line-height: $font_line_height_desktop_h3;
+	}
+	h4 {
+		font-size: $font_size_desktop_h4;
+		line-height: $font_line_height_desktop_h4;
+	}
+	h5 {
+		font-size: $font_size_desktop_h5;
+		line-height: $font_line_height_desktop_h5;
+	}
+	h6 {
+		font-size: $font_size_desktop_h6;
+		line-height: $font_line_height_desktop_h6;
+	}
 }
 
 // 4K & ULTRA WIDE - > 2560px
 @media only screen and (min-width: $screen_desktop_hd) {
-    body, p, span {
-        font-size: $font_size_desktop_wide_body;
-        line-height: $font_line_height_desktop_wide_body;
-    }
-    h1 {
-        font-size: $font_size_desktop_wide_h1;
-        line-height: $font_line_height_desktop_wide_h1;
-    }
-    h2 {
-        font-size: $font_size_desktop_wide_h2;
-        line-height: $font_line_height_desktop_wide_h2;
-    }
-    h3 {
-        font-size: $font_size_desktop_wide_h3;
-        line-height: $font_line_height_desktop_wide_h3;
-    }
-    h4 {
-        font-size: $font_size_desktop_wide_h4;
-        line-height: $font_line_height_desktop_wide_h4;
-    }
-    h5 {
-        font-size: $font_size_desktop_wide_h5;
-        line-height: $font_line_height_desktop_wide_h5;
-    }
-    h6 {
-        font-size: $font_size_desktop_wide_h6;
-        line-height: $font_line_height_desktop_wide_h6;
-    }
+	body,
+	p,
+	span {
+		font-size: $font_size_desktop_wide_body;
+		line-height: $font_line_height_desktop_wide_body;
+	}
+	h1 {
+		font-size: $font_size_desktop_wide_h1;
+		line-height: $font_line_height_desktop_wide_h1;
+	}
+	h2 {
+		font-size: $font_size_desktop_wide_h2;
+		line-height: $font_line_height_desktop_wide_h2;
+	}
+	h3 {
+		font-size: $font_size_desktop_wide_h3;
+		line-height: $font_line_height_desktop_wide_h3;
+	}
+	h4 {
+		font-size: $font_size_desktop_wide_h4;
+		line-height: $font_line_height_desktop_wide_h4;
+	}
+	h5 {
+		font-size: $font_size_desktop_wide_h5;
+		line-height: $font_line_height_desktop_wide_h5;
+	}
+	h6 {
+		font-size: $font_size_desktop_wide_h6;
+		line-height: $font_line_height_desktop_wide_h6;
+	}
 }

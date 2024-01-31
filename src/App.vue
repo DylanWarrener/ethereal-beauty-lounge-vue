@@ -1,7 +1,7 @@
 <template>
 	<v-layout>
 		<dialog-login-component></dialog-login-component>
-		<header-container-component></header-container-component>
+		<!-- <header-container-component></header-container-component> -->
 		<v-main>
 			<router-view></router-view>
 		</v-main>

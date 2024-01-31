@@ -18,7 +18,10 @@
 					</v-toolbar>
 				</template>
 				<template #card-title>Log In</template>
-				<template #card-subtitle>Sign in with Google or Email, to save your preferences; including health forms, bank details and more.</template>
+				<template #card-subtitle
+					>Sign in with Google or Email, to save your preferences; including health forms, bank details and
+					more.</template
+				>
 				<template #card-content>
 					<v-btn class="bg-blue" variant="text" color="accent">Log in with Google</v-btn>
 					<v-btn class="bg-blue" variant="text" color="accent">Log in with Email</v-btn>
@@ -29,29 +32,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from '@plugins/pinia/pinia.js';
-import useHeaderStore from '@stores/store-header.js';
+import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useHeaderStore from "@stores/store-header.js";
 
 // Components
-import DialogContainerComp from '@components/common/dialog/common-dialog.vue';
-import CardContainerComp from '@components/common/card/common-card.vue';
-import BtnContainerComp from '@components/common/button/common-btn.vue';
+import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
+import CardContainerComp from "@components/common/card/common-card.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
 
 // Interfaces
-import { IDialogDefaultState, IDialogLoginState } from '@declarations/common/dialog/interfaces/common-interface-dialog.js';
+import {
+	IDialogDefaultState,
+	IDialogLoginState,
+} from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
 
 // Enums
-import { ElementIDs } from '@enums/enums.js';
+import { ElementIDs } from "@enums/enums.js";
 
 export default defineComponent({
-	name: 'dialog-component',
+	name: "dialog-component",
 	components: {
-		'dialog-container-component': DialogContainerComp,
-		'card-container-component': CardContainerComp,
-		'button-container-component': BtnContainerComp,
+		"dialog-container-component": DialogContainerComp,
+		"card-container-component": CardContainerComp,
+		"button-container-component": BtnContainerComp,
 	},
 	computed: {
 		/* Text */

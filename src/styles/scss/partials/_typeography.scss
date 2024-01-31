@@ -1,151 +1,151 @@
 /* FONT FAMILY */
-    $font_family_primary: Arial, 'Roboto', 'Lato', sans-serif !important;
-    $font_family_secondary: 'Work Sans', Arial, 'Lato', sans-serif !important;
+$font_family_primary: Arial, "Roboto", "Lato", sans-serif !important;
+$font_family_secondary: "Work Sans", Arial, "Lato", sans-serif !important;
 
 /* FONT WIDTH */
-    $font_width_all: 75ch;
+$font_width_all: 75ch;
 
 /* FONT SIZE */
-    // SCALE
-    $font_size_scale: 1.125;
+// SCALE
+$font_size_scale: 1.125;
 
-    // MOBILES (SMALL - LARGE)
-    $font_size_mobile_body: 1.4rem;
-    $font_size_mobile_h6: $font_size_mobile_body;
-    $font_size_mobile_h5: $font_size_mobile_h6 * $font_size_scale;
-    $font_size_mobile_h4: $font_size_mobile_h5 * $font_size_scale;
-    $font_size_mobile_h3: $font_size_mobile_h4 * $font_size_scale;
-    $font_size_mobile_h2: $font_size_mobile_h3 * $font_size_scale;
-    $font_size_mobile_h1: $font_size_mobile_h2 * $font_size_scale;
+// MOBILES (SMALL - LARGE)
+$font_size_mobile_body: 1.4rem;
+$font_size_mobile_h6: $font_size_mobile_body;
+$font_size_mobile_h5: $font_size_mobile_h6 * $font_size_scale;
+$font_size_mobile_h4: $font_size_mobile_h5 * $font_size_scale;
+$font_size_mobile_h3: $font_size_mobile_h4 * $font_size_scale;
+$font_size_mobile_h2: $font_size_mobile_h3 * $font_size_scale;
+$font_size_mobile_h1: $font_size_mobile_h2 * $font_size_scale;
 
-    //  TABLET (SMALL - MEDIUM)
-    $font_size_tablet_body: 1.6rem;
-    $font_size_tablet_h6: $font_size_tablet_body;
-    $font_size_tablet_h5: $font_size_tablet_h6 * $font_size_scale;
-    $font_size_tablet_h4: $font_size_tablet_h5 * $font_size_scale;
-    $font_size_tablet_h3: $font_size_tablet_h4 * $font_size_scale;
-    $font_size_tablet_h2: $font_size_tablet_h3 * $font_size_scale;
-    $font_size_tablet_h1: $font_size_tablet_h2 * $font_size_scale;
+//  TABLET (SMALL - MEDIUM)
+$font_size_tablet_body: 1.6rem;
+$font_size_tablet_h6: $font_size_tablet_body;
+$font_size_tablet_h5: $font_size_tablet_h6 * $font_size_scale;
+$font_size_tablet_h4: $font_size_tablet_h5 * $font_size_scale;
+$font_size_tablet_h3: $font_size_tablet_h4 * $font_size_scale;
+$font_size_tablet_h2: $font_size_tablet_h3 * $font_size_scale;
+$font_size_tablet_h1: $font_size_tablet_h2 * $font_size_scale;
 
-    //  LARGE TABLET TO LAPTOP
-    $font_size_tablet_laptop_body: 1.8rem;
-    $font_size_tablet_laptop_h6: $font_size_tablet_laptop_body;
-    $font_size_tablet_laptop_h5: $font_size_tablet_laptop_h6 * $font_size_scale;
-    $font_size_tablet_laptop_h4: $font_size_tablet_laptop_h5 * $font_size_scale;
-    $font_size_tablet_laptop_h3: $font_size_tablet_laptop_h4 * $font_size_scale;
-    $font_size_tablet_laptop_h2: $font_size_tablet_laptop_h3 * $font_size_scale;
-    $font_size_tablet_laptop_h1: $font_size_tablet_laptop_h2 * $font_size_scale;
+//  LARGE TABLET TO LAPTOP
+$font_size_tablet_laptop_body: 1.8rem;
+$font_size_tablet_laptop_h6: $font_size_tablet_laptop_body;
+$font_size_tablet_laptop_h5: $font_size_tablet_laptop_h6 * $font_size_scale;
+$font_size_tablet_laptop_h4: $font_size_tablet_laptop_h5 * $font_size_scale;
+$font_size_tablet_laptop_h3: $font_size_tablet_laptop_h4 * $font_size_scale;
+$font_size_tablet_laptop_h2: $font_size_tablet_laptop_h3 * $font_size_scale;
+$font_size_tablet_laptop_h1: $font_size_tablet_laptop_h2 * $font_size_scale;
 
-    //  LAPTOP TO DESKTOP
-    $font_size_laptop_desktop_body: 2.0rem;
-    $font_size_laptop_desktop_h6: $font_size_laptop_desktop_body;
-    $font_size_laptop_desktop_h5: $font_size_laptop_desktop_h6 * $font_size_scale;
-    $font_size_laptop_desktop_h4: $font_size_laptop_desktop_h5 * $font_size_scale;
-    $font_size_laptop_desktop_h3: $font_size_laptop_desktop_h4 * $font_size_scale;
-    $font_size_laptop_desktop_h2: $font_size_laptop_desktop_h3 * $font_size_scale;
-    $font_size_laptop_desktop_h1: $font_size_laptop_desktop_h2 * $font_size_scale;
+//  LAPTOP TO DESKTOP
+$font_size_laptop_desktop_body: 2rem;
+$font_size_laptop_desktop_h6: $font_size_laptop_desktop_body;
+$font_size_laptop_desktop_h5: $font_size_laptop_desktop_h6 * $font_size_scale;
+$font_size_laptop_desktop_h4: $font_size_laptop_desktop_h5 * $font_size_scale;
+$font_size_laptop_desktop_h3: $font_size_laptop_desktop_h4 * $font_size_scale;
+$font_size_laptop_desktop_h2: $font_size_laptop_desktop_h3 * $font_size_scale;
+$font_size_laptop_desktop_h1: $font_size_laptop_desktop_h2 * $font_size_scale;
 
-    // 1080p TO 1440p DESKTOP
-    $font_size_desktop_body: 2.2rem;
-    $font_size_desktop_h6: $font_size_desktop_body;
-    $font_size_desktop_h5: $font_size_desktop_h6 * $font_size_scale;
-    $font_size_desktop_h4: $font_size_desktop_h5 * $font_size_scale;
-    $font_size_desktop_h3: $font_size_desktop_h4 * $font_size_scale;
-    $font_size_desktop_h2: $font_size_desktop_h3 * $font_size_scale;
-    $font_size_desktop_h1: $font_size_desktop_h2 * $font_size_scale;
+// 1080p TO 1440p DESKTOP
+$font_size_desktop_body: 2.2rem;
+$font_size_desktop_h6: $font_size_desktop_body;
+$font_size_desktop_h5: $font_size_desktop_h6 * $font_size_scale;
+$font_size_desktop_h4: $font_size_desktop_h5 * $font_size_scale;
+$font_size_desktop_h3: $font_size_desktop_h4 * $font_size_scale;
+$font_size_desktop_h2: $font_size_desktop_h3 * $font_size_scale;
+$font_size_desktop_h1: $font_size_desktop_h2 * $font_size_scale;
 
-    // 4K AND ULTRAWIDE
-    $font_size_desktop_wide_body: 2.4rem;
-    $font_size_desktop_wide_h6: $font_size_desktop_wide_body;
-    $font_size_desktop_wide_h5: $font_size_desktop_wide_h6 * $font_size_scale;
-    $font_size_desktop_wide_h4: $font_size_desktop_wide_h5 * $font_size_scale;
-    $font_size_desktop_wide_h3: $font_size_desktop_wide_h4 * $font_size_scale;
-    $font_size_desktop_wide_h2: $font_size_desktop_wide_h3 * $font_size_scale;
-    $font_size_desktop_wide_h1: $font_size_desktop_wide_h2 * $font_size_scale;
+// 4K AND ULTRAWIDE
+$font_size_desktop_wide_body: 2.4rem;
+$font_size_desktop_wide_h6: $font_size_desktop_wide_body;
+$font_size_desktop_wide_h5: $font_size_desktop_wide_h6 * $font_size_scale;
+$font_size_desktop_wide_h4: $font_size_desktop_wide_h5 * $font_size_scale;
+$font_size_desktop_wide_h3: $font_size_desktop_wide_h4 * $font_size_scale;
+$font_size_desktop_wide_h2: $font_size_desktop_wide_h3 * $font_size_scale;
+$font_size_desktop_wide_h1: $font_size_desktop_wide_h2 * $font_size_scale;
 
 /* FONT TRANSFORM */
-    $font_transform_global: none;
-    $font_transform_h1: uppercase;
-    $font_transform_h2: capitalize;
-    $font_transform_h3: capitalize;
+$font_transform_global: none;
+$font_transform_h1: uppercase;
+$font_transform_h2: capitalize;
+$font_transform_h3: capitalize;
 
 /* FONT WEIGHT */
-    $font_weight_global: normal;
-    $font_weight_h1: bolder;
-    $font_weight_h2: bold;
-    $font_weight_h3: bold;
-    $font_weight_h4: '';
-    $font_weight_p: '';
+$font_weight_global: normal;
+$font_weight_h1: bolder;
+$font_weight_h2: bold;
+$font_weight_h3: bold;
+$font_weight_h4: "";
+$font_weight_p: "";
 
 /* FONT STYLE */
-    $font_style_global: normal;
-    $font_style_h1: '';
-    $font_style_h2: '';
-    $font_style_h3: italic;
-    $font_style_h4: italic;
-    $font_style_p: '';
+$font_style_global: normal;
+$font_style_h1: "";
+$font_style_h2: "";
+$font_style_h3: italic;
+$font_style_h4: italic;
+$font_style_p: "";
 
 /* FONT VARIANT */
-    $font_variant_global: normal;
-    $font_variant_h1: '';
-    $font_variant_h2: small-caps;
-    $font_variant_h3: '';
-    $font_variant_h4: '';
-    $font_variant_p: common-ligatures tabular-nums;
+$font_variant_global: normal;
+$font_variant_h1: "";
+$font_variant_h2: small-caps;
+$font_variant_h3: "";
+$font_variant_h4: "";
+$font_variant_p: common-ligatures tabular-nums;
 
 /* FONT LINE HEIGHT */
-    $font_line_height_multiplier: 1.2;
+$font_line_height_multiplier: 1.2;
 
-    // MOBILES (SMALL - LARGE)
-    $font_line_height_mobile_body: $font_size_mobile_body * $font_size_scale;
-    $font_line_height_mobile_h1: $font_size_mobile_h1 * $font_size_scale;
-    $font_line_height_mobile_h2: $font_size_mobile_h2 * $font_size_scale;
-    $font_line_height_mobile_h3: $font_size_mobile_h3 * $font_size_scale;
-    $font_line_height_mobile_h4: $font_size_mobile_h4 * $font_size_scale;
-    $font_line_height_mobile_h5: $font_size_mobile_h5 * $font_size_scale;
-    $font_line_height_mobile_h6: $font_size_mobile_h6 * $font_size_scale;
+// MOBILES (SMALL - LARGE)
+$font_line_height_mobile_body: $font_size_mobile_body * $font_size_scale;
+$font_line_height_mobile_h1: $font_size_mobile_h1 * $font_size_scale;
+$font_line_height_mobile_h2: $font_size_mobile_h2 * $font_size_scale;
+$font_line_height_mobile_h3: $font_size_mobile_h3 * $font_size_scale;
+$font_line_height_mobile_h4: $font_size_mobile_h4 * $font_size_scale;
+$font_line_height_mobile_h5: $font_size_mobile_h5 * $font_size_scale;
+$font_line_height_mobile_h6: $font_size_mobile_h6 * $font_size_scale;
 
-    //  TABLET (SMALL - MEDIUM)
-    $font_line_height_tablet_body: $font_size_tablet_body * $font_size_scale;
-    $font_line_height_tablet_h1: $font_size_tablet_h1 * $font_size_scale;
-    $font_line_height_tablet_h2: $font_size_tablet_h2 * $font_size_scale;
-    $font_line_height_tablet_h3: $font_size_tablet_h3 * $font_size_scale;
-    $font_line_height_tablet_h4: $font_size_tablet_h4 * $font_size_scale;
-    $font_line_height_tablet_h5: $font_size_tablet_h5 * $font_size_scale;
-    $font_line_height_tablet_h6: $font_size_tablet_h6 * $font_size_scale;
+//  TABLET (SMALL - MEDIUM)
+$font_line_height_tablet_body: $font_size_tablet_body * $font_size_scale;
+$font_line_height_tablet_h1: $font_size_tablet_h1 * $font_size_scale;
+$font_line_height_tablet_h2: $font_size_tablet_h2 * $font_size_scale;
+$font_line_height_tablet_h3: $font_size_tablet_h3 * $font_size_scale;
+$font_line_height_tablet_h4: $font_size_tablet_h4 * $font_size_scale;
+$font_line_height_tablet_h5: $font_size_tablet_h5 * $font_size_scale;
+$font_line_height_tablet_h6: $font_size_tablet_h6 * $font_size_scale;
 
-    //  LARGE TABLET TO LAPTOP
-    $font_line_height_tablet_laptop_body: $font_size_tablet_laptop_body * $font_size_scale;
-    $font_line_height_tablet_laptop_h1: $font_size_tablet_laptop_h1 * $font_size_scale;
-    $font_line_height_tablet_laptop_h2: $font_size_tablet_laptop_h2 * $font_size_scale;
-    $font_line_height_tablet_laptop_h3: $font_size_tablet_laptop_h3 * $font_size_scale;
-    $font_line_height_tablet_laptop_h4: $font_size_tablet_laptop_h4 * $font_size_scale;
-    $font_line_height_tablet_laptop_h5: $font_size_tablet_laptop_h5 * $font_size_scale;
-    $font_line_height_tablet_laptop_h6: $font_size_tablet_laptop_h6 * $font_size_scale;
+//  LARGE TABLET TO LAPTOP
+$font_line_height_tablet_laptop_body: $font_size_tablet_laptop_body * $font_size_scale;
+$font_line_height_tablet_laptop_h1: $font_size_tablet_laptop_h1 * $font_size_scale;
+$font_line_height_tablet_laptop_h2: $font_size_tablet_laptop_h2 * $font_size_scale;
+$font_line_height_tablet_laptop_h3: $font_size_tablet_laptop_h3 * $font_size_scale;
+$font_line_height_tablet_laptop_h4: $font_size_tablet_laptop_h4 * $font_size_scale;
+$font_line_height_tablet_laptop_h5: $font_size_tablet_laptop_h5 * $font_size_scale;
+$font_line_height_tablet_laptop_h6: $font_size_tablet_laptop_h6 * $font_size_scale;
 
-    //  LAPTOP TO DESKTOP
-    $font_line_height_laptop_desktop_body: $font_size_laptop_desktop_body * $font_size_scale;
-    $font_line_height_laptop_desktop_h1: $font_size_laptop_desktop_h1 * $font_size_scale;
-    $font_line_height_laptop_desktop_h2: $font_size_laptop_desktop_h2 * $font_size_scale;
-    $font_line_height_laptop_desktop_h3: $font_size_laptop_desktop_h3 * $font_size_scale;
-    $font_line_height_laptop_desktop_h4: $font_size_laptop_desktop_h4 * $font_size_scale;
-    $font_line_height_laptop_desktop_h5: $font_size_laptop_desktop_h5 * $font_size_scale;
-    $font_line_height_laptop_desktop_h6: $font_size_laptop_desktop_h6 * $font_size_scale;
+//  LAPTOP TO DESKTOP
+$font_line_height_laptop_desktop_body: $font_size_laptop_desktop_body * $font_size_scale;
+$font_line_height_laptop_desktop_h1: $font_size_laptop_desktop_h1 * $font_size_scale;
+$font_line_height_laptop_desktop_h2: $font_size_laptop_desktop_h2 * $font_size_scale;
+$font_line_height_laptop_desktop_h3: $font_size_laptop_desktop_h3 * $font_size_scale;
+$font_line_height_laptop_desktop_h4: $font_size_laptop_desktop_h4 * $font_size_scale;
+$font_line_height_laptop_desktop_h5: $font_size_laptop_desktop_h5 * $font_size_scale;
+$font_line_height_laptop_desktop_h6: $font_size_laptop_desktop_h6 * $font_size_scale;
 
-    // 1080p TO 1440p DESKTOP
-    $font_line_height_desktop_body: $font_size_desktop_body * $font_size_scale;
-    $font_line_height_desktop_h1: $font_size_desktop_h1 * $font_size_scale;
-    $font_line_height_desktop_h2: $font_size_desktop_h2 * $font_size_scale;
-    $font_line_height_desktop_h3: $font_size_desktop_h3 * $font_size_scale;
-    $font_line_height_desktop_h4: $font_size_desktop_h4 * $font_size_scale;
-    $font_line_height_desktop_h5: $font_size_desktop_h5 * $font_size_scale;
-    $font_line_height_desktop_h6: $font_size_desktop_h6 * $font_size_scale;
+// 1080p TO 1440p DESKTOP
+$font_line_height_desktop_body: $font_size_desktop_body * $font_size_scale;
+$font_line_height_desktop_h1: $font_size_desktop_h1 * $font_size_scale;
+$font_line_height_desktop_h2: $font_size_desktop_h2 * $font_size_scale;
+$font_line_height_desktop_h3: $font_size_desktop_h3 * $font_size_scale;
+$font_line_height_desktop_h4: $font_size_desktop_h4 * $font_size_scale;
+$font_line_height_desktop_h5: $font_size_desktop_h5 * $font_size_scale;
+$font_line_height_desktop_h6: $font_size_desktop_h6 * $font_size_scale;
 
-    // 4K AND ULTRAWIDE
-    $font_line_height_desktop_wide_body: $font_size_desktop_wide_body * $font_size_scale;
-    $font_line_height_desktop_wide_h1: $font_size_desktop_wide_h1 * $font_size_scale;
-    $font_line_height_desktop_wide_h2: $font_size_desktop_wide_h2 * $font_size_scale;
-    $font_line_height_desktop_wide_h3: $font_size_desktop_wide_h3 * $font_size_scale;
-    $font_line_height_desktop_wide_h4: $font_size_desktop_wide_h4 * $font_size_scale;
-    $font_line_height_desktop_wide_h5: $font_size_desktop_wide_h5 * $font_size_scale;
-    $font_line_height_desktop_wide_h6: $font_size_desktop_wide_h6 * $font_size_scale;
+// 4K AND ULTRAWIDE
+$font_line_height_desktop_wide_body: $font_size_desktop_wide_body * $font_size_scale;
+$font_line_height_desktop_wide_h1: $font_size_desktop_wide_h1 * $font_size_scale;
+$font_line_height_desktop_wide_h2: $font_size_desktop_wide_h2 * $font_size_scale;
+$font_line_height_desktop_wide_h3: $font_size_desktop_wide_h3 * $font_size_scale;
+$font_line_height_desktop_wide_h4: $font_size_desktop_wide_h4 * $font_size_scale;
+$font_line_height_desktop_wide_h5: $font_size_desktop_wide_h5 * $font_size_scale;
+$font_line_height_desktop_wide_h6: $font_size_desktop_wide_h6 * $font_size_scale;
