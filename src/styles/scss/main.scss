@@ -91,6 +91,7 @@ h6 {
 			.v-list-item-title {
 				//border: 2px solid red;
 				font-size: $font_size_mobile_body;
+				line-height: $font_line_height_mobile_body;
 				text-transform: capitalize;
 			}
 		}
@@ -117,6 +118,7 @@ h6 {
 
 	/* V-PARALLAX */
 	.v-parallax {
+		min-height: 100vh;
 		max-height: 100vh;
 	}
 }
@@ -353,6 +355,13 @@ h6 {
 /* V-CARD */
 .v-card {
 	.v-card__loader {
+	}
+
+	.v-card-item {
+		.v-card-item__content {
+			.v-card-title {
+			}
+		}
 	}
 
 	.v-card-text {
