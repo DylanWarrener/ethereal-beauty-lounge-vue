@@ -1,5 +1,6 @@
 <template>
 	<navigation-container-component
+		class="d-flex d-md-none"
 		location="bottom"
 		:navigation="data_mobileMenuNavigation"
 		v-model="data_appBarMobileMenuDrawerState"

@@ -2,11 +2,70 @@
 
 /* V-LAYOUT */
 .v-layout {
-	background-color: red;
+	border: 2px solid black;
+	display: flex;
+	flex-direction: column;
+}
+
+/* V-LIST */
+.v-list {
+	border: 2px solid red;
+	cursor: pointer;
+	//color: rgb(var(--v-theme-default));
+
+	.v-list-item {
+		border: 2px solid orange;
+		cursor: pointer;
+		//color: rgb(var(--v-theme-default));
+		//background-color: transparent;
+
+		&:hover {
+			//color: rgb(var(--v-theme-inverted));
+			//background-color: rgb(var(--v-theme-accent));
+		}
+
+		.v-list-item__overlay {
+			border: 2px solid black;
+			cursor: pointer;
+		}
+
+		.v-list-item__underlay {
+			border: 2px solid red;
+			cursor: pointer;
+		}
+
+		.v-list-item__prepend {
+			border: 2px solid purple;
+		}
+
+		.v-list-item__content {
+			border: 2px solid blue;
+
+			.v-list-item-title {
+				border: 2px solid red;
+				font-size: 
+				text-transform: capitalize;
+			}
+		}
+	}
+
+	.v-list-item--active {
+		border: 2px solid green;
+		//color: rgb(var(--v-theme-accent));
+		//background-color: transparent;
+	}
 }
 
 /* V-MAIN */
 .v-main {
+	border: 2px solid red;
+	display: flex;
+	flex-direction: column;
+
+	/* V-PARALLAX */
+	.v-parallax {
+		max-height: 100vh;
+	}
 }
 
 /* V-INPUT */
@@ -127,61 +186,16 @@
 	}
 }
 
-/* V-LIST */
-.v-list {
-	//border: 2px solid red;
-	cursor: pointer;
-	//color: rgb(var(--v-theme-default));
-
-	.v-list-item {
-		//border: 2px solid orange;
-		cursor: pointer;
-		//color: rgb(var(--v-theme-default));
-		//background-color: transparent;
-
-		&:hover {
-			//color: rgb(var(--v-theme-inverted));
-			//background-color: rgb(var(--v-theme-accent));
-		}
-
-		.v-list-item__overlay {
-			//border: 2px solid black;
-			cursor: pointer;
-		}
-
-		.v-list-item__underlay {
-			//border: 2px solid red;
-			cursor: pointer;
-		}
-
-		.v-list-item__content {
-			//border: 2px solid blue;
-			cursor: pointer;
-
-			.v-list-item-title {
-				//border: 2px solid red;
-				cursor: pointer;
-				text-transform: capitalize;
-			}
-		}
-	}
-
-	.v-list-item--active {
-		//color: rgb(var(--v-theme-accent));
-		//background-color: transparent;
-	}
-}
-
 /* V-BTN */
 .v-btn {
-	border: 2px solid red;
+	//border: 2px solid red;
 	//cursor: pointer;
 	text-transform: uppercase;
 	//background-color: transparent;
 	//color: rgb(var(--v-theme-default));
 
 	&:hover {
-		border: 2px solid blue;
+		//border: 2px solid blue;
 		//background-color: rgb(var(--v-theme-accent));
 		//color: rgb(var(--v-theme-inverted));
 
@@ -206,7 +220,7 @@
 	}
 
 	.v-icon {
-		border: 2px solid blue;
+		//border: 2px solid blue;
 		cursor: pointer;
 	}
 
@@ -219,20 +233,20 @@
 	}
 
 	.v-btn__content {
-		border: 2px solid blue;
+		//border: 2px solid blue;
 		cursor: pointer;
 
 		.v-icon {
-			border: 2px solid orange;
+			//border: 2px solid orange;
 			cursor: pointer;
 			//fill: rgb(var(--v-theme-default));
 
 			svg {
-				border: 2px solid purple;
+				//border: 2px solid purple;
 				cursor: pointer;
 
 				path {
-					border: 2px solid limegreen;
+					//border: 2px solid limegreen;
 					cursor: pointer;
 				}
 			}
@@ -240,12 +254,12 @@
 	}
 }
 .v-btn--variant-outlined {
-	border: thin solid rgb(var(--v-theme-default));
+	//border: thin solid rgb(var(--v-theme-default));
 }
 
 /* V-ICONS */
 .v-icon {
-	border: 2px solid yellow;
+	//border: 2px solid yellow;
 	//font-size: typeography.$font_size_pc_body;
 }
 

@@ -1,13 +1,14 @@
 <template>
 	<v-navigation-drawer temporary class="bg-accent">
-		<v-list nav variant="text" base-color="white" color="black">
+		<v-list nav variant="text" base-color="white" bg-color="accent" color="white">
 			<v-list-item
 				:prepend-icon="item.icon"
-				:title="item.title.toUpperCase()"
 				:to="item.link"
 				:key="index"
 				v-for="(item, index) in navigation"
-			></v-list-item>
+			>
+			<v-list-item-title>{{ item.title.toUpperCase() }}</v-list-item-title>
+		</v-list-item>
 		</v-list>
 	</v-navigation-drawer>
 </template>

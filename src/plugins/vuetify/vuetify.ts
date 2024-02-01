@@ -53,6 +53,7 @@ import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
 import { light } from "@themes/themes.js";
 
 // Styles
+import "vuetify/styles";
 import "@styles/scss/main.scss";
 
 const vuetify = createVuetify({

@@ -26,7 +26,7 @@
 		</v-card-text>
 
 		<!-- Actions -->
-		<v-card-actions class="pa-4 d-flex" style="border: 2px solid black" :class="actionClass" v-if="btnText">
+		<v-card-actions class="pa-4 d-flex" style="border: 2px solid black" :class="actionClass">
 			<slot name="card-actions"></slot>
 		</v-card-actions>
 	</v-card>
@@ -49,7 +49,6 @@ export default defineComponent({
 		title: { type: String, required: false },
 		subtitle: { type: String, required: false },
 		text: { type: String, required: false },
-		btnText: { type: String, required: false },
 	},
 	computed: {
 		/* Text */

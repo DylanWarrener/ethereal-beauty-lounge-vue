@@ -1,7 +1,6 @@
 <template>
 	<v-app-bar elevation="0" scroll-behavior="hide" color="accent">
 		<!-- APP BAR LEFT -->
-		<!-- <img-container-component></img-container-component> -->
 		<v-card
 			hover
 			exact
@@ -36,7 +35,7 @@
 
 		<!-- APP BAR MIDDLE -->
 		<v-btn
-			class="d-none d-md-flex"
+			class="nav-text__underline d-none d-md-flex"
 			:append-icon="outerItem.icon"
 			:key="index"
 			v-for="(outerItem, index) in navigationNonMobileMenu"
@@ -94,7 +93,6 @@
 
 <script lang="ts">
 import { defineComponent, mergeProps } from "vue";
-import { RouteRecordName } from "vue-router";
 
 // Stores
 import { useCommonStore } from "@plugins/pinia/pinia.js";
@@ -102,7 +100,6 @@ import useHeaderStore from "@stores/store-header.js";
 
 // Components
 import MenuComp from "@components/common/menu/common-menu.vue";
-import ImgComp from "@components/common/img/common-img.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
 import NavigationMobileMenuComp from "@components/uncommon/navigation/uncommon-header-navigation-menu.vue";
@@ -125,7 +122,6 @@ export default defineComponent({
 	name: "header-component",
 	components: {
 		"menu-container-component": MenuComp,
-		"img-container-component": ImgComp,
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,
 		"navigation-mobile-menu-component": NavigationMobileMenuComp,

@@ -1,10 +1,14 @@
 <template>
-	<v-parallax class="parallax" :src="src">
+	<v-parallax class="parallax" :src="src" style="border: 2px solid red">
 		<v-container class="d-flex fill-height">
 			<v-row>
 				<v-col cols="12">
 					<card-container-component class="rounded-shaped" title-class="text-h1">
 						<template #card-title>{{ title }}</template>
+						<template #card-subtitle>{{ subtitle }}</template>
+						<template #card-actions>
+							<v-btn>{{ btnText }}</v-btn>
+						</template>
 					</card-container-component>
 				</v-col>
 			</v-row>
@@ -27,8 +31,9 @@ export default defineComponent({
 		src: { type: String, required: true },
 		title: { type: String, required: true },
 		subtitle: { type: String, required: false },
-		btnID: { type: String, required: true },
 		btnText: { type: String, required: true },
 	},
 });
 </script>
+
+<style lang="scss"></style>
