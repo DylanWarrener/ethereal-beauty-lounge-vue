@@ -88,7 +88,13 @@
 			@toggle-menu-drawer="data_appBarOptionsDrawerState = !data_appBarOptionsDrawerState"
 		></menu-container-component>
 	</v-app-bar>
-	<navigation-mobile-menu-component></navigation-mobile-menu-component>
+	<navigation-container-component
+		class="d-flex d-md-none"
+		location="bottom"
+		:navigation="data_mobileMenuNavigation"
+		v-model="data_appBarMobileMenuDrawerState"
+		v-show="data_appBarMobileMenuDrawerState"
+	></navigation-container-component>
 </template>
 
 <script lang="ts">
@@ -102,7 +108,7 @@ import useHeaderStore from "@stores/store-header.js";
 import MenuComp from "@components/common/menu/common-menu.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
-import NavigationMobileMenuComp from "@components/uncommon/navigation/uncommon-header-navigation-menu.vue";
+import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 
 // Interfaces
@@ -124,8 +130,8 @@ export default defineComponent({
 		"menu-container-component": MenuComp,
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,
-		"navigation-mobile-menu-component": NavigationMobileMenuComp,
 		"dialog-login-component": DialogLoginComp,
+		"navigation-container-component": NavigationContainerComp,
 	},
 	computed: {
 		/* Text */
@@ -185,6 +191,9 @@ export default defineComponent({
 		/* Data */
 		data_appBarIcons(): IHeaderAppbarIconsState {
 			return this.storeHeader.getAppBarIcons;
+		},
+		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
+			return this.storeHeader.getNavigationMobileMenuState;
 		},
 		data_appBarMobileMenuDrawerState: {
 			get(): boolean {

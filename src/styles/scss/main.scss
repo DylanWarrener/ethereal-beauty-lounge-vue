@@ -22,26 +22,44 @@ span {
 h1 {
 	font-size: $font_size_mobile_h1;
 	line-height: $font_line_height_mobile_h1;
+	padding: $font_size_mobile_h1;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 h2 {
 	font-size: $font_size_mobile_h2;
 	line-height: $font_line_height_mobile_h2;
+	padding: $font_size_mobile_h2;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 h3 {
 	font-size: $font_size_mobile_h3;
 	line-height: $font_line_height_mobile_h3;
+	padding: $font_size_mobile_h3;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 h4 {
 	font-size: $font_size_mobile_h4;
 	line-height: $font_line_height_mobile_h4;
+	padding: $font_size_mobile_h4;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 h5 {
 	font-size: $font_size_mobile_h5;
 	line-height: $font_line_height_mobile_h5;
+	padding: $font_size_mobile_h5;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 h6 {
 	font-size: $font_size_mobile_h6;
 	line-height: $font_line_height_mobile_h6;
+	padding: $font_size_mobile_h6;
+	text-align: center;
+	color: rgb(var(--v-theme-white));
 }
 
 /* V-LAYOUT */
@@ -115,12 +133,6 @@ h6 {
 	border: 2px solid red;
 	display: flex;
 	flex-direction: column;
-
-	/* V-PARALLAX */
-	.v-parallax {
-		min-height: 100vh;
-		max-height: 100vh;
-	}
 }
 
 /* V-INPUT */
@@ -361,6 +373,10 @@ h6 {
 		.v-card-item__content {
 			.v-card-title {
 			}
+
+			.v-card-subtitle {
+				opacity: 1;
+			}
 		}
 	}
 
@@ -424,37 +440,34 @@ h6 {
 	h1 {
 		font-size: $font_size_tablet_h1;
 		line-height: $font_line_height_tablet_h1;
+		padding: $font_size_tablet_h1;
 	}
 	h2 {
 		font-size: $font_size_tablet_h2;
 		line-height: $font_line_height_tablet_h2;
+		padding: $font_size_tablet_h2;
 	}
 	h3 {
 		font-size: $font_size_tablet_h3;
 		line-height: $font_line_height_tablet_h3;
+		padding: $font_size_tablet_h3;
 	}
 	h4 {
 		font-size: $font_size_tablet_h4;
 		line-height: $font_line_height_tablet_h4;
+		padding: $font_size_tablet_h4;
 	}
 	h5 {
 		font-size: $font_size_tablet_h5;
 		line-height: $font_line_height_tablet_h5;
+		padding: $font_size_tablet_h5;
 	}
 	h6 {
 		font-size: $font_size_tablet_h6;
 		line-height: $font_line_height_tablet_h6;
+		padding: $font_size_tablet_h6;
 	}
 
-	.v-list {
-		.v-list-item {
-			.v-list-item__content {
-				.v-list-item-title {
-					font-size: $font_size_tablet_body !important;
-				}
-			}
-		}
-	}
 	.v-tooltip {
 		.v-overlay__content {
 			font-size: $font_size_tablet_body !important;
@@ -495,15 +508,6 @@ h6 {
 		line-height: $font_line_height_tablet_laptop_h6;
 	}
 
-	.v-list {
-		.v-list-item {
-			.v-list-item__content {
-				.v-list-item-title {
-					font-size: $font_size_tablet_laptop_body !important;
-				}
-			}
-		}
-	}
 	.v-tooltip {
 		.v-overlay__content {
 			font-size: $font_size_tablet_laptop_body !important;
@@ -544,15 +548,6 @@ h6 {
 		line-height: $font_line_height_laptop_desktop_h6;
 	}
 
-	.v-list {
-		.v-list-item {
-			.v-list-item__content {
-				.v-list-item-title {
-					font-size: $font_size_laptop_desktop_body !important;
-				}
-			}
-		}
-	}
 	.v-tooltip {
 		.v-overlay__content {
 			font-size: $font_size_laptop_desktop_body !important;
@@ -593,15 +588,6 @@ h6 {
 		line-height: $font_line_height_desktop_h6;
 	}
 
-	.v-list {
-		.v-list-item {
-			.v-list-item__content {
-				.v-list-item-title {
-					font-size: $font_size_desktop_body !important;
-				}
-			}
-		}
-	}
 	.v-tooltip {
 		.v-overlay__content {
 			font-size: $font_size_desktop_body !important;
@@ -642,15 +628,6 @@ h6 {
 		line-height: $font_line_height_desktop_wide_h6;
 	}
 
-	.v-list {
-		.v-list-item {
-			.v-list-item__content {
-				.v-list-item-title {
-					font-size: $font_size_desktop_wide_body !important;
-				}
-			}
-		}
-	}
 	.v-tooltip {
 		.v-overlay__content {
 			font-size: $font_size_desktop_wide_body !important;

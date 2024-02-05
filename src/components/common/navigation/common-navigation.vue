@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer temporary class="bg-accent">
+	<v-navigation-drawer temporary class="bg-accent" :class="class_drawer">
 		<v-list nav variant="text" base-color="white" bg-color="accent" color="white">
 			<v-list-item
 				:prepend-icon="item.icon"
@@ -7,8 +7,8 @@
 				:key="index"
 				v-for="(item, index) in navigation"
 			>
-			<v-list-item-title>{{ item.title.toUpperCase() }}</v-list-item-title>
-		</v-list-item>
+				<v-list-item-title>{{ item.title.toUpperCase() }}</v-list-item-title>
+			</v-list-item>
 		</v-list>
 	</v-navigation-drawer>
 </template>
@@ -22,6 +22,7 @@ import { IHeaderNavigationCommonItemState } from "@declarations/common/header/in
 export default defineComponent({
 	name: "navigation-container",
 	props: {
+		class_drawer: { type: String, required: false, },
 		navigation: { type: Array<IHeaderNavigationCommonItemState>, required: true },
 	},
 });
