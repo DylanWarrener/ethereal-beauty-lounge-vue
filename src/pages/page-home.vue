@@ -40,21 +40,24 @@
 				<card-container-component variant="flat" class="mx-auto" style="border: 4px solid yellow">
 					<template #card-img>
 						<v-container fluid style="border: 4px solid red">
-							<v-row dense class="d-flex flex-row" style="border: 4px solid green">
-								
-
-
-								<v-col class="d-flex flex-column justify-start align-center" style="max-width: 300px; border: 4px solid black">
-									<v-img cover src="temp_portfolio_1.jpg" width="100" style="border: 4px solid orange"></v-img>
-									<v-img cover src="temp_portfolio_1.jpg" style="border: 4px solid orange"></v-img>
+							<v-row dense style="border: 4px solid green">
+								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
+									<v-card class="clickable" to="treatments" image="temp_portfolio_2.jpg" width="100%" height="300"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_5.jpg" width="100%" height="800"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_1.jpg" width="100%" height="300"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_1.jpg" width="100%" height="800"></v-card>
 								</v-col>
-								<v-col class="d-flex flex-column justify-start align-center" style="max-width: 300px; border: 4px solid black">
-									<v-img cover src="temp_portfolio_1.jpg" style="border: 4px solid orange"></v-img>
-									<v-img cover src="temp_portfolio_1.jpg" style="border: 4px solid orange"></v-img>
+								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
+									<v-card class="clickable" to="treatments" image="temp_portfolio_3.jpg" width="100%" height="800"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_4.jpg" width="100%" height="300"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_1.jpg" width="100%" height="800"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_1.jpg" width="100%" height="300"></v-card>
 								</v-col>
-								<v-col class="d-flex flex-column justify-start align-center" style="max-width: 300px; border: 4px solid black">
-									<v-img cover src="temp_portfolio_1.jpg" style="border: 4px solid orange"></v-img>
-									<v-img cover src="temp_portfolio_1.jpg" style="border: 4px solid orange"></v-img>
+								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
+									<v-card class="clickable" to="treatments" image="temp_portfolio_5.jpg" width="100%" height="300"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_1.jpg" width="100%" height="800"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_3.jpg" width="100%" height="300"></v-card>
+									<v-card class="clickable" to="treatments" image="temp_portfolio_3.jpg" width="100%" height="800"></v-card>
 								</v-col>
 							</v-row>
 						</v-container>
