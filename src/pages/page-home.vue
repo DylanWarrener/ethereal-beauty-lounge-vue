@@ -8,9 +8,7 @@
 							<template #card-headings>
 								<v-card-item class="pa-4">
 									<v-card-title class="text-wrap" style="border: 2px solid green">
-										<h1>
-											Where Beauty Radiates With Delicacy
-										</h1>
+										<h1>Where Beauty Radiates With Delicacy</h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap" style="border: 2px solid blue">
 										<h3>
@@ -18,11 +16,17 @@
 										</h3>
 									</v-card-subtitle>
 								</v-card-item>
-							</template>	
+							</template>
 							<template #card-actions>
 								<v-card-actions class="pa-4" style="border: 2px solid red">
 									<v-spacer></v-spacer>
-									<v-btn variant="flat" size="large" color="accent" text="Book now"></v-btn>
+									<v-btn
+										variant="flat"
+										size="large"
+										color="accent"
+										text="Book now"
+										@click="scrollToElement"
+									></v-btn>
 								</v-card-actions>
 							</template>
 						</card-container-component>
@@ -31,260 +35,28 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-
-	<section-container-component class="bg-accent" title="Letting Beauty Take Flight So You Don't Have To">
+	<section-container-component
+		id="section-home"
+		class="bg-accent"
+		title="Letting Beauty Take Flight So You Don't Have To"
+	>
 		<template #section-content>
-
+			<card-grid-container-component></card-grid-container-component>
 		</template>
 	</section-container-component>
-
-	<v-container fluid class="bg-accent" style="border: 4px solid red">
-		<v-row dense style="border: 4px solid green">
-			<v-col cols="12" style="border: 4px solid blue">
-				<h2 style="border: 4px solid purple">
-					Letting Beauty Take Flight So You Don't Have To
-				</h2>
-				<card-container-component variant="flat" class="mx-auto" style="border: 4px solid yellow">
-					<template #card-img>
-						<v-container fluid style="border: 4px solid red">
-							<v-row dense class="image_grid" style="border: 4px solid green">
-								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_2.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_5.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_1.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_1.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-								</v-col>
-								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_3.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_4.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_1.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_1.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-								</v-col>
-								<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_5.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_1.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_3.jpg" 
-											width="100%" 
-											height="300" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-									<v-hover v-slot="{ isHovering, props }">
-										<v-card 
-											hover 
-											class="d-flex justify-center align-center clickable" 
-											to="treatments" 
-											image="temp_portfolio_3.jpg" 
-											width="100%" 
-											height="800" 
-											:class="{ 'on-hover': isHovering }"
-											:elevation="isHovering ? 12 : 2"
-											v-bind="props">
-											<v-expand-transition>
-												<div class="d-flex transition-fast-in-fast-out v-card--reveal" v-if="isHovering">
-													<v-btn variant="flat" size="large" color="accent" text="See treatments"></v-btn>
-												</div>
-											</v-expand-transition>
-										</v-card>
-									</v-hover>
-								</v-col>
-							</v-row>
-						</v-container>
-					</template>
-				</card-container-component>
-			</v-col>
-		</v-row>
-	</v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Stores
+import { useCommonStore } from "@plugins/pinia/pinia.js";
+
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
+import SectionContainerComp from "@components/common/section/common-section.vue";
+import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -294,12 +66,33 @@ export default defineComponent({
 	components: {
 		"canvas-container-component": CanvasContainerComp,
 		"card-container-component": CardContainerComp,
+		"section-container-component": SectionContainerComp,
+		"card-grid-container-component": CardGridContainerComp,
 	},
 	computed: {
 		/* IMGs */
 		canvasIMG(): string {
 			return CanvasPNG;
 		},
+
+		/* Data */
+		appBarHeight(): number {
+			return this.storeCommon.getAppBarHeight;
+		},
+	},
+	methods: {
+		scrollToElement(): void {
+			const targetElementID: HTMLDivElement = document.getElementById("section-home") as HTMLDivElement;
+
+			window.scrollTo({
+				top: targetElementID!.offsetTop - this.appBarHeight,
+				behavior: "smooth",
+			});
+		},
+	},
+	setup() {
+		const storeCommon = useCommonStore();
+		return { storeCommon };
 	},
 });
 </script>

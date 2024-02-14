@@ -15,6 +15,7 @@ import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-co
 // Main store
 export const useCommonStore = defineStore("common-store", {
 	state: (): ICommonState => ({
+		appBarHeight: 64,
 		dialog: {
 			default: {
 				icons: {
@@ -31,6 +32,8 @@ export const useCommonStore = defineStore("common-store", {
 		},
 	}),
 	getters: {
+		/* App bar */
+		getAppBarHeight: (state: ICommonState): number => state.appBarHeight,
 		/* Dialog */
 		getDialogDefaultState: (state: ICommonState): IDialogDefaultState => state.dialog.default,
 		// Login

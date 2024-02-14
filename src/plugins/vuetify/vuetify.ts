@@ -11,6 +11,7 @@ import {
 	VMenu,
 	VList,
 	VListItem,
+	VListItemTitle,
 	VListSubheader,
 	VMain,
 	VContainer,
@@ -41,6 +42,10 @@ import {
 	VDatePicker,
 	VDialog,
 	VToolbar,
+	VChip,
+	VChipGroup,
+	VItem,
+	VItemGroup,
 	VFooter,
 } from "vuetify/components";
 import { VExpandTransition } from "vuetify/components/transitions";
@@ -78,6 +83,7 @@ const vuetify = createVuetify({
 		VMenu,
 		VList,
 		VListItem,
+		VListItemTitle,
 		VListSubheader,
 		VMain,
 		VContainer,
@@ -108,6 +114,10 @@ const vuetify = createVuetify({
 		VDatePicker,
 		VDialog,
 		VToolbar,
+		VChip,
+		VChipGroup,
+		VItem,
+		VItemGroup,
 		VFooter,
 
 		// Transitions

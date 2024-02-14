@@ -93,7 +93,6 @@
 		location="bottom"
 		:navigation="data_mobileMenuNavigation"
 		v-model="data_appBarMobileMenuDrawerState"
-		v-show="data_appBarMobileMenuDrawerState"
 	></navigation-container-component>
 </template>
 

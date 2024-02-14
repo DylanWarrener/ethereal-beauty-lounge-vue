@@ -67,7 +67,14 @@ h6 {
 
 /* V-LAYOUT */
 .v-layout {
-	border: 2px solid black;
+	border: 2px solid orange;
+	display: flex;
+	flex-direction: column;
+}
+
+/* V-MAIN */
+.v-main {
+	border: 2px solid red;
 	display: flex;
 	flex-direction: column;
 }
@@ -129,13 +136,6 @@ h6 {
 	.v-overlay__content {
 		font-size: $font_size_mobile_body !important;
 	}
-}
-
-/* V-MAIN */
-.v-main {
-	border: 2px solid red;
-	display: flex;
-	flex-direction: column;
 }
 
 /* V-INPUT */
