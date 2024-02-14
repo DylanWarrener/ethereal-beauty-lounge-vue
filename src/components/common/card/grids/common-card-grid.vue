@@ -1,44 +1,5 @@
 <template>
-	<canvas-container-component :src="canvasIMG">
-		<template #canvas-content>
-			<v-container fluid class="pa-4 fill-height" style="border: 2px solid black">
-				<v-row dense class="d-flex justify-center" style="border: 2px solid purple">
-					<v-col cols="12" md="8" style="border: 2px solid orange">
-						<card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
-							<template #card-headings>
-								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap" style="border: 2px solid green">
-										<h1>
-											Where Beauty Radiates With Delicacy
-										</h1>
-									</v-card-title>
-									<v-card-subtitle class="text-wrap" style="border: 2px solid blue">
-										<h3>
-											Transform your look with our non-invasive treatments for the face & body.
-										</h3>
-									</v-card-subtitle>
-								</v-card-item>
-							</template>	
-							<template #card-actions>
-								<v-card-actions class="pa-4" style="border: 2px solid red">
-									<v-spacer></v-spacer>
-									<v-btn variant="flat" size="large" color="accent" text="Book now"></v-btn>
-								</v-card-actions>
-							</template>
-						</card-container-component>
-					</v-col>
-				</v-row>
-			</v-container>
-		</template>
-	</canvas-container-component>
-
-	<section-container-component class="bg-accent" title="Letting Beauty Take Flight So You Don't Have To">
-		<template #section-content>
-
-		</template>
-	</section-container-component>
-
-	<v-container fluid class="bg-accent" style="border: 4px solid red">
+    <v-container fluid class="bg-accent" style="border: 4px solid red">
 		<v-row dense style="border: 4px solid green">
 			<v-col cols="12" style="border: 4px solid blue">
 				<h2 style="border: 4px solid purple">
@@ -282,24 +243,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Components
-import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
-import CardContainerComp from "@components/common/card/common-card.vue";
-
-// IMGs
-import CanvasPNG from "@assets/jpg/temp.jpg";
-
 export default defineComponent({
-	name: "home-page-component",
-	components: {
-		"canvas-container-component": CanvasContainerComp,
-		"card-container-component": CardContainerComp,
-	},
-	computed: {
-		/* IMGs */
-		canvasIMG(): string {
-			return CanvasPNG;
-		},
-	},
+	name: "card-grid-container-component",
 });
 </script>
+
+<style scoped lang="scss">
+.image_grid {
+	.v-card {
+		transition: opacity .4s ease-in-out;
+	}
+
+	.v-card:not(.on-hover) {
+		opacity: 0.6;
+	}
+}
+</style>

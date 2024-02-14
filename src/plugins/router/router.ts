@@ -3,8 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 // Constants
 import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
-// Child components -> dynamically imported (only imported when requested to reduce bundle size)
-const Home = () => import("@pages/page-home.vue");
+// Routes to be loaded straight away
+import Home from "@pages/page-home.vue";
+
+// Routes to be loaded when used (dynamic)
 const Treatments = () => import("@pages/page-treatments.vue");
 const Portfolio = () => import("@pages/page-portfolio.vue");
 const Store = () => import("@pages/page-store.vue");
