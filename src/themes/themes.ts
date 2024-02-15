@@ -17,6 +17,8 @@ const colours = {
 export const light = {
 	dark: false,
 	colors: {
+		default: colours.white,
+		inverted: colours.black,
 		primary: colours.black,
 		secondary: colours.white,
 		accent: colours.accent,

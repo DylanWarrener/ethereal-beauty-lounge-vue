@@ -33,30 +33,36 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<section-container-component id="section-treatments" class="bg-accent" title="All Online Appointments">
+	<section-container-component id="section-treatments" class="bg-default" title="All Online Appointments">
 		<template #section-content>
-			<v-container fluid style="border: 2px solid black">
+			<v-container fluid class="text-inverted" style="border: 2px solid black">
 				<v-row dense style="border: 2px solid red">
-					The selected chips: {{ data_selectedChips }}
+					<p>The selected chips: {{ data_selectedChips }}</p>
 					<!-- Filter options -->
 					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet class="w-100 d-flex flex-wrap justify-center align-center bg-accent" elevation="0">
-							<v-chip-group	
-								filter
-								mandatory
-								selected-class="text-black"
-								v-model="data_selectedChips"
-							>
-								<v-chip :key="index" v-for="(treatment, index) in data_treatmentCategories">{{ treatment }}</v-chip>
+						<v-sheet class="w-100 d-flex flex-wrap justify-center align-center" elevation="0">
+							<v-chip-group filter mandatory selected-class="text-accent" v-model="data_selectedChips">
+								<v-chip
+									class="bg-default"
+									:key="index"
+									v-for="(treatment, index) in data_treatmentCategories"
+								>
+									{{ treatment }}
+								</v-chip>
 							</v-chip-group>
 						</v-sheet>
 					</v-col>
 					<!-- Treatment options -->
 					<v-col style="border: 2px solid blue">
-						<v-item-group selected-class="bg-primary" style="border: 2px solid black">
+						<v-item-group selected-class="bg-default" style="border: 2px solid black">
 							<v-container fluid style="border: 2px solid red">
 								<v-row dense class="d-flex justify-center align-center" style="border: 2px solid green">
-									<v-col class="d-flex justify-center align-center" style="min-width: 400px; max-width: 600px; border: 2px solid yellow" :key="index" v-show="treatment.treatmentCategory === data_selectedChips" v-for="(treatment, index) in data_treatmentTypes">
+									<v-col
+										class="d-flex justify-center align-center"
+										style="min-width: 400px; max-width: 400px; min-height: 200px"
+										:key="index"
+										v-for="(treatment, index) in data_treatmentTypes"
+									>
 										<v-item v-slot="{ isSelected, selectedClass, toggle }">
 											<v-card
 												variant="outlined"
@@ -67,19 +73,26 @@
 											>
 												<v-card-item>
 													<v-card-title class="text-wrap" style="border: 2px solid green">
-														<h4>{{ treatment.title }}</h4>
+														<h4 class="text-inverted">{{ treatment.title }}</h4>
 													</v-card-title>
-													<v-card-subtitle class="text-wrap text-center" style="border: 2px solid blue">
-														<p>{{ treatment.subtitle.timeToComplete }} mins | Consultation - {{ treatment.subtitle.consultationPrice === 0 ? "Free" : treatment.subtitle.consultationPrice }}</p>
+													<v-card-subtitle
+														class="text-wrap text-center"
+														style="border: 2px solid blue"
+													>
+														<span class="text-inverted">
+															{{ treatment.time }} mins | Consultation -
+															{{
+																treatment.price.consultation === 0
+																	? "Free"
+																	: `£${treatment.price.consultation}`
+															}}
+														</span>
 													</v-card-subtitle>
 												</v-card-item>
 												<!-- <v-btn variant="text">Book</v-btn> -->
 												<!-- <v-scroll-y-transition>
 													<h3>{{ isSelected ? "Selected" : "Click Me!" }}</h3>
 												</v-scroll-y-transition> -->
-												<p>Treatment type: {{  treatment.treatmentCategory }}</p>
-												<p>Is selected chip = 0? {{ data_selectedChips === 0 }}</p>
-												<p>Is selected chip the same as treatment type? {{ treatment.treatmentCategory === data_selectedChips }}</p>
 											</v-card>
 										</v-item>
 									</v-col>
@@ -119,120 +132,310 @@ export default defineComponent({
 			data_treatmentCategories: [
 				"All treatments",
 				"Non Surgical Body Treatments",
-				"Non Surgical Face Treatments / Facials",
-				"Sauna Blanket & Wraps",
+				"Non Surgical Face Treatments",
+				"Body Treatments",
 				"Additional Treatments",
+				"Packages",
 			],
-			data_treatmentTypes: {
-				brazilianBootyLift: {
+			data_treatmentTypes: [
+				{
 					title: "Brazilian Booty Lift",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [125, 350, 499],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				tummyTuck: {
+				{
 					title: "Tummy Tuck",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [125, 350, 499],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				bingoWingRemoval: {
-					title: "Bingo Wing Removal",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Love Handles Removal",
+					price: {
+						consultation: 0,
+						treatment: [110, 300, 439],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				thighGaps: {
-					title: "Thigh Gap",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Bra Fat Removal",
+					price: {
+						consultation: 0,
+						treatment: [110, 300, 439],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				frontThigh: {
-					title: "Front Thigh",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Bingo Wings Removal",
+					price: {
+						consultation: 0,
+						treatment: [90, 250, 359],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				braFat: {
-					title: "Bra Fat",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Thigh Gap Removal",
+					price: {
+						consultation: 0,
+						treatment: [100, 275, 399],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				loveHandles: {
-					title: "Love Handles",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Front Thigh Removal",
+					price: {
+						consultation: 0,
+						treatment: [100, 275, 399],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				calves: {
+				{
 					title: "Calves",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [90, 250, 359],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				breastLift: {
+				{
 					title: "Breast Lift",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [60, 160, 239],
 					},
+					time: 15,
 					treatmentCategory: 1,
 				},
-				brazilianFaceLift: {
+				{
+					title: "Breast Lift +",
+					price: {
+						consultation: 0,
+						treatment: [90, 250, 359],
+					},
+					time: 15,
+					treatmentCategory: 1,
+				},
+				{
 					title: "Brazilian Face Lift",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [110, 300, 549],
 					},
+					time: 15,
 					treatmentCategory: 2,
 				},
-				brazilianFaceLiftPlus: {
+				{
 					title: "Brazilian Face Lift +",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+					price: {
+						consultation: 0,
+						treatment: [130, 360, 649],
 					},
+					time: 15,
 					treatmentCategory: 2,
 				},
-				eblFacial: {
-					title: "EBL Facial",
-					subtitle: {
-						timeToComplete: 15,
-						consultationPrice: 0,
-						treatmentPrice: 0,
+				{
+					title: "Jaw + Double Chin",
+					price: {
+						consultation: 0,
+						treatment: [70, 180, 349],
 					},
+					time: 15,
 					treatmentCategory: 2,
 				},
-			},
+				{
+					title: "Jaw + Cheek Sculpt",
+					price: {
+						consultation: 0,
+						treatment: [65, 170, 325],
+					},
+					time: 15,
+					treatmentCategory: 2,
+				},
+				{
+					title: "Full Face Rejuvenation",
+					price: {
+						consultation: 0,
+						treatment: [65, 170, 325],
+					},
+					time: 15,
+					treatmentCategory: 2,
+				},
+				{
+					title: "Wrinkle Reduction",
+					price: {
+						consultation: 0,
+						treatment: [40, 100, 199],
+					},
+					time: 15,
+					treatmentCategory: 2,
+				},
+				{
+					title: "Chest Add On",
+					price: {
+						consultation: 0,
+						treatment: [20, 50, 80],
+					},
+					time: 15,
+					treatmentCategory: 2,
+				},
+				{
+					title: "Brow Lift",
+					price: {
+						consultation: 0,
+						treatment: [10, 25, 40],
+					},
+					time: 15,
+					treatmentCategory: 2,
+				},
+				{
+					title: "Detox Body Wrap",
+					price: {
+						consultation: 0,
+						treatment: [20, 50, 80],
+					},
+					time: 15,
+					treatmentCategory: 3,
+				},
+				{
+					title: "Lipo Lean Body Wrap",
+					price: {
+						consultation: 0,
+						treatment: [30, 80, 130],
+					},
+					time: 15,
+					treatmentCategory: 3,
+				},
+				{
+					title: "Sauna Blanket Detox",
+					price: {
+						consultation: 0,
+						treatment: [60, 170, 270],
+					},
+					time: 15,
+					treatmentCategory: 3,
+				},
+				{
+					title: "Sauna Blanket Lipo Lean Body Wrap",
+					price: {
+						consultation: 0,
+						treatment: [80, 220, 360],
+					},
+					time: 15,
+					treatmentCategory: 3,
+				},
+				{
+					title: "Sauna Blanket Add On With Any Other Treatment",
+					price: {
+						consultation: 0,
+						treatment: [20, 50, 80],
+					},
+					time: 15,
+					treatmentCategory: 3,
+				},
+				{
+					title: "Skin Tightening",
+					price: {
+						consultation: 0,
+						treatment: [60, 150, 239],
+					},
+					time: 30,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Skin Tightening",
+					price: {
+						consultation: 0,
+						treatment: [90, 240, 359],
+					},
+					time: 60,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Stretch Mark Reduction",
+					price: {
+						consultation: 0,
+						treatment: [50, 120, 249],
+					},
+					time: 30,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Cellulite Blasting",
+					price: {
+						consultation: 0,
+						treatment: [60, 150, 239],
+					},
+					time: 30,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Cellulite Blasting",
+					price: {
+						consultation: 0,
+						treatment: [90, 240, 359],
+					},
+					time: 60,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Fat Melting",
+					price: {
+						consultation: 0,
+						treatment: [50, 120, 249],
+					},
+					time: 30,
+					treatmentCategory: 4,
+				},
+				{
+					title: "Fat Melting",
+					price: {
+						consultation: 0,
+						treatment: [90, 240, 359],
+					},
+					time: 60,
+					treatmentCategory: 4,
+				},
+				{
+					title: "360 Treatment (Tummy, Lower Back, Hip Melt)",
+					price: {
+						consultation: 0,
+						treatment: [250, 625, 999],
+					},
+					time: 15,
+					treatmentCategory: 5,
+				},
+				{
+					title: "Legs For Days (Booty, Thigh Gap, Front Thigh)",
+					price: {
+						consultation: 0,
+						treatment: [250, 625, 999],
+					},
+					time: 15,
+					treatmentCategory: 5,
+				},
+				{
+					title: "EBL Special (Booty, Tummy, Upper / Lower Back)",
+					price: {
+						consultation: 0,
+						treatment: [300, 750, 1199],
+					},
+					time: 15,
+					treatmentCategory: 5,
+				},
+			],
 			data_selectedChips: 0,
 		};
 	},
@@ -245,7 +448,7 @@ export default defineComponent({
 		/* Data */
 		data_appBarHeight(): number {
 			return this.storeCommon.getAppBarHeight;
-		}
+		},
 	},
 	methods: {
 		/* Utils */
