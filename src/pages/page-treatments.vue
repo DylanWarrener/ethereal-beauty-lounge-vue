@@ -1,5 +1,5 @@
 <template>
-	<canvas-container-component :src="canvasIMG">
+	<canvas-container-component :src="img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height" style="border: 2px solid black">
 				<v-row dense class="d-flex justify-center" style="border: 2px solid purple">
@@ -37,18 +37,17 @@
 		<template #section-content>
 			<v-container fluid style="border: 2px solid black">
 				<v-row dense style="border: 2px solid red">
+					The selected chips: {{ data_selectedChips }}
 					<!-- Filter options -->
 					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet class="py-4 px-1 w-100 d-flex justify-center align-center bg-accent" elevation="0">
-							<v-chip-group
+						<v-sheet class="w-100 d-flex flex-wrap justify-center align-center bg-accent" elevation="0">
+							<v-chip-group	
 								filter
-								multiple
+								mandatory
 								selected-class="text-black"
-								:key="index"
 								v-model="data_selectedChips"
-								v-for="(treatment, index) in data_treatmentCategories"
 							>
-								<v-chip>{{ treatment }}</v-chip>
+								<v-chip :key="index" v-for="(treatment, index) in data_treatmentCategories">{{ treatment }}</v-chip>
 							</v-chip-group>
 						</v-sheet>
 					</v-col>
@@ -56,32 +55,31 @@
 					<v-col style="border: 2px solid blue">
 						<v-item-group selected-class="bg-primary" style="border: 2px solid black">
 							<v-container fluid style="border: 2px solid red">
-								<v-row dense style="border: 2px solid green">
-									<v-col>
+								<v-row dense class="d-flex justify-center align-center" style="border: 2px solid green">
+									<v-col class="d-flex justify-center align-center" style="min-width: 400px; max-width: 600px; border: 2px solid yellow" :key="index" v-show="treatment.treatmentCategory === data_selectedChips" v-for="(treatment, index) in data_treatmentTypes">
 										<v-item v-slot="{ isSelected, selectedClass, toggle }">
 											<v-card
 												variant="outlined"
-												:class="[
-													'd-flex flex-column justify-center align-center',
-													selectedClass,
-												]"
+												class="w-100 d-flex flex-column justify-center align-center"
+												:class="selectedClass"
 												height="200"
 												@click="toggle"
 											>
 												<v-card-item>
 													<v-card-title class="text-wrap" style="border: 2px solid green">
-														<h4>Where Beauty Radiates With Delicacy</h4>
+														<h4>{{ treatment.title }}</h4>
 													</v-card-title>
-													<v-card-subtitle class="text-wrap" style="border: 2px solid blue">
-														<p>
-															Transform your look with our non-invasive treatments for the
-															face & body.
-														</p>
+													<v-card-subtitle class="text-wrap text-center" style="border: 2px solid blue">
+														<p>{{ treatment.subtitle.timeToComplete }} mins | Consultation - {{ treatment.subtitle.consultationPrice === 0 ? "Free" : treatment.subtitle.consultationPrice }}</p>
 													</v-card-subtitle>
 												</v-card-item>
+												<!-- <v-btn variant="text">Book</v-btn> -->
 												<!-- <v-scroll-y-transition>
 													<h3>{{ isSelected ? "Selected" : "Click Me!" }}</h3>
 												</v-scroll-y-transition> -->
+												<p>Treatment type: {{  treatment.treatmentCategory }}</p>
+												<p>Is selected chip = 0? {{ data_selectedChips === 0 }}</p>
+												<p>Is selected chip the same as treatment type? {{ treatment.treatmentCategory === data_selectedChips }}</p>
 											</v-card>
 										</v-item>
 									</v-col>
@@ -119,6 +117,7 @@ export default defineComponent({
 	data() {
 		return {
 			data_treatmentCategories: [
+				"All treatments",
 				"Non Surgical Body Treatments",
 				"Non Surgical Face Treatments / Facials",
 				"Sauna Blanket & Wraps",
@@ -132,8 +131,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				tummyTuck: {
 					title: "Tummy Tuck",
@@ -142,8 +140,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				bingoWingRemoval: {
 					title: "Bingo Wing Removal",
@@ -152,8 +149,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				thighGaps: {
 					title: "Thigh Gap",
@@ -162,8 +158,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				frontThigh: {
 					title: "Front Thigh",
@@ -172,8 +167,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				braFat: {
 					title: "Bra Fat",
@@ -182,8 +176,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				loveHandles: {
 					title: "Love Handles",
@@ -192,8 +185,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				calves: {
 					title: "Calves",
@@ -202,8 +194,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				breastLift: {
 					title: "Breast Lift",
@@ -212,8 +203,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 1,
 				},
 				brazilianFaceLift: {
 					title: "Brazilian Face Lift",
@@ -222,8 +212,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 2,
 				},
 				brazilianFaceLiftPlus: {
 					title: "Brazilian Face Lift +",
@@ -232,8 +221,7 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 2,
 				},
 				eblFacial: {
 					title: "EBL Facial",
@@ -242,30 +230,30 @@ export default defineComponent({
 						consultationPrice: 0,
 						treatmentPrice: 0,
 					},
-					btnText: "",
-					treatmentCategory: 0,
+					treatmentCategory: 2,
 				},
 			},
-			data_selectedChips: [],
+			data_selectedChips: 0,
 		};
 	},
 	computed: {
 		/* IMGs */
-		canvasIMG(): string {
+		img_canvas(): string {
 			return CanvasPNG;
 		},
 
 		/* Data */
-		appBarHeight(): number {
+		data_appBarHeight(): number {
 			return this.storeCommon.getAppBarHeight;
-		},
+		}
 	},
 	methods: {
+		/* Utils */
 		scrollToElement(): void {
 			const targetElementID: HTMLDivElement = document.getElementById("section-treatments") as HTMLDivElement;
 
 			window.scrollTo({
-				top: targetElementID!.offsetTop - this.appBarHeight,
+				top: targetElementID!.offsetTop - this.data_appBarHeight,
 				behavior: "smooth",
 			});
 		},

@@ -431,6 +431,12 @@ h6 {
 	}
 }
 
+/* V-CHIPS */
+.v-chip__content {
+	font-size: $font_size_mobile_body;
+	line-height: $font_line_height_mobile_body;
+}
+
 /* MEDIA QUERIES */
 // TABLET (SMALL - MEDIUM) - 600px >< 960px
 @media only screen and (min-width: $screen_mobile_small_to_large) {
@@ -473,8 +479,13 @@ h6 {
 
 	.v-tooltip {
 		.v-overlay__content {
-			font-size: $font_size_tablet_body !important;
+			font-size: $font_size_tablet_body;
+			line-height: $font_line_height_tablet_body;
 		}
+	}
+	.v-chip__content {
+		font-size: $font_size_tablet_body;
+		line-height: $font_line_height_tablet_body;
 	}
 }
 
@@ -513,8 +524,13 @@ h6 {
 
 	.v-tooltip {
 		.v-overlay__content {
-			font-size: $font_size_tablet_laptop_body !important;
+			font-size: $font_size_tablet_laptop_body;
+			line-height: $font_line_height_tablet_laptop_body;
 		}
+	}
+	.v-chip__content {
+		font-size: $font_size_tablet_laptop_body;
+		line-height: $font_line_height_tablet_laptop_body;
 	}
 }
 
@@ -553,8 +569,13 @@ h6 {
 
 	.v-tooltip {
 		.v-overlay__content {
-			font-size: $font_size_laptop_desktop_body !important;
+			font-size: $font_size_laptop_desktop_body;
+			line-height: $font_line_height_laptop_desktop_body;
 		}
+	}
+	.v-chip__content {
+		font-size: $font_size_laptop_desktop_body;
+		line-height: $font_line_height_laptop_desktop_body;
 	}
 }
 
@@ -593,8 +614,13 @@ h6 {
 
 	.v-tooltip {
 		.v-overlay__content {
-			font-size: $font_size_desktop_body !important;
+			font-size: $font_size_desktop_body;
+			line-height: $font_line_height_desktop_body;
 		}
+	}
+	.v-chip__content {
+		font-size: $font_size_desktop_body;
+		line-height: $font_line_height_desktop_body;
 	}
 }
 
@@ -633,7 +659,12 @@ h6 {
 
 	.v-tooltip {
 		.v-overlay__content {
-			font-size: $font_size_desktop_wide_body !important;
+			font-size: $font_size_desktop_wide_body;
+			line-height: $font_line_height_desktop_wide_body;
 		}
+	}
+	.v-chip__content {
+		font-size: $font_size_desktop_wide_body;
+		line-height: $font_line_height_desktop_wide_body;
 	}
 }
