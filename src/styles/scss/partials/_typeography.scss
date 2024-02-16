@@ -74,29 +74,38 @@ $font_transform_global: none;
 $font_transform_h1: uppercase;
 $font_transform_h2: capitalize;
 $font_transform_h3: capitalize;
+//$font_transform_h4: "";
+//$font_transform_h5: "";
+//$font_transform_h6: "";
 
 /* FONT WEIGHT */
 $font_weight_global: normal;
 $font_weight_h1: bolder;
 $font_weight_h2: bold;
 $font_weight_h3: bold;
-$font_weight_h4: "";
-$font_weight_p: "";
+//$font_weight_h4: "";
+//$font_weight_h5: "";
+//$font_weight_h6: "";
+//$font_weight_p: "";
 
 /* FONT STYLE */
 $font_style_global: normal;
-$font_style_h1: "";
-$font_style_h2: "";
+//$font_style_h1: "";
+//$font_style_h2: "";
 $font_style_h3: italic;
 $font_style_h4: italic;
-$font_style_p: "";
+//$font_style_h5: "";
+//$font_style_h6: "";
+//$font_style_p: "";
 
 /* FONT VARIANT */
 $font_variant_global: normal;
-$font_variant_h1: "";
+//$font_variant_h1: "";
 $font_variant_h2: small-caps;
-$font_variant_h3: "";
-$font_variant_h4: "";
+//$font_variant_h3: "";
+//$font_variant_h4: "";
+//$font_variant_h5: "";
+//$font_variant_h6: "";
 $font_variant_p: common-ligatures tabular-nums;
 
 /* FONT LINE HEIGHT */

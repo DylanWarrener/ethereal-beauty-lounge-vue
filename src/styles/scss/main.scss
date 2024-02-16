@@ -30,6 +30,8 @@ h1 {
 	padding: $font_size_mobile_h1;
 	text-align: center;
 	color: rgb(var(--v-theme-default));
+	text-transform: $font_transform_h1;
+	font-weight: $font_weight_h1;
 }
 h2 {
 	font-size: $font_size_mobile_h2;
@@ -37,6 +39,9 @@ h2 {
 	padding: $font_size_mobile_h2;
 	text-align: center;
 	color: rgb(var(--v-theme-default));
+	text-transform: $font_transform_h2;
+	font-weight: $font_weight_h2;
+	font-variant: $font_variant_h2;
 }
 h3 {
 	font-size: $font_size_mobile_h3;
@@ -44,6 +49,9 @@ h3 {
 	padding: $font_size_mobile_h3;
 	text-align: center;
 	color: rgb(var(--v-theme-default));
+	text-transform: $font_transform_h3;
+	font-weight: $font_weight_h3;
+	font-style: $font_style_h3;
 }
 h4 {
 	font-size: $font_size_mobile_h4;
@@ -51,6 +59,7 @@ h4 {
 	padding: $font_size_mobile_h4;
 	text-align: center;
 	color: rgb(var(--v-theme-default));
+	font-style: $font_style_h4;
 }
 h5 {
 	font-size: $font_size_mobile_h5;
@@ -264,9 +273,7 @@ h6 {
 /* V-BTN */
 .v-btn {
 	//border: 2px solid red;
-	//cursor: pointer;
 	text-transform: uppercase;
-	//background-color: transparent;
 	//color: rgb(var(--v-theme-default));
 
 	&:hover {

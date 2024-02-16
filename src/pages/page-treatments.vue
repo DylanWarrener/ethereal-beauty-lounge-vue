@@ -33,17 +33,26 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<section-container-component id="section-treatments" class="bg-default" title="All Online Appointments">
+	<section-container-component
+		id="section-treatments"
+		class="bg-default"
+		class_title="text-inverted"
+		title="All Online Appointments"
+	>
 		<template #section-content>
 			<v-container fluid class="text-inverted" style="border: 2px solid black">
 				<v-row dense style="border: 2px solid red">
-					<p>The selected chips: {{ data_selectedChips }}</p>
+					<p style="color: rgb(var(--v-theme-inverted))">The selected chips: {{ data_selectedChips }}</p>
 					<!-- Filter options -->
 					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet class="w-100 d-flex flex-wrap justify-center align-center" elevation="0">
+						<v-sheet
+							class="d-flex flex-wrap justify-center align-center"
+							elevation="0"
+							style="border: 2px solid green"
+						>
 							<v-chip-group filter mandatory selected-class="text-accent" v-model="data_selectedChips">
 								<v-chip
-									class="bg-default"
+									class="bg-default text-capitalize"
 									:key="index"
 									v-for="(treatment, index) in data_treatmentCategories"
 								>
@@ -54,51 +63,63 @@
 					</v-col>
 					<!-- Treatment options -->
 					<v-col style="border: 2px solid blue">
-						<v-item-group selected-class="bg-default" style="border: 2px solid black">
-							<v-container fluid style="border: 2px solid red">
-								<v-row dense class="d-flex justify-center align-center" style="border: 2px solid green">
+						<v-container fluid style="border: 2px solid red">
+							<v-row dense class="d-flex justify-center align-center" style="border: 2px solid green">
+								<template v-for="treatment in data_treatmentTypes">
 									<v-col
-										class="d-flex justify-center align-center"
-										style="min-width: 400px; max-width: 400px; min-height: 200px"
-										:key="index"
-										v-for="(treatment, index) in data_treatmentTypes"
+										cols="12"
+										sm="6"
+										lg="4"
+										xl="3"
+										xxl="2"
+										class="justify-center align-center"
+										:style="{
+											display:
+												treatment.treatmentCategory === data_selectedChips ||
+												data_selectedChips === 0
+													? `flex`
+													: `none`,
+										}"
 									>
-										<v-item v-slot="{ isSelected, selectedClass, toggle }">
-											<v-card
-												variant="outlined"
-												class="w-100 d-flex flex-column justify-center align-center"
-												:class="selectedClass"
-												height="200"
-												@click="toggle"
-											>
-												<v-card-item>
-													<v-card-title class="text-wrap" style="border: 2px solid green">
-														<h4 class="text-inverted">{{ treatment.title }}</h4>
-													</v-card-title>
-													<v-card-subtitle
-														class="text-wrap text-center"
-														style="border: 2px solid blue"
-													>
-														<span class="text-inverted">
-															{{ treatment.time }} mins | Consultation -
-															{{
-																treatment.price.consultation === 0
-																	? "Free"
-																	: `£${treatment.price.consultation}`
-															}}
-														</span>
-													</v-card-subtitle>
-												</v-card-item>
-												<!-- <v-btn variant="text">Book</v-btn> -->
-												<!-- <v-scroll-y-transition>
+										<v-card
+											variant="outlined"
+											class="pa-2 w-100 flex-column justify-space-evenly align-center"
+											:height="treatmentCardHeight"
+											:style="{
+												display:
+													treatment.treatmentCategory === data_selectedChips ||
+													data_selectedChips === 0
+														? `flex`
+														: `none`,
+											}"
+										>
+											<v-card-item>
+												<v-card-title class="text-wrap" style="border: 2px solid green">
+													<h4 class="text-inverted">{{ treatment.title }}</h4>
+												</v-card-title>
+												<v-card-subtitle
+													class="text-wrap text-center"
+													style="border: 2px solid blue"
+												>
+													<span class="text-inverted">
+														{{ treatment.time }} mins | Consultation -
+														{{
+															treatment.price.consultation === 0
+																? "Free"
+																: `£${treatment.price.consultation}`
+														}}
+													</span>
+												</v-card-subtitle>
+											</v-card-item>
+											<v-btn color="accent">Book</v-btn>
+											<!-- <v-scroll-y-transition>
 													<h3>{{ isSelected ? "Selected" : "Click Me!" }}</h3>
 												</v-scroll-y-transition> -->
-											</v-card>
-										</v-item>
+										</v-card>
 									</v-col>
-								</v-row>
-							</v-container>
-						</v-item-group>
+								</template>
+							</v-row>
+						</v-container>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -130,7 +151,7 @@ export default defineComponent({
 	data() {
 		return {
 			data_treatmentCategories: [
-				"All treatments",
+				"All Treatments",
 				"Non Surgical Body Treatments",
 				"Non Surgical Face Treatments",
 				"Body Treatments",
@@ -144,7 +165,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [125, 350, 499],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -153,7 +174,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [125, 350, 499],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -162,7 +183,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [110, 300, 439],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -171,7 +192,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [110, 300, 439],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -180,7 +201,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [90, 250, 359],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -189,7 +210,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [100, 275, 399],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -198,7 +219,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [100, 275, 399],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -207,7 +228,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [90, 250, 359],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -216,7 +237,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [60, 160, 239],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 1,
 				},
 				{
@@ -225,7 +246,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [90, 250, 359],
 					},
-					time: 15,
+					time: 60,
 					treatmentCategory: 1,
 				},
 				{
@@ -234,7 +255,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [110, 300, 549],
 					},
-					time: 15,
+					time: 60,
 					treatmentCategory: 2,
 				},
 				{
@@ -243,7 +264,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [130, 360, 649],
 					},
-					time: 15,
+					time: 90,
 					treatmentCategory: 2,
 				},
 				{
@@ -252,7 +273,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [70, 180, 349],
 					},
-					time: 15,
+					time: 45,
 					treatmentCategory: 2,
 				},
 				{
@@ -261,7 +282,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [65, 170, 325],
 					},
-					time: 15,
+					time: 45,
 					treatmentCategory: 2,
 				},
 				{
@@ -270,7 +291,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [65, 170, 325],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 2,
 				},
 				{
@@ -279,7 +300,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [40, 100, 199],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 2,
 				},
 				{
@@ -319,12 +340,12 @@ export default defineComponent({
 					treatmentCategory: 3,
 				},
 				{
-					title: "Sauna Blanket Detox",
+					title: "Sauna Blanket Detox Body Wrap",
 					price: {
 						consultation: 0,
 						treatment: [60, 170, 270],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 3,
 				},
 				{
@@ -333,7 +354,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [80, 220, 360],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 3,
 				},
 				{
@@ -342,7 +363,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [20, 50, 80],
 					},
-					time: 15,
+					time: 30,
 					treatmentCategory: 3,
 				},
 				{
@@ -414,7 +435,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [250, 625, 999],
 					},
-					time: 15,
+					time: 180,
 					treatmentCategory: 5,
 				},
 				{
@@ -423,7 +444,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [250, 625, 999],
 					},
-					time: 15,
+					time: 180,
 					treatmentCategory: 5,
 				},
 				{
@@ -432,7 +453,7 @@ export default defineComponent({
 						consultation: 0,
 						treatment: [300, 750, 1199],
 					},
-					time: 15,
+					time: 180,
 					treatmentCategory: 5,
 				},
 			],
@@ -440,6 +461,20 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		/* CSS */
+		treatmentCardWidth(): string {
+			let retVal: string = "200px";
+			if (this.$vuetify.display.smAndUp) retVal = "250px";
+			if (this.$vuetify.display.mdAndUp) retVal = "300px";
+			return retVal;
+		},
+		treatmentCardHeight(): string {
+			let retVal: string = "200px";
+			if (this.$vuetify.display.mdAndUp) retVal = "250px";
+			if (this.$vuetify.display.lgAndUp) retVal = "300px";
+			return retVal;
+		},
+
 		/* IMGs */
 		img_canvas(): string {
 			return CanvasPNG;
