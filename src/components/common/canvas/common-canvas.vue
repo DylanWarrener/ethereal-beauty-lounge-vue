@@ -1,5 +1,5 @@
 <template>
-	<v-parallax :src="src" class="h-screen">
+	<v-parallax :src="src" style="height: 100vh">
 		<slot name="canvas-content"></slot>
 	</v-parallax>
 </template>
