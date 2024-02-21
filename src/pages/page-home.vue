@@ -24,8 +24,8 @@
 										variant="flat"
 										size="large"
 										color="accent"
-										text="Book now"
-										@click="scrollToElement"
+										text="See recent portfolio?"
+										@click="scrollToElement('section-portfolio')"
 									></v-btn>
 								</v-card-actions>
 							</template>
@@ -35,15 +35,34 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
+	<v-divider class="text-accent bg-accent" thickness="4" style="opacity: 1 !important"></v-divider>
 	<section-container-component
-		id="section-home"
-		class="bg-accent"
-		title="Letting Beauty Take Flight So You Don't Have To"
+		id="section-portfolio"
+		class_title="text-inverted"
+		class_subtitle="text-inverted"
+		title="Portfolio: most recent"
+		subtitle="Letting Beauty Take Flight So You Don't Have To"
 	>
 		<template #section-content>
 			<card-grid-container-component></card-grid-container-component>
 		</template>
 	</section-container-component>
+	<!-- <v-divider class="text-accent bg-accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<section-container-component
+		id="section-recent-reviews"
+		class_title="text-inverted"
+		class_subtitle="text-inverted"
+		title="Reviews: Most recent"
+		subtitle="See what our latest customers are saying."
+	>
+		<template #section-content>
+			<v-container fluid style="border: 4px solid black">
+				<v-row dense style="border: 4px solid red">
+					<v-col style="border: 4px solid blue"> </v-col>
+				</v-row>
+			</v-container>
+		</template>
+	</section-container-component> -->
 </template>
 
 <script lang="ts">
@@ -51,6 +70,7 @@ import { defineComponent } from "vue";
 
 // Stores
 import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useHeaderStore from "@stores/store-header.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
@@ -76,23 +96,36 @@ export default defineComponent({
 		},
 
 		/* Data */
-		appBarHeight(): number {
+		data_appBarHeight(): number {
 			return this.storeCommon.getAppBarHeight;
+		},
+		data_isAppBarActive(): boolean {
+			return this.storeHeader.getAppBarDrawerState;
 		},
 	},
 	methods: {
-		scrollToElement(): void {
-			const targetElementID: HTMLDivElement = document.getElementById("section-home") as HTMLDivElement;
+		scrollToElement(targetElement: string): void {
+			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
-			window.scrollTo({
-				top: targetElementID!.offsetTop - this.appBarHeight,
-				behavior: "smooth",
-			});
+			if (targetElementID) {
+				if (this.data_isAppBarActive) {
+					window.scrollTo({
+						top: targetElementID!.offsetTop - this.data_appBarHeight,
+						behavior: "smooth",
+					});
+				} else {
+					window.scrollTo({
+						top: targetElementID!.offsetTop,
+						behavior: "smooth",
+					});
+				}
+			}
 		},
 	},
 	setup() {
 		const storeCommon = useCommonStore();
-		return { storeCommon };
+		const storeHeader = useHeaderStore();
+		return { storeCommon, storeHeader };
 	},
 });
 </script>

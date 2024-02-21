@@ -1,4 +1,5 @@
 export default interface IHeaderAppBarState {
+	drawer: boolean;
 	icons: IHeaderAppbarIconsState;
 }
 export interface IHeaderAppBarCommonIconState {

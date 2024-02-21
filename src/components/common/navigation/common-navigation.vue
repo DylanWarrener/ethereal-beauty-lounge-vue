@@ -11,6 +11,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Stores
+import useHeaderStore from "@stores/store-header.js";
+
 // Interfaces
 import { IHeaderNavigationCommonItemState } from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
@@ -19,6 +22,10 @@ export default defineComponent({
 	props: {
 		classDrawer: { type: String, required: false },
 		navigation: { type: Array<IHeaderNavigationCommonItemState>, required: true },
+	},
+	setup() {
+		const storeHeader = useHeaderStore();
+		return { storeHeader };
 	},
 });
 </script>

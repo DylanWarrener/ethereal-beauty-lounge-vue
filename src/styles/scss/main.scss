@@ -210,10 +210,14 @@ h6 {
 				.v-label {
 					//border: 2px solid orange;
 					cursor: pointer;
+					font-size: $font_size_mobile_body;
+					line-height: $font_line_height_mobile_body;
+					color: rgb(var(--v-theme-default));
+					opacity: 1 !important;
 				}
 
 				.v-field__input {
-					//border: 2px solid red;
+					//border: 2px solid yellow;
 
 					.v-select__selection {
 						//border: 2px solid black;
@@ -502,6 +506,18 @@ h6 {
 		font-size: $font_size_tablet_body;
 		line-height: $font_line_height_tablet_body;
 	}
+	.v-input {
+		.v-input__control {
+			.v-field {
+				.v-field__field {
+					.v-label {
+						font-size: $font_size_tablet_body;
+						line-height: $font_line_height_tablet_body;
+					}
+				}
+			}
+		}
+	}
 }
 
 // LARGE TABLET TO LAPTOP - 960px >< 1280px
@@ -549,6 +565,18 @@ h6 {
 	.v-chip__content {
 		font-size: $font_size_tablet_laptop_body;
 		line-height: $font_line_height_tablet_laptop_body;
+	}
+	.v-input {
+		.v-input__control {
+			.v-field {
+				.v-field__field {
+					.v-label {
+						font-size: $font_size_tablet_laptop_body;
+						line-height: $font_line_height_tablet_laptop_body;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -598,6 +626,18 @@ h6 {
 		font-size: $font_size_laptop_desktop_body;
 		line-height: $font_line_height_laptop_desktop_body;
 	}
+	.v-input {
+		.v-input__control {
+			.v-field {
+				.v-field__field {
+					.v-label {
+						font-size: $font_size_laptop_desktop_body;
+						line-height: $font_line_height_laptop_desktop_body;
+					}
+				}
+			}
+		}
+	}
 }
 
 // 1080p TO 1440p DESKTOP - 1920px >< 2560px
@@ -646,6 +686,18 @@ h6 {
 		font-size: $font_size_desktop_body;
 		line-height: $font_line_height_desktop_body;
 	}
+	.v-input {
+		.v-input__control {
+			.v-field {
+				.v-field__field {
+					.v-label {
+						font-size: $font_size_desktop_body;
+						line-height: $font_line_height_desktop_body;
+					}
+				}
+			}
+		}
+	}
 }
 
 // 4K & ULTRA WIDE - > 2560px
@@ -693,5 +745,17 @@ h6 {
 	.v-chip__content {
 		font-size: $font_size_desktop_wide_body;
 		line-height: $font_line_height_desktop_wide_body;
+	}
+	.v-input {
+		.v-input__control {
+			.v-field {
+				.v-field__field {
+					.v-label {
+						font-size: $font_size_desktop_wide_body;
+						line-height: $font_line_height_desktop_wide_body;
+					}
+				}
+			}
+		}
 	}
 }

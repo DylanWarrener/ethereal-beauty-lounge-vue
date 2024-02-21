@@ -50,7 +50,7 @@ import {
 	VFooter,
 } from "vuetify/components";
 import { VExpandTransition } from "vuetify/components/transitions";
-import { Resize, Ripple } from "vuetify/directives";
+import { Resize, Ripple, Scroll } from "vuetify/directives";
 
 // Material design icons
 import { aliases, mdi } from "vuetify/iconsets/mdi-svg";
@@ -128,6 +128,7 @@ const vuetify = createVuetify({
 	directives: {
 		Resize,
 		Ripple,
+		Scroll,
 	},
 });
 

@@ -13,6 +13,9 @@ import {
 	mdiDotsVertical,
 	mdiMenuDown,
 	mdiClose,
+	mdiMapMarker,
+	mdiEmailFast,
+	mdiPhone,
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -76,6 +79,11 @@ export const iconsNavigation = {
 };
 export const iconsDialog = {
 	close: mdiClose,
+};
+export const iconsContactDetails = {
+	location: mdiMapMarker,
+	email: mdiEmailFast,
+	phone: mdiPhone,
 };
 
 // ---------------------------------------------------------------------------------------------------------

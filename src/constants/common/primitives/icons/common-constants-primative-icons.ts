@@ -1,4 +1,4 @@
-import { 
+import {
 	mdiMenu,
 	mdiHome,
 	mdiEmail,
@@ -13,7 +13,10 @@ import {
 	mdiDotsVertical,
 	mdiMenuDown,
 	mdiClose,
-	mdiInformationVariant
+	mdiInformationVariant,
+	mdiMapMarker,
+	mdiEmailFast,
+	mdiPhone,
 } from "@mdi/js";
 
 export {
@@ -31,5 +34,8 @@ export {
 	mdiDotsVertical,
 	mdiMenuDown,
 	mdiClose,
-	mdiInformationVariant
+	mdiInformationVariant,
+	mdiMapMarker,
+	mdiEmailFast,
+	mdiPhone,
 };

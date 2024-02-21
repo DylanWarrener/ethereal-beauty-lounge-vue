@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar elevation="0" scroll-behavior="hide" color="accent">
+	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" v-model="data_appBarDrawerState">
 		<!-- APP BAR LEFT -->
 		<v-card
 			hover
@@ -24,13 +24,13 @@
 			:btn-icon="icon_appBarMobileMenuBtn"
 			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
 		></menu-container-component>
-		<menu-container-component
+		<!-- <menu-container-component
 			menu-location="bottom"
 			:tooltip-text="tooltip_appBarSearchBtn"
 			:btn-id="id_appBarSearchBtn"
 			:btn-icon="icon_appBarSearchBtn"
 			@toggle-menu-drawer="data_appBarSearchDrawerState = !data_appBarSearchDrawerState"
-		></menu-container-component>
+		></menu-container-component> -->
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE -->
@@ -132,6 +132,11 @@ export default defineComponent({
 		"dialog-login-component": DialogLoginComp,
 		"navigation-container-component": NavigationContainerComp,
 	},
+	data() {
+		return {
+			test: true,
+		};
+	},
 	computed: {
 		/* Text */
 		txt_homePageLink(): string {
@@ -155,44 +160,52 @@ export default defineComponent({
 		},
 		// Tooltips
 		tooltip_appBarMobileMenuBtn(): string {
-			return this.data_appBarIcons.menu.tooltip;
+			return this.icons_appBar.menu.tooltip;
 		},
 		tooltip_appBarSearchBtn(): string {
-			return this.data_appBarIcons.search.tooltip;
+			return this.icons_appBar.search.tooltip;
 		},
 		tooltip_appBarBasketBtn(): string {
-			return this.data_appBarIcons.basket.tooltip;
+			return this.icons_appBar.basket.tooltip;
 		},
 		tooltip_appBarLoginBtn(): string {
-			return this.data_appBarIcons.login.tooltip;
+			return this.icons_appBar.login.tooltip;
 		},
 		tooltip_appBarOptionsBtn(): string {
-			return this.data_appBarIcons.options.tooltip;
+			return this.icons_appBar.options.tooltip;
 		},
 
 		/* Icons */
+		icons_appBar(): IHeaderAppbarIconsState {
+			return this.storeHeader.getAppBarIcons;
+		},
 		icon_appBarMobileMenuBtn(): string {
-			return this.data_appBarIcons.menu.icon;
+			return this.icons_appBar.menu.icon;
 		},
 		icon_appBarSearchBtn(): string {
-			return this.data_appBarIcons.search.icon;
+			return this.icons_appBar.search.icon;
 		},
 		icon_appBarBasketBtn(): string {
-			return this.data_appBarIcons.basket.icon;
+			return this.icons_appBar.basket.icon;
 		},
 		icon_appBarLoginBtn(): string {
-			return this.data_appBarIcons.login.icon;
+			return this.icons_appBar.login.icon;
 		},
 		icon_appBarOptionsBtn(): string {
-			return this.data_appBarIcons.options.icon;
+			return this.icons_appBar.options.icon;
 		},
 
 		/* Data */
-		data_appBarIcons(): IHeaderAppbarIconsState {
-			return this.storeHeader.getAppBarIcons;
-		},
 		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
 			return this.storeHeader.getNavigationMobileMenuState;
+		},
+		data_appBarDrawerState: {
+			get(): boolean {
+				return this.storeHeader.getAppBarDrawerState;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.setAppBarDrawerState(newValue);
+			},
 		},
 		data_appBarMobileMenuDrawerState: {
 			get(): boolean {
