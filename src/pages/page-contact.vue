@@ -33,6 +33,8 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
+	<v-divider class="text-accent" thickness="4" style="opacity: 1 !important"></v-divider>
+
 	<section-container-component
 		id="section-contact"
 		class="bg-default"
@@ -214,7 +216,7 @@ export default defineComponent({
 			return this.storeCommon.getAppBarHeight;
 		},
 		data_isAppBarActive(): boolean {
-			return this.storeHeader.getAppBarDrawerState;
+			return this.storeCommon.getAppBarDrawer;
 		},
 	},
 	methods: {

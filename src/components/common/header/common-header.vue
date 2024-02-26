@@ -124,7 +124,7 @@ import { ElementIDs } from "@enums/enums.js";
 import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
-	name: "header-component",
+	name: "header-container-component",
 	components: {
 		"menu-container-component": MenuComp,
 		"tooltip-container-component": TooltipComp,
@@ -201,10 +201,10 @@ export default defineComponent({
 		},
 		data_appBarDrawerState: {
 			get(): boolean {
-				return this.storeHeader.getAppBarDrawerState;
+				return this.storeCommon.getAppBarDrawer;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarDrawerState(newValue);
+				this.storeCommon.setAppBarDrawer(newValue);
 			},
 		},
 		data_appBarMobileMenuDrawerState: {

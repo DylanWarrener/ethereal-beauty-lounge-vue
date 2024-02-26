@@ -4,6 +4,6 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "store-page-component",
+	name: "store-page-container-component",
 });
 </script>

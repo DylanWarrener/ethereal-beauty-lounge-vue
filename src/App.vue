@@ -5,7 +5,6 @@
 		<v-main>
 			<router-view></router-view>
 		</v-main>
-		<google-map-office-location-component></google-map-office-location-component>
 		<footer-container-component></footer-container-component>
 		<v-btn icon id="whatsapp">
 			<v-icon>
@@ -23,7 +22,6 @@ import { defineComponent } from "vue";
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
-import GoogleMapsComp from "@components/common/google-map/common-google-map.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
 
 // SVGs
@@ -34,7 +32,6 @@ export default defineComponent({
 	components: {
 		"dialog-login-component": DialogLoginComp,
 		"header-container-component": HeaderComp,
-		"google-map-office-location-component": GoogleMapsComp,
 		"footer-container-component": FooterComp,
 	},
 	computed: {

@@ -33,7 +33,8 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="5"></v-divider>
+	<v-divider class="text-accent" thickness="4" style="opacity: 1 !important"></v-divider>
+
 	<section-container-component
 		id="section-treatments"
 		class="bg-default"
@@ -45,10 +46,7 @@
 				<v-row dense>
 					<!-- Filter options -->
 					<v-col cols="12">
-						<v-sheet
-							class="d-flex flex-wrap justify-center align-center"
-							elevation="0"
-						>
+						<v-sheet class="d-flex flex-wrap justify-center align-center" elevation="0">
 							<v-chip-group filter mandatory selected-class="text-accent" v-model="data_selectedChips">
 								<v-chip
 									class="bg-default text-capitalize"
@@ -64,10 +62,10 @@
 					<!-- Notes -->
 					<v-col cols="12">
 						<h5 class="text-left text-inverted" v-if="data_treatmentCategories[data_selectedChips].note">
-							Please note: 
+							Please note:
 							<span class="text-inverted font-italic">
 								{{ data_treatmentCategories[data_selectedChips].note }}
-							</span> 
+							</span>
 						</h5>
 					</v-col>
 
@@ -97,53 +95,94 @@
 											:min-width="treatmentCardMinWidth"
 											:max-width="treatmentCardMaxWidth"
 											:height="treatmentCardHeight"
-											:style="{ display: treatmentType.treatmentCategory === data_selectedChips ? `flex` : `none` }"
+											:style="{
+												display:
+													treatmentType.treatmentCategory === data_selectedChips
+														? `flex`
+														: `none`,
+											}"
 										>
 											<v-card-item class="w-100">
-												<v-card-title class="d-flex flex-row justify-center align-center text-wrap">
+												<v-card-title
+													class="d-flex flex-row justify-center align-center text-wrap"
+												>
 													<h4 class="text-inverted">{{ treatmentType.title }}</h4>
-													<v-tooltip text="x1 represents the amount of sessions, e.g. x5 = 5 sessions.">
+													<v-tooltip
+														text="x1 represents the amount of sessions, e.g. x5 = 5 sessions."
+													>
 														<template v-slot:activator="{ props }">
-															<v-btn density="compact" elevation="0" color="accent" :ripple="false" :icon="icon_treatmentCardInformation" v-bind="props"></v-btn>
+															<v-btn
+																density="compact"
+																elevation="0"
+																color="accent"
+																:ripple="false"
+																:icon="icon_treatmentCardInformation"
+																v-bind="props"
+															></v-btn>
 														</template>
 													</v-tooltip>
 												</v-card-title>
 												<v-card-subtitle class="text-wrap text-center">
-													<v-chip-group filter mandatory selected-class="text-accent" class="d-flex justify-center" v-model="treatmentType.price.selected">
-														<v-chip size="small" class="text-inverted" :key="index" v-for="(price, index) in treatmentType.price.treatment">
+													<v-chip-group
+														filter
+														mandatory
+														selected-class="text-accent"
+														class="d-flex justify-center"
+														v-model="treatmentType.price.selected"
+													>
+														<v-chip
+															size="small"
+															class="text-inverted"
+															:key="index"
+															v-for="(price, index) in treatmentType.price.treatment"
+														>
 															{{ price + " " }}
 														</v-chip>
 													</v-chip-group>
 													<p class="text-left" v-if="treatmentType.includes">
-														<span class="text-inverted font-weight-bold">Includes: </span> 
-														<small class="text-inverted text-uppercase">{{ treatmentType.includes }}</small>
+														<span class="text-inverted font-weight-bold">Includes: </span>
+														<small class="text-inverted text-uppercase">{{
+															treatmentType.includes
+														}}</small>
 													</p>
 													<p class="text-left">
 														<span class="text-inverted font-weight-bold">Duration: </span>
 														<small class="text-inverted">
-															{{ 
-																treatmentType.time > 60 
-																	? `${Math.floor(treatmentType.time / 60)} hour` 
-																	: `${treatmentType.time} mins` 
+															{{
+																treatmentType.time > 60
+																	? `${Math.floor(treatmentType.time / 60)} hour`
+																	: `${treatmentType.time} mins`
 															}}
-															{{ 
-																treatmentType.time > 60 
-																	? `${(((treatmentType.time / 60) % 1) * 60) === 0 ? "" : (((treatmentType.time / 60) % 1) * 60)} mins` 
-																	: "" 
-															}} 
+															{{
+																treatmentType.time > 60
+																	? `${
+																			((treatmentType.time / 60) % 1) * 60 === 0
+																				? ""
+																				: ((treatmentType.time / 60) % 1) * 60
+																	  } mins`
+																	: ""
+															}}
 														</small>
 													</p>
 													<p class="text-left">
-														<span class="text-inverted font-weight-bold">Consultation: </span>
+														<span class="text-inverted font-weight-bold"
+															>Consultation:
+														</span>
 														<small class="text-inverted">
-															{{ treatmentType.price.consultation === 0 ? "Free" : `£${treatmentType.price.consultation}` }}
+															{{
+																treatmentType.price.consultation === 0
+																	? "Free"
+																	: `£${treatmentType.price.consultation}`
+															}}
 														</small>
 													</p>
 												</v-card-subtitle>
 											</v-card-item>
 											<v-card-actions class="w-100">
 												<v-spacer></v-spacer>
-												<v-btn width="100" height="50" class="bg-accent text-default">Book</v-btn>
+												<v-btn width="100" height="50" class="bg-accent text-default"
+													>Book</v-btn
+												>
 												<v-spacer></v-spacer>
 											</v-card-actions>
 										</v-card>
@@ -209,19 +248,15 @@ export default defineComponent({
 				{
 					category: "Packages",
 					note: "",
-				}
+				},
 			],
 			data_treatmentTypes: [
 				{
 					title: "Brazilian Booty Lift",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £125",
-							"x3: £350",
-							"x5: £499"
-						],
-						selected: 0
+						treatment: ["x1: £125", "x3: £350", "x5: £499"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -230,12 +265,8 @@ export default defineComponent({
 					title: "Tummy Tuck",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £125",
-							"x3: £350",
-							"x5: £499"
-						],
-						selected: 0
+						treatment: ["x1: £125", "x3: £350", "x5: £499"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -244,12 +275,8 @@ export default defineComponent({
 					title: "Love Handles",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £110",
-							"x3: £300",
-							"x5: £439"
-						],
-						selected: 0
+						treatment: ["x1: £110", "x3: £300", "x5: £439"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -258,12 +285,8 @@ export default defineComponent({
 					title: "Bra Fat",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £110",
-							"x3: £300",
-							"x5: £439"
-						],
-						selected: 0
+						treatment: ["x1: £110", "x3: £300", "x5: £439"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -272,12 +295,8 @@ export default defineComponent({
 					title: "Bingo Wings",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £250",
-							"x5: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £250", "x5: £359"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -286,12 +305,8 @@ export default defineComponent({
 					title: "Thigh Gap",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £100",
-							"x3: £275",
-							"x5: £399"
-						],
-						selected: 0
+						treatment: ["x1: £100", "x3: £275", "x5: £399"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -300,12 +315,8 @@ export default defineComponent({
 					title: "Front Thigh",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £100",
-							"x3: £275",
-							"x5: £399"
-						],
-						selected: 0
+						treatment: ["x1: £100", "x3: £275", "x5: £399"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -314,12 +325,8 @@ export default defineComponent({
 					title: "Calves",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £250",
-							"x5: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £250", "x5: £359"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -328,12 +335,8 @@ export default defineComponent({
 					title: "Breast Lift",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £60",
-							"x3: £160",
-							"x5: £239"
-						],
-						selected: 0
+						treatment: ["x1: £60", "x3: £160", "x5: £239"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 0,
@@ -342,12 +345,8 @@ export default defineComponent({
 					title: "Breast Lift +",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £250",
-							"x5: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £250", "x5: £359"],
+						selected: 0,
 					},
 					time: 60,
 					treatmentCategory: 0,
@@ -356,12 +355,8 @@ export default defineComponent({
 					title: "Brazilian Face Lift",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £110",
-							"x3: £300",
-							"x6: £549"
-						],
-						selected: 0
+						treatment: ["x1: £110", "x3: £300", "x6: £549"],
+						selected: 0,
 					},
 					time: 60,
 					treatmentCategory: 1,
@@ -370,12 +365,8 @@ export default defineComponent({
 					title: "Brazilian Face Lift +",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £130",
-							"x3: £360",
-							"x6: £649"
-						],
-						selected: 0
+						treatment: ["x1: £130", "x3: £360", "x6: £649"],
+						selected: 0,
 					},
 					time: 90,
 					treatmentCategory: 1,
@@ -384,12 +375,8 @@ export default defineComponent({
 					title: "Jaw + Double Chin",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £70",
-							"x3: £180",
-							"x6: £349"
-						],
-						selected: 0
+						treatment: ["x1: £70", "x3: £180", "x6: £349"],
+						selected: 0,
 					},
 					time: 45,
 					treatmentCategory: 1,
@@ -398,12 +385,8 @@ export default defineComponent({
 					title: "Jaw + Cheek Sculpt",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £65",
-							"x3: £170",
-							"x6: £325"
-						],
-						selected: 0
+						treatment: ["x1: £65", "x3: £170", "x6: £325"],
+						selected: 0,
 					},
 					time: 45,
 					treatmentCategory: 1,
@@ -412,12 +395,8 @@ export default defineComponent({
 					title: "Full Face Rejuvenation",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £65",
-							"x3: £170",
-							"x6: £325"
-						],
-						selected: 0
+						treatment: ["x1: £65", "x3: £170", "x6: £325"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 1,
@@ -426,12 +405,8 @@ export default defineComponent({
 					title: "Wrinkle Reduction",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £40",
-							"x3: £100",
-							"x6: £199"
-						],
-						selected: 0
+						treatment: ["x1: £40", "x3: £100", "x6: £199"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 1,
@@ -440,12 +415,8 @@ export default defineComponent({
 					title: "Chest Add On",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £20",
-							"x3: £50",
-							"x6: £80"
-						],
-						selected: 0
+						treatment: ["x1: £20", "x3: £50", "x6: £80"],
+						selected: 0,
 					},
 					time: 15,
 					treatmentCategory: 1,
@@ -454,12 +425,8 @@ export default defineComponent({
 					title: "Brow Lift",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £10",
-							"x3: £25",
-							"x6: £40"
-						],
-						selected: 0
+						treatment: ["x1: £10", "x3: £25", "x6: £40"],
+						selected: 0,
 					},
 					time: 15,
 					treatmentCategory: 1,
@@ -468,12 +435,8 @@ export default defineComponent({
 					title: "Detox Body Wrap",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £20",
-							"x3: £50",
-							"x5: £80"
-						],
-						selected: 0
+						treatment: ["x1: £20", "x3: £50", "x5: £80"],
+						selected: 0,
 					},
 					time: 15,
 					treatmentCategory: 2,
@@ -482,12 +445,8 @@ export default defineComponent({
 					title: "Lipo Lean Body Wrap",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £30",
-							"x3: £80",
-							"x5: £130"
-						],
-						selected: 0
+						treatment: ["x1: £30", "x3: £80", "x5: £130"],
+						selected: 0,
 					},
 					time: 15,
 					treatmentCategory: 2,
@@ -496,12 +455,8 @@ export default defineComponent({
 					title: "Sauna Blanket Detox Body Wrap",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £60",
-							"x3: £170",
-							"x5: £270"
-						],
-						selected: 0
+						treatment: ["x1: £60", "x3: £170", "x5: £270"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 2,
@@ -510,12 +465,8 @@ export default defineComponent({
 					title: "Sauna Blanket Lipo Lean Body Wrap",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £80",
-							"x3: £220",
-							"x5: £360"
-						],
-						selected: 0
+						treatment: ["x1: £80", "x3: £220", "x5: £360"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 2,
@@ -524,12 +475,8 @@ export default defineComponent({
 					title: "Sauna Blanket + Another Treatment",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £20",
-							"x3: £50",
-							"x5: £80"
-						],
-						selected: 0
+						treatment: ["x1: £20", "x3: £50", "x5: £80"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 2,
@@ -538,12 +485,8 @@ export default defineComponent({
 					title: "Skin Tightening",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £60",
-							"x3: £150",
-							"x6: £239"
-						],
-						selected: 0
+						treatment: ["x1: £60", "x3: £150", "x6: £239"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 3,
@@ -552,12 +495,8 @@ export default defineComponent({
 					title: "Skin Tightening +",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £240",
-							"x6: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £240", "x6: £359"],
+						selected: 0,
 					},
 					time: 60,
 					treatmentCategory: 3,
@@ -566,12 +505,8 @@ export default defineComponent({
 					title: "Stretch Mark Reduction",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £50",
-							"x3: £120",
-							"x6: £249"
-						],
-						selected: 0
+						treatment: ["x1: £50", "x3: £120", "x6: £249"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 3,
@@ -580,12 +515,8 @@ export default defineComponent({
 					title: "Cellulite Blasting",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £60",
-							"x3: £150",
-							"x6: £239"
-						],
-						selected: 0
+						treatment: ["x1: £60", "x3: £150", "x6: £239"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 3,
@@ -594,12 +525,8 @@ export default defineComponent({
 					title: "Cellulite Blasting +",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £240",
-							"x6: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £240", "x6: £359"],
+						selected: 0,
 					},
 					time: 60,
 					treatmentCategory: 3,
@@ -608,12 +535,8 @@ export default defineComponent({
 					title: "Fat Melting",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £50",
-							"x3: £120",
-							"x6: £249"
-						],
-						selected: 0
+						treatment: ["x1: £50", "x3: £120", "x6: £249"],
+						selected: 0,
 					},
 					time: 30,
 					treatmentCategory: 3,
@@ -622,12 +545,8 @@ export default defineComponent({
 					title: "Fat Melting +",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £90",
-							"x3: £240",
-							"x6: £359"
-						],
-						selected: 0
+						treatment: ["x1: £90", "x3: £240", "x6: £359"],
+						selected: 0,
 					},
 					time: 60,
 					treatmentCategory: 3,
@@ -637,12 +556,8 @@ export default defineComponent({
 					includes: "Tummy, Lower back & Hip melt.",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £250",
-							"x3: £625",
-							"x5: £999"
-						],
-						selected: 0
+						treatment: ["x1: £250", "x3: £625", "x5: £999"],
+						selected: 0,
 					},
 					time: 180,
 					treatmentCategory: 4,
@@ -652,12 +567,8 @@ export default defineComponent({
 					includes: "Booty, Thigh gap & Front thigh.",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £250",
-							"x3: £625",
-							"x5: £999"
-						],
-						selected: 0
+						treatment: ["x1: £250", "x3: £625", "x5: £999"],
+						selected: 0,
 					},
 					time: 180,
 					treatmentCategory: 4,
@@ -667,12 +578,8 @@ export default defineComponent({
 					includes: "Booty, Tummy & Back.",
 					price: {
 						consultation: 0,
-						treatment: [
-							"x1: £300",
-							"x3: £750",
-							"x5: £1199"
-						],
-						selected: 0
+						treatment: ["x1: £300", "x3: £750", "x5: £1199"],
+						selected: 0,
 					},
 					time: 180,
 					treatmentCategory: 4,

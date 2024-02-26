@@ -2,11 +2,6 @@
 	<v-footer class="d-flex flex-column bg-accent">
 		<v-container fluid>
 			<v-row dense>
-				<!-- Google map -->
-				<v-col cols="12" id="section-contact-map" style="border: 4px solid red">
-					This is where the google map goes
-				</v-col>
-
 				<!-- Socials -->
 				<v-col cols="12" sm="6" class="d-flex" style="height: 75px">
 					<p class="w-100 align-self-center text-center">Get connected with us on our social networks!</p>
@@ -73,7 +68,7 @@ import InstagramSVG from "@assets/svg/socials/instagram.svg";
 import TikTokSVG from "@assets/svg/socials/tiktok.svg";
 
 export default defineComponent({
-	name: "footer-component",
+	name: "footer-container-component",
 	data() {
 		return {
 			socials: [FacebookSVG, InstagramSVG, TikTokSVG],

@@ -1,16 +1,16 @@
 <template>
 	<canvas-container-component :src="canvasIMG">
 		<template #canvas-content>
-			<v-container fluid class="pa-4 fill-height" style="border: 2px solid black">
-				<v-row dense class="d-flex justify-center" style="border: 2px solid purple">
-					<v-col cols="12" md="8" style="border: 2px solid orange">
+			<v-container fluid class="pa-4 fill-height">
+				<v-row dense class="d-flex justify-center">
+					<v-col cols="12" md="8">
 						<card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
 							<template #card-headings>
 								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap" style="border: 2px solid green">
+									<v-card-title class="text-wrap">
 										<h1>Where Beauty Radiates With Delicacy</h1>
 									</v-card-title>
-									<v-card-subtitle class="text-wrap" style="border: 2px solid blue">
+									<v-card-subtitle class="text-wrap">
 										<h3>
 											Transform your look with our non-invasive treatments for the face & body.
 										</h3>
@@ -18,7 +18,7 @@
 								</v-card-item>
 							</template>
 							<template #card-actions>
-								<v-card-actions class="pa-4" style="border: 2px solid red">
+								<v-card-actions class="pa-4">
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
@@ -35,7 +35,8 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider class="text-accent bg-accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<v-divider class="text-accent" thickness="4" style="opacity: 1 !important"></v-divider>
+
 	<section-container-component
 		id="section-portfolio"
 		class_title="text-inverted"
@@ -82,7 +83,7 @@ import CardGridContainerComp from "@components/common/card/grid/common-card-grid
 import CanvasPNG from "@assets/jpg/temp.jpg";
 
 export default defineComponent({
-	name: "home-page-component",
+	name: "home-page-container-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
 		"card-container-component": CardContainerComp,
@@ -100,7 +101,7 @@ export default defineComponent({
 			return this.storeCommon.getAppBarHeight;
 		},
 		data_isAppBarActive(): boolean {
-			return this.storeHeader.getAppBarDrawerState;
+			return this.storeCommon.getAppBarDrawer;
 		},
 	},
 	methods: {

@@ -2,5 +2,6 @@ import IDialogState from "@declarations/common/dialog/interfaces/common-interfac
 
 export default interface ICommonState {
 	appBarHeight: number;
+	appBarDrawer: boolean;
 	dialog: IDialogState;
 }

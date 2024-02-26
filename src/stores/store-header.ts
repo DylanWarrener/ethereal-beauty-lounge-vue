@@ -20,7 +20,6 @@ import { StoreIDs } from "@enums/enums.js";
 const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	state: (): IHeaderState => ({
 		appBar: {
-			drawer: true,
 			icons: {
 				menu: {
 					icon: iconsAppBar.menu,
@@ -72,7 +71,6 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	getters: {
 		/* AppBar */
 		getAppBar: (state: IHeaderState): IHeaderAppBarState => state.appBar,
-		getAppBarDrawerState: (state: IHeaderState): boolean => state.appBar.drawer,
 		getAppBarIcons: (state: IHeaderState): IHeaderAppbarIconsState => state.appBar.icons,
 		getAppBarMobileMenuDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showDrawer,
 		getAppBarMobileMenuTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showTooltip,
@@ -95,9 +93,6 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	},
 	actions: {
 		/* AppBar */
-		setAppBarDrawerState(newValue: boolean): void {
-			this.appBar.drawer = newValue;
-		},
 		setAppBarMobileMenuDrawerState(newValue: boolean): void {
 			this.appBar.icons.menu.showDrawer = newValue;
 		},
