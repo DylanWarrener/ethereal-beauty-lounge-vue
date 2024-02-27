@@ -45,11 +45,17 @@
 			<v-container fluid class="text-inverted" style="border: 2px solid black">
 				<v-row dense style="border: 2px solid red">
 					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet width="100%">
-							<v-slide-group center-active show-arrows class="pa-4" v-model="reviews.value">
+						<v-sheet width="100%" style="border: 2px solid red">
+							<v-slide-group
+								center-active
+								show-arrows
+								class="pa-4"
+								v-model="reviews.value"
+								style="border: 2px solid blue"
+							>
 								<v-slide-group-item
 									:key="index"
-									v-slot="{ isSelected, toggle }"
+									v-slot="{ toggle }"
 									v-for="(review, index) in reviews.items"
 								>
 									<v-card class="pa-4 ma-4 bg-accent" height="200" width="200" @click="toggle">
