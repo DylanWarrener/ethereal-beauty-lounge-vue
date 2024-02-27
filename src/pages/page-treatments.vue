@@ -63,7 +63,7 @@
 					<v-col cols="12">
 						<h5 class="text-left text-inverted" v-if="data_treatmentCategories[data_selectedChips].note">
 							Please note:
-							<span class="text-inverted font-italic">
+							<span class="text-inverted font-italic font-weight-regular">
 								{{ data_treatmentCategories[data_selectedChips].note }}
 							</span>
 						</h5>

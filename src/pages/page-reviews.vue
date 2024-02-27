@@ -45,35 +45,51 @@
 			<v-container fluid class="text-inverted" style="border: 2px solid black">
 				<v-row dense style="border: 2px solid red">
 					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet width="100%" style="border: 2px solid red">
+						<v-sheet width="100%">
 							<v-slide-group
 								center-active
-								show-arrows
-								class="pa-4"
 								v-model="reviews.value"
-								style="border: 2px solid blue"
 							>
 								<v-slide-group-item
 									:key="index"
 									v-slot="{ toggle }"
 									v-for="(review, index) in reviews.items"
 								>
-									<v-card class="pa-4 ma-4 bg-accent" height="200" width="200" @click="toggle">
-										<p>{{ review.name }}</p>
-										<span>
-											<time>
-												{{ review.date }}
-											</time>
-										</span>
-										<v-rating
-											readonly
-											half-increments
-											class="py-4 w-100"
-											active-color="accent"
-											density="compact"
-											v-model="review.rating"
-										></v-rating>
-										<p>{{ review.message }}</p>
+									<v-card class="bg-accent d-flex" 
+											min-width="240" 
+											max-width="500" 
+											min-height="200" 
+											max-height="500" 
+											:class="index !== reviews.items.length - 1 ? 'mr-4' : ''" 
+											:width="dynamicWidth"
+											@click="toggle">
+										<v-container fluid>
+											<v-row dense style="border: 2px solid red">
+												<v-col cols="12" style="border: 2px solid blue">
+													<p>{{ review.name }}</p>
+												</v-col>
+												<v-col cols="12" style="border: 2px solid red">
+													<v-rating
+														readonly
+														half-increments
+														class="w-100"
+														active-color="accent"
+														density="compact"
+														v-model="review.rating"
+													></v-rating>
+												</v-col>
+												<v-col cols="12" style="border: 2px solid green">
+													<span>
+														<time>
+															{{ review.date }}
+														</time>
+													</span>
+												</v-col>
+												<v-col cols="12" style="border: 2px solid orange">
+													<p>{{ review.message }}</p>
+												</v-col>
+											</v-row>
+										</v-container>
 									</v-card>
 								</v-slide-group-item>
 							</v-slide-group>
@@ -116,7 +132,7 @@ export default defineComponent({
 						name: "Chloe",
 						date: "Monday 1st Feburary 2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: "Whatever message she put. A longer message to test things today. Other message stuff. More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.",
 					},
 					{
 						name: "Chloe",
@@ -177,6 +193,18 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		/* CSS */
+		dynamicWidth(): string {
+			let retVal: string = "240";
+			if (this.$vuetify.display.mdAndUp) retVal = "300";
+			if (this.$vuetify.display.xlAndUp) retVal = "360";
+			return retVal;
+		},
+		dynamicHeight(): string {
+			let retVal: string = "";
+			return retVal;
+		},
+
 		/* IMGs */
 		img_canvas(): string {
 			return CanvasPNG;
