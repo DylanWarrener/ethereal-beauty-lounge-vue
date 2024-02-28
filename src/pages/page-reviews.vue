@@ -42,50 +42,65 @@
 		title="All reviews"
 	>
 		<template #section-content>
-			<v-container fluid class="text-inverted" style="border: 2px solid black">
-				<v-row dense style="border: 2px solid red">
-					<v-col cols="12" style="border: 2px solid blue">
-						<v-sheet width="100%">
-							<v-slide-group
-								center-active
-								v-model="reviews.value"
-							>
+			<v-container fluid class="text-inverted">
+				<v-row dense>
+					<v-col cols="12">
+						<v-sheet class="w-100 h-100 d-flex">
+							<v-slide-group center-active class="pa-4 h-100" v-model="reviews.value">
 								<v-slide-group-item
 									:key="index"
 									v-slot="{ toggle }"
 									v-for="(review, index) in reviews.items"
 								>
-									<v-card class="bg-accent d-flex" 
-											min-width="240" 
-											max-width="500" 
-											min-height="200" 
-											max-height="500" 
-											:class="index !== reviews.items.length - 1 ? 'mr-4' : ''" 
-											:width="dynamicWidth"
-											@click="toggle">
-										<v-container fluid>
-											<v-row dense style="border: 2px solid red">
-												<v-col cols="12" style="border: 2px solid blue">
-													<p>{{ review.name }}</p>
+									<v-card
+										class="bg-accent d-flex flex-wrap"
+										:width="dynamicWidth"
+										:height="dynamicHeight"
+										:class="index !== reviews.items.length - 1 ? 'mr-4' : ''"
+										@click="toggle"
+									>
+										<v-container fluid class="d-flex" style="max-height: 100%">
+											<v-row dense class="d-flex flex-row overflow-x-hidden overflow-y-auto">
+												<v-col
+													cols="12"
+													sm="6"
+													class="d-flex"
+													:class="`${
+														$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
+													}`"
+												>
+													<p class="font-weight-bold">{{ review.name }}</p>
 												</v-col>
-												<v-col cols="12" style="border: 2px solid red">
-													<v-rating
-														readonly
-														half-increments
-														class="w-100"
-														active-color="accent"
-														density="compact"
-														v-model="review.rating"
-													></v-rating>
-												</v-col>
-												<v-col cols="12" style="border: 2px solid green">
+												<v-col
+													cols="12"
+													sm="6"
+													class="d-flex font-weight-bold"
+													:class="`${
+														$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
+													}`"
+												>
 													<span>
 														<time>
 															{{ review.date }}
 														</time>
 													</span>
 												</v-col>
-												<v-col cols="12" style="border: 2px solid orange">
+												<v-col cols="12" class="pa-0 my-2">
+													<v-rating
+														readonly
+														half-increments
+														class="w-100 d-flex"
+														color="white"
+														size="x-small"
+														:class="`${
+															$vuetify.display.smAndUp
+																? 'justify-center'
+																: 'justify-start'
+														}`"
+														v-model="review.rating"
+													></v-rating>
+												</v-col>
+												<v-col cols="12">
 													<p>{{ review.message }}</p>
 												</v-col>
 											</v-row>
@@ -126,67 +141,107 @@ export default defineComponent({
 	data() {
 		return {
 			reviews: {
-				value: null,
+				value: 0,
 				items: [
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put. A longer message to test things today. Other message stuff. More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 					{
 						name: "Chloe",
-						date: "Monday 1st Feburary 2023",
+						date: "01/05/2023",
 						rating: 3.5,
-						message: "Whatever message she put",
+						message: `Whatever message she put. A longer message to test things today. Other message stuff. 
+						More about the review is that it sucks ass. Don't buy it. Now sure how much longer I can write.
+						Let's write some more things about nothing so that I can test how large the card is. It keeps getting
+						larger and I am not sure when it is supposed to stop. Maybe if I write a little longer, I might find the max
+						height for the card?'`,
 					},
 				],
 			},
@@ -195,13 +250,19 @@ export default defineComponent({
 	computed: {
 		/* CSS */
 		dynamicWidth(): string {
-			let retVal: string = "240";
-			if (this.$vuetify.display.mdAndUp) retVal = "300";
-			if (this.$vuetify.display.xlAndUp) retVal = "360";
+			let retVal: string = "210";
+			if (this.$vuetify.display.smAndUp) retVal = "300";
+			if (this.$vuetify.display.mdAndUp) retVal = "340";
+			if (this.$vuetify.display.lgAndUp) retVal = "380";
+			if (this.$vuetify.display.xlAndUp) retVal = "420";
 			return retVal;
 		},
 		dynamicHeight(): string {
-			let retVal: string = "";
+			let retVal: string = "210";
+			if (this.$vuetify.display.smAndUp) retVal = "240";
+			if (this.$vuetify.display.mdAndUp) retVal = "270";
+			if (this.$vuetify.display.lgAndUp) retVal = "300";
+			if (this.$vuetify.display.xlAndUp) retVal = "330";
 			return retVal;
 		},
 

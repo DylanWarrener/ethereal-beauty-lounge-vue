@@ -16,6 +16,7 @@ body {
 body,
 p {
 	font-size: $font_size_mobile_body;
+	font-weight: $font_weight_p;
 	line-height: $font_line_height_mobile_body;
 	color: rgb(var(--v-theme-default));
 }
@@ -77,6 +78,28 @@ h6 {
 }
 .clickable {
 	cursor: pointer;
+}
+::-webkit-scrollbar {
+	width: 0.75em;
+	height: 0.75em;
+}
+::-webkit-scrollbar-track {
+	background: rgb(var(--v-theme-default));
+	border-radius: 100vw;
+}
+::-webkit-scrollbar-thumb {
+	background: rgba(var(--v-theme-accent), 1);
+	border-radius: 100vw;
+	border: 0.1em solid rgb(var(--v-theme-default));
+
+	&:hover {
+		background: rgba(var(--v-theme-accent), 0.8);
+	}
+}
+@supports (scrollbar-color: rgb(var(--v-theme-accent)) rgb(var(--v-theme-default))) {
+	* {
+		scrollbar-color: rgb(var(--v-theme-accent)) rgb(var(--v-theme-default));
+	}
 }
 
 /* V-LAYOUT */

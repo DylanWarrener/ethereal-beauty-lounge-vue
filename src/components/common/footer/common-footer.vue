@@ -6,8 +6,8 @@
 				<v-col cols="12" sm="6" class="d-flex" style="height: 75px">
 					<p class="w-100 align-self-center text-center">Get connected with us on our social networks!</p>
 				</v-col>
-				<v-divider v-if="isDeviceSmall"></v-divider>
-				<v-divider vertical v-else></v-divider>
+				<v-divider color="default" v-if="isDeviceSmall"></v-divider>
+				<v-divider color="default" vertical v-else></v-divider>
 				<v-col cols="12" sm="6" class="d-flex" style="height: 75px">
 					<div class="footer_socials w-100 d-flex flex-row justify-space-evenly align-center">
 						<v-btn icon variant="flat" class="bg-accent" :key="index" v-for="(svg, index) in socials">
@@ -19,7 +19,7 @@
 						</v-btn>
 					</div>
 				</v-col>
-				<v-divider></v-divider>
+				<v-divider color="default"></v-divider>
 
 				<!-- Navigation -->
 				<v-col cols="12" class="d-flex" style="min-height: 75px">
@@ -36,7 +36,7 @@
 						</v-btn>
 					</div>
 				</v-col>
-				<v-divider></v-divider>
+				<v-divider color="default"></v-divider>
 
 				<!-- Information -->
 				<v-col cols="12" md="6" class="d-flex align-center" style="height: 75px">
@@ -44,8 +44,8 @@
 						48 Papyrus Road, Peterborough, Cambridgeshire, PE4 5BH, UK
 					</small>
 				</v-col>
-				<v-divider v-if="isDeviceMedium"></v-divider>
-				<v-divider vertical v-else></v-divider>
+				<v-divider color="default" v-if="isDeviceMedium"></v-divider>
+				<v-divider color="default" vertical v-else></v-divider>
 				<v-col cols="12" md="6" class="d-flex align-center" style="height: 75px">
 					<small class="w-100 text-center">
 						Copyright © 2024 Ethereal Beauty Lounge - All Rights Reserved.

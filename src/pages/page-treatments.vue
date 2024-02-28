@@ -75,26 +75,24 @@
 							<v-row dense class="d-flex justify-center align-center">
 								<template v-for="treatmentType in data_treatmentTypes">
 									<v-col
-										cols="12"
-										md="6"
-										lg="4"
-										xl="3"
-										xxl="2"
+										cols="auto"
 										class="justify-center align-center"
 										:style="{
 											display:
-												treatmentType.treatmentCategory === data_selectedChips ||
-												data_selectedChips === 0
+												treatmentType.treatmentCategory === data_selectedChips
 													? `flex`
 													: `none`,
+											visibility:
+												treatmentType.treatmentCategory === data_selectedChips
+													? `visible`
+													: `hidden`,
 										}"
 									>
 										<v-card
 											variant="outlined"
-											class="pa-2 w-100 flex-column justify-space-between align-center"
-											:min-width="treatmentCardMinWidth"
-											:max-width="treatmentCardMaxWidth"
-											:height="treatmentCardHeight"
+											class="flex-column align-center justify-space-between"
+											:width="dynamicWidth"
+											:height="dynamicHeight"
 											:style="{
 												display:
 													treatmentType.treatmentCategory === data_selectedChips
@@ -106,7 +104,9 @@
 												<v-card-title
 													class="d-flex flex-row justify-center align-center text-wrap"
 												>
-													<h4 class="text-inverted">{{ treatmentType.title }}</h4>
+													<h4 class="text-inverted">
+														{{ treatmentType.title }}
+													</h4>
 													<v-tooltip
 														text="x1 represents the amount of sessions, e.g. x5 = 5 sessions."
 													>
@@ -139,50 +139,70 @@
 															{{ price + " " }}
 														</v-chip>
 													</v-chip-group>
-													<p class="text-left" v-if="treatmentType.includes">
-														<span class="text-inverted font-weight-bold">Includes: </span>
-														<small class="text-inverted text-uppercase">{{
-															treatmentType.includes
-														}}</small>
-													</p>
-													<p class="text-left">
-														<span class="text-inverted font-weight-bold">Duration: </span>
-														<small class="text-inverted">
-															{{
-																treatmentType.time > 60
-																	? `${Math.floor(treatmentType.time / 60)} hour`
-																	: `${treatmentType.time} mins`
-															}}
-															{{
-																treatmentType.time > 60
-																	? `${
-																			((treatmentType.time / 60) % 1) * 60 === 0
-																				? ""
-																				: ((treatmentType.time / 60) % 1) * 60
-																	  } mins`
-																	: ""
-															}}
-														</small>
-													</p>
-													<p class="text-left">
-														<span class="text-inverted font-weight-bold"
-															>Consultation:
-														</span>
-														<small class="text-inverted">
-															{{
-																treatmentType.price.consultation === 0
-																	? "Free"
-																	: `£${treatmentType.price.consultation}`
-															}}
-														</small>
-													</p>
+													<v-container fluid>
+														<v-row dense>
+															<v-col cols="12" v-if="treatmentType.includes">
+																<p class="text-left" v-if="treatmentType.includes">
+																	<span class="text-inverted font-weight-bold"
+																		>Includes:
+																	</span>
+																	<small class="text-inverted text-uppercase">{{
+																		treatmentType.includes
+																	}}</small>
+																</p>
+															</v-col>
+															<v-col cols="12" sm="6">
+																<p :class="treatmentCardTextAlign">
+																	<span class="text-inverted font-weight-bold"
+																		>Duration:
+																	</span>
+																	<small class="text-inverted">
+																		{{
+																			treatmentType.time > 60
+																				? `${Math.floor(
+																						treatmentType.time / 60
+																				  )} hour`
+																				: `${treatmentType.time} mins`
+																		}}
+																		{{
+																			treatmentType.time > 60
+																				? `${
+																						((treatmentType.time / 60) %
+																							1) *
+																							60 ===
+																						0
+																							? ""
+																							: ((treatmentType.time /
+																									60) %
+																									1) *
+																							  60
+																				  } mins`
+																				: ""
+																		}}
+																	</small>
+																</p>
+															</v-col>
+															<v-col cols="12" sm="6">
+																<p :class="treatmentCardTextAlign">
+																	<span class="text-inverted font-weight-bold"
+																		>Consultation:
+																	</span>
+																	<small class="text-inverted">
+																		{{
+																			treatmentType.price.consultation === 0
+																				? "Free"
+																				: `£${treatmentType.price.consultation}`
+																		}}
+																	</small>
+																</p>
+															</v-col>
+														</v-row>
+													</v-container>
 												</v-card-subtitle>
 											</v-card-item>
 											<v-card-actions class="w-100">
 												<v-spacer></v-spacer>
-												<v-btn width="100" height="50" class="bg-accent text-default"
-													>Book</v-btn
-												>
+												<v-btn class="bg-accent text-default">Book</v-btn>
 												<v-spacer></v-spacer>
 											</v-card-actions>
 										</v-card>
@@ -590,19 +610,23 @@ export default defineComponent({
 	},
 	computed: {
 		/* CSS */
-		treatmentCardMinWidth(): string {
+		dynamicWidth(): string {
 			let retVal: string = "100%";
-			if (this.$vuetify.display.lgAndUp) retVal = "400px";
+			if (this.$vuetify.display.smAndUp) retVal = "400";
+			if (this.$vuetify.display.mdAndUp) retVal = "450";
+			if (this.$vuetify.display.xlAndUp) retVal = "500";
+			if (this.$vuetify.display.xxl) retVal = "550";
 			return retVal;
 		},
-		treatmentCardMaxWidth(): string {
+		dynamicHeight(): string {
 			let retVal: string = "100%";
+			if (this.$vuetify.display.mdAndUp) retVal = "300";
+			if (this.$vuetify.display.xlAndUp) retVal = "325";
 			return retVal;
 		},
-		treatmentCardHeight(): string {
-			let retVal: string = "250px";
-			if (this.$vuetify.display.smAndUp) retVal = "300px";
-			if (this.$vuetify.display.lgAndUp) retVal = "350px";
+		treatmentCardTextAlign(): string {
+			let retVal: string = "text-left";
+			if (this.$vuetify.display.smAndUp) retVal = "text-center";
 			return retVal;
 		},
 
