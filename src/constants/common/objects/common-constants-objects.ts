@@ -15,6 +15,8 @@ import {
 	mdiMapMarker,
 	mdiEmailFast,
 	mdiPhone,
+	mdiEye,
+	mdiEyeOff
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -83,6 +85,10 @@ export const iconsContactDetails = {
 	location: mdiMapMarker,
 	email: mdiEmailFast,
 	phone: mdiPhone,
+};
+export const iconsFormPassword = {
+	show: mdiEye,
+	hide: mdiEyeOff
 };
 
 // ---------------------------------------------------------------------------------------------------------

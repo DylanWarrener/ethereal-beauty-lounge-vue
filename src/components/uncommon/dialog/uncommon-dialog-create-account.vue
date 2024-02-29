@@ -1,9 +1,11 @@
-<template><p>Sign up</p></template>
+<template>
+    <div>Test</div>
+</template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "sign-up-page-component",
+	name: "dialog-create-account-component"
 });
 </script>

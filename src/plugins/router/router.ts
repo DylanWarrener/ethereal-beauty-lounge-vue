@@ -13,8 +13,8 @@ const Store = () => import("@pages/page-store.vue");
 const Contact = () => import("@pages/page-contact.vue");
 const Reviews = () => import("@pages/page-reviews.vue");
 const About = () => import("@pages/page-about.vue");
-const SignIn = () => import("@pages/page-signin.vue");
-const SignUp = () => import("@pages/page-signup.vue");
+const LogIn = () => import("@pages/page-login.vue");
+const CreateAccount = () => import("@pages/page-create-account.vue");
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,8 +26,8 @@ const router = createRouter({
 		{ path: txtRouteLinks.contact, name: txtRouteNames.contact, component: Contact },
 		{ path: txtRouteLinks.reviews, name: txtRouteNames.reviews, component: Reviews },
 		{ path: txtRouteLinks.about, name: txtRouteNames.about, component: About },
-		{ path: "/signin", name: "signin", component: SignIn },
-		{ path: "/signup", name: "signup", component: SignUp },
+		{ path: "/login", name: "Login", component: LogIn },
+		{ path: "/createAccount", name: "CreateAccount", component: CreateAccount },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
 });

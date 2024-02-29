@@ -1,9 +1,11 @@
-<template><p>Sign in</p></template>
+<template>
+	<v-container fluid></v-container>
+</template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "sign-in-page-component",
+	name: "login-page-container-component",
 });
 </script>

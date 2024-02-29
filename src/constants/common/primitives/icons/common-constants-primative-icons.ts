@@ -17,6 +17,8 @@ import {
 	mdiMapMarker,
 	mdiEmailFast,
 	mdiPhone,
+	mdiEye,
+	mdiEyeOff
 } from "@mdi/js";
 
 export {
@@ -38,4 +40,6 @@ export {
 	mdiMapMarker,
 	mdiEmailFast,
 	mdiPhone,
+	mdiEye,
+	mdiEyeOff
 };
