@@ -462,7 +462,10 @@ h6 {
 
 					.v-icon {
 						//border: 2px solid black;
-						color: rgb(var(--v-theme-inverted));
+
+						.v-icon__svg {
+							//fill: rgb(var(--v-theme-inverted));
+						}
 					}
 				}
 			}

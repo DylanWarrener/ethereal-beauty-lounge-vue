@@ -11,7 +11,7 @@ export interface IHeaderAppbarIconsState {
 	menu: IHeaderAppBarCommonIconState;
 	search: IHeaderAppBarCommonIconState;
 	basket: IHeaderAppBarCommonIconState;
-	login: IHeaderAppBarCommonIconState;
+	account: IHeaderAppBarCommonIconState;
 	profile: IHeaderAppBarCommonIconState;
 	options: IHeaderAppBarCommonIconState;
 }

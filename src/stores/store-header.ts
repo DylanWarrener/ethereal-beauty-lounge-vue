@@ -39,9 +39,9 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 					showTooltip: false,
 					showDrawer: false,
 				},
-				login: {
-					icon: iconsAppBar.login,
-					tooltip: tooltipsAppBar.login,
+				account: {
+					icon: iconsAppBar.account,
+					tooltip: tooltipsAppBar.account,
 					showTooltip: false,
 					showDrawer: false,
 				},
@@ -78,8 +78,8 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		getAppBarSearchTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.search.showTooltip,
 		getAppBarBasketDrawerState: (state: IHeaderState): boolean => state.appBar.icons.basket.showDrawer,
 		getAppBarBasketTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.basket.showTooltip,
-		getAppBarLoginDrawerState: (state: IHeaderState): boolean => state.appBar.icons.login.showDrawer,
-		getAppBarLoginTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.login.showTooltip,
+		getAppBarAccountDrawerState: (state: IHeaderState): boolean => state.appBar.icons.account.showDrawer,
+		getAppBarLoginTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.account.showTooltip,
 		getAppBarProfileDrawerState: (state: IHeaderState): boolean => state.appBar.icons.profile.showDrawer,
 		getAppBarProfileTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.profile.showTooltip,
 		getAppBarOptionsDrawerState: (state: IHeaderState): boolean => state.appBar.icons.options.showDrawer,
@@ -111,11 +111,11 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		setAppBarBasketTooltipDrawer(newValue: boolean): void {
 			this.appBar.icons.basket.showTooltip = newValue;
 		},
-		setAppBarLoginDrawerState(newValue: boolean): void {
-			this.appBar.icons.login.showDrawer = newValue;
+		setAppBarAccountDrawerState(newValue: boolean): void {
+			this.appBar.icons.account.showDrawer = newValue;
 		},
 		setAppBarLoginTooltipDrawer(newValue: boolean): void {
-			this.appBar.icons.login.showTooltip = newValue;
+			this.appBar.icons.account.showTooltip = newValue;
 		},
 		setAppBarOptionsDrawerState(newValue: boolean): void {
 			this.appBar.icons.options.showDrawer = newValue;

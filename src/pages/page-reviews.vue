@@ -8,7 +8,7 @@
 							<template #card-headings>
 								<v-card-item class="pa-4">
 									<v-card-title class="text-wrap">
-										<h1>All reviews</h1>
+										<h1>Our reviews</h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap">
 										<h3>See what other people are saying about us?</h3>
@@ -22,7 +22,7 @@
 										variant="flat"
 										size="large"
 										color="accent"
-										text="See all reviews?"
+										text="See our reviews?"
 										@click="scrollToElement('section-reviews')"
 									></v-btn>
 								</v-card-actions>
@@ -39,7 +39,86 @@
 		id="section-reviews"
 		class="bg-default"
 		class_title="text-inverted"
-		title="All reviews"
+		title="Most recent reviews"
+	>
+		<template #section-content>
+			<v-container fluid class="text-inverted">
+				<v-row dense>
+					<v-col cols="12">
+						<v-sheet class="w-100 h-100 d-flex">
+							<v-slide-group center-active class="pa-4 h-100" v-model="reviews.value">
+								<v-slide-group-item
+									:key="index"
+									v-slot="{ toggle }"
+									v-for="(review, index) in reviews.items"
+								>
+									<v-card
+										class="bg-accent d-flex flex-wrap"
+										:width="dynamicWidth"
+										:height="dynamicHeight"
+										:class="index !== reviews.items.length - 1 ? 'mr-4' : ''"
+										@click="toggle"
+									>
+										<v-container fluid class="d-flex" style="max-height: 100%">
+											<v-row dense class="d-flex flex-row overflow-x-hidden overflow-y-auto">
+												<v-col
+													cols="12"
+													sm="6"
+													class="d-flex"
+													:class="`${
+														$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
+													}`"
+												>
+													<p class="font-weight-bold">{{ review.name }}</p>
+												</v-col>
+												<v-col
+													cols="12"
+													sm="6"
+													class="d-flex font-weight-bold"
+													:class="`${
+														$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
+													}`"
+												>
+													<span>
+														<time>
+															{{ review.date }}
+														</time>
+													</span>
+												</v-col>
+												<v-col cols="12" class="pa-0 my-2">
+													<v-rating
+														readonly
+														half-increments
+														class="w-100 d-flex"
+														item-aria-label="custom icon label text {0} of {1}"
+														size="x-small"
+														:class="`${
+															$vuetify.display.smAndUp
+																? 'justify-center'
+																: 'justify-start'
+														}`"
+														:model-value="review.rating"
+													></v-rating>
+												</v-col>
+												<v-col cols="12">
+													<p>{{ review.message }}</p>
+												</v-col>
+											</v-row>
+										</v-container>
+									</v-card>
+								</v-slide-group-item>
+							</v-slide-group>
+						</v-sheet>
+					</v-col>
+				</v-row>
+			</v-container>
+		</template>
+	</section-container-component>
+	<section-container-component
+		id="section-reviews"
+		class="bg-default"
+		class_title="text-inverted"
+		title="5-star Reviews"
 	>
 		<template #section-content>
 			<v-container fluid class="text-inverted">
@@ -97,7 +176,7 @@
 																? 'justify-center'
 																: 'justify-start'
 														}`"
-														v-model="review.rating"
+														:model-value="review.rating"
 													></v-rating>
 												</v-col>
 												<v-col cols="12">
@@ -250,7 +329,7 @@ export default defineComponent({
 	computed: {
 		/* CSS */
 		dynamicWidth(): string {
-			let retVal: string = "210";
+			let retVal: string = "200";
 			if (this.$vuetify.display.smAndUp) retVal = "300";
 			if (this.$vuetify.display.mdAndUp) retVal = "340";
 			if (this.$vuetify.display.lgAndUp) retVal = "380";

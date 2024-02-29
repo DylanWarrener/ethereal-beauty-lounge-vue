@@ -70,24 +70,30 @@
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-		<v-divider vertical inset class="mx-2 border-opacity-75"></v-divider>
+		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
+
+		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn">
+			<template v-slot:activator="{ props }">
+				<v-btn
+					class="mr-2 d-none d-sm-flex"
+					:id="id_appbarAccountBtn"
+					:icon="icon_appBarAccountBtn"
+					v-bind="props"
+					@click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+				></v-btn>
+			</template>
+		</v-tooltip>
+
 		<menu-container-component
 			menu-location="bottom"
-			btn-class="d-none d-sm-flex"
-			:tooltip-text="tooltip_appBarLoginBtn"
-			:btn-id="id_appbarLoginBtn"
-			:btn-icon="icon_appBarLoginBtn"
-			@toggle-menu-drawer="data_appBarLoginDrawerState = !data_appBarLoginDrawerState"
-		></menu-container-component>
-		<menu-container-component
-			menu-location="bottom"
-			btn-class="d-sm-none"
+			btn-class="mr-2 d-sm-none"
 			:tooltip-text="tooltip_appBarOptionsBtn"
 			:btn-id="id_appBarOptionsBtn"
 			:btn-icon="icon_appBarOptionsBtn"
 			@toggle-menu-drawer="data_appBarOptionsDrawerState = !data_appBarOptionsDrawerState"
 		></menu-container-component>
 	</v-app-bar>
+
 	<navigation-container-component
 		class="d-flex d-md-none"
 		location="bottom"
@@ -152,8 +158,8 @@ export default defineComponent({
 		id_appBarBasketBtn(): string {
 			return ElementIDs.APPBAR_BASKET_BTN;
 		},
-		id_appbarLoginBtn(): string {
-			return ElementIDs.APPBAR_LOGIN_BTN;
+		id_appbarAccountBtn(): string {
+			return ElementIDs.APPBAR_ACCOUNT_BTN;
 		},
 		id_appBarOptionsBtn(): string {
 			return ElementIDs.APPBAR_OPTIONS_BTN;
@@ -168,8 +174,8 @@ export default defineComponent({
 		tooltip_appBarBasketBtn(): string {
 			return this.icons_appBar.basket.tooltip;
 		},
-		tooltip_appBarLoginBtn(): string {
-			return this.icons_appBar.login.tooltip;
+		tooltip_appBarAccountBtn(): string {
+			return this.icons_appBar.account.tooltip;
 		},
 		tooltip_appBarOptionsBtn(): string {
 			return this.icons_appBar.options.tooltip;
@@ -188,8 +194,8 @@ export default defineComponent({
 		icon_appBarBasketBtn(): string {
 			return this.icons_appBar.basket.icon;
 		},
-		icon_appBarLoginBtn(): string {
-			return this.icons_appBar.login.icon;
+		icon_appBarAccountBtn(): string {
+			return this.icons_appBar.account.icon;
 		},
 		icon_appBarOptionsBtn(): string {
 			return this.icons_appBar.options.icon;
@@ -231,12 +237,12 @@ export default defineComponent({
 				this.storeHeader.setAppBarBasketDrawerState(newValue);
 			},
 		},
-		data_appBarLoginDrawerState: {
+		data_appBarAccountDrawerState: {
 			get(): boolean {
-				return this.storeHeader.getAppBarLoginDrawerState;
+				return this.storeHeader.getAppBarAccountDrawerState;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarLoginDrawerState(newValue);
+				this.storeHeader.setAppBarAccountDrawerState(newValue);
 			},
 		},
 		data_appBarOptionsDrawerState: {

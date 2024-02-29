@@ -6,7 +6,6 @@ import {
 	mdiInformation,
 	mdiStore,
 	mdiLotion,
-	mdiLogin,
 	mdiBasketOutline,
 	mdiMagnify,
 	mdiAccount,
@@ -31,7 +30,7 @@ export const txtAppBar = {
 	menu: "Menu",
 	search: "Search",
 	basket: "Basket",
-	login: "Log in",
+	account: "Account",
 	profile: "Profile",
 	options: "Options",
 };
@@ -64,7 +63,7 @@ export const iconsAppBar = {
 	menu: mdiMenu,
 	search: mdiMagnify,
 	basket: mdiBasketOutline,
-	login: mdiLogin,
+	account: mdiAccount,
 	profile: mdiAccount,
 	options: mdiDotsVertical,
 };
@@ -93,7 +92,7 @@ export const tooltipsAppBar = {
 	menu: txtAppBar.menu,
 	search: txtAppBar.search,
 	basket: txtAppBar.basket,
-	login: txtAppBar.login,
+	account: txtAppBar.account,
 	profile: txtAppBar.profile,
 	options: txtAppBar.options,
 };
