@@ -20,7 +20,8 @@ p {
 	line-height: $font_line_height_mobile_body;
 	color: rgb(var(--v-theme-default));
 }
-span {
+span,
+a {
 	font-size: $font_size_mobile_span;
 	line-height: $font_line_height_mobile_span;
 	color: rgb(var(--v-theme-default));

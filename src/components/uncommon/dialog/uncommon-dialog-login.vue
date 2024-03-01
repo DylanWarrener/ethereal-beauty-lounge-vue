@@ -5,90 +5,26 @@
 		:max-width="dynamicMaxWidth_dialog"
 		v-model="data_dialogAccountDrawerState"
 	>
-		<v-card style="border: 2px solid red">
+		<v-card>
 			<v-toolbar color="accent">
+				<h6>{{ txt_toolbarTitle }}</h6>
 				<v-spacer></v-spacer>
 				<v-tooltip location="bottom" :text="tooltip_dialogCloseBtn">
 					<template #activator="{ props: tooltip }">
-						<button-container-component
-							:id="id_dialogCloseBtn"
+						<v-btn
 							:icon="icon_dialogCloseBtn"
 							v-bind="tooltip"
 							@click="data_dialogAccountDrawerState = !data_dialogAccountDrawerState"
-						></button-container-component>
+						>
+							<template v-slot:default>
+								<v-icon color="default"></v-icon>
+							</template>
+						</v-btn>
 					</template>
 				</v-tooltip>
 			</v-toolbar>
 			<v-img class="align-self-center" src="logo-transparent.png" width="128" height="128"></v-img>
-			<h4 class="text-inverted">Log into Ethereal Beauty Lounge</h4>
-			<v-container fluid style="border: 2px solid black">
-				<v-row dense style="border: 2px solid red">
-					<v-col cols="12" style="border: 2px solid black">
-						<v-form class="w-100 d-flex flex-column justify-space-evenly" style="border: 2px solid red">
-							<v-text-field variant="outlined" :label="data_dialogLogin.form.email.label"></v-text-field>
-							<v-text-field 
-								variant="outlined" 
-								:label="data_dialogLogin.form.password.label"
-								:append="data_dialogLogin.form.password.icon"
-								@click:append="data_dialogLogin.form.password.show = !data_dialogLogin.form.password.show">
-							</v-text-field>
-						</v-form>
-						<!--
-							<v-form class="w-100 d-flex flex-column justify-space-evenly" style="border: 2px solid red">
-							<v-text-field 
-								variant="outlined" 
-								:label="input.label" 
-								:append-icon="input.icon !== null && input.show ? input.icon!.show : input.icon!.hide" 
-								:key="index" 
-								v-for="(input, index) in data_dialogLogin.form"
-								@click:append="input.show !== null ? input.show = !input.show"
-							></v-text-field>
-						</v-form>
-						-->
-					</v-col>
-					<v-col cols="12" style="border: 2px solid orange">
-						<v-row dense style="border: 2px solid black">
-							<v-col class="d-flex flex-column justify-center" style="border: 2px solid purple">
-								<v-divider style="opacity: 1" color="accent"></v-divider>
-							</v-col>
-							<v-col cols="1" class="d-flex flex-column justify-center" style="border: 2px solid purple">
-								<small class="text-center text-inverted">OR</small>
-							</v-col>
-							<v-col class="d-flex flex-column justify-center" style="border: 2px solid purple">
-								<v-divider style="opacity: 1" color="accent"></v-divider>
-							</v-col>
-						</v-row>
-					</v-col>
-					<v-col
-						cols="12"
-						class="ga-4 d-flex flex-column justify-center align-center"
-						style="border: 2px solid red"
-					>
-						<v-btn variant="outlined" class="bg-transparent" :key="index" v-for="(btn, index) in data_dialogLogin.btn">
-							<v-icon class="mr-4">
-								<template #default>
-									<v-img :src="btn.icon"></v-img>
-								</template>
-							</v-icon>
-							{{ btn.text }}
-						</v-btn>
-						<!-- <v-form style="border: 2px solid orange">
-							<v-text-field
-								clearable
-								variant="outlined"
-								class="text-inverted"
-								label="Email*"
-							></v-text-field>
-							<v-text-field
-								clearable
-								variant="outlined"
-								class="text-inverted"
-								label="Password*"
-							></v-text-field>
-						</v-form> -->
-					</v-col>
-				</v-row>
-			</v-container>
+			<component :is="selectedComponent" @change="setSelectedComponent"></component>
 		</v-card>
 	</v-dialog>
 </template>
@@ -104,19 +40,20 @@ import useHeaderStore from "@stores/store-header.js";
 import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
+import LoginComp from "@components/common/form/login/common-form-login.vue";
+import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
+import RecoverAccountComp from "@components/common/form/recover-account/common-form-recover-account.vue";
+import CreateAccountComp from "@components/common/form/create-account/common-form-create-account.vue";
+import ErrorMoreInfoRequiredComp from "@components/common/errors/common-errors-more-information-required.vue";
 
 // Interfaces
-import {
-	IDialogDefaultState,
-	IDialogLoginState,
-} from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
+import { IDialogDefaultState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
+
+// Constants
+import { notEmpty } from "@constants/common/functions/validation/common-constants-functions-validation.js";
 
 // Enums
 import { ElementIDs } from "@enums/enums.js";
-
-// Icons
-import GoogleIcon from "@assets/svg/authentication/google.svg";
-import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "dialog-login-component",
@@ -124,37 +61,37 @@ export default defineComponent({
 		"dialog-container-component": DialogContainerComp,
 		"card-container-component": CardContainerComp,
 		"button-container-component": BtnContainerComp,
+		"login-container-component": LoginComp,
+		"forgotten-password-container-component": ForgottenPasswordComp,
+		"recover-account-container-component": RecoverAccountComp,
+		"create-account-container-component": CreateAccountComp,
+		"more-information-required-container-component": ErrorMoreInfoRequiredComp,
 	},
 	data() {
 		return {
-			data_dialogLogin: {
-				btn: {
-					google: {
-						text: "Continue with Google",
-						icon: GoogleIcon
-					}
-				},
-				form: {
-					valid: null,
-					email: {
-						show: null,
-						icon: null,
-						label: "Email"
-					},
-					password: {
-						show: false,
-						icon: {
-							show: iconsFormPassword.show,
-							hide: iconsFormPassword.hide
-						},
-						label: "Password"
-					}
-				}
-			},
-		}
+			selectedComponent: "login-container-component",
+		};
 	},
 	computed: {
 		/* Text */
+		txt_toolbarTitle(): string {
+			let retVal: string = "Please log into Ethereal Beauty Lounge";
+			switch (this.selectedComponent) {
+				case "forgotten-password-container-component":
+					retVal = "Forgotten password";
+					break;
+				case "recover-account-container-component":
+					retVal = "Recover your account";
+					break;
+				case "create-account-container-component":
+					retVal = "Create your account";
+					break;
+				case "more-information-required-container-component":
+					retVal = "More information needed";
+					break;
+			}
+			return retVal;
+		},
 		// IDs
 		id_dialogCloseBtn(): string {
 			return ElementIDs.DIALOG_LOGIN_CLOSE_BTN;
@@ -170,16 +107,6 @@ export default defineComponent({
 			if (this.$vuetify.display.mdAndUp) retVal = "50%";
 			return retVal;
 		},
-		dynamicWidth_dialogBtn(): string {
-			let retVal: string = "200";
-			if (this.$vuetify.display.mdAndUp) retVal = "250";
-			if (this.$vuetify.display.lgAndUp) retVal = "300";
-			return retVal;
-		},
-		dynamicHeight_dialogBtn(): string {
-			let retVal: string = "50";
-			return retVal;
-		},
 
 		/* Icons */
 		icon_dialogCloseBtn(): string {
@@ -191,9 +118,6 @@ export default defineComponent({
 		data_dialogDefaultState(): IDialogDefaultState {
 			return this.storeCommon.getDialogDefaultState;
 		},
-		data_dialogLogin(): IDialogLoginState {
-			return this.storeCommon.getDialogLoginState;
-		},
 		// Read & Write
 		data_dialogAccountDrawerState: {
 			get(): boolean {
@@ -204,6 +128,33 @@ export default defineComponent({
 			},
 		},
 	},
+	methods: {
+		/* Events */
+		setSelectedComponent(comp: string): void {
+			this.selectedComponent = comp;
+		},
+
+		/* Validation */
+		isNotEmpty(value: string): boolean | string {
+			const isValueValid: boolean = !!value && value.length > 0;
+			let retVal: boolean | string = false;
+			if (isValueValid) {
+				retVal = notEmpty(value.toString());
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		},
+		isEmailValid(value: string): boolean | string {
+			let retVal: boolean | string = false;
+			return retVal;
+		},
+		isPasswordValid(value: string): boolean | string {
+			let retVal: boolean | string = false;
+			return retVal;
+		},
+	},
 	setup() {
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
@@ -211,37 +162,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style lang="scss">
-.v-dialog {
-	.v-card {
-		.v-container {
-			.v-row {
-				.v-col {
-					.v-btn {
-						border-color: rgb(var(--v-theme-inverted));
-
-						.v-btn__content {
-							color: rgb(var(--v-theme-inverted));
-						}
-					}
-
-					.v-form {
-						.v-input {
-							.v-input__control {
-								.v-field {
-									.v-field__field {
-										.v-label {
-											color: rgb(var(--v-theme-inverted));
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-</style>

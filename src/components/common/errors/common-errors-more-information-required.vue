@@ -1,0 +1,48 @@
+<template>
+	<v-container fluid style="border: 2px solid black">
+		<v-row dense style="border: 2px solid red">
+			<v-col cols="12">
+				<p class="pa-4 text-center flex-wrap text-inverted">
+					To help recover your account, we will need more information.
+				</p>
+			</v-col>
+			<v-col class="d-flex flex-column align-center" style="border: 2px solid blue">
+				<v-btn
+					height="50"
+					class="px-8 bg-accent"
+					:style="dynamicWidth_dialogFormInput"
+					@click="emit_handler('login-container-component')"
+				>
+					Try again
+				</v-btn>
+			</v-col>
+		</v-row>
+	</v-container>
+</template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+	name: "more-information-required-container-component",
+	data() {
+		return {
+			rules: {
+				isNotEmpty: (value: string) => !!value || "A value must be entered.",
+			},
+		};
+	},
+	computed: {
+		/* CSS */
+		dynamicWidth_dialogFormInput(): string {
+			let retVal: string = "width: 100%; max-width: 400px";
+			return retVal;
+		},
+	},
+	methods: {
+		emit_handler(value: string): void {
+			this.$emit("change", value);
+		},
+	},
+});
+</script>
