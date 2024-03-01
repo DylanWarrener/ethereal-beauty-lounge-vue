@@ -7,10 +7,16 @@
 					Policy.
 				</p>
 			</v-col>
-			<v-col class="pa-2">
-				<p class="d-flex justify-center text-button font-weight-bold">
-					<a class="pa-2 text-decoration-none text-inverted" href="#"> Back to login? </a>
-				</p>
+			<v-col class="pa-2 d-flex flex-column align-center">
+				<v-btn
+					height="50"
+					class="mt-4 px-8 bg-accent"
+					:style="dynamicWidth_dialogFormInput"
+					:disabled="!valid"
+					@click.stop=""
+				>
+					Send email
+				</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -21,5 +27,25 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
 	name: "create-account-container-component",
+	data() {
+		return {
+			valid: false,
+			rules: {
+				isNotEmpty: (value: string) => !!value || "A value must be entered.",
+			},
+		};
+	},
+	computed: {
+		/* CSS */
+		dynamicWidth_dialogFormInput(): string {
+			let retVal: string = "width: 100%; max-width: 400px";
+			return retVal;
+		},
+	},
+	methods: {
+		emit_handler(value: string): void {
+			this.$emit("change", value);
+		},
+	},
 });
 </script>
