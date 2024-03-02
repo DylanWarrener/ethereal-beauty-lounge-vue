@@ -31,7 +31,7 @@
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
-						:rules="[rules.isNotEmpty, rules.isMinLength, rules.isCombination]"
+						:rules="[rules.isNotEmpty, rules.isPasswordMinLength, rules.isCombination]"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormLogin.input.password.label"></span>
@@ -180,7 +180,7 @@ export default defineComponent({
 			},
 			rules: {
 				isNotEmpty: (value: string) => !!value || "A value must be entered.",
-				isMinLength: (value: string) => value && value.length >= 12 || "At least 12 characters.",
+				isPasswordMinLength: (value: string) => value && value.length >= 12 || "At least 12 characters.",
 				isCombination: (value: string) => value && /[\x00-\x7F]+/g.test(value) || "Must contain a combination of uppercase, lowercase, numbers & symbols."
 			},
 		};

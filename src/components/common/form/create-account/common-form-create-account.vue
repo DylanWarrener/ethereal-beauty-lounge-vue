@@ -11,7 +11,7 @@
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[rules.isNotEmpty]"
+						:rules="[isNotEmpty, isNameMinLength]"
 						v-model="data_dialogFormCreateAccount.input.firstName.value"
 					>
 						<template #label>
@@ -23,7 +23,7 @@
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[rules.isNotEmpty]"
+						:rules="[isNotEmpty, isNameMinLength]"
 						v-model="data_dialogFormCreateAccount.input.lastName.value"
 					>
 						<template #label>
@@ -35,7 +35,7 @@
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[rules.isNotEmpty]"
+						:rules="[isNotEmpty, isEmailValid]"
 						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
@@ -44,10 +44,11 @@
 					</v-text-field>
 					<v-text-field
 						clearable
+						ref="ref_password"
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.password.show ? 'text' : 'password'"
-						:rules="[rules.isNotEmpty, rules.isMinLength, rules.isCombination]"
+						:rules="[isNotEmpty, isPasswordMinLength, isCombination]"
 						v-model="data_dialogFormCreateAccount.input.password.value"
 					>
 						<template #label>
@@ -69,7 +70,7 @@
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.repeatPassword.show ? 'text' : 'password'"
-						:rules="[rules.isNotEmpty, rules.isMinLength, rules.isCombination]"
+						:rules="[isNotEmpty, isPasswordMinLength, isCombination, arePasswordsIdentical]"
 						v-model="data_dialogFormCreateAccount.input.repeatPassword.value"
 					>
 						<template #label>
@@ -91,8 +92,8 @@
 						class="mt-4 px-8 bg-accent"
 						:style="dynamicWidth_dialogFormInput"
 						:disabled="!data_dialogFormCreateAccount.valid"
-						:text="data_dialogFormCreateAccount.actions.btn.send.text"
-						@click.stop=""
+						:text="data_dialogFormCreateAccount.actions.btn.create.text"
+						@click.stop="createAccount_handler"
 					></v-btn>
 				</v-form>
 			</v-col>
@@ -108,6 +109,7 @@ import { iconsFormPassword } from "@constants/common/objects/common-constants-ob
 
 export default defineComponent({
 	name: "create-account-container-component",
+	emits: {},
 	data() {
 		return {
 			data_dialogFormCreateAccount: {
@@ -115,49 +117,49 @@ export default defineComponent({
 				information: "By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
 				input: {
 					firstName: {
+						valid: false,
 						label: "First name",
-						value: null
+						value: ""
 					},
 					lastName: {
+						valid: false,
 						label: "Last name",
-						value: null
+						value: ""
 					},
 					email: {
+						valid: false,
 						label: "Email address",
-						value: null
+						value: ""
 					},
 					password: {
+						valid: false,
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
 							hide: iconsFormPassword.hide,
 						},
 						label: "Password",
-						value: null
+						value: ""
 					},
 					repeatPassword: {
+						valid: false,
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
 							hide: iconsFormPassword.hide,
 						},
 						label: "Repeat password",
-						value: null
+						value: ""
 					},
 				},
 				actions: {
 					btn: {
-						send: {
-							text: "Send email"
+						create: {
+							text: "Create account"
 						}
 					}
 				}
-			},
-			rules: {
-				isNotEmpty: (value: string) => !!value || "A value must be entered.",
-				isMinLength: (value: string) => value && value.length >= 12 || "At least 12 characters.",
-				isCombination: (value: string) => value && /[\x00-\x7F]+/g.test(value) || "Must contain a combination of uppercase, lowercase, numbers & symbols."
-			},
+			}
 		};
 	},
 	computed: {
@@ -166,11 +168,128 @@ export default defineComponent({
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;
 		},
+
+		/* Data */
+		isInputValid(): boolean {
+			const isFirstNameValid: boolean = this.data_dialogFormCreateAccount.input.firstName.value && this.data_dialogFormCreateAccount.input.firstName.value.length > 0; 
+			const isLastNameValid: boolean = this.data_dialogFormCreateAccount.input.lastName.valid; 
+			const isEmailValid: boolean = this.data_dialogFormCreateAccount.input.email.valid; 
+			const isPasswordValid: boolean = this.data_dialogFormCreateAccount.input.password.valid; 
+			const isRepeatPasswordValid: boolean = this.data_dialogFormCreateAccount.input.repeatPassword.valid; 
+
+			let retVal: boolean = false;
+			if (isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
+
+			}
+			return retVal;
+		},
+		isFormValid(): boolean {
+			const isFirstNameValid: boolean = this.data_dialogFormCreateAccount.input.firstName.valid; 
+			const isLastNameValid: boolean = this.data_dialogFormCreateAccount.input.lastName.valid; 
+			const isEmailValid: boolean = this.data_dialogFormCreateAccount.input.email.valid; 
+			const isPasswordValid: boolean = this.data_dialogFormCreateAccount.input.password.valid; 
+			const isRepeatPasswordValid: boolean = this.data_dialogFormCreateAccount.input.repeatPassword.valid; 
+
+			let retVal: boolean = false;
+			if (isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
+
+			}
+			return retVal;
+		}
 	},
 	methods: {
-		emit_handler(value: string): void {
-			this.$emit("change", value);
+		/* Events */
+		createAccount_handler(): void {
+
 		},
-	},
+		// Emit
+		emit_handler(newValue: string): void {
+			this.$emit("change", newValue);
+		},
+
+		/* Validation */
+		isNotEmpty(newValue: string): boolean | string {
+			let retVal: boolean | string = false;
+			// Checks for null & undefined
+			if (newValue) {
+				// Gets rid of whitespace
+				let val = newValue.trim(); 
+
+				// Checks the length
+				retVal = val.length > 0 || "A value must be entered.";
+			} else {
+    			retVal = "A value must be entered.";
+			}
+			return retVal;
+		},
+		isNameMinLength(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
+
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = newValue.length >= 3 || "At least 3 characters.";
+
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		},
+		isEmailValid(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
+
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = /^([^\s@]+@[^\s@]+\.[^\s@]+)$/g.test(newValue) || "Email must be valid.";
+
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		},
+		isPasswordMinLength(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
+			
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = newValue.length >= 12 || "At least 12 characters.";
+
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		},
+		isCombination(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
+
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{6,}$/g.test(newValue) || "Must contain a combination of uppercase, lowercase, numbers & symbols.";
+
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		},
+		arePasswordsIdentical(newValue: string): boolean | string {
+			const passwordValue = this.data_dialogFormCreateAccount.input.password.value;
+			const isPasswordValid: boolean = !!passwordValue && passwordValue.length > 0;
+			const repeatPasswordValue: string = newValue;
+			const isRepeatPasswordValid: boolean = !!repeatPasswordValue && repeatPasswordValue.length > 0;
+
+			let retVal: boolean | string = false;
+			if (isPasswordValid && isRepeatPasswordValid) {
+				retVal = passwordValue === repeatPasswordValue || "Passwords must match.";
+
+				if (retVal !== true) {
+					retVal = retVal as string;
+				}
+			}
+			return retVal;
+		}
+	}
 });
 </script>

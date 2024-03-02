@@ -135,7 +135,6 @@ export default defineComponent({
 			setTimeout(() => this.setSelectedComponent("login-container-component"), 100);
 		},
 		setSelectedComponent(comp: string): void {
-			debugger;
 			this.selectedComponent = comp;
 		},
 
