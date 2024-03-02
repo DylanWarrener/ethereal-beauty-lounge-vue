@@ -2,21 +2,18 @@
 	<v-container fluid style="border: 2px solid black">
 		<v-row dense style="border: 2px solid red">
 			<v-col cols="12">
-				<p class="pa-4 text-center flex-wrap text-inverted">
-					Enter your phone number, so we can send you the account recovery instructions.
-				</p>
+				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormRecoverAccount.information"></p>
 			</v-col>
 			<v-col cols="12" style="border: 2px solid blue">
-				<v-form class="d-flex flex-column align-center" style="border: 2px solid green" v-model="valid">
+				<v-form class="d-flex flex-column align-center" style="border: 2px solid green" v-model="data_dialogFormRecoverAccount.valid">
 					<v-select variant="outlined" :style="dynamicWidth_dialogFormInput"></v-select>
 					<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
 						<a
 							class="text-decoration-none text-accent"
 							href="#"
+							v-text="data_dialogFormRecoverAccount.actions.links.noAccess.text"
 							@click="emit_handler('more-information-required-container-component')"
-						>
-							I do not have access to this account?
-						</a>
+						></a>
 					</div>
 					<v-text-field
 						clearable
@@ -26,18 +23,17 @@
 						:rules="[rules.isNotEmpty]"
 					>
 						<template #label>
-							<span class="text-inverted">Phone number</span>
+							<span class="text-inverted" v-text="data_dialogFormRecoverAccount.input.phoneNumber.label"></span>
 						</template>
 					</v-text-field>
 					<v-btn
 						height="50"
 						class="mt-4 px-8 bg-accent"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!valid"
+						:disabled="!data_dialogFormRecoverAccount.valid"
+						:text="data_dialogFormRecoverAccount.actions.btn.send.text"
 						@click.stop=""
-					>
-						Send text
-					</v-btn>
+					></v-btn>
 				</v-form>
 			</v-col>
 			<v-col cols="12" class="pa-2">
@@ -45,10 +41,9 @@
 					<a
 						class="pa-2 text-decoration-none text-inverted"
 						href="#"
+						v-text="data_dialogFormRecoverAccount.actions.links.backToLogin.text"
 						@click="emit_handler('login-container-component')"
-					>
-						Back to login?
-					</a>
+					></a>
 				</p>
 			</v-col>
 		</v-row>
@@ -62,7 +57,30 @@ export default defineComponent({
 	name: "recover-account-container-component",
 	data() {
 		return {
-			valid: false,
+			data_dialogFormRecoverAccount: {
+				valid: false,
+				information: "Enter your phone number, so we can send you the account recovery instructions.",
+				input: {
+					phoneNumber: {
+						label: "Phone number"
+					}
+				},
+				actions: {
+					links: {
+						backToLogin: {
+							text: "Back to login?"
+						},
+						noAccess: {
+							text: "I do not have access to this account?"
+						}
+					},
+					btn: {
+						send: {
+							text: "Send text"
+						}
+					}
+				}
+			},
 			rules: {
 				isNotEmpty: (value: string) => !!value || "A value must be entered.",
 			},

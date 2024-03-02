@@ -5,7 +5,7 @@
 				<v-form
 					class="w-100 d-flex flex-column justify-space-evenly"
 					:class="`${$vuetify.display.xlAndUp ? 'align-end' : 'align-center'}`"
-					v-model="data_dialogLogin.valid"
+					v-model="data_dialogFormLogin.valid"
 				>
 					<v-text-field
 						clearable
@@ -15,38 +15,35 @@
 						:rules="[rules.isNotEmpty]"
 					>
 						<template #label>
-							<span class="text-inverted">{{ data_dialogLogin.email.label }}</span>
+							<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
 						</template>
 					</v-text-field>
 					<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
 						<a
 							class="text-decoration-none text-accent"
 							href="#"
+							v-text="data_dialogFormLogin.actions.links.forgottenPassword.text"
 							@click="emit_handler('forgotten-password-container-component')"
-						>
-							Forgot the login password?
-						</a>
+						></a>
 					</div>
 					<v-text-field
 						clearable
-						persistent-hint
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
-						:hint="data_dialogLogin.password.hint"
-						:type="data_dialogLogin.password.show ? 'text' : 'password'"
-						:rules="[rules.isNotEmpty]"
+						:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
+						:rules="[rules.isNotEmpty, rules.isMinLength, rules.isCombination]"
 					>
 						<template #label>
-							<span class="text-inverted">{{ data_dialogLogin.password.label }}</span>
+							<span class="text-inverted" v-text="data_dialogFormLogin.input.password.label"></span>
 						</template>
 						<template #append-inner>
 							<v-icon
 								:icon="
-									data_dialogLogin.password.show
-										? data_dialogLogin.password.icon.show
-										: data_dialogLogin.password.icon.hide
+									data_dialogFormLogin.input.password.show
+										? data_dialogFormLogin.input.password.icon.show
+										: data_dialogFormLogin.input.password.icon.hide
 								"
-								@click.stop="data_dialogLogin.password.show = !data_dialogLogin.password.show"
+								@click.stop="data_dialogFormLogin.input.password.show = !data_dialogFormLogin.input.password.show"
 							></v-icon>
 						</template>
 					</v-text-field>
@@ -54,11 +51,10 @@
 						height="50"
 						class="mt-4 px-8 bg-accent"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_dialogLogin.valid"
+						:disabled="!data_dialogFormLogin.valid"
+						:text="data_dialogFormLogin.actions.btn.login.text"
 						@click.stop=""
-					>
-						Log in
-					</v-btn>
+					></v-btn>
 				</v-form>
 			</v-col>
 			<v-col cols="12" xl="2" class="d-flex" style="border: 2px solid green">
@@ -103,7 +99,7 @@
 					height="50"
 					:style="dynamicWidth_dialogFormInput"
 					:key="index"
-					v-for="(btn, index) in data_dialogLogin.btn"
+					v-for="(btn, index) in data_dialogFormLogin.actions.btn.continueWith"
 					@click.stop=""
 				>
 					<template v-slot:prepend>
@@ -114,7 +110,7 @@
 						</v-icon>
 					</template>
 					<template v-slot:default>
-						<span class="text-inverted">{{ btn.text }}</span>
+						<span class="text-inverted" v-text="btn.text"></span>
 					</template>
 				</v-btn>
 			</v-col>
@@ -123,10 +119,9 @@
 					<a
 						class="pa-2 text-decoration-none text-inverted"
 						href="#"
+						v-text="data_dialogFormLogin.actions.links.createAccount.text"
 						@click="emit_handler('create-account-container-component')"
-					>
-						Create an account?
-					</a>
+					></a>
 				</p>
 			</v-col>
 		</v-row>
@@ -144,29 +139,49 @@ export default defineComponent({
 	name: "login-container-component",
 	data() {
 		return {
-			data_dialogLogin: {
+			data_dialogFormLogin: {
 				valid: false,
-				email: {
-					label: "Email address",
-				},
-				password: {
-					show: false,
-					icon: {
-						show: iconsFormPassword.show,
-						hide: iconsFormPassword.hide,
+				input: {
+					email: {
+						label: "Email address",
+						value: null
 					},
-					label: "Password",
-					hint: "At least 8 characters.",
+					password: {
+						show: false,
+						icon: {
+							show: iconsFormPassword.show,
+							hide: iconsFormPassword.hide,
+						},
+						label: "Password",
+						value: null
+					}
 				},
-				btn: {
-					google: {
-						text: "Continue with Google",
-						icon: GoogleIcon,
+				actions: {
+					links: {
+						forgottenPassword: {
+							text: "Forgot the login password?"
+						},
+						createAccount: {
+							text: "Create your account?"
+						}
 					},
-				},
+					btn: {
+						login: {
+							text: "Log in"
+						},
+						continueWith: {
+							google: {
+								text: "Continue with Google",
+								icon: GoogleIcon,
+							},
+						}
+					},
+				}
 			},
 			rules: {
 				isNotEmpty: (value: string) => !!value || "A value must be entered.",
+				isMinLength: (value: string) => value && value.length >= 12 || "At least 12 characters.",
+				isCombination: (value: string) => value && /[\x00-\x7F]+/g.test(value) || "Must contain a combination of uppercase, lowercase, numbers & symbols."
 			},
 		};
 	},

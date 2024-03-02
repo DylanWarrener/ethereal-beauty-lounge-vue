@@ -3,7 +3,7 @@
 		persistent
 		transition="dialog-top-transition"
 		:max-width="dynamicMaxWidth_dialog"
-		v-model="data_dialogAccountDrawerState"
+		v-model="data_dialogLoginDrawerState"
 	>
 		<v-card>
 			<v-toolbar color="accent">
@@ -14,7 +14,7 @@
 						<v-btn
 							:icon="icon_dialogCloseBtn"
 							v-bind="tooltip"
-							@click="data_dialogAccountDrawerState = !data_dialogAccountDrawerState"
+							@click="dialogCloseBtn_handler"
 						>
 							<template v-slot:default>
 								<v-icon color="default"></v-icon>
@@ -24,7 +24,7 @@
 				</v-tooltip>
 			</v-toolbar>
 			<v-img class="align-self-center" src="logo-transparent.png" width="128" height="128"></v-img>
-			<component :is="selectedComponent" @change="setSelectedComponent"></component>
+			<component :is="selectedComponent" @change.self="setSelectedComponent"></component>
 		</v-card>
 	</v-dialog>
 </template>
@@ -119,7 +119,7 @@ export default defineComponent({
 			return this.storeCommon.getDialogDefaultState;
 		},
 		// Read & Write
-		data_dialogAccountDrawerState: {
+		data_dialogLoginDrawerState: {
 			get(): boolean {
 				return this.storeHeader.getAppBarAccountDrawerState;
 			},
@@ -130,7 +130,12 @@ export default defineComponent({
 	},
 	methods: {
 		/* Events */
+		dialogCloseBtn_handler(): void {
+			this.data_dialogLoginDrawerState = !this.data_dialogLoginDrawerState;
+			setTimeout(() => this.setSelectedComponent("login-container-component"), 100);
+		},
 		setSelectedComponent(comp: string): void {
+			debugger;
 			this.selectedComponent = comp;
 		},
 
