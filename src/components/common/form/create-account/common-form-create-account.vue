@@ -5,14 +5,17 @@
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
 			</v-col>
 			<v-col cols="12" style="border: 2px solid blue">
-				<v-form class="d-flex flex-column align-center" style="border: 2px solid green" v-model="data_dialogFormCreateAccount.valid">
-					{{ data_dialogFormCreateAccount.input.firstName.valid }}
+				<v-form validate-on="submit lazy" class="d-flex flex-column align-center" style="border: 2px solid green" @submit.prevent="methodEvent_submitFormHandler">
+					Bool: {{ data_dialogFormCreateAccount.input.firstName.valid }}
+					<br />
+					Error: {{ data_errorFirstName }}
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[isNotEmpty, isNameMinLength]"
+						:errors="data_errorFirstName"
+						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isNameMinLength]"
 						v-model="data_dialogFormCreateAccount.input.firstName.value"
 					>
 						<template #label>
@@ -26,7 +29,7 @@
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[isNotEmpty, isNameMinLength]"
+						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isNameMinLength]"
 						v-model="data_dialogFormCreateAccount.input.lastName.value"
 					>
 						<template #label>
@@ -40,7 +43,7 @@
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[isNotEmpty, isEmailFormatValid]"
+						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isEmailFormatValid]"
 						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
@@ -55,7 +58,7 @@
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.password.show ? 'text' : 'password'"
-						:rules="[isNotEmpty, isPasswordMinLength, isCombination]"
+						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isPasswordMinLength, methodEvent_validation_isCombination]"
 						v-model="data_dialogFormCreateAccount.input.password.value"
 					>
 						<template #label>
@@ -79,7 +82,7 @@
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.repeatPassword.show ? 'text' : 'password'"
-						:rules="[isNotEmpty, isPasswordMinLength, isCombination, arePasswordsIdentical]"
+						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isPasswordMinLength, methodEvent_validation_isCombination, methodEvent_validation_arePasswordsIdentical]"
 						v-model="data_dialogFormCreateAccount.input.repeatPassword.value"
 					>
 						<template #label>
@@ -99,10 +102,9 @@
 					<v-btn
 						height="50"
 						class="mt-4 px-8 bg-accent"
+						type="submit"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_dialogFormCreateAccount.valid"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
-						@click.stop="createAccount_handler"
 					></v-btn>
 				</v-form>
 			</v-col>
@@ -120,6 +122,7 @@ export default defineComponent({
 	name: "create-account-container-component",
 	data() {
 		return {
+			data_errorFirstName: "",
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information: "By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
@@ -183,25 +186,20 @@ export default defineComponent({
 		},
 
 		/* Data */
-		data_isFormValid(): boolean {
+		computed_isFormValid(): boolean {
 			return this.data_dialogFormCreateAccount.valid;
 		},
 	},
 	methods: {
-		/* Events */
-		createAccount_handler(): void {
-			const isFormValid: boolean = this.data_isFormValid;
-
-			if (isFormValid) {
+		methodEvent_submitFormHandler() {
+			if (this.computed_isFormValid) {
+				
 			}
 		},
-		// Emit
-		emit_handler(newValue: string): void {
+		methodEvent_emit_changeHandler(newValue: string): void {
 			this.$emit("change", newValue);
 		},
-
-		/* Validation */
-		isNotEmpty(newValue: string): boolean | string {
+		methodEvent_validation_isNotEmpty(newValue: string): boolean | string {
 			let retVal: boolean | string = false;
 			// Checks for null & undefined
 			if (newValue) {
@@ -215,8 +213,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		// First name & Last name
-		isNameMinLength(newValue: string): boolean | string {
+		methodEvent_validation_isNameMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -229,8 +226,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		// Email
-		isEmailFormatValid(newValue: string): boolean | string {
+		methodEvent_validation_isEmailFormatValid(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -243,8 +239,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		// Password
-		isPasswordMinLength(newValue: string): boolean | string {
+		methodEvent_validation_isPasswordMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -257,7 +252,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isCombination(newValue: string): boolean | string {
+		methodEvent_validation_isCombination(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -270,7 +265,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		arePasswordsIdentical(newValue: string): boolean | string {
+		methodEvent_validation_arePasswordsIdentical(newValue: string): boolean | string {
 			const passwordValue = this.data_dialogFormCreateAccount.input.password.value;
 			const isPasswordValid: boolean = !!passwordValue && passwordValue.length > 0;
 			const repeatPasswordValue: string = newValue;
