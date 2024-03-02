@@ -6,6 +6,7 @@
 			</v-col>
 			<v-col cols="12" style="border: 2px solid blue">
 				<v-form class="d-flex flex-column align-center" style="border: 2px solid green" v-model="data_dialogFormCreateAccount.valid">
+					{{ data_dialogFormCreateAccount.input.firstName.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
@@ -18,6 +19,8 @@
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.firstName.label"></span>
 						</template>
 					</v-text-field>
+
+					{{ data_dialogFormCreateAccount.input.lastName.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
@@ -30,18 +33,22 @@
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.lastName.label"></span>
 						</template>
 					</v-text-field>
+
+					{{ data_dialogFormCreateAccount.input.email.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[isNotEmpty, isEmailValid]"
+						:rules="[isNotEmpty, isEmailFormatValid]"
 						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.email.label"></span>
 						</template>
 					</v-text-field>
+
+					{{ data_dialogFormCreateAccount.input.password.valid }}
 					<v-text-field
 						clearable
 						ref="ref_password"
@@ -65,6 +72,8 @@
 							></v-icon>
 						</template>
 					</v-text-field>
+
+					{{ data_dialogFormCreateAccount.input.repeatPassword.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
@@ -109,7 +118,6 @@ import { iconsFormPassword } from "@constants/common/objects/common-constants-ob
 
 export default defineComponent({
 	name: "create-account-container-component",
-	emits: {},
 	data() {
 		return {
 			data_dialogFormCreateAccount: {
@@ -118,48 +126,53 @@ export default defineComponent({
 				input: {
 					firstName: {
 						valid: false,
+						error: "",
 						label: "First name",
-						value: ""
+						value: "",
 					},
 					lastName: {
 						valid: false,
+						error: "",
 						label: "Last name",
-						value: ""
+						value: "",
 					},
 					email: {
 						valid: false,
+						error: "",
 						label: "Email address",
-						value: ""
+						value: "",
 					},
 					password: {
 						valid: false,
+						error: "",
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
 							hide: iconsFormPassword.hide,
 						},
 						label: "Password",
-						value: ""
+						value: "",
 					},
 					repeatPassword: {
 						valid: false,
+						error: "",
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
 							hide: iconsFormPassword.hide,
 						},
 						label: "Repeat password",
-						value: ""
+						value: "",
 					},
 				},
 				actions: {
 					btn: {
 						create: {
-							text: "Create account"
-						}
-					}
-				}
-			}
+							text: "Create account",
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {
@@ -170,37 +183,17 @@ export default defineComponent({
 		},
 
 		/* Data */
-		isInputValid(): boolean {
-			const isFirstNameValid: boolean = this.data_dialogFormCreateAccount.input.firstName.value && this.data_dialogFormCreateAccount.input.firstName.value.length > 0; 
-			const isLastNameValid: boolean = this.data_dialogFormCreateAccount.input.lastName.valid; 
-			const isEmailValid: boolean = this.data_dialogFormCreateAccount.input.email.valid; 
-			const isPasswordValid: boolean = this.data_dialogFormCreateAccount.input.password.valid; 
-			const isRepeatPasswordValid: boolean = this.data_dialogFormCreateAccount.input.repeatPassword.valid; 
-
-			let retVal: boolean = false;
-			if (isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
-
-			}
-			return retVal;
+		data_isFormValid(): boolean {
+			return this.data_dialogFormCreateAccount.valid;
 		},
-		isFormValid(): boolean {
-			const isFirstNameValid: boolean = this.data_dialogFormCreateAccount.input.firstName.valid; 
-			const isLastNameValid: boolean = this.data_dialogFormCreateAccount.input.lastName.valid; 
-			const isEmailValid: boolean = this.data_dialogFormCreateAccount.input.email.valid; 
-			const isPasswordValid: boolean = this.data_dialogFormCreateAccount.input.password.valid; 
-			const isRepeatPasswordValid: boolean = this.data_dialogFormCreateAccount.input.repeatPassword.valid; 
-
-			let retVal: boolean = false;
-			if (isFirstNameValid && isLastNameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
-
-			}
-			return retVal;
-		}
 	},
 	methods: {
 		/* Events */
 		createAccount_handler(): void {
+			const isFormValid: boolean = this.data_isFormValid;
 
+			if (isFormValid) {
+			}
 		},
 		// Emit
 		emit_handler(newValue: string): void {
@@ -213,15 +206,16 @@ export default defineComponent({
 			// Checks for null & undefined
 			if (newValue) {
 				// Gets rid of whitespace
-				let val = newValue.trim(); 
+				let val = newValue.trim();
 
 				// Checks the length
 				retVal = val.length > 0 || "A value must be entered.";
 			} else {
-    			retVal = "A value must be entered.";
+				retVal = "A value must be entered.";
 			}
 			return retVal;
 		},
+		// First name & Last name
 		isNameMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
@@ -235,7 +229,8 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isEmailValid(newValue: string): boolean | string {
+		// Email
+		isEmailFormatValid(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -248,9 +243,10 @@ export default defineComponent({
 			}
 			return retVal;
 		},
+		// Password
 		isPasswordMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
-			
+
 			let retVal: boolean | string = false;
 			if (isNewValueValid) {
 				retVal = newValue.length >= 12 || "At least 12 characters.";
@@ -289,7 +285,7 @@ export default defineComponent({
 				}
 			}
 			return retVal;
-		}
-	}
+		},
+	},
 });
 </script>
