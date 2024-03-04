@@ -5,60 +5,56 @@
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
 			</v-col>
 			<v-col cols="12" style="border: 2px solid blue">
-				<v-form validate-on="submit lazy" class="d-flex flex-column align-center" style="border: 2px solid green" @submit.prevent="methodEvent_submitFormHandler">
-					Bool: {{ data_dialogFormCreateAccount.input.firstName.valid }}
-					<br />
-					Error: {{ data_errorFirstName }}
+				<v-form
+					class="d-flex flex-column align-center"
+					style="border: 2px solid green"
+					validate-on="input lazy"
+					v-model="data_dialogFormCreateAccount.valid"
+					@submit.prevent="createAccount_handler"
+				>
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:errors="data_errorFirstName"
-						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isNameMinLength]"
+						:rules="data_nameValidationRules"
 						v-model="data_dialogFormCreateAccount.input.firstName.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.firstName.label"></span>
 						</template>
 					</v-text-field>
-
-					{{ data_dialogFormCreateAccount.input.lastName.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isNameMinLength]"
+						:rules="data_nameValidationRules"
 						v-model="data_dialogFormCreateAccount.input.lastName.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.lastName.label"></span>
 						</template>
 					</v-text-field>
-
-					{{ data_dialogFormCreateAccount.input.email.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isEmailFormatValid]"
+						:rules="data_emailValidationRules"
 						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.email.label"></span>
 						</template>
 					</v-text-field>
-
-					{{ data_dialogFormCreateAccount.input.password.valid }}
 					<v-text-field
 						clearable
 						ref="ref_password"
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.password.show ? 'text' : 'password'"
-						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isPasswordMinLength, methodEvent_validation_isCombination]"
+						:rules="data_passwordValidationRules"
 						v-model="data_dialogFormCreateAccount.input.password.value"
 					>
 						<template #label>
@@ -75,14 +71,12 @@
 							></v-icon>
 						</template>
 					</v-text-field>
-
-					{{ data_dialogFormCreateAccount.input.repeatPassword.valid }}
 					<v-text-field
 						clearable
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.repeatPassword.show ? 'text' : 'password'"
-						:rules="[methodEvent_validation_isNotEmpty, methodEvent_validation_isPasswordMinLength, methodEvent_validation_isCombination, methodEvent_validation_arePasswordsIdentical]"
+						:rules="data_repeatPasswordValidationRules"
 						v-model="data_dialogFormCreateAccount.input.repeatPassword.value"
 					>
 						<template #label>
@@ -104,7 +98,9 @@
 						class="mt-4 px-8 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
+						:disabled="!data_dialogFormCreateAccount.valid"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
+						@click.stop="createAccount_handler"
 					></v-btn>
 				</v-form>
 			</v-col>
@@ -122,32 +118,23 @@ export default defineComponent({
 	name: "create-account-container-component",
 	data() {
 		return {
-			data_errorFirstName: "",
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information: "By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
 				input: {
 					firstName: {
-						valid: false,
-						error: "",
 						label: "First name",
 						value: "",
 					},
 					lastName: {
-						valid: false,
-						error: "",
 						label: "Last name",
 						value: "",
 					},
 					email: {
-						valid: false,
-						error: "",
 						label: "Email address",
 						value: "",
 					},
 					password: {
-						valid: false,
-						error: "",
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
@@ -157,8 +144,6 @@ export default defineComponent({
 						value: "",
 					},
 					repeatPassword: {
-						valid: false,
-						error: "",
 						show: false,
 						icon: {
 							show: iconsFormPassword.show,
@@ -186,20 +171,37 @@ export default defineComponent({
 		},
 
 		/* Data */
-		computed_isFormValid(): boolean {
+		data_isFormValid(): boolean {
 			return this.data_dialogFormCreateAccount.valid;
+		},
+		data_nameValidationRules(): any {
+			return [this.isNotEmpty, this.isNameMinLength];
+		},
+		data_emailValidationRules(): any {
+			return [this.isNotEmpty, this.isEmailFormatValid];
+		},
+		data_passwordValidationRules(): any {
+			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
+		},
+		data_repeatPasswordValidationRules(): any {
+			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
 	},
 	methods: {
-		methodEvent_submitFormHandler() {
-			if (this.computed_isFormValid) {
-				
+		/* Events */
+		createAccount_handler(): void {
+			const isFormValid: boolean = this.data_isFormValid;
+
+			if (isFormValid) {
 			}
 		},
-		methodEvent_emit_changeHandler(newValue: string): void {
+		// Emit
+		emit_handler(newValue: string): void {
 			this.$emit("change", newValue);
 		},
-		methodEvent_validation_isNotEmpty(newValue: string): boolean | string {
+
+		/* Validation */
+		isNotEmpty(newValue: string): boolean | string {
 			let retVal: boolean | string = false;
 			// Checks for null & undefined
 			if (newValue) {
@@ -213,7 +215,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		methodEvent_validation_isNameMinLength(newValue: string): boolean | string {
+		isNameMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -226,7 +228,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		methodEvent_validation_isEmailFormatValid(newValue: string): boolean | string {
+		isEmailFormatValid(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -239,7 +241,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		methodEvent_validation_isPasswordMinLength(newValue: string): boolean | string {
+		isPasswordMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -252,7 +254,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		methodEvent_validation_isCombination(newValue: string): boolean | string {
+		isCombination(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -265,7 +267,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		methodEvent_validation_arePasswordsIdentical(newValue: string): boolean | string {
+		arePasswordsIdentical(newValue: string): boolean | string {
 			const passwordValue = this.data_dialogFormCreateAccount.input.password.value;
 			const isPasswordValid: boolean = !!passwordValue && passwordValue.length > 0;
 			const repeatPasswordValue: string = newValue;
