@@ -1,11 +1,11 @@
 <template>
-	<v-container fluid style="border: 2px solid black">
-		<v-row dense style="border: 2px solid red">
+	<v-container fluid>
+		<v-row dense>
 			<v-col cols="12">
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormRecoverAccount.information"></p>
 			</v-col>
-			<v-col cols="12" style="border: 2px solid blue">
-				<v-form class="d-flex flex-column align-center" style="border: 2px solid green" v-model="data_dialogFormRecoverAccount.valid">
+			<v-col cols="12">
+				<v-form class="d-flex flex-column align-center" validate-on="input lazy" v-model="data_dialogFormRecoverAccount.valid" @submit.prevent="sendText_handler">
 					<v-select variant="outlined" :style="dynamicWidth_dialogFormInput"></v-select>
 					<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
 						<a
@@ -15,13 +15,7 @@
 							@click="emit_handler('more-information-required-container-component')"
 						></a>
 					</div>
-					<v-text-field
-						clearable
-						variant="outlined"
-						type="number"
-						:style="dynamicWidth_dialogFormInput"
-						:rules="[rules.isNotEmpty]"
-					>
+					<v-text-field clearable variant="outlined" type="number" :style="dynamicWidth_dialogFormInput" :rules="[rules.isNotEmpty]">
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormRecoverAccount.input.phoneNumber.label"></span>
 						</template>
@@ -29,10 +23,10 @@
 					<v-btn
 						height="50"
 						class="mt-4 px-8 bg-accent"
+						type="submit"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_dialogFormRecoverAccount.valid"
+						:disabled="!data_isFormValid"
 						:text="data_dialogFormRecoverAccount.actions.btn.send.text"
-						@click.stop=""
 					></v-btn>
 				</v-form>
 			</v-col>
@@ -62,24 +56,24 @@ export default defineComponent({
 				information: "Enter your phone number, so we can send you the account recovery instructions.",
 				input: {
 					phoneNumber: {
-						label: "Phone number"
-					}
+						label: "Phone number",
+					},
 				},
 				actions: {
 					links: {
 						backToLogin: {
-							text: "Back to login?"
+							text: "Back to login?",
 						},
 						noAccess: {
-							text: "I do not have access to this account?"
-						}
+							text: "I do not have access to this account?",
+						},
 					},
 					btn: {
 						send: {
-							text: "Send text"
-						}
-					}
-				}
+							text: "Send text",
+						},
+					},
+				},
 			},
 			rules: {
 				isNotEmpty: (value: string) => !!value || "A value must be entered.",
@@ -92,8 +86,20 @@ export default defineComponent({
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;
 		},
+
+		/* Data */
+		data_isFormValid(): boolean {
+			return this.data_dialogFormRecoverAccount.valid;
+		},
 	},
 	methods: {
+		/* Events */
+		sendText_handler(): void {
+			const isFormValid: boolean = this.data_isFormValid;
+
+			if (isFormValid) {
+			}
+		},
 		emit_handler(value: string): void {
 			this.$emit("change", value);
 		},

@@ -1,21 +1,12 @@
 <template>
-	<v-dialog
-		persistent
-		transition="dialog-top-transition"
-		:max-width="dynamicMaxWidth_dialog"
-		v-model="data_dialogLoginDrawerState"
-	>
+	<v-dialog persistent transition="dialog-top-transition" :max-width="dynamicMaxWidth_dialog" v-model="data_dialogLoginDrawerState">
 		<v-card>
 			<v-toolbar color="accent">
 				<h6>{{ txt_toolbarTitle }}</h6>
 				<v-spacer></v-spacer>
 				<v-tooltip location="bottom" :text="tooltip_dialogCloseBtn">
 					<template #activator="{ props: tooltip }">
-						<v-btn
-							:icon="icon_dialogCloseBtn"
-							v-bind="tooltip"
-							@click="dialogCloseBtn_handler"
-						>
+						<v-btn :icon="icon_dialogCloseBtn" v-bind="tooltip" @click="dialogCloseBtn_handler">
 							<template v-slot:default>
 								<v-icon color="default"></v-icon>
 							</template>

@@ -1,10 +1,10 @@
 <template>
-	<v-container fluid style="border: 2px solid black">
-		<v-row dense style="border: 2px solid red">
+	<v-container fluid>
+		<v-row dense>
 			<v-col cols="12">
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormErrorMoreInfoRequired.information"></p>
 			</v-col>
-			<v-col class="d-flex flex-column align-center" style="border: 2px solid blue">
+			<v-col class="d-flex flex-column align-center">
 				<v-btn
 					height="50"
 					class="px-8 bg-accent"
@@ -28,10 +28,10 @@ export default defineComponent({
 				information: "To help recover your account, we will need more information.",
 				actions: {
 					btn: {
-						tryAgain: "Try again"
-					}
-				}
-			}
+						tryAgain: "Try again",
+					},
+				},
+			},
 		};
 	},
 	computed: {

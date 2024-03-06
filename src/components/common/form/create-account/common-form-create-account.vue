@@ -1,17 +1,11 @@
 <template>
-	<v-container fluid style="border: 2px solid black">
-		<v-row dense style="border: 2px solid red">
+	<v-container fluid>
+		<v-row dense>
 			<v-col cols="12">
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
 			</v-col>
-			<v-col cols="12" style="border: 2px solid blue">
-				<v-form
-					class="d-flex flex-column align-center"
-					style="border: 2px solid green"
-					validate-on="input lazy"
-					v-model="data_dialogFormCreateAccount.valid"
-					@submit.prevent="createAccount_handler"
-				>
+			<v-col cols="12">
+				<v-form class="d-flex flex-column align-center" validate-on="input lazy" v-model="data_dialogFormCreateAccount.valid" @submit.prevent="createAccount_handler">
 					<v-text-field
 						clearable
 						variant="outlined"
@@ -98,11 +92,20 @@
 						class="mt-4 px-8 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_dialogFormCreateAccount.valid"
+						:disabled="!data_isFormValid"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
-						@click.stop="createAccount_handler"
 					></v-btn>
 				</v-form>
+			</v-col>
+			<v-col cols="12" class="pa-2">
+				<p class="d-flex justify-center text-button font-weight-bold">
+					<a
+						class="pa-2 text-decoration-none text-inverted"
+						href="#"
+						v-text="data_dialogFormCreateAccount.actions.links.backToLogin.text"
+						@click="emit_handler('login-container-component')"
+					></a>
+				</p>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -154,6 +157,11 @@ export default defineComponent({
 					},
 				},
 				actions: {
+					links: {
+						backToLogin: {
+							text: "Back to login?",
+						},
+					},
 					btn: {
 						create: {
 							text: "Create account",
