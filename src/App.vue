@@ -1,7 +1,7 @@
 <template>
 	<v-layout id="layout">
 		<dialog-login-component></dialog-login-component>
-		<dialog-create-account-component></dialog-create-account-component>
+		<!-- <dialog-create-account-component></dialog-create-account-component> -->
 		<header-container-component></header-container-component>
 		<v-main>
 			<router-view></router-view>
@@ -22,7 +22,7 @@ import { defineComponent } from "vue";
 
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
-import DialogCreateAccountComp from "@components/uncommon/dialog/uncommon-dialog-create-account.vue";
+//import DialogCreateAccountComp from "@components/uncommon/dialog/uncommon-dialog-create-account.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
 
@@ -31,9 +31,14 @@ import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
 
 export default defineComponent({
 	name: "app-component",
+	data() {
+		return {
+			usersData: undefined
+		}
+	},
 	components: {
 		"dialog-login-component": DialogLoginComp,
-		"dialog-create-account-component": DialogCreateAccountComp,
+		//"dialog-create-account-component": DialogCreateAccountComp,
 		"header-container-component": HeaderComp,
 		"footer-container-component": FooterComp,
 	},
@@ -42,7 +47,7 @@ export default defineComponent({
 		icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
-	},
+	}
 });
 </script>
 

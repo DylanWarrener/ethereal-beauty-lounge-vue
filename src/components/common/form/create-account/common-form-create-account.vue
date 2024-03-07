@@ -1,6 +1,7 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
+			The user logged in: {{ user }}
 			<v-col cols="12">
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
 			</v-col>
@@ -114,6 +115,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Stores
+import { useCommonStore } from "@plugins/pinia/pinia.js";
+
 // Icons
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
 
@@ -121,6 +125,7 @@ export default defineComponent({
 	name: "create-account-container-component",
 	data() {
 		return {
+			user: null,
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information: "By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
@@ -201,6 +206,9 @@ export default defineComponent({
 			const isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
+				const userEmail: string = this.data_dialogFormCreateAccount.input.email.value!;
+				const userPassword: string = this.data_dialogFormCreateAccount.input.password.value!;
+				this.storeCommon.createAccount(userEmail, userPassword);
 			}
 		},
 		// Emit
@@ -291,6 +299,10 @@ export default defineComponent({
 			}
 			return retVal;
 		},
+	},
+	setup() {
+		const storeCommon = useCommonStore();
+		return { storeCommon };
 	},
 });
 </script>

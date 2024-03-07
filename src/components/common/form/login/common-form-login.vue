@@ -104,6 +104,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Stores
+import { useCommonStore } from "@plugins/pinia/pinia.js";
+
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
@@ -192,6 +195,9 @@ export default defineComponent({
 			const isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
+				const userEmail: string = this.data_dialogFormLogin.input.email.value!;
+				const userPassword: string = this.data_dialogFormLogin.input.password.value!;
+				this.storeCommon.login(userEmail, userPassword);
 			}
 		},
 		// Emit
@@ -253,6 +259,10 @@ export default defineComponent({
 			}
 			return retVal;
 		},
+	},
+	setup() {
+		const storeCommon = useCommonStore();
+		return { storeCommon };
 	},
 });
 </script>

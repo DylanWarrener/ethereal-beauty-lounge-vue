@@ -2,6 +2,10 @@ import { createPinia, defineStore } from "pinia";
 
 const pinia = createPinia();
 
+// Services
+import { auth } from "@plugins/firebase/firebase.js";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+
 // Interfaces
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
 import {
@@ -12,9 +16,13 @@ import {
 // Constants
 import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-constants-objects.js";
 
+//createUserWithEmailAndPassword().then().catch();
+
 // Main store
 export const useCommonStore = defineStore("common-store", {
-	state: (): ICommonState => ({
+	state: () => ({
+		user: {},
+		appBar: {},
 		appBarHeight: 64,
 		appBarDrawer: true,
 		dialog: {
@@ -44,6 +52,25 @@ export const useCommonStore = defineStore("common-store", {
 		getDialogLoginBtnCloseTooltipDrawerState: (state: ICommonState): boolean => state.dialog.login.showTooltip,
 	},
 	actions: {
+		/* Firebase AUTH */
+		async login(email: string, password: string) {
+			debugger;
+			try {
+				const userCredential = await signInWithEmailAndPassword(auth, email, password);
+				console.log(userCredential);
+			} catch (error) {
+				console.error(error);
+			}
+		},
+		async createAccount(email: string, password: string) {
+			debugger;
+			try {
+				const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+				console.log(userCredential);
+			} catch (error) {
+				console.error(error);
+			}
+		},
 		/* App bar */
 		setAppBarDrawer(newValue: boolean): void {
 			this.appBarDrawer = newValue;
