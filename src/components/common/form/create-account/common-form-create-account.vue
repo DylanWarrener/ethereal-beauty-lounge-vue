@@ -1,7 +1,6 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
-			The user logged in: {{ user }}
 			<v-col cols="12">
 				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
 			</v-col>
