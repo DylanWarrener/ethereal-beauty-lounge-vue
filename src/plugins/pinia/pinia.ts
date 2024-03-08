@@ -20,8 +20,12 @@ import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-co
 
 // Main store
 export const useCommonStore = defineStore("common-store", {
-	state: () => ({
-		user: {},
+	state: (): ICommonState => ({
+		user: {
+			id: null,
+			token: null,
+			tokenExpiration: null
+		},
 		appBar: {},
 		appBarHeight: 64,
 		appBarDrawer: true,
@@ -41,6 +45,10 @@ export const useCommonStore = defineStore("common-store", {
 		},
 	}),
 	getters: {
+		/* Users */
+		getUserID: (state: ICommonState): any => state.user.id,
+		getUserToken: (state: ICommonState): any => state.user.token,
+		getUserTokenExpiration: (state: ICommonState): any => state.user.tokenExpiration,
 		/* App bar */
 		getAppBarHeight: (state: ICommonState): number => state.appBarHeight,
 		getAppBarDrawer: (state: ICommonState): boolean => state.appBarDrawer,
@@ -53,23 +61,53 @@ export const useCommonStore = defineStore("common-store", {
 	},
 	actions: {
 		/* Firebase AUTH */
-		async login(email: string, password: string) {
+		login(email: string, password: string) {
 			debugger;
 			try {
-				const userCredential = await signInWithEmailAndPassword(auth, email, password);
+				debugger;
+				const userCredential = signInWithEmailAndPassword(auth, email, password)
+					.then((userCredential) => {
+						debugger;
+					})
+					.catch((error) => {
+						debugger;
+						const newError = new Error(error.message || "Failed to authenticate.");
+						console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
+						throw newError;
+					});
+
 				console.log(userCredential);
 			} catch (error) {
+				debugger;
 				console.error(error);
 			}
 		},
-		async createAccount(email: string, password: string) {
+		createAccount(payload: { email: string, password: string }): void {
 			debugger;
-			try {
-				const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-				console.log(userCredential);
-			} catch (error) {
-				console.error(error);
-			}
+			const userCredential = createUserWithEmailAndPassword(auth, payload.email, payload.password).then((response) => {
+				debugger;
+				//const userID = response.localId;
+				//const token = response.idToken;
+				//const tokenExpiration = response.expiresIn;
+
+				//this.setUser({ userID, token, tokenExpiration});
+			}).catch((error) => {
+				debugger;
+				const newError = new Error(error.message || "Failed to authenticate.");
+				console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
+				throw newError;
+			});
+			console.log(userCredential);
+		},
+		/* Users */
+		setUser(): void {
+			// Store the user auth information in state
+			//this.user.id = newUser.
+		},
+		logout(): void {
+			this.user.id = null;
+			this.user.token = null;
+			this.user.tokenExpiration = null;
 		},
 		/* App bar */
 		setAppBarDrawer(newValue: boolean): void {

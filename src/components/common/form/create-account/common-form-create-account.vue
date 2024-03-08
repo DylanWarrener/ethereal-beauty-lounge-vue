@@ -9,6 +9,7 @@
 				<v-form class="d-flex flex-column align-center" validate-on="input lazy" v-model="data_dialogFormCreateAccount.valid" @submit.prevent="createAccount_handler">
 					<v-text-field
 						clearable
+						ref="ref_firstName"
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
@@ -21,6 +22,7 @@
 					</v-text-field>
 					<v-text-field
 						clearable
+						ref="ref_lastName"
 						variant="outlined"
 						type="text"
 						:style="dynamicWidth_dialogFormInput"
@@ -33,6 +35,7 @@
 					</v-text-field>
 					<v-text-field
 						clearable
+						ref="ref_email"
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
@@ -68,6 +71,7 @@
 					</v-text-field>
 					<v-text-field
 						clearable
+						ref="ref_repeatPassword"
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormCreateAccount.input.repeatPassword.show ? 'text' : 'password'"
@@ -125,7 +129,8 @@ export default defineComponent({
 	name: "create-account-container-component",
 	data() {
 		return {
-			user: null,
+			isLoading: false,
+			error: null,
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information: "By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
@@ -203,12 +208,17 @@ export default defineComponent({
 	methods: {
 		/* Events */
 		createAccount_handler(): void {
-			const isFormValid: boolean = this.data_isFormValid;
-
+			debugger;
+			let isFormValid: boolean = this.data_isFormValid;
+			
 			if (isFormValid) {
+				this.isLoading = true;
+				
 				const userEmail: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const userPassword: string = this.data_dialogFormCreateAccount.input.password.value!;
-				this.storeCommon.createAccount(userEmail, userPassword);
+				this.storeCommon.createAccount({ email: userEmail, password: userPassword});
+
+				this.isLoading = false;
 			}
 		},
 		// Emit
