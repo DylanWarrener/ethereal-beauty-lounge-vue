@@ -4,7 +4,13 @@ const pinia = createPinia();
 
 // Services
 import { auth } from "@plugins/firebase/firebase.js";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { 
+	onAuthStateChanged,
+	signInWithEmailAndPassword, 
+	signOut,
+	createUserWithEmailAndPassword,
+} from "firebase/auth";
+import type { Auth } from "firebase/auth";
 
 // Interfaces
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
@@ -16,19 +22,15 @@ import {
 // Constants
 import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-constants-objects.js";
 
-//createUserWithEmailAndPassword().then().catch();
-
 // Main store
 export const useCommonStore = defineStore("common-store", {
 	state: (): ICommonState => ({
-		user: {
-			id: null,
-			token: null,
-			tokenExpiration: null
+		appBar: {
+			drawer: true,
+			height: 64,
 		},
-		appBar: {},
-		appBarHeight: 64,
-		appBarDrawer: true,
+		appBarHeight: 64,// Needs deleting once the referenes are deleted.
+		appBarDrawer: true,// Needs deleting once the referenes are deleted.
 		dialog: {
 			default: {
 				icons: {
@@ -43,12 +45,11 @@ export const useCommonStore = defineStore("common-store", {
 				showDialog: false,
 			},
 		},
+		navigation: {
+
+		}
 	}),
 	getters: {
-		/* Users */
-		getUserID: (state: ICommonState): any => state.user.id,
-		getUserToken: (state: ICommonState): any => state.user.token,
-		getUserTokenExpiration: (state: ICommonState): any => state.user.tokenExpiration,
 		/* App bar */
 		getAppBarHeight: (state: ICommonState): number => state.appBarHeight,
 		getAppBarDrawer: (state: ICommonState): boolean => state.appBarDrawer,
@@ -61,53 +62,53 @@ export const useCommonStore = defineStore("common-store", {
 	},
 	actions: {
 		/* Firebase AUTH */
-		login(email: string, password: string) {
-			debugger;
-			try {
-				debugger;
-				const userCredential = signInWithEmailAndPassword(auth, email, password)
-					.then((userCredential) => {
-						debugger;
-					})
-					.catch((error) => {
-						debugger;
-						const newError = new Error(error.message || "Failed to authenticate.");
-						console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
-						throw newError;
-					});
-
-				console.log(userCredential);
-			} catch (error) {
-				debugger;
-				console.error(error);
-			}
+		isUserLoggedIn(): boolean {
+			let retVal: boolean = false;
+			if (auth.currentUser !== null)
+				retVal = true;
+			return retVal;
 		},
-		createAccount(payload: { email: string, password: string }): void {
-			debugger;
-			const userCredential = createUserWithEmailAndPassword(auth, payload.email, payload.password).then((response) => {
-				debugger;
-				//const userID = response.localId;
-				//const token = response.idToken;
-				//const tokenExpiration = response.expiresIn;
-
-				//this.setUser({ userID, token, tokenExpiration});
-			}).catch((error) => {
+		loginWithEmailAndPassword(email: string, password: string): void {
+			signInWithEmailAndPassword(auth, email, password).catch((error) => {
 				debugger;
 				const newError = new Error(error.message || "Failed to authenticate.");
 				console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
 				throw newError;
 			});
-			console.log(userCredential);
-		},
-		/* Users */
-		setUser(): void {
-			// Store the user auth information in state
-			//this.user.id = newUser.
 		},
 		logout(): void {
-			this.user.id = null;
-			this.user.token = null;
-			this.user.tokenExpiration = null;
+			signOut(auth);
+		},
+		/**
+		 * Creates a new user account associated with the specified email address and password.
+		 * @param {string} email - The user email.
+		 * @param {string} password - The user password.
+		 * @returns Nothing.
+		 * @remarks
+		 * On successful creation of the user account, this user will also be signed in to your application.
+		 * 
+		 * User account creation can fail if the account already exists or the password is invalid.
+		*/
+		createAccountWithEmailAndPassword(payload: { email: string, password: string }): void {
+			createUserWithEmailAndPassword(auth, payload.email, payload.password).catch((error) => {
+				debugger;
+				const newError = new Error(error.message || "Failed to authenticate.");
+				console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
+				throw newError;
+			});
+		},
+		monitorAuthState(): void {
+			onAuthStateChanged(auth, user => {
+				// If user object is valid, user is logged in to an account.
+				// Otherwise, user is logged out.
+				if (user !== null) {
+					// User logged in
+					debugger;
+				} else {
+					// User not logged in
+					debugger;
+				}
+			});
 		},
 		/* App bar */
 		setAppBarDrawer(newValue: boolean): void {

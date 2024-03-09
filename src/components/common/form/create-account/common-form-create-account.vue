@@ -212,11 +212,9 @@ export default defineComponent({
 			
 			if (isFormValid) {
 				this.isLoading = true;
-				
 				const userEmail: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const userPassword: string = this.data_dialogFormCreateAccount.input.password.value!;
-				this.storeCommon.createAccount({ email: userEmail, password: userPassword});
-
+				this.storeCommon.createAccountWithEmailAndPassword({ email: userEmail, password: userPassword});
 				this.isLoading = false;
 			}
 		},

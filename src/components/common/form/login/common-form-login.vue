@@ -197,7 +197,7 @@ export default defineComponent({
 			if (isFormValid) {
 				const userEmail: string = this.data_dialogFormLogin.input.email.value!;
 				const userPassword: string = this.data_dialogFormLogin.input.password.value!;
-				this.storeCommon.login(userEmail, userPassword);
+				this.storeCommon.loginWithEmailAndPassword(userEmail, userPassword);
 			}
 		},
 		// Emit

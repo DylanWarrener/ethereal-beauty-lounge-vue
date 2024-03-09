@@ -127,6 +127,6 @@ export default defineComponent({
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
 		return { storeCommon, storeHeader };
-	},
+	}
 });
 </script>

@@ -1,17 +1,13 @@
+// Interfaces
 import IDialogState from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
+import type { UserCredential, User } from "firebase/auth";
 
 export default interface ICommonState {
-	user: {
-		id: string | null,
-		token: string | null,
-		tokenExpiration: string | null;
-	};
 	appBar: {};
 	appBarHeight: number;
 	appBarDrawer: boolean;
 	dialog: IDialogState;
-}
+	navigation: {
 
-export interface IValidate {
-	validate: () => boolean;
+	};
 }
