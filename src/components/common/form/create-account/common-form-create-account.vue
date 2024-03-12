@@ -209,13 +209,31 @@ export default defineComponent({
 		createAccount_handler(): void {
 			debugger;
 			let isFormValid: boolean = this.data_isFormValid;
-			
+
 			if (isFormValid) {
+				const firstName: string = this.data_dialogFormCreateAccount.input.firstName.value!;
+				const lastName: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
+				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
+
 				this.isLoading = true;
-				const userEmail: string = this.data_dialogFormCreateAccount.input.email.value!;
-				const userPassword: string = this.data_dialogFormCreateAccount.input.password.value!;
-				this.storeCommon.createAccountWithEmailAndPassword({ email: userEmail, password: userPassword});
-				this.isLoading = false;
+				this.storeCommon
+					.createAccountWithEmailAndPassword({
+						email: email,
+						password: password,
+					})
+					.then((response) => {
+						debugger;
+						this.storeCommon.storeNewUser();
+					})
+					.catch((error) => {
+						debugger;
+					})
+					.finally(() => {
+						debugger;
+						this.isLoading = false;
+						console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
+					});
 			}
 		},
 		// Emit
