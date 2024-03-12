@@ -44,13 +44,16 @@ export default defineComponent({
   name: "navigation-user-account-component",
   data() {
     return {
-      test: null
+
     };
   },
   computed: {
     isUserLoggedIn(): boolean {
       debugger;
       return this.storeCommon.isUserLoggedIn();
+    },
+    user() {
+      this.storeCommon.getUser({ uid: "" });
     }
   },
   setup() {

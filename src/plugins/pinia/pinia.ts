@@ -84,6 +84,7 @@ export const useCommonStore = defineStore("common-store", {
 		},
 		/* Firebase firestore */
 		getUser(user: { uid: string }): Promise<any> {
+			debugger;
 			const userDocumentRef = doc(db, "users", user.uid);
 			return getDoc(userDocumentRef)
 				.then(response => {
