@@ -70,19 +70,27 @@
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
+		<v-divider vertical inset color="default" class="mx-2 border-opacity-75" v-if="data_isUserLoggedIn"></v-divider>
 
-		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn">
+		<!-- <v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-if="!data_isUserLoggedIn">
 			<template v-slot:activator="{ props }">
 				<v-btn
 					class="mr-2 d-none d-sm-flex"
 					:id="id_appbarAccountBtn"
 					:icon="icon_appBarAccountBtn"
 					v-bind="props"
-					@click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+					@click.stop="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
 				></v-btn>
 			</template>
-		</v-tooltip>
+		</v-tooltip> -->
+		<v-btn class="d-none d-sm-flex" 
+			   :id="id_appbarAccountBtn" 
+			   :icon="icon_appBarAccountBtn" 
+			   v-if="data_isUserLoggedIn"
+			   @click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+		>
+			<v-tooltip activator="parent" location="bottom">{{ tooltip_appBarAccountBtn }}</v-tooltip>
+		</v-btn>
 
 		<menu-container-component
 			menu-location="bottom"
@@ -202,9 +210,6 @@ export default defineComponent({
 		},
 
 		/* Data */
-		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
-			return this.storeHeader.getNavigationMobileMenuState;
-		},
 		data_appBarDrawerState: {
 			get(): boolean {
 				return this.storeCommon.getAppBarDrawer;
@@ -253,8 +258,10 @@ export default defineComponent({
 				this.storeHeader.setAppBarOptionsDrawerState(newValue);
 			},
 		},
-
-		navigationMobileMenu(): IHeaderNavigationCommonItemState[] {
+		data_isUserLoggedIn(): boolean {
+			return this.storeCommon.isUserLoggedIn();
+		},
+		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
 			return this.storeHeader.getNavigationMobileMenuState;
 		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
@@ -269,6 +276,10 @@ export default defineComponent({
 			const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
 			if (isRouteNameValid) this.$router.push({ name: routeName });
 		},
+		logout(): void {
+			debugger;
+			this.storeCommon.logout();
+		}
 	},
 	setup() {
 		const storeCommon = useCommonStore();

@@ -115,6 +115,8 @@ export default defineComponent({
 	name: "login-container-component",
 	data() {
 		return {
+			isLoading: false,
+			error: null,
 			data_dialogFormLogin: {
 				valid: false,
 				input: {
@@ -192,12 +194,28 @@ export default defineComponent({
 	methods: {
 		/* Events */
 		login_handler(): void {
+			debugger;
 			const isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
-				const userEmail: string = this.data_dialogFormLogin.input.email.value!;
-				const userPassword: string = this.data_dialogFormLogin.input.password.value!;
-				this.storeCommon.loginWithEmailAndPassword(userEmail, userPassword);
+				const email: string = this.data_dialogFormLogin.input.email.value!;
+				const password: string = this.data_dialogFormLogin.input.password.value!;
+
+				this.isLoading = true;
+				this.storeCommon
+					.loginWithEmailAndPassword({ email, password })
+					.then((response) => {
+						debugger;
+						console.log("Logged in user: ", response);
+					})
+					.catch((error) => {
+						debugger;
+						console.log(error);
+					})
+					.finally(() => {
+						debugger;
+						this.isLoading = false;
+					});
 			}
 		},
 		// Emit

@@ -5,7 +5,7 @@ const pinia = createPinia();
 // Services
 import { db, auth } from "@plugins/firebase/firebase.js";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, getDoc, setDoc, addDoc, doc } from "firebase/firestore";
 import type { UserCredential } from "firebase/auth";
 
 // Interfaces
@@ -22,7 +22,7 @@ export const useCommonStore = defineStore("common-store", {
 			drawer: true,
 			height: 64,
 		},
-		appBarHeight: 64, // Needs deleting once the referenes are deleted.
+		appBarHeight: 64,   // Needs deleting once the referenes are deleted.
 		appBarDrawer: true, // Needs deleting once the referenes are deleted.
 		dialog: {
 			default: {
@@ -54,21 +54,16 @@ export const useCommonStore = defineStore("common-store", {
 	actions: {
 		/* Firebase AUTH */
 		isUserLoggedIn(): boolean {
+			debugger;
 			let retVal: boolean = false;
 			if (auth.currentUser !== null) retVal = true;
 			return retVal;
 		},
-		loginWithEmailAndPassword(email: string, password: string): void {
-			signInWithEmailAndPassword(auth, email, password)
-				.then((response) => {
-					debugger;
-				})
-				.catch((error) => {
-					debugger;
-					console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
-				});
+		loginWithEmailAndPassword(user: { email: string, password: string }): Promise<UserCredential> {
+			return signInWithEmailAndPassword(auth, user.email, user.password);
 		},
 		logout(): void {
+			debugger;
 			signOut(auth);
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
@@ -88,8 +83,20 @@ export const useCommonStore = defineStore("common-store", {
 			});
 		},
 		/* Firebase firestore */
-		storeNewUser(user: { firstname: string; lastname: string; email: string; password: string }): void {
-			addDoc(collection(db, "users"), {
+		getUser(user: { uid: string }): Promise<any> {
+			const userDocumentRef = doc(db, "users", user.uid);
+			return getDoc(userDocumentRef)
+				.then(response => {
+					console.log("Found user: ", response);
+				}).catch(error => {
+					console.error("Error getting user: ", error);
+				});
+		},
+		storeNewUser(user: { uid: string, firstname: string; lastname: string; email: string; password: string }): void {
+			debugger;
+			const userCollectionRef = collection(db, "users");
+			addDoc(userCollectionRef, {
+				uid: user.uid,
 				firstname: user.firstname,
 				lastname: user.lastname,
 				email: user.email,

@@ -211,8 +211,8 @@ export default defineComponent({
 			let isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
-				const firstName: string = this.data_dialogFormCreateAccount.input.firstName.value!;
-				const lastName: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
+				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
@@ -224,15 +224,22 @@ export default defineComponent({
 					})
 					.then((response) => {
 						debugger;
-						this.storeCommon.storeNewUser();
+						console.log("User created an account: ", response);
+						this.storeCommon.storeNewUser({
+							uid: response.user.uid,
+							firstname: firstname, 
+							lastname: lastname,
+							email: email,
+							password: password
+						});
 					})
 					.catch((error) => {
 						debugger;
+						console.log(error);
 					})
 					.finally(() => {
 						debugger;
 						this.isLoading = false;
-						console.error(`My error - Request to sign-up failed. Error code: ${error.code}. Error message: ${error.message}`);
 					});
 			}
 		},
