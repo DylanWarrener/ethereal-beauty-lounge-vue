@@ -11,9 +11,7 @@
 										<h1>Where Beauty Radiates With Delicacy</h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap">
-										<h3>
-											Transform your look with our non-invasive treatments for the face & body.
-										</h3>
+										<h3>Transform your look with our non-invasive treatments for the face & body.</h3>
 									</v-card-subtitle>
 								</v-card-item>
 							</template>
@@ -30,6 +28,12 @@
 								</v-card-actions>
 							</template>
 						</card-container-component>
+						is user logged in? {{ isUserLoggedIn }}
+						<p v-if="user">
+							Monitoring user data...
+							<br />
+							User data: {{ user }}
+						</p>
 					</v-col>
 				</v-row>
 			</v-container>
@@ -103,6 +107,15 @@ export default defineComponent({
 		data_isAppBarActive(): boolean {
 			return this.storeCommon.getAppBarDrawer;
 		},
+
+		isUserLoggedIn(): boolean {
+			return this.storeCommon.isUserLoggedIn();
+		},
+		user(): { firstname: string; lastname: string; email: string } {
+			debugger;
+			const user = this.storeCommon.getUser();
+			return user;
+		},
 	},
 	methods: {
 		scrollToElement(targetElement: string): void {
@@ -127,6 +140,6 @@ export default defineComponent({
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
 		return { storeCommon, storeHeader };
-	}
+	},
 });
 </script>

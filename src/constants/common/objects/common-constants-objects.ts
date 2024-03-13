@@ -16,7 +16,8 @@ import {
 	mdiEmailFast,
 	mdiPhone,
 	mdiEye,
-	mdiEyeOff
+	mdiEyeOff,
+	mdiLogout,
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -78,6 +79,9 @@ export const iconsNavigation = {
 	about: mdiInformation,
 	information: mdiMenuDown,
 };
+export const iconsSidebarNavigation = {
+	logout: mdiLogout,
+};
 export const iconsDialog = {
 	close: mdiClose,
 };
@@ -88,7 +92,7 @@ export const iconsContactDetails = {
 };
 export const iconsFormPassword = {
 	show: mdiEye,
-	hide: mdiEyeOff
+	hide: mdiEyeOff,
 };
 
 // ---------------------------------------------------------------------------------------------------------

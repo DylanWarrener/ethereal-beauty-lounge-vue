@@ -97,18 +97,14 @@
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
 						:disabled="!data_isFormValid"
+						:loading="isLoading"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
 					></v-btn>
 				</v-form>
 			</v-col>
 			<v-col cols="12" class="pa-2">
 				<p class="d-flex justify-center text-button font-weight-bold">
-					<a
-						class="pa-2 text-decoration-none text-inverted"
-						href="#"
-						v-text="data_dialogFormCreateAccount.actions.links.backToLogin.text"
-						@click="emit_handler('login-container-component')"
-					></a>
+					<a class="pa-2 text-decoration-none text-inverted" href="#" v-text="data_dialogFormCreateAccount.actions.links.backToLogin.text" @click="showLogin()"></a>
 				</p>
 			</v-col>
 		</v-row>
@@ -136,15 +132,15 @@ export default defineComponent({
 				input: {
 					firstName: {
 						label: "First name",
-						value: "",
+						value: null,
 					},
 					lastName: {
 						label: "Last name",
-						value: "",
+						value: null,
 					},
 					email: {
 						label: "Email address",
-						value: "",
+						value: null,
 					},
 					password: {
 						show: false,
@@ -153,7 +149,7 @@ export default defineComponent({
 							hide: iconsFormPassword.hide,
 						},
 						label: "Password",
-						value: "",
+						value: null,
 					},
 					repeatPassword: {
 						show: false,
@@ -162,7 +158,7 @@ export default defineComponent({
 							hide: iconsFormPassword.hide,
 						},
 						label: "Repeat password",
-						value: "",
+						value: null,
 					},
 				},
 				actions: {
@@ -223,19 +219,17 @@ export default defineComponent({
 						password: password,
 					})
 					.then((response) => {
-						debugger;
-						console.log("User created an account: ", response);
 						this.storeCommon.storeNewUser({
-							uid: response.user.uid,
-							firstname: firstname, 
+							id: response.user.uid,
+							firstname: firstname,
 							lastname: lastname,
-							email: email,
-							password: password
 						});
+						this.resetForm();
+						this.closeDialog();
 					})
 					.catch((error) => {
 						debugger;
-						console.log(error);
+						console.error(error);
 					})
 					.finally(() => {
 						debugger;
@@ -243,9 +237,21 @@ export default defineComponent({
 					});
 			}
 		},
-		// Emit
-		emit_handler(newValue: string): void {
-			this.$emit("change", newValue);
+
+		/* Utils */
+		resetForm(): void {
+			this.data_dialogFormCreateAccount.valid = false;
+			this.data_dialogFormCreateAccount.input.firstName.value = null;
+			this.data_dialogFormCreateAccount.input.lastName.value = null;
+			this.data_dialogFormCreateAccount.input.email.value = null;
+			this.data_dialogFormCreateAccount.input.password.value = null;
+			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
+		},
+		showLogin(): void {
+			this.$emit("show-login", "login-container-component");
+		},
+		closeDialog(): void {
+			this.$emit("close-dialog");
 		},
 
 		/* Validation */
@@ -316,7 +322,7 @@ export default defineComponent({
 			return retVal;
 		},
 		arePasswordsIdentical(newValue: string): boolean | string {
-			const passwordValue = this.data_dialogFormCreateAccount.input.password.value;
+			const passwordValue: string = this.data_dialogFormCreateAccount.input.password.value! as string;
 			const isPasswordValid: boolean = !!passwordValue && passwordValue.length > 0;
 			const repeatPasswordValue: string = newValue;
 			const isRepeatPasswordValid: boolean = !!repeatPasswordValue && repeatPasswordValue.length > 0;

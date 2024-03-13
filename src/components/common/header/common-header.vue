@@ -70,27 +70,25 @@
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-		<v-divider vertical inset color="default" class="mx-2 border-opacity-75" v-if="data_isUserLoggedIn"></v-divider>
+		<v-divider
+			vertical
+			inset
+			color="default"
+			class="mx-2 border-opacity-75"
+			v-if="data_isUserLoggedIn === false"
+		></v-divider>
 
-		<!-- <v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-if="!data_isUserLoggedIn">
+		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-if="data_isUserLoggedIn === false">
 			<template v-slot:activator="{ props }">
 				<v-btn
-					class="mr-2 d-none d-sm-flex"
+					class="d-none d-sm-flex"
 					:id="id_appbarAccountBtn"
 					:icon="icon_appBarAccountBtn"
 					v-bind="props"
 					@click.stop="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
 				></v-btn>
 			</template>
-		</v-tooltip> -->
-		<v-btn class="d-none d-sm-flex" 
-			   :id="id_appbarAccountBtn" 
-			   :icon="icon_appBarAccountBtn" 
-			   v-if="data_isUserLoggedIn"
-			   @click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
-		>
-			<v-tooltip activator="parent" location="bottom">{{ tooltip_appBarAccountBtn }}</v-tooltip>
-		</v-btn>
+		</v-tooltip>
 
 		<menu-container-component
 			menu-location="bottom"
@@ -277,9 +275,8 @@ export default defineComponent({
 			if (isRouteNameValid) this.$router.push({ name: routeName });
 		},
 		logout(): void {
-			debugger;
 			this.storeCommon.logout();
-		}
+		},
 	},
 	setup() {
 		const storeCommon = useCommonStore();

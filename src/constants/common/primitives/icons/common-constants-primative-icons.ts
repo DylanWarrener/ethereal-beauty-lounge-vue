@@ -7,6 +7,7 @@ import {
 	mdiStore,
 	mdiLotion,
 	mdiLogin,
+	mdiLogout,
 	mdiBasketOutline,
 	mdiMagnify,
 	mdiAccount,
@@ -18,7 +19,7 @@ import {
 	mdiEmailFast,
 	mdiPhone,
 	mdiEye,
-	mdiEyeOff
+	mdiEyeOff,
 } from "@mdi/js";
 
 export {
@@ -30,6 +31,7 @@ export {
 	mdiStore,
 	mdiLotion,
 	mdiLogin,
+	mdiLogout,
 	mdiBasketOutline,
 	mdiMagnify,
 	mdiAccount,
@@ -41,5 +43,5 @@ export {
 	mdiEmailFast,
 	mdiPhone,
 	mdiEye,
-	mdiEyeOff
+	mdiEyeOff,
 };

@@ -1,10 +1,9 @@
 <template>
 	<v-layout id="layout">
 		<dialog-login-component></dialog-login-component>
-		<!-- <dialog-create-account-component></dialog-create-account-component> -->
 		<header-container-component></header-container-component>
 		<user-account-navigation-component></user-account-navigation-component>
-		<v-main>
+		<v-main style="--v-layout-top: 0">
 			<router-view></router-view>
 		</v-main>
 		<footer-container-component></footer-container-component>
@@ -26,7 +25,6 @@ import { useCommonStore } from "@plugins/pinia/pinia.js";
 
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
-//import DialogCreateAccountComp from "@components/uncommon/dialog/uncommon-dialog-create-account.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
@@ -38,15 +36,14 @@ export default defineComponent({
 	name: "app-component",
 	components: {
 		"dialog-login-component": DialogLoginComp,
-		//"dialog-create-account-component": DialogCreateAccountComp,
 		"header-container-component": HeaderComp,
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
 	data(): { userData: any } {
 		return {
-			userData: null
-		}
+			userData: null,
+		};
 	},
 	computed: {
 		/* Icons */
@@ -57,10 +54,10 @@ export default defineComponent({
 	created(): void {
 		this.storeCommon.monitorAuthState();
 	},
-	setup() {
+	setup(): any {
 		const storeCommon = useCommonStore();
 		return { storeCommon };
-	}
+	},
 });
 </script>
 

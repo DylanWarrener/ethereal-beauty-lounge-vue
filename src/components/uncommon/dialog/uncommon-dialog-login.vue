@@ -1,12 +1,12 @@
 <template>
-	<v-dialog persistent transition="dialog-top-transition" :max-width="dynamicMaxWidth_dialog" v-model="data_dialogLoginDrawerState">
+	<v-dialog persistent transition="dialog-top-transition" :max-width="computed_css_dialog_dynamicMaxWidth" v-model="computed_data_dialog_loginDrawerState">
 		<v-card>
 			<v-toolbar color="accent">
-				<h6>{{ txt_toolbarTitle }}</h6>
+				<h6>{{ computed_txt_toolbar_title }}</h6>
 				<v-spacer></v-spacer>
-				<v-tooltip location="bottom" :text="tooltip_dialogCloseBtn">
+				<v-tooltip location="bottom" :text="computed_tooltip_dialog_btnClose">
 					<template #activator="{ props: tooltip }">
-						<v-btn :icon="icon_dialogCloseBtn" v-bind="tooltip" @click="dialogCloseBtn_handler">
+						<v-btn :icon="computed_icon_dialogCloseBtn" v-bind="tooltip" @click="method_event_dialogCloseBtn_handler">
 							<template v-slot:default>
 								<v-icon color="default"></v-icon>
 							</template>
@@ -15,7 +15,12 @@
 				</v-tooltip>
 			</v-toolbar>
 			<v-img class="align-self-center" src="logo-transparent.png" width="128" height="128"></v-img>
-			<component :is="selectedComponent" @change.self="setSelectedComponent"></component>
+			<component
+				:is="selectedComponent"
+				@close-dialog="computed_data_dialog_loginDrawerState = !computed_data_dialog_loginDrawerState"
+				@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
+				@change.self="method_event_setSelectedComponent"
+			></component>
 		</v-card>
 	</v-dialog>
 </template>
@@ -40,12 +45,6 @@ import ErrorMoreInfoRequiredComp from "@components/common/errors/common-errors-m
 // Interfaces
 import { IDialogDefaultState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
 
-// Constants
-import { notEmpty } from "@constants/common/functions/validation/common-constants-functions-validation.js";
-
-// Enums
-import { ElementIDs } from "@enums/enums.js";
-
 export default defineComponent({
 	name: "dialog-login-component",
 	components: {
@@ -64,8 +63,7 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		/* Text */
-		txt_toolbarTitle(): string {
+		computed_txt_toolbar_title(): string {
 			let retVal: string = "Please log into Ethereal Beauty Lounge";
 			switch (this.selectedComponent) {
 				case "forgotten-password-container-component":
@@ -83,34 +81,25 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		// IDs
-		id_dialogCloseBtn(): string {
-			return ElementIDs.DIALOG_LOGIN_CLOSE_BTN;
-		},
-		// Tooltips
-		tooltip_dialogCloseBtn(): string {
-			return this.data_dialogDefaultState.icons.close.tooltip;
+
+		computed_tooltip_dialog_btnClose(): string {
+			return this.computed_data_dialog_defaultState.icons.close.tooltip;
 		},
 
-		/* CSS */
-		dynamicMaxWidth_dialog(): string {
+		computed_css_dialog_dynamicMaxWidth(): string {
 			let retVal: string = "";
 			if (this.$vuetify.display.mdAndUp) retVal = "50%";
 			return retVal;
 		},
 
-		/* Icons */
-		icon_dialogCloseBtn(): string {
-			return this.data_dialogDefaultState.icons.close.icon;
+		computed_icon_dialogCloseBtn(): string {
+			return this.computed_data_dialog_defaultState.icons.close.icon;
 		},
 
-		/* Data */
-		// Read only
-		data_dialogDefaultState(): IDialogDefaultState {
+		computed_data_dialog_defaultState(): IDialogDefaultState {
 			return this.storeCommon.getDialogDefaultState;
 		},
-		// Read & Write
-		data_dialogLoginDrawerState: {
+		computed_data_dialog_loginDrawerState: {
 			get(): boolean {
 				return this.storeHeader.getAppBarAccountDrawerState;
 			},
@@ -121,33 +110,12 @@ export default defineComponent({
 	},
 	methods: {
 		/* Events */
-		dialogCloseBtn_handler(): void {
-			this.data_dialogLoginDrawerState = !this.data_dialogLoginDrawerState;
-			setTimeout(() => this.setSelectedComponent("login-container-component"), 100);
+		method_event_dialogCloseBtn_handler(): void {
+			this.computed_data_dialog_loginDrawerState = !this.computed_data_dialog_loginDrawerState;
+			setTimeout(() => this.method_event_setSelectedComponent("login-container-component"), 100);
 		},
-		setSelectedComponent(comp: string): void {
+		method_event_setSelectedComponent(comp: string): void {
 			this.selectedComponent = comp;
-		},
-
-		/* Validation */
-		isNotEmpty(value: string): boolean | string {
-			const isValueValid: boolean = !!value && value.length > 0;
-			let retVal: boolean | string = false;
-			if (isValueValid) {
-				retVal = notEmpty(value.toString());
-				if (retVal !== true) {
-					retVal = retVal as string;
-				}
-			}
-			return retVal;
-		},
-		isEmailValid(value: string): boolean | string {
-			let retVal: boolean | string = false;
-			return retVal;
-		},
-		isPasswordValid(value: string): boolean | string {
-			let retVal: boolean | string = false;
-			return retVal;
 		},
 	},
 	setup() {
