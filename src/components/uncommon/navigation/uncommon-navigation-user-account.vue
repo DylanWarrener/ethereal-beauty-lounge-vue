@@ -10,8 +10,8 @@
 		<v-list>
 			<v-list-item
 				prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-				:title="computed_data_user.firstname"
-				:subtitle="computed_data_user.lastname"
+				title="No data for first name"
+				subtitle="No data for last name"
 			></v-list-item>
 		</v-list>
 
@@ -48,7 +48,7 @@ import { defineComponent } from "vue";
 import { useCommonStore } from "@plugins/pinia/pinia.js";
 
 // Icons
-import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects";
+import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "navigation-user-account-component",
@@ -62,8 +62,9 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_data_user(): { firstname: string; lastname: string; email: string } {
-			return this.storeCommon.getUser();
+		computed_data_user(): any {
+      //{ firstname: string; lastname: string; email: string }
+			//return this.storeCommon.getUser();
 		},
 		computed_data_isUserLoggedIn(): boolean {
 			return this.storeCommon.isUserLoggedIn();

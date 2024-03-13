@@ -29,11 +29,11 @@
 							</template>
 						</card-container-component>
 						is user logged in? {{ isUserLoggedIn }}
-						<p v-if="user">
+						<!-- <p v-if="user">
 							Monitoring user data...
 							<br />
 							User data: {{ user }}
-						</p>
+						</p> -->
 					</v-col>
 				</v-row>
 			</v-container>
@@ -111,11 +111,11 @@ export default defineComponent({
 		isUserLoggedIn(): boolean {
 			return this.storeCommon.isUserLoggedIn();
 		},
-		user(): { firstname: string; lastname: string; email: string } {
-			debugger;
-			const user = this.storeCommon.getUser();
-			return user;
-		},
+		// user(): { firstname: string; lastname: string; email: string } {
+		// 	debugger;
+		// 	const user = this.storeCommon.getUser();
+		// 	return user;
+		// },
 	},
 	methods: {
 		scrollToElement(targetElement: string): void {

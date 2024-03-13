@@ -20,6 +20,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Services
+import { auth } from "@plugins/firebase/firebase.js";
+import { onAuthStateChanged } from "firebase/auth";
+
 // Stores
 import { useCommonStore } from "@plugins/pinia/pinia.js";
 
@@ -40,9 +44,9 @@ export default defineComponent({
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
-	data(): { userData: any } {
+	data(): { isUserLoggedIn: boolean } {
 		return {
-			userData: null,
+			isUserLoggedIn: false,
 		};
 	},
 	computed: {
@@ -51,8 +55,23 @@ export default defineComponent({
 			return WhatsAppSVG;
 		},
 	},
+	methods: {
+		method_subscribeTo_onAuthStateChange(): void {
+			debugger;
+			onAuthStateChanged(auth, (user) => {
+				debugger;
+				this.storeCommon.monitorAuthState(user);
+				if (user !== null) {
+					this.isUserLoggedIn = true;
+				} else {
+					this.isUserLoggedIn = false;
+				}
+			});
+		}
+	},
 	created(): void {
-		this.storeCommon.monitorAuthState();
+		debugger;
+		this.method_subscribeTo_onAuthStateChange();
 	},
 	setup(): any {
 		const storeCommon = useCommonStore();
@@ -62,9 +81,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-#layout {
-	position: relative;
-}
 #whatsapp {
 	position: fixed;
 	bottom: 0;
