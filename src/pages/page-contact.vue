@@ -33,14 +33,9 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<divider-container-component></divider-container-component>
 
-	<section-container-component
-		id="section-contact"
-		class="bg-default"
-		class_title="text-inverted"
-		title="Contact details"
-	>
+	<section-container-component id="section-contact" class="bg-default" class_title="text-inverted" title="Contact details">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense>
@@ -48,8 +43,8 @@
 						<v-row dense>
 							<v-col cols="12" class="d-flex flex-row justify-center align-center">
 								<h4 class="text-inverted">
-									Give us a call or complete the form. We endeavour to answer all enquiries within 24
-									hours on business days. We will be happy to answer your queries.
+									Give us a call or complete the form. We endeavour to answer all enquiries within 24 hours
+									on business days. We will be happy to answer your queries.
 								</h4>
 							</v-col>
 							<v-col cols="12">
@@ -98,25 +93,17 @@
 						<div class="pa-4 w-100 h-100 rounded d-flex flex-column bg-accent">
 							<h4>Enter your details.</h4>
 							<p class="pa-4 text-wrap text-center">
-								Your email address will only be used for contacting one another. Required fields are
-								marked *.
+								Your email address will only be used for contacting one another. Required fields are marked
+								*.
 							</p>
 							<v-form class="h-100" :rules="[]" v-model="valid">
 								<v-container fluid class="h-100 d-flex">
 									<v-row dense>
 										<v-col cols="12" md="6" lg="12">
-											<v-text-field
-												clearable
-												label="First Name*"
-												variant="outlined"
-											></v-text-field>
+											<v-text-field clearable label="First Name*" variant="outlined"></v-text-field>
 										</v-col>
 										<v-col cols="12" md="6" lg="12">
-											<v-text-field
-												clearable
-												label="Last Name*"
-												variant="outlined"
-											></v-text-field>
+											<v-text-field clearable label="Last Name*" variant="outlined"></v-text-field>
 										</v-col>
 										<v-col cols="12" md="6" lg="12">
 											<v-text-field clearable label="Email*" variant="outlined"></v-text-field>
@@ -150,11 +137,12 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 import useHeaderStore from "@stores/store-header.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
@@ -168,6 +156,7 @@ export default defineComponent({
 	name: "contact-page-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
+		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
 	},

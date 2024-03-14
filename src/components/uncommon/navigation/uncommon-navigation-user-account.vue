@@ -5,7 +5,7 @@
 		disable-route-watcher
 		location="right"
 		class="bg-accent"
-		v-if="computed_data_isUserLoggedIn"
+		v-if="computed_data_isUserLoggedIn === true"
 	>
 		<v-list>
 			<v-list-item
@@ -45,7 +45,8 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
+import useAuthStore from "@stores/store-auth.js";
 
 // Icons
 import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
@@ -63,11 +64,11 @@ export default defineComponent({
 	},
 	computed: {
 		computed_data_user(): any {
-      //{ firstname: string; lastname: string; email: string }
+			//{ firstname: string; lastname: string; email: string }
 			//return this.storeCommon.getUser();
 		},
 		computed_data_isUserLoggedIn(): boolean {
-			return this.storeCommon.isUserLoggedIn();
+			return this.storeAuth.isUserLoggedIn;
 		},
 	},
 	methods: {
@@ -76,8 +77,9 @@ export default defineComponent({
 		},
 	},
 	setup() {
+		const storeAuth = useAuthStore();
 		const storeCommon = useCommonStore();
-		return { storeCommon };
+		return { storeAuth, storeCommon };
 	},
 });
 </script>

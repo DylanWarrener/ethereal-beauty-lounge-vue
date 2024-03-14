@@ -20,12 +20,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Services
-import { auth } from "@plugins/firebase/firebase.js";
-import { onAuthStateChanged } from "firebase/auth";
-
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
@@ -44,34 +40,11 @@ export default defineComponent({
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
-	data(): { isUserLoggedIn: boolean } {
-		return {
-			isUserLoggedIn: false,
-		};
-	},
 	computed: {
 		/* Icons */
 		icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
-	},
-	methods: {
-		method_subscribeTo_onAuthStateChange(): void {
-			debugger;
-			onAuthStateChanged(auth, (user) => {
-				debugger;
-				this.storeCommon.monitorAuthState(user);
-				if (user !== null) {
-					this.isUserLoggedIn = true;
-				} else {
-					this.isUserLoggedIn = false;
-				}
-			});
-		}
-	},
-	created(): void {
-		debugger;
-		this.method_subscribeTo_onAuthStateChange();
 	},
 	setup(): any {
 		const storeCommon = useCommonStore();

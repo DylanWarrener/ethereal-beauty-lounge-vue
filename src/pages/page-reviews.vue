@@ -33,7 +33,7 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<divider-container-component></divider-container-component>
 
 	<section-container-component
 		id="section-reviews"
@@ -93,9 +93,7 @@
 														item-aria-label="custom icon label text {0} of {1}"
 														size="x-small"
 														:class="`${
-															$vuetify.display.smAndUp
-																? 'justify-center'
-																: 'justify-start'
+															$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
 														}`"
 														:model-value="review.rating"
 													></v-rating>
@@ -114,12 +112,7 @@
 			</v-container>
 		</template>
 	</section-container-component>
-	<section-container-component
-		id="section-reviews"
-		class="bg-default"
-		class_title="text-inverted"
-		title="5-star Reviews"
-	>
+	<section-container-component id="section-reviews" class="bg-default" class_title="text-inverted" title="5-star Reviews">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense>
@@ -172,9 +165,7 @@
 														color="white"
 														size="x-small"
 														:class="`${
-															$vuetify.display.smAndUp
-																? 'justify-center'
-																: 'justify-start'
+															$vuetify.display.smAndUp ? 'justify-center' : 'justify-start'
 														}`"
 														:model-value="review.rating"
 													></v-rating>
@@ -199,11 +190,12 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 import useAboutStore from "@stores/store-about.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
@@ -214,6 +206,7 @@ export default defineComponent({
 	name: "reviews-page-container-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
+		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
 	},

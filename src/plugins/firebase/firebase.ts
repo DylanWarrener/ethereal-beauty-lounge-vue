@@ -1,8 +1,12 @@
-// Import the functions you need from the SDKs you need
+// Services
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 //import { getAnalytics } from "firebase/analytics";
+
+// Store
+import pinia from "@plugins/pinia/pinia.js";
+import useAuthStore from "@stores/store-auth.js";
 
 // Initialize Firebase
 const firebaseApp = initializeApp({
@@ -16,6 +20,11 @@ const firebaseApp = initializeApp({
 });
 
 // Initialize firebase database & auth
-export const db = getFirestore(firebaseApp);
-export const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
 //export const analytics = getAnalytics(app);
+
+const authStore = useAuthStore(pinia);
+authStore.monitorAuthState({ auth });
+
+export { db, auth };

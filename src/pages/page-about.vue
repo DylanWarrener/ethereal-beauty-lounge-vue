@@ -50,11 +50,11 @@
 							<v-col cols="12" md="6" class="pa-4 d-flex flex-column justify-center align-center">
 								<h3 class="text-inverted">Our Mission</h3>
 								<p class="text-inverted text-center">
-									At Ethereal Beauty Lounge, we are committed to providing our clients with the best
-									beauty services that will suit all lifestyles & ensure affordability is met for all.
-									We promise to leave clients feeling confident, radiant and reborn. We strive to
-									create an authentic and welcoming environment where our clients can relax and enjoy
-									their beauty treatments forgetting the worries of life.
+									At Ethereal Beauty Lounge, we are committed to providing our clients with the best beauty
+									services that will suit all lifestyles & ensure affordability is met for all. We promise
+									to leave clients feeling confident, radiant and reborn. We strive to create an authentic
+									and welcoming environment where our clients can relax and enjoy their beauty treatments
+									forgetting the worries of life.
 								</p>
 							</v-col>
 							<v-col cols="12" md="6" style="max-height: 500px">
@@ -74,10 +74,10 @@
 							>
 								<h3 class="text-inverted">Our Services</h3>
 								<p class="text-inverted text-center">
-									From facials and dermaplaning to non surgical tummy tucks and skin tightening, we
-									offer a wide range of beauty services to meet the needs of our clients. Our services
-									are authentic to each individual, ensuring that they receive the best possible care
-									for their desired image.
+									From facials and dermaplaning to non surgical tummy tucks and skin tightening, we offer a
+									wide range of beauty services to meet the needs of our clients. Our services are
+									authentic to each individual, ensuring that they receive the best possible care for their
+									desired image.
 								</p>
 							</v-col>
 							<v-col
@@ -98,9 +98,8 @@
 								<h3 class="text-inverted">Our Team</h3>
 								<p class="text-inverted text-center">
 									Our team of experienced and skilled beauty professionals are dedicated to providing
-									top-notch services to our clients. We take pride in staying up-to-date with the
-									latest beauty trends and techniques to ensure that our clients receive the best
-									possible care.
+									top-notch services to our clients. We take pride in staying up-to-date with the latest
+									beauty trends and techniques to ensure that our clients receive the best possible care.
 								</p>
 							</v-col>
 							<v-col cols="12" md="6" style="max-height: 500px">
@@ -118,7 +117,7 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 import useAboutStore from "@stores/store-about.js";
 
 // Components

@@ -1,12 +1,21 @@
 <template>
-	<v-dialog persistent transition="dialog-top-transition" :max-width="computed_css_dialog_dynamicMaxWidth" v-model="computed_data_dialog_loginDrawerState">
+	<v-dialog
+		persistent
+		transition="dialog-top-transition"
+		:max-width="computed_css_dialog_dynamicMaxWidth"
+		v-model="computed_data_dialog_loginDrawerState"
+	>
 		<v-card>
 			<v-toolbar color="accent">
 				<h6>{{ computed_txt_toolbar_title }}</h6>
 				<v-spacer></v-spacer>
 				<v-tooltip location="bottom" :text="computed_tooltip_dialog_btnClose">
 					<template #activator="{ props: tooltip }">
-						<v-btn :icon="computed_icon_dialogCloseBtn" v-bind="tooltip" @click="method_event_dialogCloseBtn_handler">
+						<v-btn
+							:icon="computed_icon_dialogCloseBtn"
+							v-bind="tooltip"
+							@click="method_event_dialogCloseBtn_handler"
+						>
 							<template v-slot:default>
 								<v-icon color="default"></v-icon>
 							</template>
@@ -29,7 +38,7 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 
 // Components

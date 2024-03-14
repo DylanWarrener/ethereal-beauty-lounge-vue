@@ -33,7 +33,7 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<divider-container-component></divider-container-component>
 
 	<section-container-component
 		id="section-treatments"
@@ -79,9 +79,7 @@
 										class="justify-center align-center"
 										:style="{
 											display:
-												treatmentType.treatmentCategory === data_selectedChips
-													? `flex`
-													: `none`,
+												treatmentType.treatmentCategory === data_selectedChips ? `flex` : `none`,
 											visibility:
 												treatmentType.treatmentCategory === data_selectedChips
 													? `visible`
@@ -95,15 +93,11 @@
 											:height="dynamicHeight"
 											:style="{
 												display:
-													treatmentType.treatmentCategory === data_selectedChips
-														? `flex`
-														: `none`,
+													treatmentType.treatmentCategory === data_selectedChips ? `flex` : `none`,
 											}"
 										>
 											<v-card-item class="w-100">
-												<v-card-title
-													class="d-flex flex-row justify-center align-center text-wrap"
-												>
+												<v-card-title class="d-flex flex-row justify-center align-center text-wrap">
 													<h4 class="text-inverted">
 														{{ treatmentType.title }}
 													</h4>
@@ -167,13 +161,11 @@
 																		{{
 																			treatmentType.time > 60
 																				? `${
-																						((treatmentType.time / 60) %
-																							1) *
+																						((treatmentType.time / 60) % 1) *
 																							60 ===
 																						0
 																							? ""
-																							: ((treatmentType.time /
-																									60) %
+																							: ((treatmentType.time / 60) %
 																									1) *
 																							  60
 																				  } mins`
@@ -226,10 +218,11 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
@@ -243,6 +236,7 @@ export default defineComponent({
 	name: "treatments-page-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
+		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
 	},

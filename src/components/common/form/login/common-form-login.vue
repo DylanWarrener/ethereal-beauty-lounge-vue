@@ -9,7 +9,13 @@
 					v-model="data_dialogFormLogin.valid"
 					@submit.prevent="login_handler"
 				>
-					<v-text-field clearable variant="outlined" type="email" :style="dynamicWidth_dialogFormInput" :rules="data_emailValidationRules">
+					<v-text-field
+						clearable
+						variant="outlined"
+						type="email"
+						:style="dynamicWidth_dialogFormInput"
+						:rules="data_emailValidationRules"
+					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
 						</template>
@@ -35,9 +41,13 @@
 						<template #append-inner>
 							<v-icon
 								:icon="
-									data_dialogFormLogin.input.password.show ? data_dialogFormLogin.input.password.icon.show : data_dialogFormLogin.input.password.icon.hide
+									data_dialogFormLogin.input.password.show
+										? data_dialogFormLogin.input.password.icon.show
+										: data_dialogFormLogin.input.password.icon.hide
 								"
-								@click.stop="data_dialogFormLogin.input.password.show = !data_dialogFormLogin.input.password.show"
+								@click.stop="
+									data_dialogFormLogin.input.password.show = !data_dialogFormLogin.input.password.show
+								"
 							></v-icon>
 						</template>
 					</v-text-field>
@@ -54,19 +64,38 @@
 			<v-col cols="12" xl="2" class="d-flex">
 				<v-row dense class="d-flex" :class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`">
 					<v-col class="d-flex flex-column justify-center">
-						<v-divider vertical class="align-self-center" style="opacity: 1" color="accent" thickness="2" v-if="$vuetify.display.xlAndUp"></v-divider>
+						<v-divider
+							vertical
+							class="align-self-center"
+							style="opacity: 1"
+							color="accent"
+							thickness="2"
+							v-if="$vuetify.display.xlAndUp"
+						></v-divider>
 						<v-divider style="opacity: 1" color="accent" v-else></v-divider>
 					</v-col>
 					<v-col cols="1" xl="auto" class="d-flex flex-column justify-center">
 						<small class="text-center text-inverted">OR</small>
 					</v-col>
 					<v-col class="d-flex flex-column justify-center">
-						<v-divider vertical class="align-self-center" style="opacity: 1" color="accent" thickness="2" v-if="$vuetify.display.xlAndUp"></v-divider>
+						<v-divider
+							vertical
+							class="align-self-center"
+							style="opacity: 1"
+							color="accent"
+							thickness="2"
+							v-if="$vuetify.display.xlAndUp"
+						></v-divider>
 						<v-divider style="opacity: 1" color="accent" v-else></v-divider>
 					</v-col>
 				</v-row>
 			</v-col>
-			<v-col cols="12" xl="5" class="ga-4 d-flex flex-column justify-center" :class="`${$vuetify.display.xlAndUp ? 'align-start' : 'align-center'}`">
+			<v-col
+				cols="12"
+				xl="5"
+				class="ga-4 d-flex flex-column justify-center"
+				:class="`${$vuetify.display.xlAndUp ? 'align-start' : 'align-center'}`"
+			>
 				<v-btn
 					variant="outlined"
 					class="px-8 bg-transparent"
@@ -105,7 +134,7 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
@@ -269,7 +298,9 @@ export default defineComponent({
 
 			let retVal: boolean | string = false;
 			if (isNewValueValid) {
-				retVal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{6,}$/g.test(newValue) || "Must contain a combination of uppercase, lowercase, numbers & symbols.";
+				retVal =
+					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-zA-Z]).{6,}$/g.test(newValue) ||
+					"Must contain a combination of uppercase, lowercase, numbers & symbols.";
 
 				if (retVal !== true) {
 					retVal = retVal as string;

@@ -1,23 +1,29 @@
 import { defineStore } from "pinia";
 
 // Firebase
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import type { Auth, User } from "firebase/auth";
 
-const auth = getAuth();
 const useAuthStore = defineStore("auth-store", {
-	state: () => ({
-        user: {
-            id: ""
-        }
-    }),
-	getters: {},
+	state: (): { isUserLoggedIn: boolean } => ({
+		isUserLoggedIn: false,
+	}),
+	getters: {
+		getIsUserLoggedIn: (state): boolean => {
+			return state.isUserLoggedIn;
+		},
+	},
 	actions: {
-        trackAuthChanges(): void {
-            onAuthStateChanged(auth, (user) => {
-                this.user.id = user ? user.uid : "";
-            });
-        }
-    },
+		monitorAuthState(payload: { auth: Auth }): void {
+			onAuthStateChanged(payload.auth, (user: User | null) => {
+				const isUserValid: boolean = !!user;
+				this.setLoginStatus(isUserValid);
+			});
+		},
+		setLoginStatus(newValue: boolean): void {
+			this.isUserLoggedIn = newValue;
+		},
+	},
 });
 
 export default useAuthStore;

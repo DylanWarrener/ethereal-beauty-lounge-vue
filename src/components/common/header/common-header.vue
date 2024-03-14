@@ -112,8 +112,9 @@
 import { defineComponent, mergeProps } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
+import useAuthStore from "@stores/store-auth.js";
 
 // Components
 import MenuComp from "@components/common/menu/common-menu.vue";
@@ -143,11 +144,6 @@ export default defineComponent({
 		"button-container-component": BtnComp,
 		"dialog-login-component": DialogLoginComp,
 		"navigation-container-component": NavigationContainerComp,
-	},
-	data() {
-		return {
-			test: true,
-		};
 	},
 	computed: {
 		/* Text */
@@ -208,6 +204,15 @@ export default defineComponent({
 		},
 
 		/* Data */
+		data_isUserLoggedIn(): boolean {
+			return this.storeAuth.isUserLoggedIn;
+		},
+		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
+			return this.storeHeader.getNavigationMobileMenuState;
+		},
+		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
+			return this.storeHeader.getNavigationNonMobileMenuState;
+		},
 		data_appBarDrawerState: {
 			get(): boolean {
 				return this.storeCommon.getAppBarDrawer;
@@ -256,15 +261,6 @@ export default defineComponent({
 				this.storeHeader.setAppBarOptionsDrawerState(newValue);
 			},
 		},
-		data_isUserLoggedIn(): boolean {
-			return this.storeCommon.isUserLoggedIn();
-		},
-		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
-			return this.storeHeader.getNavigationMobileMenuState;
-		},
-		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
-			return this.storeHeader.getNavigationNonMobileMenuState;
-		},
 	},
 	methods: {
 		/* Events */
@@ -279,9 +275,10 @@ export default defineComponent({
 		},
 	},
 	setup() {
+		const storeAuth = useAuthStore();
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
-		return { storeCommon, storeHeader };
+		return { storeAuth, storeCommon, storeHeader };
 	},
 });
 </script>

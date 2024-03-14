@@ -28,18 +28,12 @@
 								</v-card-actions>
 							</template>
 						</card-container-component>
-						is user logged in? {{ isUserLoggedIn }}
-						<!-- <p v-if="user">
-							Monitoring user data...
-							<br />
-							User data: {{ user }}
-						</p> -->
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="4" style="opacity: 1 !important"></v-divider>
+	<divider-container-component></divider-container-component>
 
 	<section-container-component
 		id="section-portfolio"
@@ -74,11 +68,13 @@
 import { defineComponent } from "vue";
 
 // Stores
-import { useCommonStore } from "@plugins/pinia/pinia.js";
+import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
+import useAuthStore from "@stores/store-auth.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
@@ -90,6 +86,7 @@ export default defineComponent({
 	name: "home-page-container-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
+		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
 		"card-grid-container-component": CardGridContainerComp,
@@ -107,15 +104,6 @@ export default defineComponent({
 		data_isAppBarActive(): boolean {
 			return this.storeCommon.getAppBarDrawer;
 		},
-
-		isUserLoggedIn(): boolean {
-			return this.storeCommon.isUserLoggedIn();
-		},
-		// user(): { firstname: string; lastname: string; email: string } {
-		// 	debugger;
-		// 	const user = this.storeCommon.getUser();
-		// 	return user;
-		// },
 	},
 	methods: {
 		scrollToElement(targetElement: string): void {
@@ -139,7 +127,8 @@ export default defineComponent({
 	setup() {
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
-		return { storeCommon, storeHeader };
+		const storeAuth = useAuthStore();
+		return { storeCommon, storeHeader, storeAuth };
 	},
 });
 </script>
