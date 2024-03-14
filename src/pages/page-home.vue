@@ -70,7 +70,7 @@ import { defineComponent } from "vue";
 // Stores
 import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
-import useAuthStore from "@stores/store-auth.js";
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
@@ -110,25 +110,29 @@ export default defineComponent({
 			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
 			if (targetElementID) {
-				if (this.data_isAppBarActive) {
-					window.scrollTo({
-						top: targetElementID!.offsetTop - this.data_appBarHeight,
-						behavior: "smooth",
-					});
-				} else {
-					window.scrollTo({
-						top: targetElementID!.offsetTop,
-						behavior: "smooth",
-					});
-				}
+				window.scrollTo({
+					top: targetElementID.offsetTop,
+					behavior: "smooth",
+				});
+				// if (this.data_isAppBarActive) {
+				// 	window.scrollTo({
+				// 		top: targetElementID!.offsetTop - this.data_appBarHeight,
+				// 		behavior: "smooth",
+				// 	});
+				// } else {
+				// 	window.scrollTo({
+				// 		top: targetElementID!.offsetTop,
+				// 		behavior: "smooth",
+				// 	});
+				// }
 			}
 		},
 	},
 	setup() {
+		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
-		const storeAuth = useAuthStore();
-		return { storeCommon, storeHeader, storeAuth };
+		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>

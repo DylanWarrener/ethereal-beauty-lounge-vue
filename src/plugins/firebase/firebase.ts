@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 
 // Store
 import pinia from "@plugins/pinia/pinia.js";
-import useAuthStore from "@stores/store-auth.js";
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Initialize Firebase
 const firebaseApp = initializeApp({
@@ -23,8 +23,7 @@ const firebaseApp = initializeApp({
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 //export const analytics = getAnalytics(app);
-
-const authStore = useAuthStore(pinia);
-authStore.monitorAuthState({ auth });
+const firebaseStore = useFirebaseStore(pinia);
+firebaseStore.monitorAuthState({ auth });
 
 export { db, auth };

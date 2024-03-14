@@ -137,7 +137,7 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useCommonStore from "@stores/store-common";
+import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 
 // Components

@@ -218,7 +218,7 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useCommonStore from "@stores/store-common";
+import useCommonStore from "@stores/store-common.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";

@@ -134,7 +134,8 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useCommonStore from "@stores/store-common";
+import useFirebaseStore from "@stores/store-firebase.js";
+import useCommonStore from "@stores/store-common.js";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
@@ -231,7 +232,7 @@ export default defineComponent({
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
 				this.isLoading = true;
-				this.storeCommon
+				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
 					.then((response) => {
 						debugger;
@@ -310,8 +311,9 @@ export default defineComponent({
 		},
 	},
 	setup() {
+		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
-		return { storeCommon };
+		return { storeFirebase, storeCommon };
 	},
 });
 </script>

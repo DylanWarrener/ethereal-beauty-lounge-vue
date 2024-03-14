@@ -20,9 +20,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Stores
-import useCommonStore from "@stores/store-common";
-
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
@@ -45,11 +42,7 @@ export default defineComponent({
 		icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
-	},
-	setup(): any {
-		const storeCommon = useCommonStore();
-		return { storeCommon };
-	},
+	}
 });
 </script>
 

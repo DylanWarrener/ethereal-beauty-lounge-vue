@@ -134,7 +134,8 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useCommonStore from "@stores/store-common";
+import useFirebaseStore from "@stores/store-firebase.js";
+import useCommonStore from "@stores/store-common.js";
 
 // Icons
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
@@ -233,13 +234,13 @@ export default defineComponent({
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
 				this.isLoading = true;
-				this.storeCommon
+				this.storeFirebase
 					.createAccountWithEmailAndPassword({
 						email: email,
 						password: password,
 					})
 					.then((response) => {
-						this.storeCommon.storeNewUser({
+						this.storeFirebase.storeNewUser({
 							id: response.user.uid,
 							firstname: firstname,
 							lastname: lastname,
@@ -361,8 +362,9 @@ export default defineComponent({
 		},
 	},
 	setup() {
+		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
-		return { storeCommon };
+		return { storeFirebase, storeCommon };
 	},
 });
 </script>

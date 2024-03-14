@@ -45,8 +45,8 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useCommonStore from "@stores/store-common";
-import useAuthStore from "@stores/store-auth.js";
+import useCommonStore from "@stores/store-common.js";
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Icons
 import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
@@ -68,7 +68,7 @@ export default defineComponent({
 			//return this.storeCommon.getUser();
 		},
 		computed_data_isUserLoggedIn(): boolean {
-			return this.storeAuth.isUserLoggedIn;
+			return this.storeFirebase.getIsUserLoggedIn;
 		},
 	},
 	methods: {
@@ -77,9 +77,9 @@ export default defineComponent({
 		},
 	},
 	setup() {
-		const storeAuth = useAuthStore();
+		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
-		return { storeAuth, storeCommon };
+		return { storeFirebase, storeCommon };
 	},
 });
 </script>

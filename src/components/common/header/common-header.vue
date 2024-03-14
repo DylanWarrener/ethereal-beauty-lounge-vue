@@ -114,7 +114,7 @@ import { defineComponent, mergeProps } from "vue";
 // Stores
 import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
-import useAuthStore from "@stores/store-auth.js";
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import MenuComp from "@components/common/menu/common-menu.vue";
@@ -205,7 +205,7 @@ export default defineComponent({
 
 		/* Data */
 		data_isUserLoggedIn(): boolean {
-			return this.storeAuth.isUserLoggedIn;
+			return this.storeFirebase.getIsUserLoggedIn;
 		},
 		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
 			return this.storeHeader.getNavigationMobileMenuState;
@@ -271,14 +271,14 @@ export default defineComponent({
 			if (isRouteNameValid) this.$router.push({ name: routeName });
 		},
 		logout(): void {
-			this.storeCommon.logout();
+			this.storeFirebase.logout();
 		},
 	},
 	setup() {
-		const storeAuth = useAuthStore();
+		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
-		return { storeAuth, storeCommon, storeHeader };
+		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>
