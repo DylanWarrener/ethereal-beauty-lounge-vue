@@ -236,11 +236,11 @@ export default defineComponent({
 					.loginWithEmailAndPassword({ email, password })
 					.then((response) => {
 						debugger;
-						console.log("Logged in user: ", response);
+						//console.log("Logged in user: ", response);
 					})
 					.catch((error) => {
 						debugger;
-						console.log(error);
+						//console.log(error);
 					})
 					.finally(() => {
 						debugger;

@@ -74,6 +74,11 @@ const vuetify = createVuetify({
 	},
 	theme: {
 		defaultTheme: "light",
+		variations: {
+			colors: ['primary', 'secondary'],
+			lighten: 1,
+			darken: 2
+		},
 		themes: { light },
 	},
 	components: {

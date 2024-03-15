@@ -1,5 +1,6 @@
 // Colours
 //import colors from "vuetify/lib/util/colors.mjs";
+import { type ThemeDefinition } from "vuetify";
 
 const colours = {
 	primary: "#8E898D",
@@ -14,7 +15,7 @@ const colours = {
 	orange: "#FFA500",
 };
 
-export const light = {
+export const light: ThemeDefinition = {
 	dark: false,
 	colors: {
 		default: colours.white,
@@ -28,4 +29,7 @@ export const light = {
 		warning: colours.orange,
 		success: colours.green,
 	},
+	variables: {
+		
+	}
 };

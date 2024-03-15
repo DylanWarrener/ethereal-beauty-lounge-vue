@@ -253,7 +253,7 @@ export default defineComponent({
 					})
 					.catch((error) => {
 						debugger;
-						console.error(error);
+						//console.error(error);
 					})
 					.finally(() => {
 						debugger;
