@@ -33,6 +33,7 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
+
 	<divider-container-component></divider-container-component>
 
 	<section-container-component id="section-contact" class="bg-default" class_title="text-inverted" title="Contact details">
@@ -136,10 +137,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Stores
-import useCommonStore from "@stores/store-common.js";
-import useHeaderStore from "@stores/store-header.js";
-
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
@@ -199,14 +196,6 @@ export default defineComponent({
 		img_canvas(): string {
 			return CanvasPNG;
 		},
-
-		/* Data */
-		data_appBarHeight(): number {
-			return this.storeCommon.getAppBarHeight;
-		},
-		data_isAppBarActive(): boolean {
-			return this.storeCommon.getAppBarDrawer;
-		},
 	},
 	methods: {
 		/* Utils */
@@ -214,31 +203,12 @@ export default defineComponent({
 			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
 			if (targetElementID) {
-				if (this.data_isAppBarActive) {
-					window.scrollTo({
-						top: targetElementID!.offsetTop - this.data_appBarHeight,
-						behavior: "smooth",
-					});
-				} else {
-					window.scrollTo({
-						top: targetElementID!.offsetTop,
-						behavior: "smooth",
-					});
-				}
+				window.scrollTo({
+					top: targetElementID!.offsetTop,
+					behavior: "smooth",
+				});
 			}
 		},
-
-		/* Validation */
-		notEmpty(): string | boolean {
-			let retVal: string | boolean = false;
-
-			return retVal;
-		},
-	},
-	setup() {
-		const storeCommon = useCommonStore();
-		const storeHeader = useHeaderStore();
-		return { storeCommon, storeHeader };
 	},
 });
 </script>

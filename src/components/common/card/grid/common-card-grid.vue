@@ -254,6 +254,9 @@ export default defineComponent({
 	components: {
 		"card-container-component": CardContainerComp,
 	},
+	data() {
+		return {};
+	},
 });
 </script>
 

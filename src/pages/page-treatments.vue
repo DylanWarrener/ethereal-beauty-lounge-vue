@@ -33,6 +33,7 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
+
 	<divider-container-component></divider-container-component>
 
 	<section-container-component
@@ -210,15 +211,7 @@
 </template>
 
 <script lang="ts">
-/*
-<v-scroll-y-transition>
-	<h3>{{ isSelected ? "Selected" : "Click Me!" }}</h3>
-</v-scroll-y-transition>
-*/
 import { defineComponent } from "vue";
-
-// Stores
-import useCommonStore from "@stores/store-common.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
@@ -633,11 +626,6 @@ export default defineComponent({
 		icon_treatmentCardInformation(): string {
 			return mdiInformationVariant;
 		},
-
-		/* Data */
-		data_appBarHeight(): number {
-			return this.storeCommon.getAppBarHeight;
-		},
 	},
 	methods: {
 		/* Utils */
@@ -645,14 +633,10 @@ export default defineComponent({
 			const targetElementID: HTMLDivElement = document.getElementById("section-treatments") as HTMLDivElement;
 
 			window.scrollTo({
-				top: targetElementID!.offsetTop - this.data_appBarHeight,
+				top: targetElementID!.offsetTop,
 				behavior: "smooth",
 			});
 		},
-	},
-	setup() {
-		const storeCommon = useCommonStore();
-		return { storeCommon };
 	},
 });
 </script>

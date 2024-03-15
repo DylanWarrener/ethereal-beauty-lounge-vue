@@ -91,9 +91,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 	actions: {
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): void {
-			debugger;
 			onAuthStateChanged(payload.auth, (user: User | null) => {
-				debugger;
 				this.setUserAuthData({
 					id: user?.uid ?? null,
 					displayName: user?.displayName ?? null,
@@ -150,7 +148,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 			photoURL: string | null;
 			isAnonymous: boolean;
 		}): void {
-			debugger;
 			this.setUserID(user.id);
 			this.setUserDisplayName(user.displayName);
 			this.setUserEmail(user.email);
@@ -168,7 +165,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 		/* Firebase CLOUD FIRESTORE */
 		storeNewUser(user: { id: string; firstname: string; lastname: string }): void {
-			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
 			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.id);
 			const userFirestoreData: { firstname: string; lastname: string } = {

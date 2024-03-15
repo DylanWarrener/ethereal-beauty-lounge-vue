@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid tag="section" :class="classContainer" :stye="styleContainer">
+	<v-container fluid tag="section" :class="classContainer" :style="styleContainer">
 		<v-row dense>
 			<v-col cols="12" v-if="title">
 				<h2 :class="class_title">{{ title }}</h2>

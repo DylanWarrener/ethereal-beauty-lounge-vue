@@ -33,6 +33,7 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
+
 	<divider-container-component></divider-container-component>
 
 	<section-container-component
@@ -67,11 +68,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Stores
-import useCommonStore from "@stores/store-common.js";
-import useHeaderStore from "@stores/store-header.js";
-import useFirebaseStore from "@stores/store-firebase.js";
-
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
@@ -96,14 +92,6 @@ export default defineComponent({
 		canvasIMG(): string {
 			return CanvasPNG;
 		},
-
-		/* Data */
-		data_appBarHeight(): number {
-			return this.storeCommon.getAppBarHeight;
-		},
-		data_isAppBarActive(): boolean {
-			return this.storeCommon.getAppBarDrawer;
-		},
 	},
 	methods: {
 		scrollToElement(targetElement: string): void {
@@ -114,25 +102,8 @@ export default defineComponent({
 					top: targetElementID.offsetTop,
 					behavior: "smooth",
 				});
-				// if (this.data_isAppBarActive) {
-				// 	window.scrollTo({
-				// 		top: targetElementID!.offsetTop - this.data_appBarHeight,
-				// 		behavior: "smooth",
-				// 	});
-				// } else {
-				// 	window.scrollTo({
-				// 		top: targetElementID!.offsetTop,
-				// 		behavior: "smooth",
-				// 	});
-				// }
 			}
 		},
-	},
-	setup() {
-		const storeFirebase = useFirebaseStore();
-		const storeCommon = useCommonStore();
-		const storeHeader = useHeaderStore();
-		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>

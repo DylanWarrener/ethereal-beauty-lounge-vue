@@ -33,7 +33,8 @@
 			</v-container>
 		</template>
 	</canvas-container-component>
-	<v-divider color="accent" thickness="4" style="opacity: 1"></v-divider>
+
+	<divider-container-component></divider-container-component>
 
 	<section-container-component
 		id="section-about"
@@ -43,12 +44,12 @@
 	>
 		<template #section-content>
 			<v-container fluid class="text-inverted">
-				<v-row dense>
+				<v-row dense class="d-flex ga-4">
 					<!-- Our mission -->
 					<v-col cols="12">
 						<v-row dense>
 							<v-col cols="12" md="6" class="pa-4 d-flex flex-column justify-center align-center">
-								<h3 class="text-inverted">Our Mission</h3>
+								<h3 class="text-accent">Our Mission</h3>
 								<p class="text-inverted text-center">
 									At Ethereal Beauty Lounge, we are committed to providing our clients with the best beauty
 									services that will suit all lifestyles & ensure affordability is met for all. We promise
@@ -63,6 +64,8 @@
 						</v-row>
 					</v-col>
 
+					<divider-container-component></divider-container-component>
+
 					<!-- Our services -->
 					<v-col cols="12">
 						<v-row dense>
@@ -72,7 +75,7 @@
 								class="pa-4 d-flex flex-column justify-center align-center"
 								:class="$vuetify.display.mdAndUp ? 'order-2' : 'order-1'"
 							>
-								<h3 class="text-inverted">Our Services</h3>
+								<h3 class="text-accent">Our Services</h3>
 								<p class="text-inverted text-center">
 									From facials and dermaplaning to non surgical tummy tucks and skin tightening, we offer a
 									wide range of beauty services to meet the needs of our clients. Our services are
@@ -91,11 +94,13 @@
 						</v-row>
 					</v-col>
 
+					<divider-container-component></divider-container-component>
+
 					<!-- Our team -->
 					<v-col cols="12">
 						<v-row dense>
 							<v-col cols="12" md="6" class="pa-4 d-flex flex-column justify-center align-center">
-								<h3 class="text-inverted">Our Team</h3>
+								<h3 class="text-accent">Our Team</h3>
 								<p class="text-inverted text-center">
 									Our team of experienced and skilled beauty professionals are dedicated to providing
 									top-notch services to our clients. We take pride in staying up-to-date with the latest
@@ -116,12 +121,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Stores
-import useCommonStore from "@stores/store-common.js";
-import useAboutStore from "@stores/store-about.js";
-
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
@@ -132,6 +134,7 @@ export default defineComponent({
 	name: "about-page-container-component",
 	components: {
 		"canvas-container-component": CanvasContainerComp,
+		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
 	},
@@ -140,14 +143,6 @@ export default defineComponent({
 		img_canvas(): string {
 			return CanvasPNG;
 		},
-
-		/* Data */
-		data_appBarHeight(): number {
-			return this.storeCommon.getAppBarHeight;
-		},
-		data_isAppBarActive(): boolean {
-			return this.storeCommon.getAppBarDrawer;
-		},
 	},
 	methods: {
 		/* Utils */
@@ -155,24 +150,12 @@ export default defineComponent({
 			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
 			if (targetElementID) {
-				if (this.data_isAppBarActive) {
-					window.scrollTo({
-						top: targetElementID!.offsetTop - this.data_appBarHeight,
-						behavior: "smooth",
-					});
-				} else {
-					window.scrollTo({
-						top: targetElementID!.offsetTop,
-						behavior: "smooth",
-					});
-				}
+				window.scrollTo({
+					top: targetElementID!.offsetTop,
+					behavior: "smooth",
+				});
 			}
 		},
-	},
-	setup() {
-		const storeCommon = useCommonStore();
-		const storeAbout = useAboutStore();
-		return { storeCommon, storeAbout };
 	},
 });
 </script>
