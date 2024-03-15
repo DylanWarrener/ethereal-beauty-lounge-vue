@@ -10,11 +10,6 @@ import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-co
 // Main store
 export const useCommonStore = defineStore("common-store", {
 	state: (): ICommonState => ({
-		appBar: {
-			drawer: true,
-			height: 64,
-		},
-		appBarHeight: 64, // Needs deleting once the referenes are deleted.
 		appBarDrawer: true, // Needs deleting once the referenes are deleted.
 		dialog: {
 			default: {
@@ -34,7 +29,6 @@ export const useCommonStore = defineStore("common-store", {
 	}),
 	getters: {
 		/* App bar */
-		getAppBarHeight: (state: ICommonState): number => state.appBarHeight,
 		getAppBarDrawer: (state: ICommonState): boolean => state.appBarDrawer,
 		/* Dialog */
 		getDialogDefaultState: (state: ICommonState): IDialogDefaultState => state.dialog.default,

@@ -7,7 +7,7 @@
 			<router-view></router-view>
 		</v-main>
 		<footer-container-component></footer-container-component>
-		<v-btn icon id="whatsapp">
+		<v-btn icon class="whatsapp" v-if="">
 			<v-icon>
 				<template #default>
 					<v-img :src="icon_whatsapp"></v-img>
@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useGoTo } from 'vuetify';
 
 // Services
 import { auth } from "@plugins/firebase/firebase.js";
@@ -49,35 +50,42 @@ export default defineComponent({
 			return WhatsAppSVG;
 		},
 	},
+	methods: {
+
+	},
 	created(): void {
 		this.storeFirebase.monitorAuthState({ auth });
+		window.onscroll
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
+		const goTo = useGoTo();
 		return { storeFirebase };
 	},
 });
 </script>
 
 <style lang="scss">
-#whatsapp {
-	position: fixed;
-	bottom: 0;
-	right: 0;
-	margin-right: 25px;
-	margin-bottom: 25px;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	border-radius: 50%;
-	width: 75px;
-	height: 75px;
-	background-color: rgba(37, 211, 102, 1);
+#layout {
+	.whatsapp {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		width: 75px;
+		height: 75px;
+		background-color: rgba(37, 211, 102, 1);
 
-	.v-icon {
-		font-size: 48px;
-		filter: invert(100%) sepia(78%) saturate(0%) hue-rotate(209deg) brightness(106%) contrast(101%);
+		.v-icon {
+			font-size: 48px;
+			filter: invert(100%) sepia(78%) saturate(0%) hue-rotate(209deg) brightness(106%) contrast(101%);
+		}
 	}
 }
 </style>

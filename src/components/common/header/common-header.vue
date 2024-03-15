@@ -51,11 +51,12 @@
 			>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
 					<v-list-item
-						:title="innerItem.title.toUpperCase()"
 						:to="innerItem.link"
 						:key="index"
 						v-for="(innerItem, index) in outerItem.items"
-					></v-list-item>
+					>
+						<span>{{ innerItem.title.toUpperCase() }}</span>
+					</v-list-item>
 				</v-list>
 			</v-menu>
 		</v-btn>

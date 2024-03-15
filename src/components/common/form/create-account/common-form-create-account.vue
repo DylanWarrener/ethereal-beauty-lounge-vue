@@ -6,7 +6,7 @@
 			</v-col>
 			<v-col cols="12">
 				<v-form
-					class="d-flex flex-column align-center"
+					class="ga-4 d-flex flex-column align-center"
 					validate-on="input lazy"
 					v-model="data_dialogFormCreateAccount.valid"
 					@submit.prevent="createAccount_handler"

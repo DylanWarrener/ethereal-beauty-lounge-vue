@@ -1,8 +1,8 @@
 <template>
-	<card-container-component variant="flat" class="mx-auto" style="border: 4px solid yellow">
+	<card-container-component variant="flat" class="mx-auto">
 		<template #card-img>
-			<v-container fluid style="border: 4px solid red">
-				<v-row dense class="image_grid" style="border: 4px solid green">
+			<v-container fluid>
+				<v-row dense class="image_grid">
 					<v-col cols="12" md="4" class="ga-2 d-flex flex-column justify-start align-center">
 						<v-hover v-slot="{ isHovering, props }">
 							<v-card
