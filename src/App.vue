@@ -7,7 +7,7 @@
 			<router-view></router-view>
 		</v-main>
 		<footer-container-component></footer-container-component>
-		<v-btn icon class="whatsapp" v-if="">
+		<v-btn icon class="whatsapp">
 			<v-icon>
 				<template #default>
 					<v-img :src="icon_whatsapp"></v-img>
@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useGoTo } from 'vuetify';
+//import { useGoTo } from 'vuetify';
 
 // Services
 import { auth } from "@plugins/firebase/firebase.js";
@@ -59,7 +59,7 @@ export default defineComponent({
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
-		const goTo = useGoTo();
+		//const goTo = useGoTo();
 		return { storeFirebase };
 	},
 });
