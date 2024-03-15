@@ -5,17 +5,19 @@
 		disable-route-watcher
 		location="right"
 		class="bg-accent"
-		v-if="computed_data_isUserLoggedIn === true"
+		v-if="computed_data_isUserLoggedIn"
 	>
 		<v-list>
-			<v-list-item
-				prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
-				title="No data for first name"
-				subtitle="No data for last name"
-			></v-list-item>
+			<v-list-item class="pl-3" :title="computed_data_user_displayName" :subtitle="computed_data_user_email">
+				<template #prepend>
+					<v-avatar color="secondary" size="32">
+						<span class="text-h5 text-inverted">{{ computed_data_user_initials }}</span>
+					</v-avatar>
+				</template>
+			</v-list-item>
 		</v-list>
 
-		<v-divider></v-divider>
+		<divider-container-component color="default" thickness="1"></divider-container-component>
 
 		<v-list nav density="compact">
 			<v-list-item prepend-icon="mdi-folder" title="My Files" value="myfiles"></v-list-item>
@@ -48,11 +50,17 @@ import { defineComponent } from "vue";
 import useCommonStore from "@stores/store-common.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
+// Components
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
+
 // Icons
 import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "navigation-user-account-component",
+	components: {
+		"divider-container-component": DividerContainerComp,
+	},
 	data() {
 		return {
 			navigation: {
@@ -63,9 +71,15 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_data_user(): any {
-			//{ firstname: string; lastname: string; email: string }
-			//return this.storeCommon.getUser();
+		computed_data_user_displayName(): string {
+			return this.storeFirebase.getUserDisplayName?.toLowerCase() ?? "Loading display name...";
+		},
+		computed_data_user_email(): string {
+			return this.storeFirebase.getUserEmail?.toLowerCase() ?? "Loading email...";
+		},
+		computed_data_user_initials(): string {
+			const [firstname, lastname] = this.computed_data_user_displayName.split(" ");
+			return `${firstname[0]}${lastname[0]}`.toUpperCase();
 		},
 		computed_data_isUserLoggedIn(): boolean {
 			return this.storeFirebase.getIsUserLoggedIn;
@@ -73,7 +87,7 @@ export default defineComponent({
 	},
 	methods: {
 		method_event_logout(): void {
-			this.storeCommon.logout();
+			this.storeFirebase.logout();
 		},
 	},
 	setup() {

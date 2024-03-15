@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid tag="section" :class="class_container">
+	<v-container fluid tag="section" :class="classContainer" :stye="styleContainer">
 		<v-row dense>
 			<v-col cols="12" v-if="title">
 				<h2 :class="class_title">{{ title }}</h2>
@@ -15,15 +15,15 @@
 </template>
 
 <script lang="ts">
-import { StringFormat } from "firebase/storage";
 import { defineComponent } from "vue";
 
 export default defineComponent({
 	name: "section-container-component",
 	props: {
-		class_container: { type: String, required: false },
+		classContainer: { type: String, required: false },
 		class_title: { type: String, required: false },
 		class_subtitle: { type: String, required: false },
+		styleContainer: { type: String, required: false },
 		title: { type: String, required: false },
 		subtitle: { type: String, required: false },
 	},

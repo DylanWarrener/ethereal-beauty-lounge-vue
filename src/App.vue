@@ -20,6 +20,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Services
+import { auth } from "@plugins/firebase/firebase.js";
+
+// Stores
+import useFirebaseStore from "@stores/store-firebase.js";
+
 // Components
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
@@ -42,7 +48,14 @@ export default defineComponent({
 		icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
-	}
+	},
+	created(): void {
+		this.storeFirebase.monitorAuthState({ auth });
+	},
+	setup() {
+		const storeFirebase = useFirebaseStore();
+		return { storeFirebase };
+	},
 });
 </script>
 

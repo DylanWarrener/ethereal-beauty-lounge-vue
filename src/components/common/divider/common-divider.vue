@@ -14,7 +14,6 @@ export default defineComponent({
 	},
 	computed: {
 		computed_style(): string {
-			debugger;
 			const isStylePropValid: boolean = !!this.style && this.style.length > 0;
 
 			let retVal: string = "opacity: 1 !important;";

@@ -240,6 +240,9 @@ export default defineComponent({
 						password: password,
 					})
 					.then((response) => {
+						debugger;
+						const displayName: string = `${firstname} ${lastname}`;
+						this.storeFirebase.updateUserDisplayName({ displayName });
 						this.storeFirebase.storeNewUser({
 							id: response.user.uid,
 							firstname: firstname,
