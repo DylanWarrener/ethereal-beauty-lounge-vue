@@ -23,6 +23,7 @@ const firebaseApp = initializeApp({
 const db = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 //export const analytics = getAnalytics(app);
+
 const firebaseStore = useFirebaseStore(pinia);
 firebaseStore.monitorAuthState({ auth });
 

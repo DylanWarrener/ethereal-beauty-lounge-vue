@@ -2,12 +2,16 @@ import { defineStore } from "pinia";
 
 // Firebase
 import { db, auth } from "@plugins/firebase/firebase.js";
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, getDoc, setDoc, doc } from "firebase/firestore";
-import type { Auth, User, UserCredential } from "firebase/auth";
-import type { CollectionReference, DocumentReference, DocumentData } from "firebase/firestore";
+import { 
+	onAuthStateChanged, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword,
+	type Auth, type User, type UserCredential
+} from "firebase/auth";
+import { 
+	collection, getDoc, setDoc, doc,
+	type CollectionReference, type DocumentReference, type DocumentData
+} from "firebase/firestore";
 
-const useAuthStore = defineStore("firebase-store", {
+const useFirebaseStore = defineStore("firebase-store", {
 	state: (): { 
         user: { 
             id: string | null;
@@ -78,14 +82,38 @@ const useAuthStore = defineStore("firebase-store", {
         loginWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
 			return signInWithEmailAndPassword(auth, user.email, user.password);
 		},
-        logout(): void {
-			signOut(auth);
+        logout(): Promise<void> {
+			return signOut(auth);
 		},
         createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
 			return createUserWithEmailAndPassword(auth, user.email, user.password);
 		},
 		setUserID(newValue: string | null): void {
 			this.user.id = newValue;
+		},
+		setUserDisplayName(newValue: string | null) : void {
+			this.user.displayName = newValue;
+		},
+		setUserFirstname(newValue: string | null) : void {
+			this.user.firstname = newValue;
+		},
+		setUserLastname(newValue: string | null) : void {
+			this.user.lastname = newValue;
+		},
+		setUserEmail(newValue: string | null) : void {
+			this.user.email = newValue;
+		},
+		setUserEmailVerified(newValue: boolean) : void {
+			this.user.emailVerified = newValue;
+		},
+		setUserPhoneNumber(newValue: string | null) : void {
+			this.user.phoneNumber = newValue;
+		},
+		setUserPhotoURL(newValue: string | null) : void {
+			this.user.photoURL = newValue;
+		},
+		setUserIsAnonymous(newValue: boolean) : void {
+			this.user.isAnonymous = newValue;
 		},
 
 		/* Firebase CLOUD FIRESTORE */
@@ -103,4 +131,4 @@ const useAuthStore = defineStore("firebase-store", {
 	},
 });
 
-export default useAuthStore;
+export default useFirebaseStore;

@@ -7,19 +7,19 @@ const app = createApp(App);
 
 // Routes
 import router from "@plugins/router/router.js";
-
-// Local store
-import pinia from "@plugins/pinia/pinia.js";
+app.use(router);
 
 // Components, Themes & Styles
 import vuetify from "@plugins/vuetify/vuetify.js";
+app.use(vuetify);
 
-// External store (database)
+// Local state
+import pinia from "@plugins/pinia/pinia.js";
+app.use(pinia);
+
+// External state
 import "@plugins/firebase/firebase.js";
 
-app.use(router);
-app.use(pinia);
-app.use(vuetify);
 app.mount("#app");
 
 export default app;
