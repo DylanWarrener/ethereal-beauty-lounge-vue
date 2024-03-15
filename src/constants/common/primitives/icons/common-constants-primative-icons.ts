@@ -20,6 +20,7 @@ import {
 	mdiPhone,
 	mdiEye,
 	mdiEyeOff,
+	mdiBasket
 } from "@mdi/js";
 
 export {
@@ -44,4 +45,5 @@ export {
 	mdiPhone,
 	mdiEye,
 	mdiEyeOff,
+	mdiBasket
 };

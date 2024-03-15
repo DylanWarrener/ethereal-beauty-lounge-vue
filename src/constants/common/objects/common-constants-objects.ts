@@ -18,6 +18,7 @@ import {
 	mdiEye,
 	mdiEyeOff,
 	mdiLogout,
+	mdiBasket
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -81,6 +82,7 @@ export const iconsNavigation = {
 };
 export const iconsSidebarNavigation = {
 	logout: mdiLogout,
+	basket: mdiBasket
 };
 export const iconsDialog = {
 	close: mdiClose,
