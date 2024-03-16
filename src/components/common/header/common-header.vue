@@ -60,7 +60,7 @@
 				</v-list>
 			</v-menu>
 		</v-btn>
-		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-75"></v-divider>
+		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT -->
 		<menu-container-component

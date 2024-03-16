@@ -10,10 +10,10 @@
 				<v-divider color="default" vertical v-else></v-divider>
 				<v-col cols="12" sm="6" class="d-flex" style="height: 75px">
 					<div class="footer_socials w-100 d-flex flex-row justify-space-evenly align-center">
-						<v-btn icon variant="flat" class="bg-accent" :key="index" v-for="(svg, index) in socials">
+						<v-btn icon variant="flat" class="bg-accent" target="_blank" :href="svg.link" :key="index" v-for="(svg, index) in socials">
 							<v-icon size="x-large">
 								<template #default>
-									<v-img :src="svg"></v-img>
+									<v-img :src="svg.icon"></v-img>
 								</template>
 							</v-icon>
 						</v-btn>
@@ -71,7 +71,21 @@ export default defineComponent({
 	name: "footer-container-component",
 	data() {
 		return {
-			socials: [FacebookSVG, InstagramSVG, TikTokSVG],
+			socials: {
+				facebook: {
+					icon: FacebookSVG,
+					link: "https://www.facebook.com/profile.php?id=61551908105553"
+				},
+				instagram: {
+					icon: InstagramSVG,
+					link: "https://www.instagram.com/etherealbeautylounge_?igsh=MTBpMmVzZWd1Nzh6OQ%3D%3D&utm_source=qr"
+				},
+				tiktok: {
+					icon: TikTokSVG,
+					link: "https://www.tiktok.com/@etherealbeautylounge_?_t=8k5mo2SiR4S&_r=1"
+				}
+			},
+			//[FacebookSVG, InstagramSVG, TikTokSVG],
 			navigation: [
 				{
 					text: txtRouteNames.home,
@@ -125,6 +139,11 @@ export default defineComponent({
 			return retVal;
 		},
 	},
+	methods: {
+		openSocial(): void {
+
+		}
+	}
 });
 </script>
 
