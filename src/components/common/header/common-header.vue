@@ -33,36 +33,48 @@
 		></menu-container-component> -->
 		<v-spacer></v-spacer>
 
-		<!-- APP BAR MIDDLE -->
-		<v-btn
-			class="nav-text__underline d-none d-md-flex"
-			:append-icon="outerItem.icon"
-			:key="index"
-			v-for="(outerItem, index) in navigationNonMobileMenu"
-			@click="navigatePage(outerItem.title)"
+		<!-- APP BAR MIDDLE - Text navs -->
+		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.home.link">
+			{{ appbar.navigation.btn.home.text }}
+		</v-btn>
+		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.treatments.link">
+			{{ appbar.navigation.btn.treatments.text }}
+		</v-btn>
+		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.store.link">
+			{{ appbar.navigation.btn.store.text }}
+		</v-btn>
+		<button-text-menu-container-component
+			btn-class="d-none d-md-flex"
+			menu-transition="slide-y-transition"
+			:btn-append-icon="appbar.navigation.btn.information.icon"
+			:btn-text="appbar.navigation.btn.information.text"
 		>
-			{{ outerItem.title }}
-			<v-menu
-				close-on-content-click
-				location="bottom"
-				transition="slide-y-transition"
-				activator="parent"
-				v-if="outerItem.items"
-			>
+			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-					<v-list-item
-						:to="innerItem.link"
-						:key="index"
-						v-for="(innerItem, index) in outerItem.items"
+					<v-list-item 
+						class="text-inverted text-uppercase" 
+						:to="appbar.navigation.btn.contact.link"
 					>
-						<span>{{ innerItem.title.toUpperCase() }}</span>
+						<span class="text-uppercase" v-text="appbar.navigation.btn.contact.text"></span>
+					</v-list-item>
+					<v-list-item 
+						class="text-inverted text-uppercase" 
+						:to="appbar.navigation.btn.reviews.link"
+					>
+						<span class="text-uppercase" v-text="appbar.navigation.btn.reviews.text"></span>
+					</v-list-item>
+					<v-list-item 
+						class="text-inverted text-uppercase"
+						:to="appbar.navigation.btn.about.link"
+					>
+						<span class="text-uppercase" v-text="appbar.navigation.btn.about.text"></span>
 					</v-list-item>
 				</v-list>
-			</v-menu>
-		</v-btn>
+			</template>
+		</button-text-menu-container-component>
 		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
 
-		<!-- APP BAR RIGHT -->
+		<!-- APP BAR RIGHT - Icon navs -->
 		<menu-container-component
 			menu-location="bottom"
 			btn-class="d-none d-sm-flex"
@@ -76,21 +88,19 @@
 			inset
 			color="default"
 			class="mx-2 border-opacity-75"
-			v-if="data_isUserLoggedIn === false"
 		></v-divider>
+		<menu-container-component 
+			menu-location="bottom"
+			btn-class="d-none d-sm-flex"
+			:tooltip-text="tooltip_appBarAccountBtn"
+			:btn-id="id_appbarAccountBtn"
+			:btn-icon="icon_appBarAccountBtn"
+			@toggle-menu-drawer="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+		>
+			<template #menu-items>
 
-		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-if="data_isUserLoggedIn === false">
-			<template v-slot:activator="{ props }">
-				<v-btn
-					class="d-none d-sm-flex"
-					:id="id_appbarAccountBtn"
-					:icon="icon_appBarAccountBtn"
-					v-bind="props"
-					@click.stop="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
-				></v-btn>
 			</template>
-		</v-tooltip>
-
+		</menu-container-component>
 		<menu-container-component
 			menu-location="bottom"
 			btn-class="mr-2 d-sm-none"
@@ -100,17 +110,10 @@
 			@toggle-menu-drawer="data_appBarOptionsDrawerState = !data_appBarOptionsDrawerState"
 		></menu-container-component>
 	</v-app-bar>
-
-	<navigation-container-component
-		class="d-flex d-md-none"
-		location="bottom"
-		:navigation="data_mobileMenuNavigation"
-		v-model="data_appBarMobileMenuDrawerState"
-	></navigation-container-component>
 </template>
 
 <script lang="ts">
-import { defineComponent, mergeProps } from "vue";
+import { defineComponent } from "vue";
 
 // Stores
 import useCommonStore from "@stores/store-common.js";
@@ -121,21 +124,21 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import MenuComp from "@components/common/menu/common-menu.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
-import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
+import BtnTextMenuContainerComp from "@components/common/button/menu/common-button-text-menu.vue"
 
 // Interfaces
 import { IHeaderAppbarIconsState } from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
-import {
-	IHeaderNavigationCommonItemState,
-	IHeaderNavigationCommonNonMobileItemState,
-} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
+import { IHeaderNavigationCommonNonMobileItemState } from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 // Enums
 import { ElementIDs } from "@enums/enums.js";
 
 // Constants
-import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+
+// Icons
+import { mdiAccount, mdiBasket, mdiMenu, mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -144,7 +147,57 @@ export default defineComponent({
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,
 		"dialog-login-component": DialogLoginComp,
-		"navigation-container-component": NavigationContainerComp,
+		"button-text-menu-container-component": BtnTextMenuContainerComp
+	},
+	data() {
+		return {
+			appbar: {
+				navigation: {
+					btn: {
+						mobileMenu: {
+							icon: mdiMenu,
+							tooltip: "Menu"
+						},
+						home: {
+							text: txtRouteNames.home,
+							link: txtRouteLinks.home
+						},
+						treatments: {
+							text: txtRouteNames.treatments,
+							link: txtRouteLinks.treatments
+						},
+						store: {
+							text: txtRouteNames.store,
+							link: txtRouteLinks.store
+						},
+						information: {
+							text: "Information",
+							icon: mdiMenuDown
+						},
+						contact: {
+							text: txtRouteNames.contact,
+							link: txtRouteLinks.contact
+						},
+						reviews: {
+							text: txtRouteNames.reviews,
+							link: txtRouteLinks.reviews
+						},
+						about: {
+							text: txtRouteNames.about,
+							link: txtRouteLinks.about
+						},
+						basket: {
+							icon: mdiBasket,
+							tooltip: "Basket"
+						},
+						account: {
+							icon: mdiAccount,
+							tooltip: "Account"
+						}
+					}
+				}
+			}
+		};
 	},
 	computed: {
 		/* Text */
@@ -208,9 +261,6 @@ export default defineComponent({
 		data_isUserLoggedIn(): boolean {
 			return this.storeFirebase.getIsUserLoggedIn;
 		},
-		data_mobileMenuNavigation(): IHeaderNavigationCommonItemState[] {
-			return this.storeHeader.getNavigationMobileMenuState;
-		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
 			return this.storeHeader.getNavigationNonMobileMenuState;
 		},
@@ -265,12 +315,12 @@ export default defineComponent({
 	},
 	methods: {
 		/* Events */
-		mergeProps,
-		navigatePage(routeName: string): void {
-			const allRoutes = this.$router.getRoutes();
-			const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
-			if (isRouteNameValid) this.$router.push({ name: routeName });
-		},
+		// mergeProps,
+		// navigatePage(routeName: string): void {
+		// 	const allRoutes = this.$router.getRoutes();
+		// 	const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
+		// 	if (isRouteNameValid) this.$router.push({ name: routeName });
+		// },
 		logout(): void {
 			this.storeFirebase.logout();
 		},

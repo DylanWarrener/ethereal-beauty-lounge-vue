@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, type RouterScrollBehavior } from "vue-router";
 
 // Constants
 import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
@@ -30,6 +30,25 @@ const router = createRouter({
 		{ path: "/createAccount", name: "CreateAccount", component: CreateAccount },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
+	scrollBehavior(to, from, savedPosition): any {
+		let retVal;
+		if (savedPosition) {
+			retVal = savedPosition;
+		} else {
+			if (to.hash) {
+				retVal = {
+					el: to.hash,
+					behavior: "smooth",
+				};
+			} else {
+				retVal = {
+					top: 0,
+					behavior: "smooth",
+				};
+			}
+		}
+		return retVal;
+	},
 });
 
 export default router;
