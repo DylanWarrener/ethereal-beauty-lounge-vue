@@ -49,7 +49,7 @@ export default defineComponent({
 	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean } {
 		return {
 			targetElement: null,
-			showWhatsappChatbot: false
+			showWhatsappChatbot: false,
 		};
 	},
 	computed: {
@@ -60,10 +60,14 @@ export default defineComponent({
 	},
 	methods: {
 		monitorTargetElement(targetElement: string): void {
-			window.addEventListener("load", (event) => {
-				this.targetElement = document.querySelector(targetElement) as HTMLElement;
-				this.createObserver();
-			}, false);
+			window.addEventListener(
+				"load",
+				(event) => {
+					this.targetElement = document.querySelector(targetElement) as HTMLElement;
+					this.createObserver();
+				},
+				false
+			);
 		},
 		createObserver(): void {
 			let observer;
@@ -71,14 +75,14 @@ export default defineComponent({
 				root: null,
 				rootMargin: "0px",
 				threshold: 0,
-			}
+			};
 
 			observer = new IntersectionObserver(this.handleIntersect, options);
 			observer.observe(this.targetElement!);
 		},
 		handleIntersect(entries: any): void {
 			this.showWhatsappChatbot = entries[0].isIntersecting;
-		}
+		},
 	},
 	created(): void {
 		this.storeFirebase.monitorAuthState({ auth });

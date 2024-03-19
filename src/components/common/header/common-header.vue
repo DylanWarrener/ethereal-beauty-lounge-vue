@@ -34,44 +34,7 @@
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
-		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.home.link">
-			{{ appbar.navigation.btn.home.text }}
-		</v-btn>
-		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.treatments.link">
-			{{ appbar.navigation.btn.treatments.text }}
-		</v-btn>
-		<v-btn class="nav-text__underline d-none d-md-flex" :to="appbar.navigation.btn.store.link">
-			{{ appbar.navigation.btn.store.text }}
-		</v-btn>
-		<button-text-menu-container-component
-			btn-class="d-none d-md-flex"
-			menu-transition="slide-y-transition"
-			:btn-append-icon="appbar.navigation.btn.information.icon"
-			:btn-text="appbar.navigation.btn.information.text"
-		>
-			<template #menu-items>
-				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-					<v-list-item 
-						class="text-inverted text-uppercase" 
-						:to="appbar.navigation.btn.contact.link"
-					>
-						<span class="text-uppercase" v-text="appbar.navigation.btn.contact.text"></span>
-					</v-list-item>
-					<v-list-item 
-						class="text-inverted text-uppercase" 
-						:to="appbar.navigation.btn.reviews.link"
-					>
-						<span class="text-uppercase" v-text="appbar.navigation.btn.reviews.text"></span>
-					</v-list-item>
-					<v-list-item 
-						class="text-inverted text-uppercase"
-						:to="appbar.navigation.btn.about.link"
-					>
-						<span class="text-uppercase" v-text="appbar.navigation.btn.about.text"></span>
-					</v-list-item>
-				</v-list>
-			</template>
-		</button-text-menu-container-component>
+		<navigation-pages-non-mobile-menu></navigation-pages-non-mobile-menu>
 		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
@@ -83,13 +46,8 @@
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-		<v-divider
-			vertical
-			inset
-			color="default"
-			class="mx-2 border-opacity-75"
-		></v-divider>
-		<menu-container-component 
+		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
+		<menu-container-component
 			menu-location="bottom"
 			btn-class="d-none d-sm-flex"
 			:tooltip-text="tooltip_appBarAccountBtn"
@@ -97,9 +55,7 @@
 			:btn-icon="icon_appBarAccountBtn"
 			@toggle-menu-drawer="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
 		>
-			<template #menu-items>
-
-			</template>
+			<template #menu-items> </template>
 		</menu-container-component>
 		<menu-container-component
 			menu-location="bottom"
@@ -125,7 +81,7 @@ import MenuComp from "@components/common/menu/common-menu.vue";
 import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
-import BtnTextMenuContainerComp from "@components/common/button/menu/common-button-text-menu.vue"
+import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
 
 // Interfaces
 import { IHeaderAppbarIconsState } from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
@@ -135,10 +91,10 @@ import { IHeaderNavigationCommonNonMobileItemState } from "@declarations/common/
 import { ElementIDs } from "@enums/enums.js";
 
 // Constants
-import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
-import { mdiAccount, mdiBasket, mdiMenu, mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiAccount, mdiBasket, mdiMenu } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -147,7 +103,7 @@ export default defineComponent({
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,
 		"dialog-login-component": DialogLoginComp,
-		"button-text-menu-container-component": BtnTextMenuContainerComp
+		"navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
 	},
 	data() {
 		return {
@@ -156,47 +112,19 @@ export default defineComponent({
 					btn: {
 						mobileMenu: {
 							icon: mdiMenu,
-							tooltip: "Menu"
-						},
-						home: {
-							text: txtRouteNames.home,
-							link: txtRouteLinks.home
-						},
-						treatments: {
-							text: txtRouteNames.treatments,
-							link: txtRouteLinks.treatments
-						},
-						store: {
-							text: txtRouteNames.store,
-							link: txtRouteLinks.store
-						},
-						information: {
-							text: "Information",
-							icon: mdiMenuDown
-						},
-						contact: {
-							text: txtRouteNames.contact,
-							link: txtRouteLinks.contact
-						},
-						reviews: {
-							text: txtRouteNames.reviews,
-							link: txtRouteLinks.reviews
-						},
-						about: {
-							text: txtRouteNames.about,
-							link: txtRouteLinks.about
+							tooltip: "Menu",
 						},
 						basket: {
 							icon: mdiBasket,
-							tooltip: "Basket"
+							tooltip: "Basket",
 						},
 						account: {
 							icon: mdiAccount,
-							tooltip: "Account"
-						}
-					}
-				}
-			}
+							tooltip: "Account",
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {
