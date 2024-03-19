@@ -49,6 +49,8 @@ export const txtRouteNames = {
 	contact: "contact",
 	reviews: "reviews",
 	about: "about",
+	login: "login",
+	register: "register"
 };
 export const txtRouteLinks = {
 	home: "/",
@@ -58,6 +60,8 @@ export const txtRouteLinks = {
 	contact: "/contact",
 	reviews: "/reviews",
 	about: "/about",
+	login: "/login",
+	register: "/register"
 };
 
 // ---------------------------------------------------------------------------------------------------------

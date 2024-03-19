@@ -55,7 +55,16 @@
 			:btn-icon="icon_appBarAccountBtn"
 			@toggle-menu-drawer="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
 		>
-			<template #menu-items> </template>
+			<template #menu-items>
+				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
+					<v-list-item class="text-inverted text-uppercase" to="/login">
+						<span class="text-uppercase">Log in</span>
+					</v-list-item>
+					<v-list-item class="text-inverted text-uppercase" to="/register">
+						<span class="text-uppercase">Register</span>
+					</v-list-item>
+				</v-list>
+			</template>
 		</menu-container-component>
 		<menu-container-component
 			menu-location="bottom"

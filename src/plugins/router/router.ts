@@ -13,8 +13,8 @@ const Store = () => import("@pages/page-store.vue");
 const Contact = () => import("@pages/page-contact.vue");
 const Reviews = () => import("@pages/page-reviews.vue");
 const About = () => import("@pages/page-about.vue");
-const LogIn = () => import("@pages/page-login.vue");
-const CreateAccount = () => import("@pages/page-create-account.vue");
+const Login = () => import("@pages/page-login.vue");
+const Register = () => import("@pages/page-register.vue");
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,8 +26,8 @@ const router = createRouter({
 		{ path: txtRouteLinks.contact, name: txtRouteNames.contact, component: Contact },
 		{ path: txtRouteLinks.reviews, name: txtRouteNames.reviews, component: Reviews },
 		{ path: txtRouteLinks.about, name: txtRouteNames.about, component: About },
-		{ path: "/login", name: "Login", component: LogIn },
-		{ path: "/createAccount", name: "CreateAccount", component: CreateAccount },
+		{ path: txtRouteLinks.login, name: txtRouteNames.login, component: Login },
+		{ path: txtRouteLinks.register, name: txtRouteNames.register, component: Register },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
 	scrollBehavior(to, from, savedPosition): any {

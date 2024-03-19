@@ -1,5 +1,10 @@
 <template>
-	<v-dialog
+	
+</template>
+
+<script lang="ts">
+/*
+<v-dialog
 		persistent
 		transition="dialog-top-transition"
 		:max-width="computed_css_dialog_dynamicMaxWidth"
@@ -32,9 +37,7 @@
 			></component>
 		</v-card>
 	</v-dialog>
-</template>
-
-<script lang="ts">
+*/
 import { defineComponent } from "vue";
 
 // Stores

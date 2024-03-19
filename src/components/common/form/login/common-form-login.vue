@@ -1,10 +1,11 @@
 <template>
-	<v-container fluid>
-		<v-row dense>
-			<v-col cols="12" xl="5">
+	<v-container fluid class="h-100" style="border: 4px solid black">
+		<v-row dense class="h-100" style="border: 4px solid red">
+			<v-col cols="12" xl="5" class="d-flex" style="border: 4px solid green">
 				<v-form
 					class="w-100 d-flex flex-column justify-space-evenly"
 					validate-on="input lazy"
+					style="border: 4px solid blue"
 					:class="`${$vuetify.display.xlAndUp ? 'align-end' : 'align-center'}`"
 					v-model="data_dialogFormLogin.valid"
 					@submit.prevent="login_handler"
@@ -61,7 +62,7 @@
 					></v-btn>
 				</v-form>
 			</v-col>
-			<v-col cols="12" xl="2" class="d-flex">
+			<v-col cols="12" xl="2" class="d-flex" style="border: 4px solid orange">
 				<v-row dense class="d-flex" :class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`">
 					<v-col class="d-flex flex-column justify-center">
 						<v-divider
@@ -95,6 +96,7 @@
 				xl="5"
 				class="ga-4 d-flex flex-column justify-center"
 				:class="`${$vuetify.display.xlAndUp ? 'align-start' : 'align-center'}`"
+				style="border: 4px solid purple"
 			>
 				<v-btn
 					variant="outlined"
@@ -116,7 +118,7 @@
 					</template>
 				</v-btn>
 			</v-col>
-			<v-col class="pa-2">
+			<v-col class="pa-2" style="border: 4px solid grey">
 				<p class="d-flex justify-center text-button font-weight-bold">
 					<a
 						class="pa-2 text-decoration-none text-inverted"
