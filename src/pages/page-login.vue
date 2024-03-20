@@ -1,16 +1,14 @@
 <template>
 	<section-container-component
 		class-subtitle="text-inverted"
-		style-container="margin-top: 64px; border: 4px solid black; min-height: calc(100vh - 64px)"
-		style-row="border: 4px solid red; min-height: 100%"
-		style-col-title="border: 4px solid orange"
+		style-container="margin-top: 64px"
 		:subtitle="computed_txt_section_title"
 	>
 		<template #section-content>
-			<v-container fluid style="border: 4px solid black">
-				<v-row dense style="border: 4px solid red">
-					<v-col class="d-flex flex-column justify-center align-center" style="border: 4px solid blue">
-						<v-card class="w-100 d-flex flex-column" style="min-height: 60vh">
+			<v-container fluid>
+				<v-row dense>
+					<v-col class="d-flex flex-column justify-center align-center">
+						<v-card elevation="0" class="w-100 d-flex flex-column justify-center">
 							<component
 								:is="selectedComponent"
 								@close-dialog="computed_data_dialog_loginDrawerState = !computed_data_dialog_loginDrawerState"
