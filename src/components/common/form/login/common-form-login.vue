@@ -1,29 +1,14 @@
 <template>
-<<<<<<< HEAD
-	<v-container fluid class="h-100" style="border: 4px solid black">
-		<v-row dense class="h-100" style="border: 4px solid red">
-			<v-col cols="12" xl="5" class="d-flex" style="border: 4px solid green">
-				<common-form-container-component
-					class="w-100 d-flex flex-column justify-space-evenly"
-					style="border: 4px solid blue"
-=======
-	<v-container fluid class="h-100">
-		<v-row dense class="h-100">
+	<v-container fluid>
+		<v-row dense>
 			<v-col cols="12" xl="5">
 				<v-form
 					class="w-100 h-100 d-flex flex-column"
 					validate-on="input lazy"
->>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 					:class="`${$vuetify.display.xlAndUp ? 'align-end' : 'align-center'}`"
 					v-model="data_dialogFormLogin.valid"
 					@submit.prevent="login_handler"
 				>
-<<<<<<< HEAD
-					<template #form-content>
-						<common-form-login-input-container-component></common-form-login-input-container-component>
-					</template>
-				</common-form-container-component>
-=======
 					<v-text-field
 						clearable
 						variant="outlined"
@@ -35,13 +20,19 @@
 							<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
 						</template>
 					</v-text-field>
-					<div class="w-100 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
-						<a
-							class="text-decoration-none text-accent"
-							href="#"
-							v-text="data_dialogFormLogin.actions.links.forgottenPassword.text"
-							@click="emit_handler('forgotten-password-container-component')"
-						></a>
+					<div
+						class="w-100 d-flex justify-end"
+						:style="dynamicWidth_dialogFormInput"
+						@click="emit_handler('common-forgotten-password-container-component')"
+					>
+						<v-btn variant="flat">
+							<template v-slot:default>
+								<sub
+									class="text-accent"
+									v-text="data_dialogFormLogin.actions.links.forgottenPassword.text"
+								></sub>
+							</template>
+						</v-btn>
 					</div>
 					<v-text-field
 						clearable
@@ -68,17 +59,20 @@
 					</v-text-field>
 					<v-btn
 						height="60"
-						class="mt-4 px-8 bg-accent"
+						class="mt-4 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
 						:disabled="!data_isFormValid"
 						:text="data_dialogFormLogin.actions.btn.login.text"
 					></v-btn>
 				</v-form>
->>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 			</v-col>
-			<v-col cols="12" xl="2" class="d-flex">
-				<v-row dense class="d-flex flex-row justify-center" :class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`">
+			<v-col cols="12" xl="2" class="d-flex" :class="dynamicPadding_orSeperatorCol">
+				<v-row
+					dense
+					class="d-flex justify-center align-center"
+					:class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`"
+				>
 					<v-col class="d-flex flex-column justify-center" style="max-width: 400px">
 						<v-divider
 							vertical
@@ -132,91 +126,26 @@
 					</template>
 				</v-btn>
 			</v-col>
-			<v-col>
-				<p class="d-flex justify-center text-button font-weight-bold">
-					<a
-						class="pa-2 text-decoration-none text-inverted"
-						href="#"
-						v-text="data_dialogFormLogin.actions.links.createAccount.text"
-						@click="emit_handler('create-account-container-component')"
-					></a>
-				</p>
+			<v-col class="d-flex flex-column justify-center align-center">
+				<v-btn to="register" variant="flat">
+					<template v-slot:default>
+						<small
+							class="font-weight-bold text-inverted"
+							v-text="data_dialogFormLogin.actions.links.createAccount.text"
+						></small>
+					</template>
+				</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
 </template>
 
 <script lang="ts">
-/*
-<v-form
-	class="w-100 d-flex flex-column justify-space-evenly"
-	validate-on="input lazy"
-	style="border: 4px solid blue"
-	:class="`${$vuetify.display.xlAndUp ? 'align-end' : 'align-center'}`"
-	v-model="data_dialogFormLogin.valid"
-	@submit.prevent="login_handler"
->
-	<v-text-field
-		clearable
-		variant="outlined"
-		type="email"
-		:style="dynamicWidth_dialogFormInput"
-		:rules="data_emailValidationRules"
-	>
-		<template #label>
-			<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
-		</template>
-	</v-text-field>
-	<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
-		<a
-			class="text-decoration-none text-accent"
-			href="#"
-			v-text="data_dialogFormLogin.actions.links.forgottenPassword.text"
-			@click="emit_handler('forgotten-password-container-component')"
-		></a>
-	</div>
-	<v-text-field
-		clearable
-		variant="outlined"
-		:style="dynamicWidth_dialogFormInput"
-		:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
-		:rules="data_passwordValidationRules"
-	>
-		<template #label>
-			<span class="text-inverted" v-text="data_dialogFormLogin.input.password.label"></span>
-		</template>
-		<template #append-inner>
-			<v-icon
-				:icon="
-					data_dialogFormLogin.input.password.show
-						? data_dialogFormLogin.input.password.icon.show
-						: data_dialogFormLogin.input.password.icon.hide
-				"
-				@click.stop="
-					data_dialogFormLogin.input.password.show = !data_dialogFormLogin.input.password.show
-				"
-			></v-icon>
-		</template>
-	</v-text-field>
-	<v-btn
-		height="50"
-		class="mt-4 px-8 bg-accent"
-		type="submit"
-		:style="dynamicWidth_dialogFormInput"
-		:disabled="!data_isFormValid"
-		:text="data_dialogFormLogin.actions.btn.login.text"
-	></v-btn>
-</v-form>
-*/
 import { defineComponent } from "vue";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
-
-// Components
-import FormContainerComp from "@components/common/form/common-form.vue";
-import FormLoginInputContainerComp from "@components/common/form/login/input/common-form-login-input.vue";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
@@ -224,10 +153,6 @@ import { iconsFormPassword } from "@constants/common/objects/common-constants-ob
 
 export default defineComponent({
 	name: "login-container-component",
-	components: {
-		"common-form-container-component": FormContainerComp,
-		"common-form-login-input-container-component": FormLoginInputContainerComp,
-	},
 	data() {
 		return {
 			isLoading: false,
@@ -275,6 +200,11 @@ export default defineComponent({
 	},
 	computed: {
 		/* CSS */
+		dynamicPadding_orSeperatorCol(): string {
+			let retVal: string = "py-4";
+			if (this.$vuetify.display.xlAndUp) retVal = "";
+			return retVal;
+		},
 		dynamicWidth_dialogFormInput(): string {
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;

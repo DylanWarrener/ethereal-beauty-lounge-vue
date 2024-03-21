@@ -1,16 +1,13 @@
 <template>
 	<v-container fluid>
 		<v-row dense>
-			<v-col cols="12">
-				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormErrorMoreInfoRequired.information"></p>
-			</v-col>
 			<v-col class="d-flex flex-column align-center">
 				<v-btn
-					height="50"
-					class="px-8 bg-accent"
+					height="60"
+					class="bg-accent"
 					:style="dynamicWidth_dialogFormInput"
-					v-text="data_dialogFormErrorMoreInfoRequired.actions.btn.tryAgain"
-					@click="emit_handler('login-container-component')"
+					:text="form.actions.btn.tryAgain"
+					@click="emit_handler('common-login-container-component')"
 				></v-btn>
 			</v-col>
 		</v-row>
@@ -24,11 +21,10 @@ export default defineComponent({
 	name: "more-information-required-container-component",
 	data() {
 		return {
-			data_dialogFormErrorMoreInfoRequired: {
-				information: "To help recover your account, we will need more information.",
+			form: {
 				actions: {
 					btn: {
-						tryAgain: "Try again",
+						tryAgain: "Back to login?",
 					},
 				},
 			},

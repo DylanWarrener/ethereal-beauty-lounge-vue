@@ -2,9 +2,6 @@
 	<v-container fluid>
 		<v-row dense>
 			<v-col cols="12">
-				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormCreateAccount.information"></p>
-			</v-col>
-			<v-col cols="12">
 				<v-form
 					class="ga-4 d-flex flex-column align-center"
 					validate-on="input lazy"
@@ -116,15 +113,15 @@
 					></v-btn>
 				</v-form>
 			</v-col>
-			<v-col cols="12" class="pa-2">
-				<p class="d-flex justify-center text-button font-weight-bold">
-					<a
-						class="pa-2 text-decoration-none text-inverted"
-						href="#"
-						v-text="data_dialogFormCreateAccount.actions.links.backToLogin.text"
-						@click="showLogin()"
-					></a>
-				</p>
+			<v-col cols="12" class="d-flex flex-column justify-center align-center">
+				<v-btn variant="flat" @click="$router.push('login')">
+					<template v-slot:default>
+						<small
+							class="font-weight-bold text-inverted"
+							v-text="data_dialogFormCreateAccount.actions.links.backToLogin.text"
+						></small>
+					</template>
+				</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -249,7 +246,6 @@ export default defineComponent({
 							lastname: lastname,
 						});
 						this.resetForm();
-						this.closeDialog();
 					})
 					.catch((error) => {
 						debugger;
@@ -270,12 +266,6 @@ export default defineComponent({
 			this.data_dialogFormCreateAccount.input.email.value = null;
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
-		},
-		showLogin(): void {
-			this.$emit("show-login", "login-container-component");
-		},
-		closeDialog(): void {
-			this.$emit("close-dialog");
 		},
 
 		/* Validation */

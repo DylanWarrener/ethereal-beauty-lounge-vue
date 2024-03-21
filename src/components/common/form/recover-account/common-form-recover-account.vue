@@ -2,26 +2,43 @@
 	<v-container fluid>
 		<v-row dense>
 			<v-col cols="12">
-				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormRecoverAccount.information"></p>
-			</v-col>
-			<v-col cols="12">
-				<v-form class="d-flex flex-column align-center" validate-on="input lazy" v-model="data_dialogFormRecoverAccount.valid" @submit.prevent="sendText_handler">
+				<v-form
+					class="d-flex flex-column align-center"
+					validate-on="input lazy"
+					v-model="data_dialogFormRecoverAccount.valid"
+					@submit.prevent="sendText_handler"
+				>
 					<v-select variant="outlined" :style="dynamicWidth_dialogFormInput"></v-select>
-					<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
-						<a
-							class="text-decoration-none text-accent"
-							href="#"
-							v-text="data_dialogFormRecoverAccount.actions.links.noAccess.text"
-							@click="emit_handler('more-information-required-container-component')"
-						></a>
+					<div
+						class="w-100 d-flex justify-end"
+						:style="dynamicWidth_dialogFormInput"
+						@click="emit_handler('common-more-information-required-container-component')"
+					>
+						<v-btn variant="flat">
+							<template v-slot:default>
+								<sub
+									class="text-accent"
+									v-text="data_dialogFormRecoverAccount.actions.links.noAccess.text"
+								></sub>
+							</template>
+						</v-btn>
 					</div>
-					<v-text-field clearable variant="outlined" type="number" :style="dynamicWidth_dialogFormInput" :rules="[rules.isNotEmpty]">
+					<v-text-field
+						clearable
+						variant="outlined"
+						type="number"
+						:style="dynamicWidth_dialogFormInput"
+						:rules="[rules.isNotEmpty]"
+					>
 						<template #label>
-							<span class="text-inverted" v-text="data_dialogFormRecoverAccount.input.phoneNumber.label"></span>
+							<span
+								class="text-inverted"
+								v-text="data_dialogFormRecoverAccount.input.phoneNumber.label"
+							></span>
 						</template>
 					</v-text-field>
 					<v-btn
-						height="50"
+						height="60"
 						class="mt-4 px-8 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
@@ -30,15 +47,15 @@
 					></v-btn>
 				</v-form>
 			</v-col>
-			<v-col cols="12" class="pa-2">
-				<p class="d-flex justify-center text-button font-weight-bold">
-					<a
-						class="pa-2 text-decoration-none text-inverted"
-						href="#"
-						v-text="data_dialogFormRecoverAccount.actions.links.backToLogin.text"
-						@click="emit_handler('login-container-component')"
-					></a>
-				</p>
+			<v-col cols="12" class="d-flex flex-column justify-center align-center">
+				<v-btn variant="flat" @click="emit_handler('common-login-container-component')">
+					<template v-slot:default>
+						<small
+							class="font-weight-bold text-inverted"
+							v-text="data_dialogFormRecoverAccount.actions.links.backToLogin.text"
+						></small>
+					</template>
+				</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -53,7 +70,6 @@ export default defineComponent({
 		return {
 			data_dialogFormRecoverAccount: {
 				valid: false,
-				information: "Enter your phone number, so we can send you the account recovery instructions.",
 				input: {
 					phoneNumber: {
 						label: "Phone number",

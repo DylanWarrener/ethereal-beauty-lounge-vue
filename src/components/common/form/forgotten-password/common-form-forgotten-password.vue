@@ -2,25 +2,39 @@
 	<v-container fluid>
 		<v-row dense>
 			<v-col cols="12">
-				<p class="pa-4 text-center flex-wrap text-inverted" v-text="data_dialogFormForgottenPassword.information"></p>
-			</v-col>
-			<v-col cols="12">
-				<v-form class="d-flex flex-column align-center" validate-on="input lazy" v-model="data_dialogFormForgottenPassword.valid" @submit.prevent="sendEmail_handler">
-					<div class="w-100 mb-1 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
-						<a
-							class="text-decoration-none text-accent"
-							href="#"
-							v-text="data_dialogFormForgottenPassword.actions.links.forgottenEmail.text"
-							@click="emit_handler('recover-account-container-component')"
-						></a>
+				<v-form
+					class="d-flex flex-column align-center"
+					validate-on="input lazy"
+					v-model="data_dialogFormForgottenPassword.valid"
+					@submit.prevent="sendEmail_handler"
+				>
+					<div
+						class="w-100 d-flex justify-end"
+						:style="dynamicWidth_dialogFormInput"
+						@click="emit_handler('common-recover-account-container-component')"
+					>
+						<v-btn variant="flat">
+							<template v-slot:default>
+								<sub
+									class="text-accent"
+									v-text="data_dialogFormForgottenPassword.actions.links.forgottenEmail.text"
+								></sub>
+							</template>
+						</v-btn>
 					</div>
-					<v-text-field clearable variant="outlined" type="email" :style="dynamicWidth_dialogFormInput" :rules="data_emailValidationRules">
+					<v-text-field
+						clearable
+						variant="outlined"
+						type="email"
+						:style="dynamicWidth_dialogFormInput"
+						:rules="data_emailValidationRules"
+					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormForgottenPassword.input.email.label"></span>
 						</template>
 					</v-text-field>
 					<v-btn
-						height="50"
+						height="60"
 						class="mt-4 px-8 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
@@ -29,15 +43,15 @@
 					></v-btn>
 				</v-form>
 			</v-col>
-			<v-col class="pa-2">
-				<p class="d-flex justify-center text-button font-weight-bold">
-					<a
-						class="pa-2 text-decoration-none text-inverted"
-						href="#"
-						v-text="data_dialogFormForgottenPassword.actions.links.backToLogin.text"
-						@click="emit_handler('login-container-component')"
-					></a>
-				</p>
+			<v-col class="d-flex flex-column justify-center align-center">
+				<v-btn variant="flat" @click="emit_handler('common-login-container-component')">
+					<template v-slot:default>
+						<small
+							class="font-weight-bold text-inverted"
+							v-text="data_dialogFormForgottenPassword.actions.links.backToLogin.text"
+						></small>
+					</template>
+				</v-btn>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -52,7 +66,6 @@ export default defineComponent({
 		return {
 			data_dialogFormForgottenPassword: {
 				valid: false,
-				information: "Enter your account email. Then we will send you an email, to reset the password.",
 				input: {
 					email: {
 						label: "Email address",

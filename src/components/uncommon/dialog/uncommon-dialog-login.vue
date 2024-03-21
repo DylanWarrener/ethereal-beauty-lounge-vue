@@ -1,6 +1,4 @@
-<template>
-	
-</template>
+<template></template>
 
 <script lang="ts">
 /*
@@ -51,8 +49,8 @@ import BtnContainerComp from "@components/common/button/common-btn.vue";
 import LoginComp from "@components/common/form/login/common-form-login.vue";
 import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 import RecoverAccountComp from "@components/common/form/recover-account/common-form-recover-account.vue";
-import CreateAccountComp from "@components/common/form/create-account/common-form-create-account.vue";
-import ErrorMoreInfoRequiredComp from "@components/common/errors/common-errors-more-information-required.vue";
+//import CreateAccountComp from "@components/common/form/create-account/common-form-create-account.vue";
+//import ErrorMoreInfoRequiredComp from "@components/common/errors/common-errors-more-information-required.vue";
 
 // Interfaces
 import { IDialogDefaultState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
@@ -66,8 +64,8 @@ export default defineComponent({
 		"login-container-component": LoginComp,
 		"forgotten-password-container-component": ForgottenPasswordComp,
 		"recover-account-container-component": RecoverAccountComp,
-		"create-account-container-component": CreateAccountComp,
-		"more-information-required-container-component": ErrorMoreInfoRequiredComp,
+		//"create-account-container-component": CreateAccountComp,
+		//"more-information-required-container-component": ErrorMoreInfoRequiredComp,
 	},
 	data() {
 		return {

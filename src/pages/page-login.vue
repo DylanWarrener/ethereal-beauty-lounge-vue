@@ -1,19 +1,10 @@
 <template>
 	<common-section-container-component
-		class-subtitle="text-inverted"
-		style-container="margin-top: 64px; border: 4px solid black"
-		style-row="border: 4px solid red"
-		style-col-title="border: 4px solid orange"
-		:subtitle="computed_txt_section_title"
-	>
-		<template #section-content>
-			<component
-				:is="selectedComponent"
-				@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
-				@change.self="method_event_setSelectedComponent"
-			></component>
+		class-title="text-inverted"
+		class-subtitle="text-inverted font-weight-regular"
 		style-container="margin-top: 64px"
-		:subtitle="computed_txt_section_title"
+		:title="computed_txt_section_title"
+		:subtitle="computed_txt_section_subtitle"
 	>
 		<template #section-content>
 			<v-container fluid>
@@ -22,7 +13,6 @@
 						<v-card elevation="0" class="w-100 d-flex flex-column justify-center">
 							<component
 								:is="selectedComponent"
-								@close-dialog="computed_data_dialog_loginDrawerState = !computed_data_dialog_loginDrawerState"
 								@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
 								@change.self="method_event_setSelectedComponent"
 							></component>
@@ -30,7 +20,6 @@
 					</v-col>
 				</v-row>
 			</v-container>
->>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 		</template>
 	</common-section-container-component>
 </template>
@@ -49,40 +38,49 @@ import SectionContainerComp from "@components/common/section/common-section.vue"
 import LoginContainerComp from "@components/common/form/login/common-form-login.vue";
 import ForgottenPasswordContainerComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 import RecoverAccountContainerComp from "@components/common/form/recover-account/common-form-recover-account.vue";
-import CreateAccountContainerComp from "@components/common/form/register/common-form-register.vue";
 import MoreInfoRequiredContainerComp from "@components/common/form/more-info-required/common-more-information-required.vue";
 
 export default defineComponent({
-	019960
 	name: "login-page-container-component",
 	components: {
 		"common-section-container-component": SectionContainerComp,
 		"common-login-container-component": LoginContainerComp,
 		"common-forgotten-password-container-component": ForgottenPasswordContainerComp,
 		"common-recover-account-container-component": RecoverAccountContainerComp,
-		"common-create-account-container-component": CreateAccountContainerComp,
 		"common-more-information-required-container-component": MoreInfoRequiredContainerComp,
 	},
 	data() {
 		return {
-			selectedComponent: "uncommon-login-container-component",
+			selectedComponent: "common-login-container-component",
 		};
 	},
 	computed: {
 		computed_txt_section_title(): string {
 			let retVal: string = "Please log into Ethereal Beauty Lounge";
 			switch (this.selectedComponent) {
-				case "uncommon-forgotten-password-container-component":
+				case "common-forgotten-password-container-component":
 					retVal = "Forgotten password";
 					break;
-				case "uncommon-recover-account-container-component":
+				case "common-recover-account-container-component":
 					retVal = "Recover your account";
 					break;
-				case "uncommon-create-account-container-component":
-					retVal = "Create your account";
-					break;
-				case "uncommon-more-information-required-container-component":
+				case "common-more-information-required-container-component":
 					retVal = "More information needed";
+					break;
+			}
+			return retVal;
+		},
+		computed_txt_section_subtitle(): string {
+			let retVal: string = "";
+			switch (this.selectedComponent) {
+				case "common-forgotten-password-container-component":
+					retVal = "Enter your account email. Then we will send you an email, to reset the password.";
+					break;
+				case "common-recover-account-container-component":
+					retVal = "Enter your phone number, so we can send you the account recovery instructions.";
+					break;
+				case "common-more-information-required-container-component":
+					retVal = "To help recover your account, we will need more information.";
 					break;
 			}
 			return retVal;
