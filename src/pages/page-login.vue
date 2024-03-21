@@ -12,6 +12,25 @@
 				@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
 				@change.self="method_event_setSelectedComponent"
 			></component>
+		style-container="margin-top: 64px"
+		:subtitle="computed_txt_section_title"
+	>
+		<template #section-content>
+			<v-container fluid>
+				<v-row dense>
+					<v-col class="d-flex flex-column justify-center align-center">
+						<v-card elevation="0" class="w-100 d-flex flex-column justify-center">
+							<component
+								:is="selectedComponent"
+								@close-dialog="computed_data_dialog_loginDrawerState = !computed_data_dialog_loginDrawerState"
+								@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
+								@change.self="method_event_setSelectedComponent"
+							></component>
+						</v-card>
+					</v-col>
+				</v-row>
+			</v-container>
+>>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 		</template>
 	</common-section-container-component>
 </template>

@@ -1,22 +1,85 @@
 <template>
+<<<<<<< HEAD
 	<v-container fluid class="h-100" style="border: 4px solid black">
 		<v-row dense class="h-100" style="border: 4px solid red">
 			<v-col cols="12" xl="5" class="d-flex" style="border: 4px solid green">
 				<common-form-container-component
 					class="w-100 d-flex flex-column justify-space-evenly"
 					style="border: 4px solid blue"
+=======
+	<v-container fluid class="h-100">
+		<v-row dense class="h-100">
+			<v-col cols="12" xl="5">
+				<v-form
+					class="w-100 h-100 d-flex flex-column"
+					validate-on="input lazy"
+>>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 					:class="`${$vuetify.display.xlAndUp ? 'align-end' : 'align-center'}`"
 					v-model="data_dialogFormLogin.valid"
 					@submit.prevent="login_handler"
 				>
+<<<<<<< HEAD
 					<template #form-content>
 						<common-form-login-input-container-component></common-form-login-input-container-component>
 					</template>
 				</common-form-container-component>
+=======
+					<v-text-field
+						clearable
+						variant="outlined"
+						type="email"
+						:style="dynamicWidth_dialogFormInput"
+						:rules="data_emailValidationRules"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
+						</template>
+					</v-text-field>
+					<div class="w-100 d-flex justify-end" :style="dynamicWidth_dialogFormInput">
+						<a
+							class="text-decoration-none text-accent"
+							href="#"
+							v-text="data_dialogFormLogin.actions.links.forgottenPassword.text"
+							@click="emit_handler('forgotten-password-container-component')"
+						></a>
+					</div>
+					<v-text-field
+						clearable
+						variant="outlined"
+						:style="dynamicWidth_dialogFormInput"
+						:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
+						:rules="data_passwordValidationRules"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="data_dialogFormLogin.input.password.label"></span>
+						</template>
+						<template #append-inner>
+							<v-icon
+								:icon="
+									data_dialogFormLogin.input.password.show
+										? data_dialogFormLogin.input.password.icon.show
+										: data_dialogFormLogin.input.password.icon.hide
+								"
+								@click.stop="
+									data_dialogFormLogin.input.password.show = !data_dialogFormLogin.input.password.show
+								"
+							></v-icon>
+						</template>
+					</v-text-field>
+					<v-btn
+						height="60"
+						class="mt-4 px-8 bg-accent"
+						type="submit"
+						:style="dynamicWidth_dialogFormInput"
+						:disabled="!data_isFormValid"
+						:text="data_dialogFormLogin.actions.btn.login.text"
+					></v-btn>
+				</v-form>
+>>>>>>> 611892dba3cbd77b99c01a5880dc7d4f3839e46e
 			</v-col>
-			<v-col cols="12" xl="2" class="d-flex" style="border: 4px solid orange">
-				<v-row dense class="d-flex" :class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`">
-					<v-col class="d-flex flex-column justify-center">
+			<v-col cols="12" xl="2" class="d-flex">
+				<v-row dense class="d-flex flex-row justify-center" :class="`${$vuetify.display.xlAndUp ? 'flex-column' : 'flex-row'}`">
+					<v-col class="d-flex flex-column justify-center" style="max-width: 400px">
 						<v-divider
 							vertical
 							class="align-self-center"
@@ -30,7 +93,7 @@
 					<v-col cols="1" xl="auto" class="d-flex flex-column justify-center">
 						<small class="text-center text-inverted">OR</small>
 					</v-col>
-					<v-col class="d-flex flex-column justify-center">
+					<v-col class="d-flex flex-column justify-center" style="max-width: 400px">
 						<v-divider
 							vertical
 							class="align-self-center"
@@ -48,12 +111,11 @@
 				xl="5"
 				class="ga-4 d-flex flex-column justify-center"
 				:class="`${$vuetify.display.xlAndUp ? 'align-start' : 'align-center'}`"
-				style="border: 4px solid purple"
 			>
 				<v-btn
 					variant="outlined"
 					class="px-8 bg-transparent"
-					height="50"
+					height="60"
 					:style="dynamicWidth_dialogFormInput"
 					:key="index"
 					v-for="(btn, index) in data_dialogFormLogin.actions.btn.continueWith"
@@ -70,7 +132,7 @@
 					</template>
 				</v-btn>
 			</v-col>
-			<v-col class="pa-2" style="border: 4px solid grey">
+			<v-col>
 				<p class="d-flex justify-center text-button font-weight-bold">
 					<a
 						class="pa-2 text-decoration-none text-inverted"
