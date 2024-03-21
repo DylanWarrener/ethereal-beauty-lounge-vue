@@ -1,28 +1,19 @@
 <template>
-	<section-container-component
+	<common-section-container-component
 		class-subtitle="text-inverted"
-		style-container="margin-top: 64px; border: 4px solid black; min-height: calc(100vh - 64px)"
-		style-row="border: 4px solid red; min-height: 100%"
+		style-container="margin-top: 64px; border: 4px solid black"
+		style-row="border: 4px solid red"
 		style-col-title="border: 4px solid orange"
 		:subtitle="computed_txt_section_title"
 	>
 		<template #section-content>
-			<v-container fluid style="border: 4px solid black">
-				<v-row dense style="border: 4px solid red">
-					<v-col class="d-flex flex-column justify-center align-center" style="border: 4px solid blue">
-						<v-card class="w-100 d-flex flex-column" style="min-height: 60vh">
-							<component
-								:is="selectedComponent"
-								@close-dialog="computed_data_dialog_loginDrawerState = !computed_data_dialog_loginDrawerState"
-								@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
-								@change.self="method_event_setSelectedComponent"
-							></component>
-						</v-card>
-					</v-col>
-				</v-row>
-			</v-container>
+			<component
+				:is="selectedComponent"
+				@show-login="(newValue: string) => method_event_setSelectedComponent(newValue)"
+				@change.self="method_event_setSelectedComponent"
+			></component>
 		</template>
-	</section-container-component>
+	</common-section-container-component>
 </template>
 
 <script lang="ts">
@@ -33,42 +24,45 @@ import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 
 // Components
+// Common
 import SectionContainerComp from "@components/common/section/common-section.vue";
-import LoginComp from "@components/common/form/login/common-form-login.vue";
-import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
-import RecoverAccountComp from "@components/common/form/recover-account/common-form-recover-account.vue";
-import CreateAccountComp from "@components/common/form/create-account/common-form-create-account.vue";
-import ErrorMoreInfoRequiredComp from "@components/common/errors/common-errors-more-information-required.vue";
+// Uncommon
+import LoginContainerComp from "@components/common/form/login/common-form-login.vue";
+import ForgottenPasswordContainerComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
+import RecoverAccountContainerComp from "@components/common/form/recover-account/common-form-recover-account.vue";
+import CreateAccountContainerComp from "@components/common/form/register/common-form-register.vue";
+import MoreInfoRequiredContainerComp from "@components/common/form/more-info-required/common-more-information-required.vue";
 
 export default defineComponent({
+	019960
 	name: "login-page-container-component",
 	components: {
-		"section-container-component": SectionContainerComp,
-		"login-container-component": LoginComp,
-		"forgotten-password-container-component": ForgottenPasswordComp,
-		"recover-account-container-component": RecoverAccountComp,
-		"create-account-container-component": CreateAccountComp,
-		"more-information-required-container-component": ErrorMoreInfoRequiredComp,
+		"common-section-container-component": SectionContainerComp,
+		"common-login-container-component": LoginContainerComp,
+		"common-forgotten-password-container-component": ForgottenPasswordContainerComp,
+		"common-recover-account-container-component": RecoverAccountContainerComp,
+		"common-create-account-container-component": CreateAccountContainerComp,
+		"common-more-information-required-container-component": MoreInfoRequiredContainerComp,
 	},
 	data() {
 		return {
-			selectedComponent: "login-container-component",
+			selectedComponent: "uncommon-login-container-component",
 		};
 	},
 	computed: {
 		computed_txt_section_title(): string {
 			let retVal: string = "Please log into Ethereal Beauty Lounge";
 			switch (this.selectedComponent) {
-				case "forgotten-password-container-component":
+				case "uncommon-forgotten-password-container-component":
 					retVal = "Forgotten password";
 					break;
-				case "recover-account-container-component":
+				case "uncommon-recover-account-container-component":
 					retVal = "Recover your account";
 					break;
-				case "create-account-container-component":
+				case "uncommon-create-account-container-component":
 					retVal = "Create your account";
 					break;
-				case "more-information-required-container-component":
+				case "uncommon-more-information-required-container-component":
 					retVal = "More information needed";
 					break;
 			}
@@ -105,7 +99,7 @@ export default defineComponent({
 		/* Events */
 		method_event_dialogCloseBtn_handler(): void {
 			this.computed_data_dialog_loginDrawerState = !this.computed_data_dialog_loginDrawerState;
-			setTimeout(() => this.method_event_setSelectedComponent("login-container-component"), 100);
+			setTimeout(() => this.method_event_setSelectedComponent("uncommon-login-container-component"), 100);
 		},
 		method_event_setSelectedComponent(comp: string): void {
 			this.selectedComponent = comp;

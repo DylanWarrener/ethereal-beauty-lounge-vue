@@ -10,7 +10,7 @@
 					@submit.prevent="login_handler"
 				>
 					<template #form-content>
-						<common-form-login-input-container-component></common-form-login-input-container-component>
+						<common-form-login-container-component></common-form-login-container-component>
 					</template>
 				</common-form-container-component>
 			</v-col>
@@ -154,17 +154,15 @@ import useCommonStore from "@stores/store-common.js";
 
 // Components
 import FormContainerComp from "@components/common/form/common-form.vue";
-import FormLoginInputContainerComp from "@components/common/form/login/input/common-form-login-input.vue";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
-	name: "login-container-component",
+	name: "uncommon-form-login-component",
 	components: {
 		"common-form-container-component": FormContainerComp,
-		"common-form-login-input-container-component": FormLoginInputContainerComp,
 	},
 	data() {
 		return {

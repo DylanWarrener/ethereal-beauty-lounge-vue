@@ -97,11 +97,11 @@
 								Your email address will only be used for contacting one another. Required fields are marked
 								*.
 							</p>
-							<v-form class="h-100" :rules="[]" v-model="valid">
+							<v-form class="h-100" v-model="valid">
 								<v-container fluid class="h-100 d-flex">
 									<v-row dense>
 										<v-col cols="12" md="6" lg="12">
-											<v-text-field clearable label="First Name*" variant="outlined"></v-text-field>
+											<v-text-field clearable variant="outlined" label="First Name*"></v-text-field>
 										</v-col>
 										<v-col cols="12" md="6" lg="12">
 											<v-text-field clearable label="Last Name*" variant="outlined"></v-text-field>
