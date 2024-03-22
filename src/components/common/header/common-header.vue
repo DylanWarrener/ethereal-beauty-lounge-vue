@@ -35,6 +35,7 @@
 
 		<!-- APP BAR MIDDLE - Text navs -->
 		<navigation-pages-non-mobile-menu></navigation-pages-non-mobile-menu>
+
 		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
@@ -46,13 +47,16 @@
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
+
+		<v-divider vertical inset color="default" class="mx-2 border-opacity-75" v-if="!data_isUserLoggedIn"></v-divider>
+
 		<menu-container-component
 			menu-location="bottom"
 			btn-class="d-none d-sm-flex"
 			:tooltip-text="tooltip_appBarAccountBtn"
 			:btn-id="id_appbarAccountBtn"
 			:btn-icon="icon_appBarAccountBtn"
+			v-if="!data_isUserLoggedIn"
 			@toggle-menu-drawer="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
 		>
 			<template #menu-items>
@@ -66,6 +70,7 @@
 				</v-list>
 			</template>
 		</menu-container-component>
+
 		<menu-container-component
 			menu-location="bottom"
 			btn-class="mr-2 d-sm-none"

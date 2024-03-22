@@ -38,8 +38,8 @@
 
 	<section-container-component
 		id="section-portfolio"
-		class_title="text-inverted"
-		class_subtitle="text-inverted"
+		class-title="text-inverted"
+		class-subtitle="text-inverted"
 		title="Portfolio: most recent"
 		subtitle="Letting Beauty Take Flight So You Don't Have To"
 	>

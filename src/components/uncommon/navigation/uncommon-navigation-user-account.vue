@@ -1,6 +1,5 @@
 <template>
 	<v-navigation-drawer
-		temporary
 		expand-on-hover
 		disable-route-watcher
 		location="right"

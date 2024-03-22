@@ -110,13 +110,16 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return signOut(auth);
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
+			debugger;
 			return createUserWithEmailAndPassword(auth, user.email, user.password);
 		},
 		setUserID(newValue: string | null): void {
 			this.user.id = newValue;
 		},
-		setUserDisplayName(newValue: string | null): void {
-			this.user.displayName = newValue;
+		setUserDisplayName(user: { displayName: string | null }): void {
+			debugger;
+			if (this.getIsUserLoggedIn && auth.currentUser) 
+				updateProfile(auth.currentUser, { displayName: user.displayName });
 		},
 		setUserFirstname(newValue: string | null): void {
 			this.user.firstname = newValue;
@@ -148,8 +151,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 			photoURL: string | null;
 			isAnonymous: boolean;
 		}): void {
+			debugger;
 			this.setUserID(user.id);
-			this.setUserDisplayName(user.displayName);
+			this.setUserDisplayName({ displayName: user.displayName });
 			this.setUserEmail(user.email);
 			this.setUserIsEmailVerified(user.isEmailVerified);
 			this.setUserPhoneNumber(user.phoneNumber);
@@ -159,12 +163,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 		updateUserDisplayName(user: { displayName: string }): void {
 			if (this.getIsUserLoggedIn && auth.currentUser) {
 				updateProfile(auth.currentUser, { displayName: user.displayName });
-				this.setUserDisplayName(user.displayName);
+				this.setUserDisplayName({ displayName: user.displayName });
 			}
 		},
 
 		/* Firebase CLOUD FIRESTORE */
 		storeNewUser(user: { id: string; firstname: string; lastname: string }): void {
+			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
 			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.id);
 			const userFirestoreData: { firstname: string; lastname: string } = {
