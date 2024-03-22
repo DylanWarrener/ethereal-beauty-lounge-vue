@@ -231,17 +231,20 @@ export default defineComponent({
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
 				this.isLoading = true;
-				this.storeFirebase.createAccountWithEmailAndPassword({ email, password })
+				this.storeFirebase
+					.createAccountWithEmailAndPassword({ email, password })
 					.then((response) => {
 						debugger;
 						const displayName: string = `${firstname} ${lastname}`;
 						this.storeFirebase.setUserDisplayName({ displayName });
 						this.storeFirebase.storeNewUser({
-							id: response.user.uid,
+							uid: response.user.uid,
 							firstname: firstname,
 							lastname: lastname,
 						});
 						this.resetForm();
+
+						const user = this.storeFirebase.getUserDisplayName;
 					})
 					.catch((error) => {
 						debugger;

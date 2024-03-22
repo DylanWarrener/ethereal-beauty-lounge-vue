@@ -23,10 +23,10 @@
 					</v-avatar>
 				</template>
 				<template #title>
-					<span v-text="computed_data_user_displayName"></span>
+					<span class="text-h5" v-text="computed_data_user_displayName"></span>
 				</template>
 				<template #subtitle>
-					<span v-text="computed_data_user_email"></span>
+					<em v-text="computed_data_user_email"></em>
 				</template>
 			</v-list-item>
 		</v-list>
@@ -89,11 +89,11 @@ export default defineComponent({
 				rail: true,
 				btn: {
 					logout: {
-						icon: iconsSidebarNavigation.logout
+						icon: iconsSidebarNavigation.logout,
 					},
 					basket: {
-						icon: iconsSidebarNavigation.basket
-					}
+						icon: iconsSidebarNavigation.basket,
+					},
 				},
 			},
 		};

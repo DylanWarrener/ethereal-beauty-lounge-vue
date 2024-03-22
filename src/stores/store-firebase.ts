@@ -25,7 +25,7 @@ import {
 const useFirebaseStore = defineStore("firebase-store", {
 	state: (): {
 		user: {
-			id: string | null;
+			uid: string | null;
 			displayName: string | null;
 			firstname: string | null;
 			lastname: string | null;
@@ -38,7 +38,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		};
 	} => ({
 		user: {
-			id: null,
+			uid: null,
 			displayName: null,
 			firstname: null,
 			lastname: null,
@@ -53,10 +53,10 @@ const useFirebaseStore = defineStore("firebase-store", {
 	getters: {
 		/* Firebase AUTH */
 		getIsUserLoggedIn: (state): boolean => {
-			return state.user.id !== null;
+			return state.user.uid !== null;
 		},
 		getUserID: (state): string | null => {
-			return state.user.id;
+			return state.user.uid;
 		},
 		getUserDisplayName: (state): string | null => {
 			return state.user.displayName;
@@ -91,16 +91,19 @@ const useFirebaseStore = defineStore("firebase-store", {
 	actions: {
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): void {
+			debugger;
 			onAuthStateChanged(payload.auth, (user: User | null) => {
-				this.setUserAuthData({
-					id: user?.uid ?? null,
-					displayName: user?.displayName ?? null,
-					email: user?.email ?? null,
-					isEmailVerified: user?.emailVerified ?? false,
-					phoneNumber: user?.phoneNumber ?? null,
-					photoURL: user?.photoURL ?? null,
-					isAnonymous: user?.isAnonymous ?? false,
-				});
+				debugger;
+				if (user !== null) {
+					let valuesNotNull: any = {};
+					for (const [key, value] of Object.entries(user)) {
+						debugger;
+						if (value !== null && key in this.user) {
+							valuesNotNull[key] = value;
+						}
+					}
+					this.setUserAuthData(valuesNotNull);
+				}
 			});
 		},
 		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
@@ -114,11 +117,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return createUserWithEmailAndPassword(auth, user.email, user.password);
 		},
 		setUserID(newValue: string | null): void {
-			this.user.id = newValue;
+			this.user.uid = newValue;
 		},
 		setUserDisplayName(user: { displayName: string | null }): void {
 			debugger;
-			if (this.getIsUserLoggedIn && auth.currentUser) 
+			if (this.getIsUserLoggedIn && auth.currentUser && user.displayName !== null)
 				updateProfile(auth.currentUser, { displayName: user.displayName });
 		},
 		setUserFirstname(newValue: string | null): void {
@@ -143,35 +146,43 @@ const useFirebaseStore = defineStore("firebase-store", {
 			this.user.isAnonymous = newValue;
 		},
 		setUserAuthData(user: {
-			id: string | null;
-			displayName: string | null;
-			email: string | null;
+			uid: string;
+			email: string;
 			isEmailVerified: boolean;
-			phoneNumber: string | null;
-			photoURL: string | null;
+			phoneNumber?: string;
+			photoURL?: string;
 			isAnonymous: boolean;
 		}): void {
 			debugger;
-			this.setUserID(user.id);
-			this.setUserDisplayName({ displayName: user.displayName });
-			this.setUserEmail(user.email);
-			this.setUserIsEmailVerified(user.isEmailVerified);
-			this.setUserPhoneNumber(user.phoneNumber);
-			this.setUserPhotoURL(user.photoURL);
-			this.setUserIsAnonymous(user.isAnonymous);
-		},
-		updateUserDisplayName(user: { displayName: string }): void {
-			if (this.getIsUserLoggedIn && auth.currentUser) {
-				updateProfile(auth.currentUser, { displayName: user.displayName });
-				this.setUserDisplayName({ displayName: user.displayName });
+			for (const [key, value] of Object.entries(user)) {
+				switch (key) {
+					case "uid":
+						this.setUserID(user.uid!);
+						break;
+					case "email":
+						this.setUserEmail(user.email!);
+						break;
+					case "isEmailVerified":
+						this.setUserIsEmailVerified(user.isEmailVerified);
+						break;
+					case "phoneNumber":
+						this.setUserPhoneNumber(user.phoneNumber!);
+						break;
+					case "photoURL":
+						this.setUserPhotoURL(user.photoURL!);
+						break;
+					case "isAnonymous":
+						this.setUserIsAnonymous(user.isAnonymous);
+						break;
+				}
 			}
 		},
 
 		/* Firebase CLOUD FIRESTORE */
-		storeNewUser(user: { id: string; firstname: string; lastname: string }): void {
+		storeNewUser(user: { uid: string; firstname: string; lastname: string }): void {
 			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
-			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.id);
+			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
 			const userFirestoreData: { firstname: string; lastname: string } = {
 				firstname: user.firstname,
 				lastname: user.lastname,
