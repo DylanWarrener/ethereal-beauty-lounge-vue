@@ -1,12 +1,21 @@
 <template>
-	<v-container fluid>
-		<v-row dense>
-			<v-col class="d-flex flex-column align-center">
+	<v-container fluid style="border: 2px solid black">
+		<v-row dense class="ga-8 d-flex justify-center" style="border: 2px solid red">
+			<v-col class="d-flex flex-column flex-shrink-1 flex-grow-0" style="border: 2px solid green">
 				<v-btn
 					height="60"
 					class="bg-accent"
 					:style="dynamicWidth_dialogFormInput"
-					:text="form.actions.btn.tryAgain"
+					:text="form.actions.btn.contact.text"
+					@click="$router.push({ name: 'contact', hash: '#section-contact' })"
+				></v-btn>
+			</v-col>
+			<v-col class="d-flex flex-column flex-shrink-1 flex-grow-0" style="border: 2px solid blue">
+				<v-btn
+					height="60"
+					class="bg-accent"
+					:style="dynamicWidth_dialogFormInput"
+					:text="form.actions.btn.tryAgain.text"
 					@click="emit_handler('common-login-container-component')"
 				></v-btn>
 			</v-col>
@@ -24,7 +33,12 @@ export default defineComponent({
 			form: {
 				actions: {
 					btn: {
-						tryAgain: "Back to login?",
+						contact: {
+							text: "Contact support?",
+						},
+						tryAgain: {
+							text: "Back to login?",
+						},
 					},
 				},
 			},

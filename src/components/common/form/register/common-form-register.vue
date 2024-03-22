@@ -114,7 +114,7 @@
 				</v-form>
 			</v-col>
 			<v-col cols="12" class="d-flex flex-column justify-center align-center">
-				<v-btn variant="flat" @click="$router.push('login')">
+				<v-btn variant="flat" @click="$router.push({ name: 'login', hash: '#section-login' })">
 					<template v-slot:default>
 						<small
 							class="font-weight-bold text-inverted"

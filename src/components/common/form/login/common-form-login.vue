@@ -127,11 +127,11 @@
 				</v-btn>
 			</v-col>
 			<v-col class="d-flex flex-column justify-center align-center">
-				<v-btn to="register" variant="flat">
+				<v-btn variant="flat" @click="$router.push({ name: 'register', hash: 'section-register' })">
 					<template v-slot:default>
 						<small
 							class="font-weight-bold text-inverted"
-							v-text="data_dialogFormLogin.actions.links.createAccount.text"
+							v-text="data_dialogFormLogin.actions.links.register.text"
 						></small>
 					</template>
 				</v-btn>
@@ -179,8 +179,8 @@ export default defineComponent({
 						forgottenPassword: {
 							text: "Forgot the login password?",
 						},
-						createAccount: {
-							text: "Create your account?",
+						register: {
+							text: "Register your account?",
 						},
 					},
 					btn: {

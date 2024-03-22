@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid tag="section" :class="classContainer" :style="styleContainer">
+	<v-container fluid tag="section" :id="idContainer" :class="classContainer" :style="styleContainer">
 		<v-row dense :class="classRow" :style="styleRow">
 			<v-col cols="12" v-if="title" :class="classColTitle" :style="styleColTitle">
 				<h2 :class="classTitle" :style="styleTitle">{{ title }}</h2>
@@ -20,6 +20,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "section-container-component",
 	props: {
+		idContainer: { type: String, required: false },
+
 		classContainer: { type: String, required: false },
 		classRow: { type: String, required: false },
 		classColTitle: { type: String, required: false },
