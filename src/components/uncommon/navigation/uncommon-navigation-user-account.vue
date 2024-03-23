@@ -7,13 +7,13 @@
 		:rail="navigation.rail"
 		v-if="computed_data_isUserLoggedIn"
 	>
-		<div class="close-rail d-flex" style="border: 2px solid red">
+		<!-- <div class="close-rail d-flex" style="border: 2px solid red">
 			<v-tooltip location="left" text="Close account bar">
 				<template>
 					<v-btn></v-btn>
 				</template>
 			</v-tooltip>
-		</div>
+		</div> -->
 
 		<v-list>
 			<v-list-item class="pl-3">
@@ -26,7 +26,7 @@
 					<span class="text-h5" v-text="computed_data_user_displayName"></span>
 				</template>
 				<template #subtitle>
-					<em v-text="computed_data_user_email"></em>
+					<em class="text-h6" v-text="computed_data_user_email"></em>
 				</template>
 			</v-list-item>
 		</v-list>
@@ -34,27 +34,28 @@
 		<divider-container-component color="default" thickness="1"></divider-container-component>
 
 		<v-list nav density="compact" class="pl-1">
-			<v-tooltip location="left" text="Basket">
-				<template v-slot:activator="{ props }">
-					<v-list-item title="Basket" value="basket" v-bind="props">
-						<template #prepend>
-							<v-icon style="opacity: 1 !important" :icon="navigation.btn.basket.icon"></v-icon>
-						</template>
-					</v-list-item>
+			<v-list-item to="/account" :title="navigation.items.account.text" :value="navigation.items.account.value">
+				<template #prepend>
+					<v-icon :icon="navigation.items.account.icon"></v-icon>
 				</template>
-			</v-tooltip>
+			</v-list-item>
+			<v-list-item to="/basket" :title="navigation.items.basket.text" :value="navigation.items.basket.value">
+				<template #prepend>
+					<v-icon :icon="navigation.items.basket.icon"></v-icon>
+				</template>
+			</v-list-item>
 			<!-- <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item> -->
 			<!-- <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item> -->
 		</v-list>
 
 		<template v-slot:append>
 			<div class="pa-2 d-flex justify-center">
-				<v-tooltip location="left" text="Logout">
+				<v-tooltip location="left" :text="navigation.items.logout.tooltip">
 					<template v-slot:activator="{ props }">
 						<v-btn
 							variant="flat"
 							class="bg-transparent overflow-hidden"
-							:icon="navigation.btn.logout.icon"
+							:icon="navigation.items.logout.icon"
 							v-bind="props"
 							@click.stop="method_event_logout"
 						></v-btn>
@@ -87,12 +88,20 @@ export default defineComponent({
 		return {
 			navigation: {
 				rail: true,
-				btn: {
-					logout: {
-						icon: iconsSidebarNavigation.logout,
+				items: {
+					account: {
+						text: "Account",
+						value: "account",
+						icon: iconsSidebarNavigation.account,
 					},
 					basket: {
+						text: "Basket",
+						value: "basket",
 						icon: iconsSidebarNavigation.basket,
+					},
+					logout: {
+						tooltip: "Log out",
+						icon: iconsSidebarNavigation.logout,
 					},
 				},
 			},
@@ -100,7 +109,7 @@ export default defineComponent({
 	},
 	computed: {
 		computed_data_user_displayName(): string {
-			return this.storeFirebase.getUserDisplayName?.toLowerCase() ?? "Loading display name...";
+			return this.storeFirebase.getUserDisplayName ?? "Loading display name...";
 		},
 		computed_data_user_email(): string {
 			return this.storeFirebase.getUserEmail?.toLowerCase() ?? "Loading email...";

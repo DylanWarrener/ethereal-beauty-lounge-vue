@@ -15,6 +15,7 @@
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
 						:rules="data_emailValidationRules"
+						v-model="data_dialogFormLogin.input.email.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormLogin.input.email.label"></span>
@@ -40,6 +41,7 @@
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
 						:rules="data_passwordValidationRules"
+						v-model="data_dialogFormLogin.input.password.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormLogin.input.password.label"></span>
@@ -63,6 +65,7 @@
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
 						:disabled="!data_isFormValid"
+						:loading="isLoading"
 						:text="data_dialogFormLogin.actions.btn.login.text"
 					></v-btn>
 				</v-form>
@@ -251,11 +254,14 @@ export default defineComponent({
 					.loginWithEmailAndPassword({ email, password })
 					.then((response) => {
 						debugger;
-						//console.log("Logged in user: ", response);
+						this.resetForm();
+						this.$router.push('/');
 					})
 					.catch((error) => {
 						debugger;
-						//console.log(error);
+						const errorCode = error.code;
+   	 					const errorMessage = error.message;
+						console.error(errorCode, " - ", errorMessage);
 					})
 					.finally(() => {
 						debugger;
@@ -266,6 +272,13 @@ export default defineComponent({
 		// Emit
 		emit_handler(value: string): void {
 			this.$emit("change", value);
+		},
+
+		/* Utils */
+		resetForm(): void {
+			this.data_dialogFormLogin.valid = false;
+			this.data_dialogFormLogin.input.email.value = null;
+			this.data_dialogFormLogin.input.password.value = null;
 		},
 
 		/* Validation */

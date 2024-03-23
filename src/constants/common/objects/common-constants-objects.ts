@@ -18,7 +18,10 @@ import {
 	mdiEye,
 	mdiEyeOff,
 	mdiLogout,
-	mdiBasket
+	mdiBasket,
+	mdiAccountEdit,
+	mdiSecurity,
+	mdiBell
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -50,7 +53,9 @@ export const txtRouteNames = {
 	reviews: "reviews",
 	about: "about",
 	login: "login",
-	register: "register"
+	register: "register",
+	account: "Account",
+	basket: "Basket"
 };
 export const txtRouteLinks = {
 	home: "/",
@@ -61,7 +66,9 @@ export const txtRouteLinks = {
 	reviews: "/reviews",
 	about: "/about",
 	login: "/login",
-	register: "/register"
+	register: "/register",
+	account: "/account",
+	basket: "/basket"
 };
 
 // ---------------------------------------------------------------------------------------------------------
@@ -85,8 +92,14 @@ export const iconsNavigation = {
 	information: mdiMenuDown,
 };
 export const iconsSidebarNavigation = {
-	logout: mdiLogout,
-	basket: mdiBasket
+	account: mdiAccount,
+	basket: mdiBasket,
+	logout: mdiLogout
+};
+export const iconsAccountNavigation = {
+	profile: mdiAccountEdit,
+	security: mdiSecurity,
+	notifications: mdiBell
 };
 export const iconsDialog = {
 	close: mdiClose,

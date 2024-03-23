@@ -236,19 +236,19 @@ export default defineComponent({
 					.then((response) => {
 						debugger;
 						const displayName: string = `${firstname} ${lastname}`;
-						this.storeFirebase.setUserDisplayName({ displayName });
+						this.storeFirebase.setUserDisplayName(displayName);
 						this.storeFirebase.storeNewUser({
 							uid: response.user.uid,
 							firstname: firstname,
 							lastname: lastname,
 						});
 						this.resetForm();
-
-						const user = this.storeFirebase.getUserDisplayName;
 					})
 					.catch((error) => {
 						debugger;
-						//console.error(error);
+						const errorCode = error.code;
+   	 					const errorMessage = error.message;
+						console.error(errorCode, " - ", errorMessage);
 					})
 					.finally(() => {
 						debugger;

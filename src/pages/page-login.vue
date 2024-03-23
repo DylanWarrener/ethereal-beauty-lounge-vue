@@ -85,7 +85,7 @@ import MoreInfoRequiredContainerComp from "@components/common/form/more-info-req
 import CanvasPNG from "@assets/jpg/temp.jpg";
 
 export default defineComponent({
-	name: "login-page-container-component",
+	name: "common-login-page-container-component",
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
 		"common-divider-container-component": DividerContainerComp,

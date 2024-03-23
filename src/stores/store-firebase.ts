@@ -110,6 +110,15 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return signInWithEmailAndPassword(auth, user.email, user.password);
 		},
 		logout(): Promise<void> {
+			this.setUserAuthData({
+				uid: null,
+				displayName: null,
+				email: null,
+				isEmailVerified: false,
+				phoneNumber: null,
+				photoURL: null,
+				isAnonymous: false
+			});
 			return signOut(auth);
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
@@ -119,10 +128,12 @@ const useFirebaseStore = defineStore("firebase-store", {
 		setUserID(newValue: string | null): void {
 			this.user.uid = newValue;
 		},
-		setUserDisplayName(user: { displayName: string | null }): void {
+		setUserDisplayName(displayName: string | null): void {
 			debugger;
-			if (this.getIsUserLoggedIn && auth.currentUser && user.displayName !== null)
-				updateProfile(auth.currentUser, { displayName: user.displayName });
+			if (this.getIsUserLoggedIn && auth.currentUser && displayName !== null) {
+				updateProfile(auth.currentUser, { displayName: displayName });
+				this.user.displayName = displayName;
+			}
 		},
 		setUserFirstname(newValue: string | null): void {
 			this.user.firstname = newValue;
@@ -146,21 +157,25 @@ const useFirebaseStore = defineStore("firebase-store", {
 			this.user.isAnonymous = newValue;
 		},
 		setUserAuthData(user: {
-			uid: string;
-			email: string;
-			isEmailVerified: boolean;
-			phoneNumber?: string;
-			photoURL?: string;
-			isAnonymous: boolean;
+			uid: string | null,
+			displayName?: string | null,
+			email: string | null,
+			isEmailVerified: boolean,
+			phoneNumber?: string | null,
+			photoURL?: string | null,
+			isAnonymous: boolean
 		}): void {
 			debugger;
 			for (const [key, value] of Object.entries(user)) {
 				switch (key) {
 					case "uid":
-						this.setUserID(user.uid!);
+						this.setUserID(user.uid);
+						break;
+					case "displayName":
+						this.setUserDisplayName(user.displayName!);
 						break;
 					case "email":
-						this.setUserEmail(user.email!);
+						this.setUserEmail(user.email);
 						break;
 					case "isEmailVerified":
 						this.setUserIsEmailVerified(user.isEmailVerified);
