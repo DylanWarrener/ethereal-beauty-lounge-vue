@@ -8,9 +8,9 @@
         <template #section-content>
             <v-container fluid style="border: 4px solid black">
                 <v-row dense style="border: 4px solid red">
-                    <v-col cols="12" style="border: 4px solid purple">
+                    <v-col cols="12" style="border: 4px solid purple" v-if="isMobile">
                         <v-sheet class="mx-auto bg-accent" style="border: 4px solid orange">
-                            <v-slide-group mandatory show-arrows center-active style="border: 4px solid grey">
+                            <v-slide-group mandatory show-arrows style="border: 4px solid grey">
                                 <v-slide-group-item v-slot="{ isSelected, toggle }">
                                     <v-btn
                                         rounded
@@ -52,44 +52,44 @@
                             </v-slide-group>
                         </v-sheet>
                     </v-col>
-                    <v-col cols="3" style="border: 2px solid blue">
-                        <v-list nav class="pl-1 bg-accent">
-                            <v-list-item 
-                                :title="account.navigation.profile.text" 
-                                :value="account.navigation.profile.value" 
-                                @click.stop="method_event_setSelectedComponent('uncommon-account-profile-component')"
-                            >
-                                <template #prepend>
-                                    <v-icon :icon="account.navigation.profile.icon"></v-icon>
-                                </template>
-                            </v-list-item>
-                            <v-list-item 
-                                :title="account.navigation.security.text" 
-                                :value="account.navigation.security.value" 
-                                @click.stop="method_event_setSelectedComponent('uncommon-account-security-component')"
-                            >
-                                <template #prepend>
-                                    <v-icon :icon="account.navigation.security.icon"></v-icon>
-                                </template>
-                            </v-list-item>
-                            <v-list-item 
-                                :title="account.navigation.notifications.text" 
-                                :value="account.navigation.notifications.value" 
-                                @click.stop="method_event_setSelectedComponent('uncommon-account-notifications-component')"
-                            >
-                                <template #prepend>
-                                    <v-icon :icon="account.navigation.notifications.icon"></v-icon>
-                                </template>
-                            </v-list-item>
-                        </v-list>
+                    <v-col cols="3" style="border: 2px solid blue" v-else>
+                        <v-card>
+                            <v-list nav class="pl-1 bg-accent">
+                                <v-list-item 
+                                    :title="account.navigation.profile.text" 
+                                    :value="account.navigation.profile.value" 
+                                    @click.stop="method_event_setSelectedComponent('uncommon-account-profile-component')"
+                                >
+                                    <template #prepend>
+                                        <v-icon :icon="account.navigation.profile.icon"></v-icon>
+                                    </template>
+                                </v-list-item>
+                                <v-list-item 
+                                    :title="account.navigation.security.text" 
+                                    :value="account.navigation.security.value" 
+                                    @click.stop="method_event_setSelectedComponent('uncommon-account-security-component')"
+                                >
+                                    <template #prepend>
+                                        <v-icon :icon="account.navigation.security.icon"></v-icon>
+                                    </template>
+                                </v-list-item>
+                                <v-list-item 
+                                    :title="account.navigation.notifications.text" 
+                                    :value="account.navigation.notifications.value" 
+                                    @click.stop="method_event_setSelectedComponent('uncommon-account-notifications-component')"
+                                >
+                                    <template #prepend>
+                                        <v-icon :icon="account.navigation.notifications.icon"></v-icon>
+                                    </template>
+                                </v-list-item>
+                            </v-list>
+                        </v-card>
                     </v-col>
                     <v-col style="border: 2px solid blue">
-                        <v-card elevation="0" class="h-100 d-flex" style="border: 2px solid green">
-							<component
-								:is="account.content.selectedComponent"
-								@change.self="method_event_setSelectedComponent"
-							></component>
-						</v-card>
+                        <component
+                            :is="account.content.selectedComponent"
+                            @change.self="method_event_setSelectedComponent"
+                        ></component>
                     </v-col>
                 </v-row>
             </v-container>
@@ -146,6 +146,11 @@ export default defineComponent({
                 }
             }
         };
+    },
+    computed: {
+        isMobile(): boolean {
+            return this.$vuetify.display.mdAndDown;
+        }
     },
     methods: {
         /* Events */
