@@ -21,7 +21,8 @@ import {
 	mdiBasket,
 	mdiAccountEdit,
 	mdiSecurity,
-	mdiBell
+	mdiBell,
+	mdiImageEdit,
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ export const txtRouteNames = {
 	login: "login",
 	register: "register",
 	account: "Account",
-	basket: "Basket"
+	basket: "Basket",
 };
 export const txtRouteLinks = {
 	home: "/",
@@ -68,7 +69,7 @@ export const txtRouteLinks = {
 	login: "/login",
 	register: "/register",
 	account: "/account",
-	basket: "/basket"
+	basket: "/basket",
 };
 
 // ---------------------------------------------------------------------------------------------------------
@@ -94,12 +95,15 @@ export const iconsNavigation = {
 export const iconsSidebarNavigation = {
 	account: mdiAccount,
 	basket: mdiBasket,
-	logout: mdiLogout
+	logout: mdiLogout,
 };
 export const iconsAccountNavigation = {
 	profile: mdiAccountEdit,
 	security: mdiSecurity,
-	notifications: mdiBell
+	notifications: mdiBell,
+};
+export const iconsAccountProfile = {
+	editImage: mdiImageEdit,
 };
 export const iconsDialog = {
 	close: mdiClose,

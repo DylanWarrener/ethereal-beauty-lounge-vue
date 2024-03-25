@@ -24,7 +24,8 @@ import {
 	mdiBasket,
 	mdiAccountEdit,
 	mdiSecurity,
-	mdiBell
+	mdiBell,
+	mdiImageEdit,
 } from "@mdi/js";
 
 export {
@@ -53,5 +54,6 @@ export {
 	mdiBasket,
 	mdiAccountEdit,
 	mdiSecurity,
-	mdiBell
+	mdiBell,
+	mdiImageEdit,
 };
