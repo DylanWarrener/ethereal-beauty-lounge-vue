@@ -3,24 +3,80 @@
         id="section-account"
         style-container="margin-top: 64px; min-height: calc(100vh - 64px)"
         class-title="text-inverted"
-        title="Account"
+        :title="account.section.title"
     >
         <template #section-content>
-            <v-container fluid style="border: 2px solid black">
-                <v-row dense style="border: 2px solid red">
+            <v-container fluid style="border: 4px solid black">
+                <v-row dense style="border: 4px solid red">
+                    <v-col cols="12" style="border: 4px solid purple">
+                        <v-sheet class="mx-auto bg-accent" style="border: 4px solid orange">
+                            <v-slide-group mandatory show-arrows center-active style="border: 4px solid grey">
+                                <v-slide-group-item v-slot="{ isSelected, toggle }">
+                                    <v-btn
+                                        rounded
+                                        class="ma-2"
+                                        variant="outlined"
+                                        :text="account.navigation.profile.text"
+                                        :color="isSelected ? 'accent' : undefined"
+                                        @click.stop="method_event_setSelectedComponent('uncommon-account-profile-component')"
+                                    >
+                                        <template v-slot:prepend>
+                                            <v-icon :icon="account.navigation.profile.icon"></v-icon>
+                                        </template>
+                                    </v-btn>
+                                    <v-btn
+                                        rounded
+                                        class="ma-2"
+                                        variant="outlined"
+                                        :text="account.navigation.security.text"
+                                        :color="isSelected ? 'accent' : undefined"
+                                        @click.stop="method_event_setSelectedComponent('uncommon-account-security-component')"
+                                    >
+                                        <template v-slot:prepend>
+                                            <v-icon :icon="account.navigation.security.icon"></v-icon>
+                                        </template>
+                                    </v-btn>
+                                    <v-btn
+                                        rounded
+                                        class="ma-2"
+                                        variant="outlined"
+                                        :text="account.navigation.notifications.text"
+                                        :color="isSelected ? 'accent' : undefined"
+                                        @click.stop="method_event_setSelectedComponent('uncommon-account-notifications-component')"
+                                    >
+                                        <template v-slot:prepend>
+                                            <v-icon :icon="account.navigation.notifications.icon"></v-icon>
+                                        </template>
+                                    </v-btn>
+                                </v-slide-group-item>
+                            </v-slide-group>
+                        </v-sheet>
+                    </v-col>
                     <v-col cols="3" style="border: 2px solid blue">
-                        <v-list nav density="compact" class="pl-1 bg-accent" style="border: 2px solid black">
-                            <v-list-item :title="account.navigation.profile.text" :value="account.navigation.profile.value" style="border: 2px solid green">
+                        <v-list nav class="pl-1 bg-accent">
+                            <v-list-item 
+                                :title="account.navigation.profile.text" 
+                                :value="account.navigation.profile.value" 
+                                @click.stop="method_event_setSelectedComponent('uncommon-account-profile-component')"
+                            >
                                 <template #prepend>
                                     <v-icon :icon="account.navigation.profile.icon"></v-icon>
                                 </template>
                             </v-list-item>
-                            <v-list-item :title="account.navigation.security.text" :value="account.navigation.security.value" style="border: 2px solid green">
+                            <v-list-item 
+                                :title="account.navigation.security.text" 
+                                :value="account.navigation.security.value" 
+                                @click.stop="method_event_setSelectedComponent('uncommon-account-security-component')"
+                            >
                                 <template #prepend>
                                     <v-icon :icon="account.navigation.security.icon"></v-icon>
                                 </template>
                             </v-list-item>
-                            <v-list-item :title="account.navigation.notifications.text" :value="account.navigation.notifications.value" style="border: 2px solid green">
+                            <v-list-item 
+                                :title="account.navigation.notifications.text" 
+                                :value="account.navigation.notifications.value" 
+                                @click.stop="method_event_setSelectedComponent('uncommon-account-notifications-component')"
+                            >
                                 <template #prepend>
                                     <v-icon :icon="account.navigation.notifications.icon"></v-icon>
                                 </template>
@@ -28,7 +84,7 @@
                         </v-list>
                     </v-col>
                     <v-col style="border: 2px solid blue">
-                        <v-card elevation="0" style="border: 2px solid green">
+                        <v-card elevation="0" class="h-100 d-flex" style="border: 2px solid green">
 							<component
 								:is="account.content.selectedComponent"
 								@change.self="method_event_setSelectedComponent"
@@ -46,6 +102,9 @@ import { defineComponent } from "vue";
 
 // Components
 import SectionContainerComp from "@components/common/section/common-section.vue";
+import AccountProfileComp from "@components/uncommon/account/profile/uncommon-account-profile.vue";
+import AccountSecurityComp from "@components/uncommon/account/security/uncommon-account-security.vue";
+import AccountNotificationsComp from "@components/uncommon/account/notifications/uncommon-account-notifications.vue";
 
 // Icons
 import { iconsAccountNavigation } from "@constants/common/objects/common-constants-objects.js";
@@ -53,11 +112,17 @@ import { iconsAccountNavigation } from "@constants/common/objects/common-constan
 export default defineComponent({
 	name: "common-account-page-container-component",
     components: {
-		"common-section-container-component": SectionContainerComp
+		"common-section-container-component": SectionContainerComp,
+        "uncommon-account-profile-component": AccountProfileComp,
+        "uncommon-account-security-component": AccountSecurityComp,
+        "uncommon-account-notifications-component": AccountNotificationsComp
 	},
     data() {
         return {
             account: {
+                section: {
+                    title: "Account"
+                },
                 navigation: {
                     openedGroup: ['profile'],
                     profile: {
@@ -77,7 +142,7 @@ export default defineComponent({
                     }
                 },
                 content: {
-                    selectedComponent: ''
+                    selectedComponent: 'uncommon-account-profile-component'
                 }
             }
         };
