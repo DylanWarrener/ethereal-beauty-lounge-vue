@@ -117,7 +117,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 				isEmailVerified: false,
 				phoneNumber: null,
 				photoURL: null,
-				isAnonymous: false
+				isAnonymous: false,
 			});
 			return signOut(auth);
 		},
@@ -157,13 +157,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			this.user.isAnonymous = newValue;
 		},
 		setUserAuthData(user: {
-			uid: string | null,
-			displayName?: string | null,
-			email: string | null,
-			isEmailVerified: boolean,
-			phoneNumber?: string | null,
-			photoURL?: string | null,
-			isAnonymous: boolean
+			uid: string | null;
+			displayName?: string | null;
+			email: string | null;
+			isEmailVerified: boolean;
+			phoneNumber?: string | null;
+			photoURL?: string | null;
+			isAnonymous: boolean;
 		}): void {
 			debugger;
 			for (const [key, value] of Object.entries(user)) {
