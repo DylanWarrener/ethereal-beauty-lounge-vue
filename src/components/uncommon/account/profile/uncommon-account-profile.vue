@@ -2,8 +2,8 @@
 	<v-card elevation="0" class="h-100 bg-accent" style="border: 2px solid green">
 		<v-container fluid style="border: 2px solid black">
 			<v-row dense style="border: 2px solid red">
+				<!-- Avatar -->
 				<v-col cols="12" class="d-flex flex-column justify-center align-center" style="border: 2px solid blue">
-					<!-- Avatar -->
 					<v-hover>
 						<template v-slot:default="{ isHovering, props }">
 							<div class="h-100" style="position: relative; border: 2px solid red" v-bind="props">
