@@ -44,6 +44,7 @@ import {
 	VSvgIcon,
 	VForm,
 	VTextarea,
+	VSwitch,
 	VDatePicker,
 	VDialog,
 	VToolbar,
@@ -75,9 +76,9 @@ const vuetify = createVuetify({
 	theme: {
 		defaultTheme: "light",
 		variations: {
-			colors: ['primary', 'secondary'],
+			colors: ["primary", "secondary"],
 			lighten: 1,
-			darken: 2
+			darken: 2,
 		},
 		themes: { light },
 	},
@@ -126,6 +127,7 @@ const vuetify = createVuetify({
 		VSvgIcon,
 		VForm,
 		VTextarea,
+		VSwitch,
 		VDatePicker,
 		VDialog,
 		VToolbar,

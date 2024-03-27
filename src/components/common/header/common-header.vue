@@ -41,14 +41,13 @@
 		<!-- APP BAR RIGHT - Icon navs -->
 		<menu-container-component
 			menu-location="bottom"
-			btn-class="d-none d-sm-flex"
 			:tooltip-text="tooltip_appBarBasketBtn"
 			:btn-id="id_appBarBasketBtn"
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
 
-		<v-divider vertical inset color="default" class="mx-2 border-opacity-75" v-if="!data_isUserLoggedIn"></v-divider>
+		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
 
 		<menu-container-component
 			menu-location="bottom"
@@ -70,15 +69,11 @@
 				</v-list>
 			</template>
 		</menu-container-component>
-
-		<menu-container-component
-			menu-location="bottom"
-			btn-class="mr-2 d-sm-none"
-			:tooltip-text="tooltip_appBarOptionsBtn"
-			:btn-id="id_appBarOptionsBtn"
-			:btn-icon="icon_appBarOptionsBtn"
-			@toggle-menu-drawer="data_appBarOptionsDrawerState = !data_appBarOptionsDrawerState"
-		></menu-container-component>
+		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
+			<template #activator="{ props }">
+				<v-btn :icon="icon_appBarAccountBtn" v-bind="props"></v-btn>
+			</template>
+		</v-tooltip>
 	</v-app-bar>
 </template>
 

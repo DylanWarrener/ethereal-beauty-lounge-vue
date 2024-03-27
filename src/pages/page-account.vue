@@ -3,25 +3,29 @@
 		id="section-account"
 		style-container="margin-top: 64px; min-height: calc(100vh - 64px)"
 		class-title="text-inverted"
+		class-subtitle="text-inverted"
 		:title="account.section.title"
+		:subtitle="account.section.subtitle"
 	>
 		<template #section-content>
 			<v-container fluid style="border: 4px solid black">
 				<v-row dense style="border: 4px solid red">
 					<v-col cols="12" style="border: 4px solid purple" v-if="computed__display_isMobile">
 						<v-sheet class="mx-auto bg-accent" style="border: 4px solid orange">
-							<v-slide-group mandatory show-arrows style="border: 4px solid grey">
+							<v-slide-group mandatory show-arrows class="" style="border: 4px solid grey">
 								<v-slide-group-item v-slot="{ isSelected, toggle }">
 									<v-btn
 										rounded
 										class="ma-2"
 										variant="outlined"
-										:text="account.navigation.profile.text"
 										:color="isSelected ? 'accent' : undefined"
 										@click.stop="method_event_setSelectedComponent('uncommon-account-profile-component')"
 									>
 										<template v-slot:prepend>
 											<v-icon :icon="account.navigation.profile.icon"></v-icon>
+										</template>
+										<template v-slot:default>
+											<span v-text="account.navigation.profile.text"></span>
 										</template>
 									</v-btn>
 									<v-btn
@@ -128,6 +132,7 @@ export default defineComponent({
 			account: {
 				section: {
 					title: "Account",
+					subtitle: "Update your account settings here.",
 				},
 				navigation: {
 					openedGroup: ["profile"],
