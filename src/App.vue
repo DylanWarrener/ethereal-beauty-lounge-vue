@@ -85,6 +85,7 @@ export default defineComponent({
 		},
 	},
 	created(): void {
+		debugger;
 		this.storeFirebase.monitorAuthState({ auth });
 	},
 	mounted(): void {

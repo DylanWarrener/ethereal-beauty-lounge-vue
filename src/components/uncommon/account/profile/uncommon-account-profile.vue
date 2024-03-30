@@ -8,7 +8,7 @@
 				</v-col>
 
 				<!-- Avatar -->
-				<v-col cols="12" class="d-flex flex-column justify-center" :class="computed_css_justifyAvatar">
+				<v-col cols="12" md="4" class="d-flex flex-column justify-center align-center" style="border: 2px solid red">
 					<v-hover>
 						<template v-slot:default="{ isHovering, props }">
 							<div class="h-100" style="position: relative; border: 2px solid red" v-bind="props">
@@ -16,6 +16,7 @@
 									hover
 									class="rounded-circle d-flex justify-center align-center"
 									:style="isHovering ? 'background-color: rgba(0, 0, 0, 0.75)' : ''"
+									:image="computed_data_user_photoURL"
 									width="150"
 									height="150"
 								>
@@ -55,50 +56,54 @@
 				</v-col>
 
 				<!-- Profile info -->
-				<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
-					<v-text-field
-						clearable
-						variant="outlined"
-						:label="profile.input.displayName.label"
-						:style="computed_data_dynamicWidth_input"
-						:model-value="computed_data_userDisplayName"
-					></v-text-field>
-				</v-col>
-				<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
-					<v-text-field
-						clearable
-						variant="outlined"
-						:label="profile.input.firstname.label"
-						:style="computed_data_dynamicWidth_input"
-						:model-value="computed_data_userFirstname"
-					></v-text-field>
-				</v-col>
-				<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
-					<v-text-field
-						clearable
-						variant="outlined"
-						:label="profile.input.lastname.label"
-						:style="computed_data_dynamicWidth_input"
-						:model-value="computed_data_userLastname"
-					></v-text-field>
-				</v-col>
-				<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
-					<v-text-field
-						clearable
-						variant="outlined"
-						:label="profile.input.email.label"
-						:style="computed_data_dynamicWidth_input"
-						:model-value="computed_data_userEmail"
-					></v-text-field>
-				</v-col>
-				<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
-					<v-text-field
-						clearable
-						variant="outlined"
-						:label="profile.input.phoneNumber.label"
-						:style="computed_data_dynamicWidth_input"
-						:model-value="computed_data_userPhoneNumber"
-					></v-text-field>
+				<v-col cols="12" md="8">
+					<v-row dense>
+						<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
+							<v-text-field
+								clearable
+								variant="outlined"
+								:label="profile.input.displayName.label"
+								:style="computed_data_dynamicWidth_input"
+								:model-value="computed_data_userDisplayName"
+							></v-text-field>
+						</v-col>
+						<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
+							<v-text-field
+								clearable
+								variant="outlined"
+								:label="profile.input.firstname.label"
+								:style="computed_data_dynamicWidth_input"
+								:model-value="computed_data_userFirstname"
+							></v-text-field>
+						</v-col>
+						<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
+							<v-text-field
+								clearable
+								variant="outlined"
+								:label="profile.input.lastname.label"
+								:style="computed_data_dynamicWidth_input"
+								:model-value="computed_data_userLastname"
+							></v-text-field>
+						</v-col>
+						<v-col cols="12" sm="6" md="6" class="d-flex justify-center">
+							<v-text-field
+								clearable
+								variant="outlined"
+								:label="profile.input.email.label"
+								:style="computed_data_dynamicWidth_input"
+								:model-value="computed_data_userEmail"
+							></v-text-field>
+						</v-col>
+						<v-col cols="12" sm="6" md="6" class="d-flex justify-center">
+							<v-text-field
+								clearable
+								variant="outlined"
+								:label="profile.input.phoneNumber.label"
+								:style="computed_data_dynamicWidth_input"
+								:model-value="computed_data_userPhoneNumber"
+							></v-text-field>
+						</v-col>
+					</v-row>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -171,16 +176,12 @@ export default defineComponent({
 		computed_img_canvas(): string {
 			return CanvasPNG;
 		},
-		computed_css_justifyAvatar(): string {
-			let retval: string = "align-center";
-			if (this.$vuetify.display.mdAndUp) {
-				retval = "align-start";
-			}
-			return retval;
-		},
 		computed_data_dynamicWidth_input(): string {
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;
+		},
+		computed_data_user_photoURL(): string | undefined {
+			return this.storeFirebase.getUserPhotoURL ?? undefined;
 		},
 		computed_data_user_initials(): string | null {
 			let retval: string | null = null;
@@ -191,11 +192,7 @@ export default defineComponent({
 			return retval;
 		},
 		computed_data_userDisplayName(): string | null {
-			let retval: string | null = null;
-			if (this.storeFirebase.getUserDisplayName !== null) {
-				retval = this.storeFirebase.getUserDisplayName;
-			}
-			return retval;
+			return this.storeFirebase.getUserDisplayName ?? "No data";
 		},
 		computed_data_userFirstname(): string | null {
 			return this.storeFirebase.getUserFirstname ?? "No data";

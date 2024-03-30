@@ -1,4 +1,7 @@
-import { createRouter, createWebHistory, type RouterScrollBehavior } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
+
+// State
+import storeFirebase from "@stores/store-firebase";
 
 // Constants
 import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
@@ -30,7 +33,7 @@ const router = createRouter({
 		{ path: txtRouteLinks.about, name: txtRouteNames.about, component: About },
 		{ path: txtRouteLinks.login, name: txtRouteNames.login, component: Login },
 		{ path: txtRouteLinks.register, name: txtRouteNames.register, component: Register },
-		{ path: txtRouteLinks.account, name: txtRouteNames.account, component: Account },
+		{ path: txtRouteLinks.account, name: txtRouteNames.account, component: Account, meta: { requiresAuth: true } },
 		{ path: txtRouteLinks.basket, name: txtRouteNames.basket, component: Basket },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
@@ -54,6 +57,19 @@ const router = createRouter({
 		*/
 		return retVal;
 	},
+});
+
+router.beforeEach((to, _, next) => {
+	debugger;
+	const useFirebaseStore = storeFirebase();
+	const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
+	const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
+
+	if (routeRequiresAuth && !isUserLoggedIn) {
+		next({ name: txtRouteNames.login, hash: "#section-login" });
+	} else {
+		next();
+	}
 });
 
 export default router;

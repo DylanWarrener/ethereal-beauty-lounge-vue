@@ -51,7 +51,6 @@
 
 		<menu-container-component
 			menu-location="bottom"
-			btn-class="d-none d-sm-flex"
 			:tooltip-text="tooltip_appBarAccountBtn"
 			:btn-id="id_appbarAccountBtn"
 			:btn-icon="icon_appBarAccountBtn"
@@ -196,6 +195,7 @@ export default defineComponent({
 
 		/* Data */
 		data_isUserLoggedIn(): boolean {
+			debugger;
 			return this.storeFirebase.getIsUserLoggedIn;
 		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
@@ -252,12 +252,6 @@ export default defineComponent({
 	},
 	methods: {
 		/* Events */
-		// mergeProps,
-		// navigatePage(routeName: string): void {
-		// 	const allRoutes = this.$router.getRoutes();
-		// 	const isRouteNameValid: boolean = allRoutes.some((obj) => obj.name === routeName);
-		// 	if (isRouteNameValid) this.$router.push({ name: routeName });
-		// },
 		logout(): void {
 			this.storeFirebase.logout();
 		},

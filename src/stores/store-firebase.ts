@@ -34,7 +34,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			phoneNumber: string | null;
 			photoURL: string | null;
 			isAnonymous: boolean;
-			joinedOn: Date | null;
+			joinedOn: string | null;
 		};
 	} => ({
 		user: {
@@ -53,9 +53,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 	getters: {
 		/* Firebase AUTH */
 		getIsUserLoggedIn: (state): boolean => {
-			return state.user.uid !== null;
+			debugger;
+			return state.user.uid ? true : false;
 		},
 		getUserID: (state): string | null => {
+			debugger;
 			return state.user.uid;
 		},
 		getUserDisplayName: (state): string | null => {
@@ -82,6 +84,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 		getIsUserAnonymous: (state): boolean => {
 			return state.user.isAnonymous;
 		},
+		getUserJoinedOn: (state): string | null => {
+			return state.user.joinedOn;
+		},
 		getUserData: (state): any => {
 			return state.user;
 		},
@@ -90,28 +95,41 @@ const useFirebaseStore = defineStore("firebase-store", {
 	},
 	actions: {
 		/* Firebase AUTH */
-		monitorAuthState(payload: { auth: Auth }): void {
+		monitorAuthState(payload: { auth: Auth }): Promise<User> {
 			debugger;
-			onAuthStateChanged(payload.auth, (user: User | null) => {
-				debugger;
-				if (user !== null) {
-					let valuesNotNull: any = {};
-					for (const [key, value] of Object.entries(user)) {
-						debugger;
-						if (value !== null && key in this.user) {
-							valuesNotNull[key] = value;
+			let retval: Promise<User>;
+			retval = new Promise((resolve, reject) => {
+				onAuthStateChanged(payload.auth, (user: User | null) => {
+					debugger;
+					if (user !== null) {
+						let valuesNotNull: any = {};
+						for (const [key, value] of Object.entries(user)) {
+							if (key in this.user && value !== null) {
+								if (key === "uid") {
+									auth.currentUser?.getIdToken().then((uid: string) => {
+										debugger;
+										this.setUserID({ uid });
+									});
+								} else {
+									valuesNotNull[key] = value;
+								}
+							}
 						}
+						this.setUserAuthData(valuesNotNull);
+						resolve(user);
 					}
-					this.setUserAuthData(valuesNotNull);
-				}
+				});
 			});
+			return retval;
 		},
 		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
+			debugger;
 			return signInWithEmailAndPassword(auth, user.email, user.password);
 		},
 		logout(): Promise<void> {
+			debugger;
+			this.setUserID({ uid: null });
 			this.setUserAuthData({
-				uid: null,
 				displayName: null,
 				email: null,
 				isEmailVerified: false,
@@ -122,24 +140,37 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return signOut(auth);
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
-			debugger;
-			return createUserWithEmailAndPassword(auth, user.email, user.password);
+			let retval: Promise<UserCredential>;
+			retval = new Promise((resolve, reject) => {
+				createUserWithEmailAndPassword(auth, user.email, user.password)
+					.then((response) => {
+						resolve(response);
+					})
+					.catch((error) => {
+						reject(`Could not create user account. ${error}`);
+						console.error(`Could not create user account. ${error}`);
+					});
+			});
+			return retval;
 		},
-		setUserID(newValue: string | null): void {
-			this.user.uid = newValue;
-		},
-		setUserDisplayName(displayName: string | null): void {
+		setUserID(user: { uid: string | null }): void {
 			debugger;
-			if (this.getIsUserLoggedIn && auth.currentUser && displayName !== null) {
-				updateProfile(auth.currentUser, { displayName: displayName });
-				this.user.displayName = displayName;
+			this.user.uid = user.uid;
+		},
+		setUserDisplayName(user: { displayName: string | null }): void {
+			debugger;
+			if (auth.currentUser && user.displayName !== null) {
+				updateProfile(auth.currentUser, { displayName: user.displayName });
+				this.user.displayName = user.displayName;
 			}
 		},
-		setUserFirstname(newValue: string | null): void {
-			this.user.firstname = newValue;
+		setUserFirstname(user: { firstname: string | null }): void {
+			debugger;
+			this.user.firstname = user.firstname;
 		},
-		setUserLastname(newValue: string | null): void {
-			this.user.lastname = newValue;
+		setUserLastname(user: { lastname: string | null }): void {
+			debugger;
+			this.user.lastname = user.lastname;
 		},
 		setUserEmail(newValue: string | null): void {
 			this.user.email = newValue;
@@ -156,8 +187,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 		setUserIsAnonymous(newValue: boolean): void {
 			this.user.isAnonymous = newValue;
 		},
+		setUserJoinedOn(user: { joinedOn: string }): void {
+			debugger;
+			this.user.joinedOn = user.joinedOn;
+		},
 		setUserAuthData(user: {
-			uid: string | null;
 			displayName?: string | null;
 			email: string | null;
 			isEmailVerified: boolean;
@@ -168,11 +202,8 @@ const useFirebaseStore = defineStore("firebase-store", {
 			debugger;
 			for (const [key, value] of Object.entries(user)) {
 				switch (key) {
-					case "uid":
-						this.setUserID(user.uid);
-						break;
 					case "displayName":
-						this.setUserDisplayName(user.displayName!);
+						this.setUserDisplayName({ displayName: user.displayName! });
 						break;
 					case "email":
 						this.setUserEmail(user.email);
@@ -194,17 +225,29 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 
 		/* Firebase CLOUD FIRESTORE */
-		storeNewUser(user: { uid: string; firstname: string; lastname: string }): void {
+		getFirestoreUser(user: { uid: string }): Promise<any> {
+			return new Promise((resolve, reject) => {
+				resolve("");
+			});
+		},
+		setFirestoreUser(user: { uid: string; firstname: string; lastname: string }): Promise<void> {
 			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
 			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
-			const userFirestoreData: { firstname: string; lastname: string } = {
-				firstname: user.firstname,
-				lastname: user.lastname,
-			};
-			setDoc(userDocumentRef, userFirestoreData);
-			this.user.firstname = user.firstname;
-			this.user.lastname = user.lastname;
+			const userFirestoreData = { firstname: user.firstname, lastname: user.lastname };
+
+			let retval: Promise<void>;
+			retval = new Promise((resolve, reject) => {
+				setDoc(userDocumentRef, userFirestoreData)
+					.then(() => {
+						resolve();
+					})
+					.catch((error) => {
+						reject();
+						console.error(`Error setting user document in firestore. ${error}`);
+					});
+			});
+			return retval;
 		},
 	},
 });

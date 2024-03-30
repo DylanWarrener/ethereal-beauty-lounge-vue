@@ -130,9 +130,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Services
+import { auth } from "@plugins/firebase/firebase.js";
+
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
+
+// Constants
+import { txtRouteNames } from "@constants/common/objects/common-constants-objects";
 
 // Icons
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
@@ -229,36 +235,36 @@ export default defineComponent({
 				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
+				const displayName: string = `${firstname} ${lastname}`;
 
 				this.isLoading = true;
 				this.storeFirebase
 					.createAccountWithEmailAndPassword({ email, password })
-					.then((response) => {
+					.then(() => {
 						debugger;
-						const displayName: string = `${firstname} ${lastname}`;
-						this.storeFirebase.setUserDisplayName(displayName);
-						this.storeFirebase.storeNewUser({
-							uid: response.user.uid,
-							firstname: firstname,
-							lastname: lastname,
-						});
-						this.resetForm();
+						//this.storeFirebase.setUserJoinedOn({ joinedOn });
+						this.storeFirebase.setUserDisplayName({ displayName });
+						if (this.storeFirebase.getIsUserLoggedIn) {
+							const uid: string = this.storeFirebase.getUserID!;
+							const firestoreUserData = { uid, firstname, lastname };
+							return this.storeFirebase.setFirestoreUser(firestoreUserData);
+						}
 					})
-					.catch((error) => {
+					.then(() => {
 						debugger;
-						const errorCode = error.code;
-   	 					const errorMessage = error.message;
-						console.error(errorCode, " - ", errorMessage);
+						this.storeFirebase.setUserFirstname({ firstname });
+						this.storeFirebase.setUserLastname({ lastname });
+						this.resetFormInputs();
 					})
 					.finally(() => {
-						debugger;
 						this.isLoading = false;
+						this.$router.replace({ name: txtRouteNames.account });
 					});
 			}
 		},
 
 		/* Utils */
-		resetForm(): void {
+		resetFormInputs(): void {
 			this.data_dialogFormCreateAccount.valid = false;
 			this.data_dialogFormCreateAccount.input.firstName.value = null;
 			this.data_dialogFormCreateAccount.input.lastName.value = null;
