@@ -10,7 +10,8 @@
 		<template #section-content>
 			<v-container fluid style="border: 4px solid black">
 				<v-row dense style="border: 4px solid red">
-					<v-col cols="12" style="border: 4px solid purple" v-if="computed__display_isMobile">
+					<!-- Mobile side navigation -->
+					<v-col cols="12" style="border: 4px solid purple" v-if="computed_display_isMobile">
 						<v-sheet class="mx-auto bg-accent" style="border: 4px solid orange">
 							<v-slide-group mandatory show-arrows class="" style="border: 4px solid grey">
 								<v-slide-group-item v-slot="{ isSelected, toggle }">
@@ -60,6 +61,8 @@
 							</v-slide-group>
 						</v-sheet>
 					</v-col>
+
+					<!-- Desktop side navigation -->
 					<v-col cols="3" style="border: 2px solid blue" v-else>
 						<v-card>
 							<v-list nav class="pl-1 bg-accent">
@@ -95,7 +98,7 @@
 							</v-list>
 						</v-card>
 					</v-col>
-					<v-col style="border: 2px solid blue">
+					<v-col :cols="computed_dynamicWidth" style="border: 2px solid blue">
 						<component
 							:is="account.content.selectedComponent"
 							@change.self="method_event_setSelectedComponent"
@@ -159,9 +162,12 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed__display_isMobile(): boolean {
+		computed_display_isMobile(): boolean {
 			return this.$vuetify.display.mdAndDown;
 		},
+		computed_dynamicWidth(): string {
+			return this.$vuetify.display.lgAndUp ? "9" : "12";
+		}
 	},
 	methods: {
 		/* Events */

@@ -77,7 +77,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 
 // Icons
-import { iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
+import { txtRouteNames, iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "navigation-user-account-component",
@@ -126,6 +126,7 @@ export default defineComponent({
 	methods: {
 		method_event_logout(): void {
 			this.storeFirebase.logout();
+			this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });
 		},
 	},
 	setup() {

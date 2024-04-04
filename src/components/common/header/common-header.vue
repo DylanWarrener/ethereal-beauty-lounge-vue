@@ -36,19 +36,17 @@
 		<!-- APP BAR MIDDLE - Text navs -->
 		<navigation-pages-non-mobile-menu></navigation-pages-non-mobile-menu>
 
-		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
+		<v-divider vertical inset class="mx-2 d-flex d-lg-none border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
 		<menu-container-component
 			menu-location="bottom"
+			btn-class="d-flex d-lg-none"
 			:tooltip-text="tooltip_appBarBasketBtn"
 			:btn-id="id_appBarBasketBtn"
 			:btn-icon="icon_appBarBasketBtn"
 			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
 		></menu-container-component>
-
-		<v-divider vertical inset color="default" class="mx-2 border-opacity-75"></v-divider>
-
 		<menu-container-component
 			menu-location="bottom"
 			:tooltip-text="tooltip_appBarAccountBtn"
@@ -70,9 +68,22 @@
 		</menu-container-component>
 		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
 			<template #activator="{ props }">
-				<v-btn :icon="icon_appBarAccountBtn" v-bind="props"></v-btn>
+				<v-btn icon 
+					variant="flat" 
+					density="compact" 
+					class="bg-white d-flex d-lg-none" 
+					:to="txt_accountPageLink"
+					v-text="computed_data_user_initials"
+					v-bind="props"
+				></v-btn>
 			</template>
 		</v-tooltip>
+
+		<!-- <v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
+			<template #activator="{ props }">
+				<v-btn :icon="icon_appBarAccountBtn" v-bind="props" @click="method_event_navigateToAccount"></v-btn>
+			</template>
+		</v-tooltip> -->
 	</v-app-bar>
 </template>
 
@@ -99,7 +110,7 @@ import { IHeaderNavigationCommonNonMobileItemState } from "@declarations/common/
 import { ElementIDs } from "@enums/enums.js";
 
 // Constants
-import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiAccount, mdiBasket, mdiMenu } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -139,6 +150,9 @@ export default defineComponent({
 		/* Text */
 		txt_homePageLink(): string {
 			return txtRouteLinks.home;
+		},
+		txt_accountPageLink(): string {
+			return txtRouteLinks.account
 		},
 		// IDs
 		id_appBarMobileMenuBtn(): string {
@@ -194,6 +208,17 @@ export default defineComponent({
 		},
 
 		/* Data */
+		computed_data_user_initials(): string | null {
+			let retval: string | null = null;
+			if (this.computed_data_userDisplayName !== null) {
+				const [firstname, lastname] = this.computed_data_userDisplayName.split(" ");
+				retval = `${firstname[0]}${lastname[0]}`.toUpperCase();
+			}
+			return retval;
+		},
+		computed_data_userDisplayName(): string | null {
+			return this.storeFirebase.getUserDisplayName ?? "No data";
+		},
 		data_isUserLoggedIn(): boolean {
 			debugger;
 			return this.storeFirebase.getIsUserLoggedIn;
@@ -251,10 +276,12 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		/* Events */
-		logout(): void {
-			this.storeFirebase.logout();
+		method_event_navigateToAccount(): void {
+			this.$router.push({ name: txtRouteNames.account });
 		},
+		method_event_logout(): void {
+			this.storeFirebase.logout();
+		}
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

@@ -126,7 +126,7 @@ import { defineComponent } from "vue";
 import useFirebaseStore from "@stores/store-firebase.js";
 
 // Icons
-import { iconsAccountProfile } from "@constants/common/objects/common-constants-objects";
+import { iconsAccountProfile } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -207,7 +207,7 @@ export default defineComponent({
 			return this.storeFirebase.getUserPhoneNumber ?? "No data";
 		},
 
-		temp_user_data() {
+		temp_user_data(): any {
 			return this.storeFirebase.getUserData;
 		},
 	},

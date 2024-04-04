@@ -8,6 +8,20 @@
 					v-model="data_dialogFormCreateAccount.valid"
 					@submit.prevent="createAccount_handler"
 				>
+					<v-select
+						ref="ref_title"
+						variant="outlined"
+						:items="data_dialogFormCreateAccount.input.title.items"
+						:style="dynamicWidth_dialogFormInput"
+						v-model="data_dialogFormCreateAccount.input.title.value"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.title.label"></span>
+						</template>
+						<template #selection="{ item }">
+							<span class="text-inverted" v-text="item.value"></span>
+						</template>
+					</v-select>
 					<v-text-field
 						clearable
 						ref="ref_firstName"
@@ -138,7 +152,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
 // Constants
-import { txtRouteNames } from "@constants/common/objects/common-constants-objects";
+import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
@@ -154,6 +168,17 @@ export default defineComponent({
 				information:
 					"By creating an account you agree to our Terms of Service, and have read and understood the Privacy Policy.",
 				input: {
+					title: {
+						label: "Title",
+						items: [
+							"Mr",
+							"Sir",
+							"Ms",
+							"Mrs",
+							"Miss",
+						],
+						value: null
+					},
 					firstName: {
 						label: "First name",
 						value: null,
@@ -231,6 +256,7 @@ export default defineComponent({
 			let isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
+				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
 				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
 				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
@@ -246,12 +272,13 @@ export default defineComponent({
 						this.storeFirebase.setUserDisplayName({ displayName });
 						if (this.storeFirebase.getIsUserLoggedIn) {
 							const uid: string = this.storeFirebase.getUserID!;
-							const firestoreUserData = { uid, firstname, lastname };
+							const firestoreUserData = { uid, title, firstname, lastname };
 							return this.storeFirebase.setFirestoreUser(firestoreUserData);
 						}
 					})
 					.then(() => {
 						debugger;
+						this.storeFirebase.setUserTitle({ title });
 						this.storeFirebase.setUserFirstname({ firstname });
 						this.storeFirebase.setUserLastname({ lastname });
 						this.resetFormInputs();

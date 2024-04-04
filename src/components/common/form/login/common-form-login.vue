@@ -130,7 +130,7 @@
 				</v-btn>
 			</v-col>
 			<v-col class="d-flex flex-column justify-center align-center">
-				<v-btn variant="flat" @click="$router.push({ name: 'register', hash: 'section-register' })">
+				<v-btn variant="flat" @click="$router.push({ name: 'register', hash: '#section-register' })">
 					<template v-slot:default>
 						<small
 							class="font-weight-bold text-inverted"

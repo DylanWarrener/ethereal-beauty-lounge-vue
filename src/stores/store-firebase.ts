@@ -27,6 +27,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		user: {
 			uid: string | null;
 			displayName: string | null;
+			title: string | null;
 			firstname: string | null;
 			lastname: string | null;
 			email: string | null;
@@ -40,6 +41,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		user: {
 			uid: null,
 			displayName: null,
+			title: null,
 			firstname: null,
 			lastname: null,
 			email: null,
@@ -62,6 +64,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		getUserDisplayName: (state): string | null => {
 			return state.user.displayName;
+		},
+		getUserTitle: (state): string | null => {
+			return state.user.title;
 		},
 		getUserFirstname: (state): string | null => {
 			return state.user.firstname;
@@ -164,6 +169,10 @@ const useFirebaseStore = defineStore("firebase-store", {
 				this.user.displayName = user.displayName;
 			}
 		},
+		setUserTitle(user: { title: string | null }): void {
+			debugger;
+			this.user.title = user.title;
+		},
 		setUserFirstname(user: { firstname: string | null }): void {
 			debugger;
 			this.user.firstname = user.firstname;
@@ -230,11 +239,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 				resolve("");
 			});
 		},
-		setFirestoreUser(user: { uid: string; firstname: string; lastname: string }): Promise<void> {
+		setFirestoreUser(user: { uid: string; title: string; firstname: string; lastname: string }): Promise<void> {
 			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
 			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
-			const userFirestoreData = { firstname: user.firstname, lastname: user.lastname };
+			const userFirestoreData = { title: user.title, firstname: user.firstname, lastname: user.lastname };
 
 			let retval: Promise<void>;
 			retval = new Promise((resolve, reject) => {
