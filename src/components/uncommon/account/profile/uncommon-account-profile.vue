@@ -1,17 +1,17 @@
 <template>
-	<v-card elevation="0" class="h-100 bg-accent" style="border: 2px solid green">
-		<v-container fluid class="pa-0" style="border: 2px solid black">
-			<v-row dense style="border: 2px solid red">
+	<v-card elevation="0" class="h-100 bg-accent">
+		<v-container fluid class="pa-0">
+			<v-row dense>
 				<!-- Title -->
 				<v-col cols="12">
 					<h3 v-text="profile.title"></h3>
 				</v-col>
 
 				<!-- Avatar -->
-				<v-col cols="12" md="4" class="d-flex flex-column justify-center align-center" style="border: 2px solid red">
+				<v-col cols="12" md="4" class="d-flex flex-column justify-center align-center">
 					<v-hover>
 						<template v-slot:default="{ isHovering, props }">
-							<div class="h-100" style="position: relative; border: 2px solid red" v-bind="props">
+							<div class="h-100" style="position: relative" v-bind="props">
 								<v-card
 									hover
 									class="rounded-circle d-flex justify-center align-center"
@@ -29,7 +29,7 @@
 									<v-expand-transition>
 										<div
 											class="w-100 h-100 d-flex justify-center align-center rounded-circle"
-											style="position: absolute; border: 2px solid red"
+											style="position: absolute"
 											v-show="isHovering"
 										>
 											<v-tooltip location="bottom" :text="profile.icon.editImage.tooltip">
@@ -115,7 +115,6 @@
 				</template>
 			</v-btn>
 		</v-card-actions>
-		{{ temp_user_data }}
 	</v-card>
 </template>
 
@@ -191,24 +190,61 @@ export default defineComponent({
 			}
 			return retval;
 		},
-		computed_data_userDisplayName(): string | null {
-			return this.storeFirebase.getUserDisplayName ?? "No data";
-		},
-		computed_data_userFirstname(): string | null {
-			return this.storeFirebase.getUserFirstname ?? "No data";
-		},
-		computed_data_userLastname(): string | null {
-			return this.storeFirebase.getUserLastname ?? "No data";
-		},
-		computed_data_userEmail(): string | null {
-			return this.storeFirebase.getUserEmail ?? "No data";
-		},
-		computed_data_userPhoneNumber(): string | null {
-			return this.storeFirebase.getUserPhoneNumber ?? "No data";
-		},
+		// computed_data_userDisplayName(): string | null {
+		// 	return this.storeFirebase.getUserDisplayName ?? "No data";
+		// },
+		// computed_data_userFirstname(): string | null {
+		// 	return this.storeFirebase.getUserFirstname ?? "No data";
+		// },
+		// computed_data_userLastname(): string | null {
+		// 	return this.storeFirebase.getUserLastname ?? "No data";
+		// },
+		// computed_data_userEmail(): string | null {
+		// 	return this.storeFirebase.getUserEmail ?? "No data";
+		// },
+		// computed_data_userPhoneNumber(): string | null {
+		// 	return this.storeFirebase.getUserPhoneNumber ?? "No data";
+		// },
 
-		temp_user_data(): any {
-			return this.storeFirebase.getUserData;
+		computed_data_userDisplayName: {
+			get(): string {
+				return this.storeFirebase.getUserDisplayName ?? "No data";
+			},
+			set(newValue: string | null): void {
+				this.storeFirebase.setUserDisplayName({ displayName: newValue });
+			},
+		},
+		computed_data_userFirstname: {
+			get(): string {
+				return this.storeFirebase.getUserFirstname ?? "No data";
+			},
+			set(newValue: string | null): void {
+				this.storeFirebase.setUserFirstname({ firstname: newValue });
+			},
+		},
+		computed_data_userLastname: {
+			get(): string {
+				return this.storeFirebase.getUserLastname ?? "No data";
+			},
+			set(newValue: string | null): void {
+				this.storeFirebase.setUserLastname({ lastname: newValue });
+			},
+		},
+		computed_data_userEmail: {
+			get(): string {
+				return this.storeFirebase.getUserEmail ?? "No data";
+			},
+			set(newValue: string | null): void {
+				this.storeFirebase.setUserEmail({ email: newValue });
+			},
+		},
+		computed_data_userPhoneNumber: {
+			get(): string {
+				return this.storeFirebase.getUserPhoneNumber ?? "No data";
+			},
+			set(newValue: string | null): void {
+				this.storeFirebase.setUserPhoneNumber({ phoneNumber: newValue });
+			},
 		},
 	},
 	setup() {

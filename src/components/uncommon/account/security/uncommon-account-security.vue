@@ -10,7 +10,6 @@
 				<v-col cols="12" class="d-flex align-center" style="border: 2px solid orange">
 					<v-text-field
 						readonly
-						clearable
 						variant="outlined"
 						:label="security.input.accountID.label"
 						:style="computed_data_dynamicWidth_input"

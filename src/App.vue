@@ -11,7 +11,7 @@
 		<v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
 			<v-icon>
 				<template #default>
-					<v-img :src="icon_whatsapp"></v-img>
+					<v-img :src="computed_icon_whatsapp"></v-img>
 				</template>
 			</v-icon>
 		</v-btn>
@@ -22,7 +22,8 @@
 import { defineComponent } from "vue";
 
 // Services
-import { auth } from "@plugins/firebase/firebase.js";
+import { db, auth } from "@plugins/firebase/firebase.js";
+import { doc, getDoc, type DocumentData, type DocumentSnapshot, documentId } from "firebase/firestore";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
@@ -33,6 +34,9 @@ import HeaderComp from "@components/common/header/common-header.vue";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import NavigationPagesMobileMenu from "@components/uncommon/navigation/pages/mobile-menu/uncommon-navigation-pages-mobile-menu.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
+
+// Interfaces
+import { IFirestoreUserData } from "@declarations/common/firestore/user/common-interface-firestore-user.js";
 
 // SVGs
 import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
@@ -53,23 +57,22 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		/* Icons */
-		icon_whatsapp(): string {
+		computed_icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
 	},
 	methods: {
-		monitorTargetElement(targetElement: string): void {
+		methods_utils_monitorTargetElement(targetElement: string): void {
 			window.addEventListener(
 				"load",
 				(event) => {
 					this.targetElement = document.querySelector(targetElement) as HTMLElement;
-					this.createObserver();
+					this.method_utils_createObserver();
 				},
 				false
 			);
 		},
-		createObserver(): void {
+		method_utils_createObserver(): void {
 			let observer;
 			let options = {
 				root: null,
@@ -77,19 +80,38 @@ export default defineComponent({
 				threshold: 0,
 			};
 
-			observer = new IntersectionObserver(this.handleIntersect, options);
+			observer = new IntersectionObserver(this.method_utils_handleIntersect, options);
 			observer.observe(this.targetElement!);
 		},
-		handleIntersect(entries: any): void {
+		method_utils_handleIntersect(entries: any): void {
 			this.showWhatsappChatbot = entries[0].isIntersecting;
 		},
 	},
 	created(): void {
 		debugger;
-		this.storeFirebase.monitorAuthState({ auth });
+		this.storeFirebase
+			.monitorAuthState({ auth })
+			.then(() => {
+				debugger;
+				const uid: string | null = this.storeFirebase.getUserID;
+				if (uid !== null) {
+					return this.storeFirebase.getFirestoreUser;
+				}
+			})
+			.then((document) => {
+				debugger;
+				console.log(document);
+				// const data = document.data();
+
+				// if (data) {
+				// 	this.storeFirebase.setUserTitle({ title: data.title });
+				// 	this.storeFirebase.setUserFirstname({ firstname: data.firstname });
+				// 	this.storeFirebase.setUserLastname({ lastname: data.lastname });
+				// }
+			});
 	},
 	mounted(): void {
-		this.monitorTargetElement("#footer");
+		this.methods_utils_monitorTargetElement("#footer");
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
