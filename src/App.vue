@@ -89,26 +89,21 @@ export default defineComponent({
 	},
 	created(): void {
 		debugger;
-		this.storeFirebase
-			.monitorAuthState({ auth })
-			.then(() => {
-				debugger;
-				const uid: string | null = this.storeFirebase.getUserID;
-				if (uid !== null) {
-					return this.storeFirebase.getFirestoreUser;
-				}
-			})
-			.then((document) => {
-				debugger;
-				console.log(document);
-				// const data = document.data();
-
-				// if (data) {
-				// 	this.storeFirebase.setUserTitle({ title: data.title });
-				// 	this.storeFirebase.setUserFirstname({ firstname: data.firstname });
-				// 	this.storeFirebase.setUserLastname({ lastname: data.lastname });
-				// }
-			});
+		this.storeFirebase.monitorAuthState({ auth }).then(() => {
+			debugger;
+			const isUserCreatingAccount: boolean = this.storeFirebase.getIsUserCreatingAccount;
+			const uid: string | null = this.storeFirebase.getUserID;
+			if (!isUserCreatingAccount && uid !== null) {
+				this.storeFirebase.getFirestoreUser({ uid }).then((response) => {
+					debugger;
+					if (response) {
+						this.storeFirebase.setUserTitle({ title: response.title });
+						this.storeFirebase.setUserFirstname({ firstname: response.firstname });
+						this.storeFirebase.setUserLastname({ lastname: response.lastname });
+					}
+				});
+			}
+		});
 	},
 	mounted(): void {
 		this.methods_utils_monitorTargetElement("#footer");

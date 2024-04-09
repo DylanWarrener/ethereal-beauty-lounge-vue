@@ -170,14 +170,8 @@ export default defineComponent({
 				input: {
 					title: {
 						label: "Title",
-						items: [
-							"Mr",
-							"Sir",
-							"Ms",
-							"Mrs",
-							"Miss",
-						],
-						value: null
+						items: ["Mr", "Sir", "Ms", "Mrs", "Miss"],
+						value: null,
 					},
 					firstName: {
 						label: "First name",
@@ -263,13 +257,17 @@ export default defineComponent({
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 				const displayName: string = `${firstname} ${lastname}`;
 
+				this.storeFirebase.setIsUserCreatingAccount(true);
 				this.isLoading = true;
 				this.storeFirebase
 					.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
 						debugger;
 						//this.storeFirebase.setUserJoinedOn({ joinedOn });
+						this.storeFirebase.setUserTitle({ title });
 						this.storeFirebase.setUserDisplayName({ displayName });
+						this.storeFirebase.setUserFirstname({ firstname });
+						this.storeFirebase.setUserLastname({ lastname });
 						if (this.storeFirebase.getIsUserLoggedIn) {
 							const uid: string = this.storeFirebase.getUserID!;
 							const firestoreUserData = { uid, title, firstname, lastname };
@@ -278,12 +276,11 @@ export default defineComponent({
 					})
 					.then(() => {
 						debugger;
-						this.storeFirebase.setUserTitle({ title });
-						this.storeFirebase.setUserFirstname({ firstname });
-						this.storeFirebase.setUserLastname({ lastname });
 						this.resetFormInputs();
+						this.storeFirebase.sendUserEmailVerification();
 					})
 					.finally(() => {
+						this.storeFirebase.setIsUserCreatingAccount(false);
 						this.isLoading = false;
 						this.$router.replace({ name: txtRouteNames.account });
 					});

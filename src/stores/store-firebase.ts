@@ -7,6 +7,7 @@ import {
 	signInWithEmailAndPassword,
 	signOut,
 	createUserWithEmailAndPassword,
+	sendEmailVerification,
 	updateProfile,
 	type Auth,
 	type User,
@@ -24,6 +25,7 @@ import {
 
 const useFirebaseStore = defineStore("firebase-store", {
 	state: (): {
+		isUserCreatingAccount: boolean;
 		user: {
 			uid: string | null;
 			displayName: string | null;
@@ -38,6 +40,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			joinedOn: string | null;
 		};
 	} => ({
+		isUserCreatingAccount: false,
 		user: {
 			uid: null,
 			displayName: null,
@@ -53,13 +56,15 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 	}),
 	getters: {
+		/* General */
+		getIsUserCreatingAccount: (state): boolean => {
+			return state.isUserCreatingAccount;
+		},
 		/* Firebase AUTH */
 		getIsUserLoggedIn: (state): boolean => {
-			debugger;
 			return state.user.uid ? true : false;
 		},
 		getUserID: (state): string | null => {
-			debugger;
 			return state.user.uid;
 		},
 		getUserDisplayName: (state): string | null => {
@@ -99,22 +104,22 @@ const useFirebaseStore = defineStore("firebase-store", {
 		/* Firebase CLOUD FIRESTORE */
 	},
 	actions: {
+		/* General */
+		setIsUserCreatingAccount(newValue: boolean): void {
+			this.isUserCreatingAccount = newValue;
+		},
+
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): Promise<User> {
-			debugger;
 			let retval: Promise<User>;
 			retval = new Promise((resolve, reject) => {
 				onAuthStateChanged(payload.auth, (user: User | null) => {
-					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
 							if (key in this.user && value !== null) {
 								if (key === "uid") {
-									auth.currentUser?.getIdToken().then((uid: string) => {
-										debugger;
-										this.setUserID({ uid });
-									});
+									auth.currentUser?.getIdToken().then((uid: string) => this.setUserID({ uid }));
 								} else {
 									valuesNotNull[key] = value;
 								}
@@ -128,12 +133,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return retval;
 		},
 		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
-			debugger;
 			return signInWithEmailAndPassword(auth, user.email, user.password);
 		},
 		logout(): Promise<void> {
-			debugger;
 			this.setUserID({ uid: null });
+			this.setUserTitle({ title: null });
+			this.setUserFirstname({ firstname: null });
+			this.setUserLastname({ lastname: null });
 			this.setUserAuthData({
 				displayName: null,
 				email: null,
@@ -158,6 +164,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 			return retval;
 		},
+		sendUserEmailVerification(): void {},
 		setUserID(user: { uid: string | null }): void {
 			this.user.uid = user.uid;
 		},
