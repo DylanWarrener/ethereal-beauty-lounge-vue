@@ -39,6 +39,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			isAnonymous: boolean;
 			joinedOn: string | null;
 		};
+		errors: any;
 	} => ({
 		isUserCreatingAccount: false,
 		user: {
@@ -54,6 +55,10 @@ const useFirebaseStore = defineStore("firebase-store", {
 			isAnonymous: false,
 			joinedOn: null,
 		},
+		errors: {
+			createUser: "",
+			signInUser: ""
+		}
 	}),
 	getters: {
 		/* General */
@@ -152,19 +157,28 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
 			let retval: Promise<UserCredential>;
-			retval = new Promise((resolve, reject) => {
+			retval = new Promise((resolve) => {
 				createUserWithEmailAndPassword(auth, user.email, user.password)
 					.then((response) => {
 						resolve(response);
 					})
 					.catch((error) => {
-						reject(`Could not create user account. ${error}`);
-						console.error(`Could not create user account. ${error}`);
+						debugger;
+						switch (error.code) {
+							case "auth/email-already-in-use":
+								this.errors.createUser = "Email is already in use.";
+								break;
+						}
 					});
 			});
 			return retval;
 		},
-		sendUserEmailVerification(): void {},
+		sendUserEmailVerification(): void {
+			debugger;
+			if (auth.currentUser) {
+				sendEmailVerification(auth.currentUser);
+			}
+		},
 		setUserID(user: { uid: string | null }): void {
 			this.user.uid = user.uid;
 		},

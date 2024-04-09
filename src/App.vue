@@ -8,6 +8,17 @@
 			<router-view></router-view>
 		</v-main>
 		<footer-container-component id="footer"></footer-container-component>
+		<v-snackbar v-model="snackbar">
+			Testing snackbar
+			<template v-slot:actions>
+				<v-btn
+					color="red"
+					variant="text"
+					text="Close"
+					@click="snackbar = false">
+				</v-btn>
+			</template>
+		</v-snackbar>
 		<v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
 			<v-icon>
 				<template #default>
@@ -22,8 +33,7 @@
 import { defineComponent } from "vue";
 
 // Services
-import { db, auth } from "@plugins/firebase/firebase.js";
-import { doc, getDoc, type DocumentData, type DocumentSnapshot, documentId } from "firebase/firestore";
+import { auth } from "@plugins/firebase/firebase.js";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
@@ -34,9 +44,6 @@ import HeaderComp from "@components/common/header/common-header.vue";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import NavigationPagesMobileMenu from "@components/uncommon/navigation/pages/mobile-menu/uncommon-navigation-pages-mobile-menu.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
-
-// Interfaces
-import { IFirestoreUserData } from "@declarations/common/firestore/user/common-interface-firestore-user.js";
 
 // SVGs
 import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
@@ -50,8 +57,9 @@ export default defineComponent({
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
-	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean } {
+	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean; snackbar: boolean } {
 		return {
+			snackbar: true,
 			targetElement: null,
 			showWhatsappChatbot: false,
 		};

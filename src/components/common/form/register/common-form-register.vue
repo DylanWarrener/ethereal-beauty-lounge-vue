@@ -276,10 +276,10 @@ export default defineComponent({
 					})
 					.then(() => {
 						debugger;
-						this.resetFormInputs();
 						this.storeFirebase.sendUserEmailVerification();
 					})
 					.finally(() => {
+						this.resetFormInputs();
 						this.storeFirebase.setIsUserCreatingAccount(false);
 						this.isLoading = false;
 						this.$router.replace({ name: txtRouteNames.account });

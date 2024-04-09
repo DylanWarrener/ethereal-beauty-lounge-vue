@@ -3,6 +3,7 @@ import { createVuetify } from "vuetify";
 import {
 	VLayout,
 	VSystemBar,
+	VSnackbar,
 	VAppBar,
 	VAppBarNavIcon,
 	VAppBarTitle,
@@ -86,6 +87,7 @@ const vuetify = createVuetify({
 		// Components
 		VLayout,
 		VSystemBar,
+		VSnackbar,
 		VAppBar,
 		VAppBarNavIcon,
 		VAppBarTitle,
