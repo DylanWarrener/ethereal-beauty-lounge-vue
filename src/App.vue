@@ -8,17 +8,6 @@
 			<router-view></router-view>
 		</v-main>
 		<footer-container-component id="footer"></footer-container-component>
-		<v-snackbar v-model="snackbar">
-			Testing snackbar
-			<template v-slot:actions>
-				<v-btn
-					color="red"
-					variant="text"
-					text="Close"
-					@click="snackbar = false">
-				</v-btn>
-			</template>
-		</v-snackbar>
 		<v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
 			<v-icon>
 				<template #default>
@@ -57,9 +46,8 @@ export default defineComponent({
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
-	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean; snackbar: boolean } {
+	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean } {
 		return {
-			snackbar: true,
 			targetElement: null,
 			showWhatsappChatbot: false,
 		};

@@ -137,15 +137,22 @@
 					</template>
 				</v-btn>
 			</v-col>
+
+			<!-- Errors -->
+			<v-snackbar color="error" location="top" :timeout="snackbar.timeout" v-model="snackbar.show">
+				<template v-slot:text>
+					<span class="text-default" v-text="computed_data_errorMessages"></span>
+				</template>
+				<template v-slot:actions>
+					<v-btn color="red" variant="text" text="Close" @click="snackbar.show = false"></v-btn>
+				</template>
+			</v-snackbar>
 		</v-row>
 	</v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-// Services
-import { auth } from "@plugins/firebase/firebase.js";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
@@ -162,7 +169,10 @@ export default defineComponent({
 	data() {
 		return {
 			isLoading: false,
-			error: null,
+			snackbar: {
+				show: false,
+				timeout: 5000,
+			},
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information:
@@ -242,6 +252,15 @@ export default defineComponent({
 		data_repeatPasswordValidationRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
+		computed_data_errorMessages(): string | null {
+			const errorMessage: string | null = this.storeFirebase.getCreateAccountError;
+
+			let retval: string | null = null;
+			if (errorMessage !== null) {
+				retval = errorMessage;
+			}
+			return retval;
+		},
 	},
 	methods: {
 		/* Events */
@@ -263,6 +282,13 @@ export default defineComponent({
 					.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
 						debugger;
+						return this.storeFirebase.sendUserEmailVerification();
+					})
+					.then(() => {
+						debugger;
+						// Make sure they have confirmed the email verification before continuing.
+						const allUserData = this.storeFirebase.getUserData;
+
 						//this.storeFirebase.setUserJoinedOn({ joinedOn });
 						this.storeFirebase.setUserTitle({ title });
 						this.storeFirebase.setUserDisplayName({ displayName });
@@ -274,9 +300,17 @@ export default defineComponent({
 							return this.storeFirebase.setFirestoreUser(firestoreUserData);
 						}
 					})
-					.then(() => {
+					.catch((error) => {
 						debugger;
-						this.storeFirebase.sendUserEmailVerification();
+						switch (error) {
+							case "auth/email-already-in-use":
+								this.snackbar.show = true;
+								setTimeout(
+									() => this.$router.push({ name: txtRouteNames.login, hash: "#section-login" }),
+									this.snackbar.timeout
+								);
+								break;
+						}
 					})
 					.finally(() => {
 						this.resetFormInputs();

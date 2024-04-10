@@ -39,7 +39,10 @@ const useFirebaseStore = defineStore("firebase-store", {
 			isAnonymous: boolean;
 			joinedOn: string | null;
 		};
-		errors: any;
+		errors: {
+			createUser: string | null;
+			signInUser: string | null;
+		};
 	} => ({
 		isUserCreatingAccount: false,
 		user: {
@@ -56,9 +59,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 			joinedOn: null,
 		},
 		errors: {
-			createUser: "",
-			signInUser: ""
-		}
+			createUser: null,
+			signInUser: null,
+		},
 	}),
 	getters: {
 		/* General */
@@ -106,7 +109,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return state.user;
 		},
 
-		/* Firebase CLOUD FIRESTORE */
+		/* Errors */
+		getCreateAccountError: (state): string | null => {
+			return state.errors.createUser;
+		},
+		getSignInUserError: (state): string | null => {
+			return state.errors.signInUser;
+		},
 	},
 	actions: {
 		/* General */
@@ -157,7 +166,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
 			let retval: Promise<UserCredential>;
-			retval = new Promise((resolve) => {
+			retval = new Promise((resolve, reject) => {
 				createUserWithEmailAndPassword(auth, user.email, user.password)
 					.then((response) => {
 						resolve(response);
@@ -167,17 +176,30 @@ const useFirebaseStore = defineStore("firebase-store", {
 						switch (error.code) {
 							case "auth/email-already-in-use":
 								this.errors.createUser = "Email is already in use.";
+								reject("auth/email-already-in-use");
 								break;
 						}
 					});
 			});
 			return retval;
 		},
-		sendUserEmailVerification(): void {
+		sendUserEmailVerification(): Promise<void> {
 			debugger;
-			if (auth.currentUser) {
-				sendEmailVerification(auth.currentUser);
-			}
+			let retval: Promise<void>;
+			retval = new Promise((resolve, reject) => {
+				if (auth.currentUser) {
+					sendEmailVerification(auth.currentUser)
+						.then(() => {
+							debugger;
+							resolve();
+						})
+						.catch(() => {
+							debugger;
+							reject();
+						});
+				}
+			});
+			return retval;
 		},
 		setUserID(user: { uid: string | null }): void {
 			this.user.uid = user.uid;
