@@ -1,6 +1,5 @@
 <template>
 	<v-layout id="layout">
-		<dialog-login-component></dialog-login-component>
 		<header-container-component></header-container-component>
 		<navigation-pages-mobile-menu></navigation-pages-mobile-menu>
 		<user-account-navigation-component></user-account-navigation-component>
@@ -28,7 +27,6 @@ import { auth } from "@plugins/firebase/firebase.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
-import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import HeaderComp from "@components/common/header/common-header.vue";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import NavigationPagesMobileMenu from "@components/uncommon/navigation/pages/mobile-menu/uncommon-navigation-pages-mobile-menu.vue";
@@ -40,7 +38,6 @@ import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
 export default defineComponent({
 	name: "app-component",
 	components: {
-		"dialog-login-component": DialogLoginComp,
 		"header-container-component": HeaderComp,
 		"navigation-pages-mobile-menu": NavigationPagesMobileMenu,
 		"user-account-navigation-component": UserAccountNavComp,

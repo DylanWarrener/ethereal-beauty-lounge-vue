@@ -39,10 +39,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 			isAnonymous: boolean;
 			joinedOn: string | null;
 		};
-		errors: {
-			createUser: string | null;
-			signInUser: string | null;
-		};
 	} => ({
 		isUserCreatingAccount: false,
 		user: {
@@ -57,10 +53,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 			photoURL: null,
 			isAnonymous: false,
 			joinedOn: null,
-		},
-		errors: {
-			createUser: null,
-			signInUser: null,
 		},
 	}),
 	getters: {
@@ -107,14 +99,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		getUserData: (state): any => {
 			return state.user;
-		},
-
-		/* Errors */
-		getCreateAccountError: (state): string | null => {
-			return state.errors.createUser;
-		},
-		getSignInUserError: (state): string | null => {
-			return state.errors.signInUser;
 		},
 	},
 	actions: {
@@ -175,7 +159,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						debugger;
 						switch (error.code) {
 							case "auth/email-already-in-use":
-								this.errors.createUser = "Email is already in use.";
 								reject("auth/email-already-in-use");
 								break;
 						}

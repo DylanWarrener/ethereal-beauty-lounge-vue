@@ -12,7 +12,7 @@
 						ref="ref_title"
 						variant="outlined"
 						:items="data_dialogFormCreateAccount.input.title.items"
-						:style="dynamicWidth_dialogFormInput"
+						:style="computed_css_dynamicWidth"
 						v-model="data_dialogFormCreateAccount.input.title.value"
 					>
 						<template #label>
@@ -27,8 +27,8 @@
 						ref="ref_firstName"
 						variant="outlined"
 						type="text"
-						:style="dynamicWidth_dialogFormInput"
-						:rules="data_nameValidationRules"
+						:style="computed_css_dynamicWidth"
+						:rules="computed_data_nameValidationRules"
 						v-model="data_dialogFormCreateAccount.input.firstName.value"
 					>
 						<template #label>
@@ -40,8 +40,8 @@
 						ref="ref_lastName"
 						variant="outlined"
 						type="text"
-						:style="dynamicWidth_dialogFormInput"
-						:rules="data_nameValidationRules"
+						:style="computed_css_dynamicWidth"
+						:rules="computed_data_nameValidationRules"
 						v-model="data_dialogFormCreateAccount.input.lastName.value"
 					>
 						<template #label>
@@ -53,8 +53,8 @@
 						ref="ref_email"
 						variant="outlined"
 						type="email"
-						:style="dynamicWidth_dialogFormInput"
-						:rules="data_emailValidationRules"
+						:style="computed_css_dynamicWidth"
+						:rules="computed_data_emailValidationRules"
 						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
@@ -65,9 +65,9 @@
 						clearable
 						ref="ref_password"
 						variant="outlined"
-						:style="dynamicWidth_dialogFormInput"
+						:style="computed_css_dynamicWidth"
 						:type="data_dialogFormCreateAccount.input.password.show ? 'text' : 'password'"
-						:rules="data_passwordValidationRules"
+						:rules="computed_data_passwordValidationRules"
 						v-model="data_dialogFormCreateAccount.input.password.value"
 					>
 						<template #label>
@@ -91,9 +91,9 @@
 						clearable
 						ref="ref_repeatPassword"
 						variant="outlined"
-						:style="dynamicWidth_dialogFormInput"
+						:style="computed_css_dynamicWidth"
 						:type="data_dialogFormCreateAccount.input.repeatPassword.show ? 'text' : 'password'"
-						:rules="data_repeatPasswordValidationRules"
+						:rules="computed_data_repeatPasswordValidationRules"
 						v-model="data_dialogFormCreateAccount.input.repeatPassword.value"
 					>
 						<template #label>
@@ -120,8 +120,8 @@
 						height="50"
 						class="mt-4 px-8 bg-accent"
 						type="submit"
-						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_isFormValid"
+						:style="computed_css_dynamicWidth"
+						:disabled="!computed_data_isFormValid"
 						:loading="isLoading"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
 					></v-btn>
@@ -138,15 +138,29 @@
 				</v-btn>
 			</v-col>
 
-			<!-- Errors -->
-			<v-snackbar color="error" location="top" :timeout="snackbar.timeout" v-model="snackbar.show">
-				<template v-slot:text>
-					<span class="text-default" v-text="computed_data_errorMessages"></span>
-				</template>
-				<template v-slot:actions>
-					<v-btn color="red" variant="text" text="Close" @click="snackbar.show = false"></v-btn>
-				</template>
-			</v-snackbar>
+			<teleport to="body">
+				<snackbar-container
+					color="success"
+					location="top"
+					:text="computed_data_createUserSuccess_message"
+					v-model="computed_data_createUserSuccess_value"
+					@close="methods_event_snackbar_close('success')"
+				></snackbar-container>
+				<snackbar-container
+					color="warning"
+					location="top"
+					:text="computed_data_createUserWarning_message"
+					v-model="computed_data_createUserWarning_value"
+					@close="methods_event_snackbar_close('warning')"
+				></snackbar-container>
+				<snackbar-container
+					color="error"
+					location="top"
+					:text="computed_data_createUserError_message"
+					v-model="computed_data_createUserError_value"
+					@close="methods_event_snackbar_close('error')"
+				></snackbar-container>
+			</teleport>
 		</v-row>
 	</v-container>
 </template>
@@ -158,6 +172,9 @@ import { defineComponent } from "vue";
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
+// Components
+import SnackBarContainerComp from "@components/common/snackbar/common-snackbar.vue";
+
 // Constants
 import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
 
@@ -166,13 +183,12 @@ import { iconsFormPassword } from "@constants/common/objects/common-constants-ob
 
 export default defineComponent({
 	name: "create-account-container-component",
+	components: {
+		"snackbar-container": SnackBarContainerComp,
+	},
 	data() {
 		return {
 			isLoading: false,
-			snackbar: {
-				show: false,
-				timeout: 5000,
-			},
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information:
@@ -231,42 +247,69 @@ export default defineComponent({
 	},
 	computed: {
 		/* CSS */
-		dynamicWidth_dialogFormInput(): string {
+		computed_css_dynamicWidth(): string {
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;
 		},
 
 		/* Data */
-		data_isFormValid(): boolean {
+		computed_data_isFormValid(): boolean {
 			return this.data_dialogFormCreateAccount.valid;
 		},
-		data_nameValidationRules(): any {
+		computed_data_nameValidationRules(): any {
 			return [this.isNotEmpty, this.isNameMinLength];
 		},
-		data_emailValidationRules(): any {
+		computed_data_emailValidationRules(): any {
 			return [this.isNotEmpty, this.isEmailFormatValid];
 		},
-		data_passwordValidationRules(): any {
+		computed_data_passwordValidationRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
 		},
-		data_repeatPasswordValidationRules(): any {
+		computed_data_repeatPasswordValidationRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
-		computed_data_errorMessages(): string | null {
-			const errorMessage: string | null = this.storeFirebase.getCreateAccountError;
-
-			let retval: string | null = null;
-			if (errorMessage !== null) {
-				retval = errorMessage;
-			}
-			return retval;
+		computed_data_snackbar_defaultTimeout_value(): number {
+			return this.storeCommon.getSnackbarTimeoutDefaultValue ?? 3000;
+		},
+		computed_data_createUserSuccess_message(): string {
+			return this.storeCommon.getCreateUserSuccessMessage;
+		},
+		computed_data_createUserWarning_message(): string {
+			return this.storeCommon.getCreateUserWarningMessage;
+		},
+		computed_data_createUserError_message(): string {
+			return this.storeCommon.getCreateUserErrorMessage;
+		},
+		computed_data_createUserSuccess_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserSuccessValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserSuccessValue(newValue);
+			},
+		},
+		computed_data_createUserWarning_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserWarningValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserWarningValue(newValue);
+			},
+		},
+		computed_data_createUserError_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserErrorValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserErrorValue(newValue);
+			},
 		},
 	},
 	methods: {
 		/* Events */
 		createAccount_handler(): void {
 			debugger;
-			let isFormValid: boolean = this.data_isFormValid;
+			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
 				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
@@ -286,7 +329,9 @@ export default defineComponent({
 					})
 					.then(() => {
 						debugger;
-						// Make sure they have confirmed the email verification before continuing.
+						// 1. Show a message to the user to show that an email verification has been sent
+
+						// 2. Make sure they have confirmed the email verification before continuing.
 						const allUserData = this.storeFirebase.getUserData;
 
 						//this.storeFirebase.setUserJoinedOn({ joinedOn });
@@ -304,10 +349,14 @@ export default defineComponent({
 						debugger;
 						switch (error) {
 							case "auth/email-already-in-use":
-								this.snackbar.show = true;
+								debugger;
+								const errorMessage: string = "Email already in use! Try logging in.";
+								const defaultSnackbarTimeout: number = this.storeCommon.getSnackbarTimeoutDefaultValue;
+								this.storeCommon.setCreateUserErrorMessage({ text: errorMessage });
+								this.storeCommon.setCreateUserErrorValue(true);
 								setTimeout(
 									() => this.$router.push({ name: txtRouteNames.login, hash: "#section-login" }),
-									this.snackbar.timeout
+									defaultSnackbarTimeout
 								);
 								break;
 						}
@@ -316,14 +365,29 @@ export default defineComponent({
 						this.resetFormInputs();
 						this.storeFirebase.setIsUserCreatingAccount(false);
 						this.isLoading = false;
-						this.$router.replace({ name: txtRouteNames.account });
+						// Go to account once logged in
+						//this.$router.replace({ name: txtRouteNames.account });
 					});
+			}
+		},
+		methods_event_snackbar_close(typeOfSnackbar: "success" | "warning" | "error"): void {
+			switch (typeOfSnackbar) {
+				case "error":
+					this.storeCommon.setCreateUserErrorValue(false);
+					break;
+				case "success":
+					this.storeCommon.setCreateUserSuccessValue(false);
+					break;
+				case "warning":
+					this.storeCommon.setCreateUserWarningValue(false);
+					break;
 			}
 		},
 
 		/* Utils */
 		resetFormInputs(): void {
 			this.data_dialogFormCreateAccount.valid = false;
+			this.data_dialogFormCreateAccount.input.title.value = null;
 			this.data_dialogFormCreateAccount.input.firstName.value = null;
 			this.data_dialogFormCreateAccount.input.lastName.value = null;
 			this.data_dialogFormCreateAccount.input.email.value = null;

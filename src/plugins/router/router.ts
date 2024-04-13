@@ -59,17 +59,16 @@ const router = createRouter({
 	},
 });
 
-// router.beforeEach((to, _, next) => {
-// 	debugger;
-// 	const useFirebaseStore = storeFirebase();
-// 	const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
-// 	const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
-
-// 	if (routeRequiresAuth && !isUserLoggedIn) {
-// 		next({ name: txtRouteNames.login, hash: "#section-login" });
-// 	} else {
-// 		next();
-// 	}
-// });
+router.beforeEach((to, _, next) => {
+	// debugger;
+	// const useFirebaseStore = storeFirebase();
+	// const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
+	// const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
+	// if (routeRequiresAuth && !isUserLoggedIn) {
+	// 	next({ name: txtRouteNames.login, hash: "#section-login" });
+	// } else {
+	// 	next();
+	// }
+});
 
 export default router;
