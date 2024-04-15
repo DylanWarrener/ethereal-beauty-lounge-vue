@@ -289,7 +289,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 					})
 					.catch((error) => {
 						reject();
-						console.error(`Error setting user document in firestore. ${error}`);
+						console.error(`You are offline, you cannot store their data. ${error}`);
 					});
 			});
 			return retval;

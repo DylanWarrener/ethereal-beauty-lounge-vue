@@ -13,7 +13,7 @@
 						variant="outlined"
 						:items="data_dialogFormCreateAccount.input.title.items"
 						:style="computed_css_dynamicWidth"
-						v-model="data_dialogFormCreateAccount.input.title.value"
+						v-model="computed_data_userTitle_value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.title.label"></span>
@@ -29,7 +29,7 @@
 						type="text"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_nameValidationRules"
-						v-model="data_dialogFormCreateAccount.input.firstName.value"
+						v-model="computed_data_userFirstname_value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.firstName.label"></span>
@@ -42,7 +42,7 @@
 						type="text"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_nameValidationRules"
-						v-model="data_dialogFormCreateAccount.input.lastName.value"
+						v-model="computed_data_userLastname_value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.lastName.label"></span>
@@ -55,7 +55,7 @@
 						type="email"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_emailValidationRules"
-						v-model="data_dialogFormCreateAccount.input.email.value"
+						v-model="computed_data_userEmail_value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.email.label"></span>
@@ -196,20 +196,16 @@ export default defineComponent({
 				input: {
 					title: {
 						label: "Title",
-						items: ["Mr", "Sir", "Ms", "Mrs", "Miss"],
-						value: null,
+						items: ["Mr", "Sir", "Ms", "Mrs", "Miss"]
 					},
 					firstName: {
-						label: "First name",
-						value: null,
+						label: "First name"
 					},
 					lastName: {
-						label: "Last name",
-						value: null,
+						label: "Last name"
 					},
 					email: {
-						label: "Email address",
-						value: null,
+						label: "Email address"
 					},
 					password: {
 						show: false,
@@ -246,13 +242,10 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		/* CSS */
 		computed_css_dynamicWidth(): string {
 			let retVal: string = "width: 100%; max-width: 400px";
 			return retVal;
 		},
-
-		/* Data */
 		computed_data_isFormValid(): boolean {
 			return this.data_dialogFormCreateAccount.valid;
 		},
@@ -271,14 +264,87 @@ export default defineComponent({
 		computed_data_snackbar_defaultTimeout_value(): number {
 			return this.storeCommon.getSnackbarTimeoutDefaultValue ?? 3000;
 		},
-		computed_data_createUserSuccess_message(): string {
-			return this.storeCommon.getCreateUserSuccessMessage;
+		computed_data_isUserCreatingAccount: {
+			get(): boolean {
+				return this.storeFirebase.getIsUserCreatingAccount;
+			},
+			set(newValue: boolean): void {
+				this.storeFirebase.setIsUserCreatingAccount(newValue);
+			},
 		},
-		computed_data_createUserWarning_message(): string {
-			return this.storeCommon.getCreateUserWarningMessage;
+		computed_data_userDisplayName_value: {
+			get(): string | null {
+				return this.storeFirebase.getUserDisplayName;
+			},
+			set(newValue: string | null): void {
+				if (newValue !== null) {
+					this.storeFirebase.setUserDisplayName({ displayName: newValue });
+				}
+			},
 		},
-		computed_data_createUserError_message(): string {
-			return this.storeCommon.getCreateUserErrorMessage;
+		computed_data_userTitle_value: {
+			get(): string | null {
+				return this.storeFirebase.getUserTitle;
+			},
+			set(newValue: string | null): void {
+				if (newValue !== null) {
+					this.storeFirebase.setUserTitle({ title: newValue });
+				}
+			},
+		},
+		computed_data_userFirstname_value: {
+			get(): string | null {
+				return this.storeFirebase.getUserFirstname;
+			},
+			set(newValue: string | null): void {
+				if (newValue !== null) {
+					this.storeFirebase.setUserFirstname({ firstname: newValue });
+				}
+			},
+		},
+		computed_data_userLastname_value: {
+			get(): string | null {
+				return this.storeFirebase.getUserLastname;
+			},
+			set(newValue: string | null): void {
+				if (newValue !== null) {
+					this.storeFirebase.setUserLastname({ lastname: newValue });
+				}
+			},
+		},
+		computed_data_userEmail_value: {
+			get(): string | null {
+				return this.storeFirebase.getUserEmail;
+			},
+			set(newValue: string | null): void {
+				if (newValue !== null) {
+					this.storeFirebase.setUserEmail({ email: newValue });
+				}
+			},
+		},
+		computed_data_createUserSuccess_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserSuccessMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserSuccessMessage({ text: newValue });
+			},
+		},
+		computed_data_createUserWarning_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserWarningMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserWarningMessage({ text: newValue });
+			},
+		},
+		computed_data_createUserError_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserErrorMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserErrorMessage({ text: newValue });
+			},
 		},
 		computed_data_createUserSuccess_value: {
 			get(): boolean {
@@ -312,74 +378,53 @@ export default defineComponent({
 			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
-				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
-				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
-				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
+				const displayName: string = `${this.computed_data_userFirstname_value} ${this.computed_data_userLastname_value}`;
+				const email: string = this.computed_data_userEmail_value!;
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
-				const displayName: string = `${firstname} ${lastname}`;
 
-				this.storeFirebase.setIsUserCreatingAccount(true);
+				this.computed_data_isUserCreatingAccount = true;
 				this.isLoading = true;
-				this.storeFirebase
-					.createAccountWithEmailAndPassword({ email, password })
+				this.storeFirebase.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
-						debugger;
+						this.setSuccessMessageAndValue("You have successfully created an account. We have now sent you an email to verify your account.", true);
 						return this.storeFirebase.sendUserEmailVerification();
 					})
 					.then(() => {
-						debugger;
-						// 1. Show a message to the user to show that an email verification has been sent
-
-						// 2. Make sure they have confirmed the email verification before continuing.
-						const allUserData = this.storeFirebase.getUserData;
-
-						//this.storeFirebase.setUserJoinedOn({ joinedOn });
-						this.storeFirebase.setUserTitle({ title });
-						this.storeFirebase.setUserDisplayName({ displayName });
-						this.storeFirebase.setUserFirstname({ firstname });
-						this.storeFirebase.setUserLastname({ lastname });
-						if (this.storeFirebase.getIsUserLoggedIn) {
-							const uid: string = this.storeFirebase.getUserID!;
-							const firestoreUserData = { uid, title, firstname, lastname };
-							return this.storeFirebase.setFirestoreUser(firestoreUserData);
-						}
+						this.storeUserInFirestore();
 					})
 					.catch((error) => {
-						debugger;
 						switch (error) {
 							case "auth/email-already-in-use":
-								debugger;
-								const errorMessage: string = "Email already in use! Try logging in.";
-								const defaultSnackbarTimeout: number = this.storeCommon.getSnackbarTimeoutDefaultValue;
-								this.storeCommon.setCreateUserErrorMessage({ text: errorMessage });
-								this.storeCommon.setCreateUserErrorValue(true);
+								this.setErrorMessageAndValue("Email already in use! Try logging in.", true);
 								setTimeout(
 									() => this.$router.push({ name: txtRouteNames.login, hash: "#section-login" }),
-									defaultSnackbarTimeout
+									this.computed_data_snackbar_defaultTimeout_value
 								);
 								break;
 						}
 					})
 					.finally(() => {
+						// Reset snackbar messages & values
+						this.setSuccessMessageAndValue("", false);
+						this.setErrorMessageAndValue("", false);
+
+						this.resetButtonLoading();
 						this.resetFormInputs();
-						this.storeFirebase.setIsUserCreatingAccount(false);
-						this.isLoading = false;
-						// Go to account once logged in
-						//this.$router.replace({ name: txtRouteNames.account });
+						this.computed_data_isUserCreatingAccount = false;
+						this.$router.push({ name: txtRouteNames.account, hash: '#section-account' });
 					});
 			}
 		},
 		methods_event_snackbar_close(typeOfSnackbar: "success" | "warning" | "error"): void {
 			switch (typeOfSnackbar) {
 				case "error":
-					this.storeCommon.setCreateUserErrorValue(false);
+					this.computed_data_createUserError_value = false;
 					break;
 				case "success":
-					this.storeCommon.setCreateUserSuccessValue(false);
+					this.computed_data_createUserSuccess_value = false;
 					break;
 				case "warning":
-					this.storeCommon.setCreateUserWarningValue(false);
+					this.computed_data_createUserWarning_value = false;		
 					break;
 			}
 		},
@@ -387,12 +432,31 @@ export default defineComponent({
 		/* Utils */
 		resetFormInputs(): void {
 			this.data_dialogFormCreateAccount.valid = false;
-			this.data_dialogFormCreateAccount.input.title.value = null;
-			this.data_dialogFormCreateAccount.input.firstName.value = null;
-			this.data_dialogFormCreateAccount.input.lastName.value = null;
-			this.data_dialogFormCreateAccount.input.email.value = null;
+			this.computed_data_userTitle_value = null;
+			this.computed_data_userDisplayName_value = null;
+			this.computed_data_userFirstname_value = null;
+			this.computed_data_userLastname_value = null;
+			this.computed_data_userEmail_value = null;
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
+		},
+		setSuccessMessageAndValue(message: string, value: boolean): void {
+			this.computed_data_createUserSuccess_message = message;
+			this.computed_data_createUserSuccess_value = value;
+		},
+		setErrorMessageAndValue(message: string, value: boolean): void {
+			this.computed_data_createUserError_message = message;
+			this.computed_data_createUserError_value = value;
+		},
+		resetButtonLoading(): void {
+			this.isLoading = false;
+		},
+		storeUserInFirestore(): void {
+			const uid: string = this.storeFirebase.getUserID!;
+			const title: string = this.computed_data_userTitle_value!;
+			const firstname: string = this.computed_data_userFirstname_value!;
+			const lastname: string = this.computed_data_userLastname_value!;
+			this.storeFirebase.setFirestoreUser({ uid, title, firstname, lastname });
 		},
 
 		/* Validation */

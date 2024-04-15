@@ -37,38 +37,68 @@ const router = createRouter({
 		{ path: txtRouteLinks.basket, name: txtRouteNames.basket, component: Basket },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
-	scrollBehavior(to, from, savedPosition): any {
-		let retVal;
-		if (to.hash) {
-			retVal = {
-				el: to.hash,
-				behavior: "smooth",
-			};
-		} else {
-			retVal = {
-				top: 0,
-				behavior: "smooth",
-			};
-		}
-		/*
-		if (savedPosition) {
-			retVal = savedPosition;
-		}
-		*/
-		return retVal;
+	scrollBehavior(to, from, savedPosition) {
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				// Always scroll to the top first
+				window.scrollTo(0, 0);
+
+				// Then scroll to the element with the hash
+				const targetElement = document.getElementById(to.hash.slice(1));
+				if (targetElement) {
+					targetElement.scrollIntoView({ behavior: 'smooth' });
+				}
+				resolve();
+			}, 0); // Adjust the delay if needed 
+		});
+
+		// let retval;
+		// // Scroll smoothly to a section specified by the hash, after a delay, to ensure the new page has been scrolled to.
+		// if (to.hash) {
+		// 	setTimeout(() => {
+		// 		// Scroll to the top first, then scroll to the element.
+		// 		window.scrollTo(0, 0);
+		// 		const targetElement = document.getElementById(to.hash.slice(1));
+		// 		if (targetElement) {
+		// 			targetElement.scrollIntoView({ behavior: 'smooth' });
+		// 		}
+		// 	}, 1000);
+		// }
+		// return retval;
+
+
+		// let retVal;
+		// if (to.hash) {
+		// 	retVal = {
+		// 		el: to.hash,
+		// 		behavior: "smooth",
+		// 	};
+		// } else {
+		// 	retVal = {
+		// 		top: 0,
+		// 		behavior: "smooth",
+		// 	};
+		// }
+		// if (savedPosition) {
+		// 	retVal = savedPosition;
+		// }
+		// return retVal;
 	},
 });
 
+/*
 router.beforeEach((to, _, next) => {
-	// debugger;
-	// const useFirebaseStore = storeFirebase();
-	// const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
-	// const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
-	// if (routeRequiresAuth && !isUserLoggedIn) {
-	// 	next({ name: txtRouteNames.login, hash: "#section-login" });
-	// } else {
-	// 	next();
-	// }
+	debugger;
+	const useFirebaseStore = storeFirebase();
+	const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
+	const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
+	if (routeRequiresAuth && !isUserLoggedIn) {
+		next({ name: txtRouteNames.login, hash: "#section-login" });
+	} else {
+		next();
+	}
+	next();
 });
 
+*/
 export default router;
