@@ -148,19 +148,13 @@ export const useCommonStore = defineStore("common-store", {
 		},
 		// Errors
 		setCreateUserErrorValue(newValue: boolean): void {
-			debugger;
-			console.log("The current error value is: ", this.snackbar.errors.createUser.value);
 			this.snackbar.errors.createUser.value = newValue;
-			console.log("The new error value is: ", newValue);
 		},
 		setSignInErrorValue(newValue: boolean): void {
 			this.snackbar.errors.signInUser.value = newValue;
 		},
 		setCreateUserErrorMessage(errors: { text: string }): void {
-			debugger;
-			console.log("The current error message is: ", this.snackbar.errors.createUser.text);
 			this.snackbar.errors.createUser.text = errors.text;
-			console.log("The new error message is: ", errors.text);
 		},
 		setSignInErrorMessage(errors: { text: string }): void {
 			this.snackbar.errors.signInUser.text = errors.text;

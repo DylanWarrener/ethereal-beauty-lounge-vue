@@ -46,10 +46,10 @@ const router = createRouter({
 				// Then scroll to the element with the hash
 				const targetElement = document.getElementById(to.hash.slice(1));
 				if (targetElement) {
-					targetElement.scrollIntoView({ behavior: 'smooth' });
+					targetElement.scrollIntoView({ behavior: "smooth" });
 				}
 				resolve();
-			}, 0); // Adjust the delay if needed 
+			}, 0); // Adjust the delay if needed
 		});
 
 		// let retval;
@@ -65,7 +65,6 @@ const router = createRouter({
 		// 	}, 1000);
 		// }
 		// return retval;
-
 
 		// let retVal;
 		// if (to.hash) {
