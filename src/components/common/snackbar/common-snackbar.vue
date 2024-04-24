@@ -31,9 +31,8 @@ export default defineComponent({
 		method_event_emitSnackbarClose(): void {
 			this.$emit("close", false);
 		},
-
 		method_utils_getSnackbarTimeoutDefaultValue(): number {
-			return this.storeCommon.getSnackbarTimeoutDefaultValue ?? 3000;
+			return this.storeCommon.getSnackbarTimeoutDefaultValue;
 		},
 	},
 	setup() {

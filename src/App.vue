@@ -84,10 +84,11 @@ export default defineComponent({
 		debugger;
 		this.storeFirebase.monitorAuthState({ auth }).then(() => {
 			debugger;
+			const isUserLoggingIn: boolean = this.storeFirebase.getIsUserLoggingIn;
 			const isUserCreatingAccount: boolean = this.storeFirebase.getIsUserCreatingAccount;
-			const uid: string | null = this.storeFirebase.getUserID;
-			if (!isUserCreatingAccount && uid !== null) {
-				this.storeFirebase.getFirestoreUser({ uid }).then((response) => {
+
+			if (!isUserLoggingIn && !isUserCreatingAccount) {
+				this.storeFirebase.getFirestoreUser().then((response) => {
 					debugger;
 					if (response) {
 						this.storeFirebase.setUserTitle({ title: response.title });

@@ -25,6 +25,7 @@ import {
 
 const useFirebaseStore = defineStore("firebase-store", {
 	state: (): {
+		IsUserLoggingIn: boolean;
 		isUserCreatingAccount: boolean;
 		user: {
 			uid: string | null;
@@ -40,6 +41,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			joinedOn: string | null;
 		};
 	} => ({
+		IsUserLoggingIn: false,
 		isUserCreatingAccount: false,
 		user: {
 			uid: null,
@@ -57,6 +59,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 	}),
 	getters: {
 		/* General */
+		getIsUserLoggingIn: (state): boolean => {
+			return state.IsUserLoggingIn;
+		},
 		getIsUserCreatingAccount: (state): boolean => {
 			return state.isUserCreatingAccount;
 		},
@@ -103,6 +108,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 	},
 	actions: {
 		/* General */
+		setIsUserLoggingIn(newValue: boolean): void {
+			this.IsUserLoggingIn = newValue;
+		},
 		setIsUserCreatingAccount(newValue: boolean): void {
 			this.isUserCreatingAccount = newValue;
 		},
@@ -130,8 +138,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 			return retval;
 		},
-		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<UserCredential> {
-			return signInWithEmailAndPassword(auth, user.email, user.password);
+		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<void> {
+			let retval: Promise<void>;
+			retval = new Promise((resolve, reject) => {
+				signInWithEmailAndPassword(auth, user.email, user.password)
+					.then(() => {
+						debugger;
+						resolve();
+					})
+					.catch((error) => {
+						debugger;
+						switch (error.code) {
+							case "auth/invalid-credential":
+								reject("auth/invalid-credential");
+								break;
+						}
+					});
+			});
+			return retval;
 		},
 		logout(): Promise<void> {
 			this.setUserID({ uid: null });
@@ -156,7 +180,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						resolve(response);
 					})
 					.catch((error) => {
-						debugger;
 						switch (error.code) {
 							case "auth/email-already-in-use":
 								reject("auth/email-already-in-use");
@@ -167,17 +190,14 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return retval;
 		},
 		sendUserEmailVerification(): Promise<void> {
-			debugger;
 			let retval: Promise<void>;
 			retval = new Promise((resolve, reject) => {
 				if (auth.currentUser) {
 					sendEmailVerification(auth.currentUser)
 						.then(() => {
-							debugger;
 							resolve();
 						})
 						.catch(() => {
-							debugger;
 							reject();
 						});
 				}
@@ -253,27 +273,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 
 		/* Firebase CLOUD FIRESTORE */
-		getFirestoreUser(user: { uid: string }): Promise<DocumentData> {
+		async getFirestoreUser(): Promise<DocumentData> {
 			debugger;
-			return new Promise((resolve, reject) => {
-				debugger;
-				const uid: string | null = this.user.uid;
-				if (uid !== null) {
-					const docRef = doc(db, "users", user.uid);
-					getDoc(docRef)
-						.then((document) => {
-							debugger;
-							if (document?.exists()) {
-								const data = document.data();
-								resolve(data);
-							}
-						})
-						.catch((error) => {
-							reject();
-							console.error(`Error getting user document in firestore. ${error}`);
-						});
-				}
-			});
+			let retval: Promise<DocumentData>;
+			const uid: string | null = this.user.uid;
+
+			if (uid !== null) {
+				const userDocumentRef = doc(db, "users", uid);
+				const userDocument = await getDoc(userDocumentRef);
+
+				retval = new Promise((resolve, reject) => {
+					const doesUserDocumentExist: boolean = userDocument.exists();
+					const userDocumentData: DocumentData | undefined = userDocument.data();
+					if (doesUserDocumentExist && userDocumentData !== undefined) {
+						resolve(userDocumentData);
+					}
+				});
+			}
+			return retval;
 		},
 		setFirestoreUser(user: { uid: string; title: string; firstname: string; lastname: string }): Promise<void> {
 			debugger;

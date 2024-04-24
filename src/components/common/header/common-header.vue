@@ -68,10 +68,11 @@
 		</menu-container-component>
 		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
 			<template #activator="{ props }">
-				<v-btn icon 
-					variant="flat" 
-					density="compact" 
-					class="bg-white d-flex d-lg-none" 
+				<v-btn
+					icon
+					variant="flat"
+					density="compact"
+					class="bg-white d-flex d-lg-none"
 					:to="txt_accountPageLink"
 					v-text="computed_data_user_initials"
 					v-bind="props"
@@ -152,7 +153,7 @@ export default defineComponent({
 			return txtRouteLinks.home;
 		},
 		txt_accountPageLink(): string {
-			return txtRouteLinks.account
+			return txtRouteLinks.account;
 		},
 		// IDs
 		id_appBarMobileMenuBtn(): string {
@@ -220,7 +221,6 @@ export default defineComponent({
 			return this.storeFirebase.getUserDisplayName ?? "No data";
 		},
 		data_isUserLoggedIn(): boolean {
-			debugger;
 			return this.storeFirebase.getIsUserLoggedIn;
 		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
@@ -281,7 +281,7 @@ export default defineComponent({
 		},
 		method_event_logout(): void {
 			this.storeFirebase.logout();
-		}
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

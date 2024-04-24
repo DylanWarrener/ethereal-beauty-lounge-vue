@@ -13,7 +13,7 @@
 						variant="outlined"
 						:items="data_dialogFormCreateAccount.input.title.items"
 						:style="computed_css_dynamicWidth"
-						v-model="computed_data_userTitle_value"
+						v-model="data_dialogFormCreateAccount.input.title.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.title.label"></span>
@@ -29,7 +29,7 @@
 						type="text"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_nameValidationRules"
-						v-model="computed_data_userFirstname_value"
+						v-model="data_dialogFormCreateAccount.input.firstName.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.firstName.label"></span>
@@ -42,7 +42,7 @@
 						type="text"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_nameValidationRules"
-						v-model="computed_data_userLastname_value"
+						v-model="data_dialogFormCreateAccount.input.lastName.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.lastName.label"></span>
@@ -55,7 +55,7 @@
 						type="email"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_emailValidationRules"
-						v-model="computed_data_userEmail_value"
+						v-model="data_dialogFormCreateAccount.input.email.value"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.email.label"></span>
@@ -122,7 +122,7 @@
 						type="submit"
 						:style="computed_css_dynamicWidth"
 						:disabled="!computed_data_isFormValid"
-						:loading="isLoading"
+						:loading="data_dialogFormCreateAccount.actions.btn.create.isLoading"
 						:text="data_dialogFormCreateAccount.actions.btn.create.text"
 					></v-btn>
 				</v-form>
@@ -145,13 +145,6 @@
 					:text="computed_data_createUserSuccess_message"
 					v-model="computed_data_createUserSuccess_value"
 					@close="methods_event_snackbar_close('success')"
-				></snackbar-container>
-				<snackbar-container
-					color="warning"
-					location="top"
-					:text="computed_data_createUserWarning_message"
-					v-model="computed_data_createUserWarning_value"
-					@close="methods_event_snackbar_close('warning')"
 				></snackbar-container>
 				<snackbar-container
 					color="error"
@@ -188,7 +181,6 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			isLoading: false,
 			data_dialogFormCreateAccount: {
 				valid: false,
 				information:
@@ -196,16 +188,20 @@ export default defineComponent({
 				input: {
 					title: {
 						label: "Title",
-						items: ["Mr", "Sir", "Ms", "Mrs", "Miss"]
+						items: ["Mr", "Sir", "Ms", "Mrs", "Miss"],
+						value: null,
 					},
 					firstName: {
-						label: "First name"
+						label: "First name",
+						value: null,
 					},
 					lastName: {
-						label: "Last name"
+						label: "Last name",
+						value: null,
 					},
 					email: {
-						label: "Email address"
+						label: "Email address",
+						value: null,
 					},
 					password: {
 						show: false,
@@ -234,6 +230,7 @@ export default defineComponent({
 					},
 					btn: {
 						create: {
+							isLoading: false,
 							text: "Create account",
 						},
 					},
@@ -262,7 +259,7 @@ export default defineComponent({
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
 		computed_data_snackbar_defaultTimeout_value(): number {
-			return this.storeCommon.getSnackbarTimeoutDefaultValue ?? 3000;
+			return this.storeCommon.getSnackbarTimeoutDefaultValue;
 		},
 		computed_data_isUserCreatingAccount: {
 			get(): boolean {
@@ -270,56 +267,6 @@ export default defineComponent({
 			},
 			set(newValue: boolean): void {
 				this.storeFirebase.setIsUserCreatingAccount(newValue);
-			},
-		},
-		computed_data_userDisplayName_value: {
-			get(): string | null {
-				return this.storeFirebase.getUserDisplayName;
-			},
-			set(newValue: string | null): void {
-				if (newValue !== null) {
-					this.storeFirebase.setUserDisplayName({ displayName: newValue });
-				}
-			},
-		},
-		computed_data_userTitle_value: {
-			get(): string | null {
-				return this.storeFirebase.getUserTitle;
-			},
-			set(newValue: string | null): void {
-				if (newValue !== null) {
-					this.storeFirebase.setUserTitle({ title: newValue });
-				}
-			},
-		},
-		computed_data_userFirstname_value: {
-			get(): string | null {
-				return this.storeFirebase.getUserFirstname;
-			},
-			set(newValue: string | null): void {
-				if (newValue !== null) {
-					this.storeFirebase.setUserFirstname({ firstname: newValue });
-				}
-			},
-		},
-		computed_data_userLastname_value: {
-			get(): string | null {
-				return this.storeFirebase.getUserLastname;
-			},
-			set(newValue: string | null): void {
-				if (newValue !== null) {
-					this.storeFirebase.setUserLastname({ lastname: newValue });
-				}
-			},
-		},
-		computed_data_userEmail_value: {
-			get(): string | null {
-				return this.storeFirebase.getUserEmail;
-			},
-			set(newValue: string | null): void {
-				if (newValue !== null) {
-					this.storeFirebase.setUserEmail({ email: newValue });
-				}
 			},
 		},
 		computed_data_createUserSuccess_message: {
@@ -374,23 +321,27 @@ export default defineComponent({
 	methods: {
 		/* Events */
 		createAccount_handler(): void {
-			debugger;
 			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
-				const displayName: string = `${this.computed_data_userFirstname_value} ${this.computed_data_userLastname_value}`;
-				const email: string = this.computed_data_userEmail_value!;
+				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
 				this.computed_data_isUserCreatingAccount = true;
-				this.isLoading = true;
-				this.storeFirebase.createAccountWithEmailAndPassword({ email, password })
+				this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
+				this.storeFirebase
+					.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
-						this.setSuccessMessageAndValue("You have successfully created an account. We have now sent you an email to verify your account.", true);
-						return this.storeFirebase.sendUserEmailVerification();
-					})
-					.then(() => {
-						this.storeUserInFirestore();
+						this.setSuccessMessageAndValue(
+							"You have successfully created an account. We have now sent you an email to verify your account.",
+							true
+						);
+						setTimeout(() => {
+							this.storeFirebase.sendUserEmailVerification();
+							this.storeUserInState();
+							this.storeUserInFirestore();
+							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
+						}, this.computed_data_snackbar_defaultTimeout_value);
 					})
 					.catch((error) => {
 						switch (error) {
@@ -404,14 +355,13 @@ export default defineComponent({
 						}
 					})
 					.finally(() => {
-						// Reset snackbar messages & values
-						this.setSuccessMessageAndValue("", false);
-						this.setErrorMessageAndValue("", false);
-
-						this.resetButtonLoading();
-						this.resetFormInputs();
-						this.computed_data_isUserCreatingAccount = false;
-						this.$router.push({ name: txtRouteNames.account, hash: '#section-account' });
+						setTimeout(() => {
+							this.setSuccessMessageAndValue("", false);
+							this.setErrorMessageAndValue("", false);
+							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
+							this.resetFormInputs();
+							this.computed_data_isUserCreatingAccount = false;
+						}, this.computed_data_snackbar_defaultTimeout_value);
 					});
 			}
 		},
@@ -424,7 +374,7 @@ export default defineComponent({
 					this.computed_data_createUserSuccess_value = false;
 					break;
 				case "warning":
-					this.computed_data_createUserWarning_value = false;		
+					this.computed_data_createUserWarning_value = false;
 					break;
 			}
 		},
@@ -432,11 +382,10 @@ export default defineComponent({
 		/* Utils */
 		resetFormInputs(): void {
 			this.data_dialogFormCreateAccount.valid = false;
-			this.computed_data_userTitle_value = null;
-			this.computed_data_userDisplayName_value = null;
-			this.computed_data_userFirstname_value = null;
-			this.computed_data_userLastname_value = null;
-			this.computed_data_userEmail_value = null;
+			this.data_dialogFormCreateAccount.input.title.value = null;
+			this.data_dialogFormCreateAccount.input.firstName.value = null;
+			this.data_dialogFormCreateAccount.input.lastName.value = null;
+			this.data_dialogFormCreateAccount.input.email.value = null;
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
 		},
@@ -448,14 +397,23 @@ export default defineComponent({
 			this.computed_data_createUserError_message = message;
 			this.computed_data_createUserError_value = value;
 		},
-		resetButtonLoading(): void {
-			this.isLoading = false;
+		storeUserInState(): void {
+			const displayName: string = `${this.data_dialogFormCreateAccount.input.firstName.value} ${this.data_dialogFormCreateAccount.input.lastName.value}`;
+			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
+			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
+			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+
+			this.storeFirebase.setUserDisplayName({ displayName });
+			this.storeFirebase.setUserTitle({ title });
+			this.storeFirebase.setUserFirstname({ firstname });
+			this.storeFirebase.setUserLastname({ lastname });
 		},
 		storeUserInFirestore(): void {
 			const uid: string = this.storeFirebase.getUserID!;
-			const title: string = this.computed_data_userTitle_value!;
-			const firstname: string = this.computed_data_userFirstname_value!;
-			const lastname: string = this.computed_data_userLastname_value!;
+			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
+			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
+			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+
 			this.storeFirebase.setFirestoreUser({ uid, title, firstname, lastname });
 		},
 

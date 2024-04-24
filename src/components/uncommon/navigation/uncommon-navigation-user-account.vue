@@ -119,7 +119,6 @@ export default defineComponent({
 			return `${firstname[0]}${lastname[0]}`.toUpperCase();
 		},
 		computed_data_isUserLoggedIn(): boolean {
-			debugger;
 			return this.storeFirebase.getIsUserLoggedIn;
 		},
 	},

@@ -14,7 +14,7 @@
 						variant="outlined"
 						type="email"
 						:style="dynamicWidth_dialogFormInput"
-						:rules="data_emailValidationRules"
+						:rules="computed_data_validation_emailRules"
 						v-model="data_dialogFormLogin.input.email.value"
 					>
 						<template #label>
@@ -40,7 +40,7 @@
 						variant="outlined"
 						:style="dynamicWidth_dialogFormInput"
 						:type="data_dialogFormLogin.input.password.show ? 'text' : 'password'"
-						:rules="data_passwordValidationRules"
+						:rules="computed_data_validation_passwordRules"
 						v-model="data_dialogFormLogin.input.password.value"
 					>
 						<template #label>
@@ -64,8 +64,8 @@
 						class="mt-4 bg-accent"
 						type="submit"
 						:style="dynamicWidth_dialogFormInput"
-						:disabled="!data_isFormValid"
-						:loading="isLoading"
+						:disabled="!computed_data_isFormValid"
+						:loading="data_dialogFormLogin.actions.btn.login.isLoading"
 						:text="data_dialogFormLogin.actions.btn.login.text"
 					></v-btn>
 				</v-form>
@@ -139,6 +139,23 @@
 					</template>
 				</v-btn>
 			</v-col>
+
+			<teleport to="body">
+				<snackbar-container
+					color="success"
+					location="top"
+					:text="computed_data_createUserSuccess_message"
+					v-model="computed_data_createUserSuccess_value"
+					@close="methods_event_snackbar_close('success')"
+				></snackbar-container>
+				<snackbar-container
+					color="error"
+					location="top"
+					:text="computed_data_createUserError_message"
+					v-model="computed_data_createUserError_value"
+					@close="methods_event_snackbar_close('error')"
+				></snackbar-container>
+			</teleport>
 		</v-row>
 	</v-container>
 </template>
@@ -150,15 +167,23 @@ import { defineComponent } from "vue";
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
+// Components
+import SnackBarContainerComp from "@components/common/snackbar/common-snackbar.vue";
+
+// Constants
+import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
+
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
 import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "login-container-component",
+	components: {
+		"snackbar-container": SnackBarContainerComp,
+	},
 	data() {
 		return {
-			isLoading: false,
 			error: null,
 			data_dialogFormLogin: {
 				valid: false,
@@ -189,6 +214,7 @@ export default defineComponent({
 					btn: {
 						login: {
 							text: "Log in",
+							isLoading: false,
 						},
 						continueWith: {
 							google: {
@@ -229,44 +255,120 @@ export default defineComponent({
 		},
 
 		/* Data */
-		data_isFormValid(): boolean {
+		computed_data_isFormValid(): boolean {
 			return this.data_dialogFormLogin.valid;
 		},
-		data_emailValidationRules(): any {
+		computed_data_validation_emailRules(): any {
 			return [this.isNotEmpty, this.isEmailFormatValid];
 		},
-		data_passwordValidationRules(): any {
+		computed_data_validation_passwordRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
+		},
+		computed_data_snackbar_defaultTimeout_value(): number {
+			return this.storeCommon.getSnackbarTimeoutDefaultValue;
+		},
+		computed_data_isUserLoggingIn: {
+			get(): boolean {
+				return this.storeFirebase.getIsUserLoggingIn;
+			},
+			set(newValue: boolean): void {
+				this.storeFirebase.setIsUserLoggingIn(newValue);
+			},
+		},
+		computed_data_createUserSuccess_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserSuccessMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserSuccessMessage({ text: newValue });
+			},
+		},
+		computed_data_createUserError_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserErrorMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserErrorMessage({ text: newValue });
+			},
+		},
+		computed_data_createUserSuccess_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserSuccessValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserSuccessValue(newValue);
+			},
+		},
+		computed_data_createUserError_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserErrorValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserErrorValue(newValue);
+			},
 		},
 	},
 	methods: {
 		/* Events */
 		login_handler(): void {
 			debugger;
-			const isFormValid: boolean = this.data_isFormValid;
+			const isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
 				const email: string = this.data_dialogFormLogin.input.email.value!;
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
-				this.isLoading = true;
+				this.computed_data_isUserLoggingIn = true;
+				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
 				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
 					.then((response) => {
 						debugger;
-						this.resetForm();
-						this.$router.push('/');
+						this.setSuccessMessageAndValue(
+							"You have successfully logged into your account. Redirecting you to your account now.",
+							true
+						);
+						const doesUserDataExist: boolean = this.storeFirebase.getFirestoreUser();
+						if (doesUserDataExist) {
+							userData.data();
+						}
+						return userData;
+					})
+					.then((response) => {
+						debugger;
+						const respo = response;
+
+						setTimeout(() => {
+							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
+						}, this.computed_data_snackbar_defaultTimeout_value);
 					})
 					.catch((error) => {
 						debugger;
-						const errorCode = error.code;
-   	 					const errorMessage = error.message;
-						console.error(errorCode, " - ", errorMessage);
+						switch (error) {
+							case "auth/invalid-credential":
+								this.setErrorMessageAndValue("Either the username or password is incorrect!", true);
+								break;
+						}
 					})
 					.finally(() => {
-						debugger;
-						this.isLoading = false;
+						setTimeout(() => {
+							this.setSuccessMessageAndValue("", false);
+							this.setErrorMessageAndValue("", false);
+							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
+							this.resetFormInputs();
+							this.computed_data_isUserLoggingIn = false;
+						}, this.computed_data_snackbar_defaultTimeout_value);
 					});
+			}
+		},
+		methods_event_snackbar_close(typeOfSnackbar: "success" | "warning" | "error"): void {
+			switch (typeOfSnackbar) {
+				case "error":
+					this.computed_data_createUserError_value = false;
+					break;
+				case "success":
+					this.computed_data_createUserSuccess_value = false;
+					break;
 			}
 		},
 		// Emit
@@ -275,10 +377,18 @@ export default defineComponent({
 		},
 
 		/* Utils */
-		resetForm(): void {
+		resetFormInputs(): void {
 			this.data_dialogFormLogin.valid = false;
 			this.data_dialogFormLogin.input.email.value = null;
 			this.data_dialogFormLogin.input.password.value = null;
+		},
+		setSuccessMessageAndValue(message: string, value: boolean): void {
+			this.computed_data_createUserSuccess_message = message;
+			this.computed_data_createUserSuccess_value = value;
+		},
+		setErrorMessageAndValue(message: string, value: boolean): void {
+			this.computed_data_createUserError_message = message;
+			this.computed_data_createUserError_value = value;
 		},
 
 		/* Validation */
