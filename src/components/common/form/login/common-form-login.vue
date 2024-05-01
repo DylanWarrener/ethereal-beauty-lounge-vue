@@ -163,6 +163,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Services
+import { db } from "@plugins/firebase/firebase.js";
+import { doc, getDoc } from "firebase/firestore";
+
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
@@ -318,26 +322,17 @@ export default defineComponent({
 				const email: string = this.data_dialogFormLogin.input.email.value!;
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
-				this.computed_data_isUserLoggingIn = true;
-				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				//this.computed_data_isUserLoggingIn = true;
+				//this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				debugger;
 				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
-					.then((response) => {
+					.then(() => {
 						debugger;
 						this.setSuccessMessageAndValue(
 							"You have successfully logged into your account. Redirecting you to your account now.",
 							true
 						);
-						const doesUserDataExist: boolean = this.storeFirebase.getFirestoreUser();
-						if (doesUserDataExist) {
-							userData.data();
-						}
-						return userData;
-					})
-					.then((response) => {
-						debugger;
-						const respo = response;
-
 						setTimeout(() => {
 							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 						}, this.computed_data_snackbar_defaultTimeout_value);
@@ -359,6 +354,39 @@ export default defineComponent({
 							this.computed_data_isUserLoggingIn = false;
 						}, this.computed_data_snackbar_defaultTimeout_value);
 					});
+
+				// this.storeFirebase
+				// 	.loginWithEmailAndPassword({ email, password })
+				// 	.then(() => {
+				// 		debugger;
+				// 	})
+				// 	.then((response) => {
+				// 		debugger;
+				// 		this.setSuccessMessageAndValue(
+				// 			"You have successfully logged into your account. Redirecting you to your account now.",
+				// 			true
+				// 		);
+				// 		setTimeout(() => {
+				// 			this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
+				// 		}, this.computed_data_snackbar_defaultTimeout_value);
+				// 	})
+				// 	.catch((error) => {
+				// 		debugger;
+				// 		switch (error) {
+				// 			case "auth/invalid-credential":
+				// 				this.setErrorMessageAndValue("Either the username or password is incorrect!", true);
+				// 				break;
+				// 		}
+				// 	})
+				// 	.finally(() => {
+				// 		setTimeout(() => {
+				// 			this.setSuccessMessageAndValue("", false);
+				// 			this.setErrorMessageAndValue("", false);
+				// 			this.data_dialogFormLogin.actions.btn.login.isLoading = false;
+				// 			this.resetFormInputs();
+				// 			this.computed_data_isUserLoggingIn = false;
+				// 		}, this.computed_data_snackbar_defaultTimeout_value);
+				// 	});
 			}
 		},
 		methods_event_snackbar_close(typeOfSnackbar: "success" | "warning" | "error"): void {

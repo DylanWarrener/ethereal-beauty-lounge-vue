@@ -117,15 +117,17 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): Promise<User> {
-			let retval: Promise<User>;
-			retval = new Promise((resolve, reject) => {
+			debugger;
+			return new Promise((resolve, _) => {
 				onAuthStateChanged(payload.auth, (user: User | null) => {
+					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
 							if (key in this.user && value !== null) {
 								if (key === "uid") {
-									auth.currentUser?.getIdToken().then((uid: string) => this.setUserID({ uid }));
+									//auth.currentUser?.getIdToken().then((uid: string) => this.setUserID({ uid }));
+									this.setUserID({ uid: value });
 								} else {
 									valuesNotNull[key] = value;
 								}
@@ -136,15 +138,22 @@ const useFirebaseStore = defineStore("firebase-store", {
 					}
 				});
 			});
-			return retval;
 		},
-		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<void> {
-			let retval: Promise<void>;
-			retval = new Promise((resolve, reject) => {
+		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<DocumentData> {
+			return new Promise((resolve, reject) => {
 				signInWithEmailAndPassword(auth, user.email, user.password)
 					.then(() => {
 						debugger;
-						resolve();
+						return this.getFirestoreUser;
+					})
+					.then((userData: DocumentData | undefined) => {
+						debugger;
+						if (userData !== undefined) {
+							this.setUserTitle({ title: userData.title });
+							this.setUserFirstname({ firstname: userData.firstname });
+							this.setUserLastname({ lastname: userData.lastname });
+							resolve(userData);
+						}
 					})
 					.catch((error) => {
 						debugger;
@@ -155,7 +164,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						}
 					});
 			});
-			return retval;
 		},
 		logout(): Promise<void> {
 			this.setUserID({ uid: null });
@@ -273,33 +281,39 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 
 		/* Firebase CLOUD FIRESTORE */
-		async getFirestoreUser(): Promise<DocumentData> {
+		getFirestoreUser(): Promise<DocumentData | undefined> {
 			debugger;
-			let retval: Promise<DocumentData>;
-			const uid: string | null = this.user.uid;
+			return new Promise((resolve, reject) => {
+				debugger;
+				const uid: string | null = this.user.uid;
 
-			if (uid !== null) {
-				const userDocumentRef = doc(db, "users", uid);
-				const userDocument = await getDoc(userDocumentRef);
+				if (uid !== null) {
+					const userDocumentRef = doc(db, "users", uid);
 
-				retval = new Promise((resolve, reject) => {
-					const doesUserDocumentExist: boolean = userDocument.exists();
-					const userDocumentData: DocumentData | undefined = userDocument.data();
-					if (doesUserDocumentExist && userDocumentData !== undefined) {
-						resolve(userDocumentData);
-					}
-				});
-			}
-			return retval;
+					getDoc(userDocumentRef)
+						.then((userDocument) => {
+							debugger;
+							const doesUserDocumentExist: boolean = userDocument.exists();
+							const userDocumentData: DocumentData | undefined = userDocument.data();
+
+							if (doesUserDocumentExist && userDocumentData !== undefined) {
+								resolve(userDocumentData);
+							} else {
+								resolve(undefined);
+							}
+						})
+						.catch((error) => {
+							reject();
+							console.error(`You are offline, you cannot store their data. ${error}`);
+						});
+				}
+			});
 		},
 		setFirestoreUser(user: { uid: string; title: string; firstname: string; lastname: string }): Promise<void> {
-			debugger;
 			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
 			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
 			const userFirestoreData = { title: user.title, firstname: user.firstname, lastname: user.lastname };
-
-			let retval: Promise<void>;
-			retval = new Promise((resolve, reject) => {
+			return new Promise((resolve, reject) => {
 				setDoc(userDocumentRef, userFirestoreData)
 					.then(() => {
 						resolve();
@@ -309,9 +323,36 @@ const useFirebaseStore = defineStore("firebase-store", {
 						console.error(`You are offline, you cannot store their data. ${error}`);
 					});
 			});
-			return retval;
 		},
 	},
 });
 
 export default useFirebaseStore;
+
+/*
+const uid: string | null = this.user.uid;
+
+				if (uid !== null) {
+					const userDocumentRef = doc(db, "users", uid);
+					const userDocument = await getDoc(userDocumentRef);
+
+					if () {
+
+					}
+
+
+						.then((response) => {
+							debugger;
+							const doesUserDocumentExist: boolean = response.exists();
+							const userDocumentData: DocumentData | undefined = response.data();
+
+							if (doesUserDocumentExist && userDocumentData !== undefined) {
+								resolve(userDocumentData);
+							}
+						})
+						.catch((error) => {
+							reject();
+							console.error(`You are offline, you cannot store their data. ${error}`);
+						});
+				}
+*/

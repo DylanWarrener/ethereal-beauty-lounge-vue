@@ -22,6 +22,7 @@ import { defineComponent } from "vue";
 
 // Services
 import { auth } from "@plugins/firebase/firebase.js";
+import { type DocumentData } from "firebase/firestore";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
@@ -83,17 +84,13 @@ export default defineComponent({
 	created(): void {
 		debugger;
 		this.storeFirebase.monitorAuthState({ auth }).then(() => {
-			debugger;
-			const isUserLoggingIn: boolean = this.storeFirebase.getIsUserLoggingIn;
 			const isUserCreatingAccount: boolean = this.storeFirebase.getIsUserCreatingAccount;
-
-			if (!isUserLoggingIn && !isUserCreatingAccount) {
-				this.storeFirebase.getFirestoreUser().then((response) => {
-					debugger;
-					if (response) {
-						this.storeFirebase.setUserTitle({ title: response.title });
-						this.storeFirebase.setUserFirstname({ firstname: response.firstname });
-						this.storeFirebase.setUserLastname({ lastname: response.lastname });
+			if (!isUserCreatingAccount) {
+				this.storeFirebase.getFirestoreUser().then((userData) => {
+					if (userData !== undefined) {
+						this.storeFirebase.setUserTitle({ title: userData.title });
+						this.storeFirebase.setUserFirstname({ firstname: userData.firstname });
+						this.storeFirebase.setUserLastname({ lastname: userData.lastname });
 					}
 				});
 			}
