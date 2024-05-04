@@ -17,6 +17,7 @@ import {
 	collection,
 	getDoc,
 	setDoc,
+	updateDoc,
 	doc,
 	type CollectionReference,
 	type DocumentReference,
@@ -143,11 +144,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return new Promise((resolve, reject) => {
 				signInWithEmailAndPassword(auth, user.email, user.password)
 					.then(() => {
-						debugger;
 						return this.getFirestoreUser;
 					})
 					.then((userData: DocumentData | undefined) => {
-						debugger;
 						if (userData !== undefined) {
 							this.setUserTitle({ title: userData.title });
 							this.setUserFirstname({ firstname: userData.firstname });
@@ -304,7 +303,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 						})
 						.catch((error) => {
 							reject();
-							console.error(`You are offline, you cannot store their data. ${error}`);
+							console.error(`You are offline, you cannot store user data. ${error}`);
 						});
 				}
 			});
@@ -322,6 +321,36 @@ const useFirebaseStore = defineStore("firebase-store", {
 						reject();
 						console.error(`You are offline, you cannot store their data. ${error}`);
 					});
+			});
+		},
+		updateFirestoreUser(user: {
+			title?: string | undefined;
+			firstname?: string | undefined;
+			lastname?: string | undefined;
+		}): Promise<void> {
+			return new Promise((resolve, reject) => {
+				debugger;
+				const uid: string | null = this.getUserID;
+
+				let valuesNotUndefined: any = {};
+				for (const [key, value] of Object.entries(user)) {
+					debugger;
+					if (value !== undefined) {
+						valuesNotUndefined[key] = value;
+					}
+				}
+
+				if (Object.keys(valuesNotUndefined).length > 0 && uid !== null) {
+					const userDocumentRef = doc(db, "users", uid);
+					updateDoc(userDocumentRef, valuesNotUndefined)
+						.then(() => {
+							resolve();
+						})
+						.catch((error) => {
+							reject();
+							console.error(`You are offline, you cannot update user data. ${error}`);
+						});
+				}
 			});
 		},
 	},

@@ -322,13 +322,12 @@ export default defineComponent({
 				const email: string = this.data_dialogFormLogin.input.email.value!;
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
-				//this.computed_data_isUserLoggingIn = true;
-				//this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				this.computed_data_isUserLoggingIn = true;
+				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
 				debugger;
 				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
 					.then(() => {
-						debugger;
 						this.setSuccessMessageAndValue(
 							"You have successfully logged into your account. Redirecting you to your account now.",
 							true

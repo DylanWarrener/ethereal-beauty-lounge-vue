@@ -1,6 +1,6 @@
 <template>
 	<v-card elevation="0" class="h-100 bg-accent">
-		<v-container fluid class="pa-0">
+		<v-container fluid>
 			<v-row dense>
 				<!-- Title -->
 				<v-col cols="12">
@@ -63,8 +63,7 @@
 								clearable
 								variant="outlined"
 								:label="profile.input.displayName.label"
-								:style="computed_data_dynamicWidth_input"
-								:model-value="computed_data_userDisplayName"
+								v-model="computed_data_user_displayName_local"
 							></v-text-field>
 						</v-col>
 						<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
@@ -72,8 +71,7 @@
 								clearable
 								variant="outlined"
 								:label="profile.input.firstname.label"
-								:style="computed_data_dynamicWidth_input"
-								:model-value="computed_data_userFirstname"
+								v-model="computed_data_user_firstname_local"
 							></v-text-field>
 						</v-col>
 						<v-col cols="12" sm="6" md="4" class="d-flex justify-center align-center">
@@ -81,8 +79,7 @@
 								clearable
 								variant="outlined"
 								:label="profile.input.lastname.label"
-								:style="computed_data_dynamicWidth_input"
-								:model-value="computed_data_userLastname"
+								v-model="computed_data_user_lastname_local"
 							></v-text-field>
 						</v-col>
 						<v-col cols="12" sm="6" md="6" class="d-flex justify-center">
@@ -90,8 +87,7 @@
 								clearable
 								variant="outlined"
 								:label="profile.input.email.label"
-								:style="computed_data_dynamicWidth_input"
-								:model-value="computed_data_userEmail"
+								v-model="computed_data_user_email_local"
 							></v-text-field>
 						</v-col>
 						<v-col cols="12" sm="6" md="6" class="d-flex justify-center">
@@ -99,8 +95,7 @@
 								clearable
 								variant="outlined"
 								:label="profile.input.phoneNumber.label"
-								:style="computed_data_dynamicWidth_input"
-								:model-value="computed_data_userPhoneNumber"
+								v-model="computed_data_user_phoneNumber_local"
 							></v-text-field>
 						</v-col>
 					</v-row>
@@ -109,7 +104,13 @@
 		</v-container>
 		<v-card-actions class="pa-4">
 			<v-spacer></v-spacer>
-			<v-btn variant="outlined">
+			<v-btn
+				variant="outlined"
+				class="px-4"
+				:style="computed_css_btnWidth"
+				:disabled="computed_data_doesAccountDataMatchState"
+				@click.stop="method_event_saveProfileSettingsHandler"
+			>
 				<template #default>
 					<small class="text-default" v-text="profile.actions.btn.save.text"></small>
 				</template>
@@ -124,6 +125,9 @@ import { defineComponent } from "vue";
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 
+// Declarations
+import { IAccountProfileData } from "@declarations/common/account/profile/common-interface-account-profile.js";
+
 // Icons
 import { iconsAccountProfile } from "@constants/common/objects/common-constants-objects.js";
 
@@ -132,7 +136,7 @@ import CanvasPNG from "@assets/jpg/temp.jpg";
 
 export default defineComponent({
 	name: "uncommon-account-profile-component",
-	data() {
+	data(): IAccountProfileData {
 		return {
 			profile: {
 				title: "Profile",
@@ -144,18 +148,23 @@ export default defineComponent({
 				input: {
 					displayName: {
 						label: "Display name",
+						value: null,
 					},
 					firstname: {
 						label: "First name",
+						value: null,
 					},
 					lastname: {
 						label: "Last name",
+						value: null,
 					},
 					email: {
 						label: "Email",
+						value: null,
 					},
 					phoneNumber: {
 						label: "Phone number",
+						value: null,
 					},
 				},
 				actions: {
@@ -172,79 +181,156 @@ export default defineComponent({
 		computed_icon_editImage(): string {
 			return iconsAccountProfile.editImage;
 		},
+
 		computed_img_canvas(): string {
 			return CanvasPNG;
 		},
-		computed_data_dynamicWidth_input(): string {
-			let retVal: string = "width: 100%; max-width: 400px";
-			return retVal;
+
+		computed_css_btnWidth(): string {
+			return `min-width: 100px`;
 		},
+
 		computed_data_user_photoURL(): string | undefined {
 			return this.storeFirebase.getUserPhotoURL ?? undefined;
 		},
 		computed_data_user_initials(): string | null {
 			let retval: string | null = null;
-			if (this.computed_data_userDisplayName !== null) {
-				const [firstname, lastname] = this.computed_data_userDisplayName.split(" ");
+			if (this.computed_data_user_displayName_state !== null) {
+				const [firstname, lastname] = this.computed_data_user_displayName_state.split(" ");
 				retval = `${firstname[0]}${lastname[0]}`.toUpperCase();
 			}
 			return retval;
 		},
-		// computed_data_userDisplayName(): string | null {
-		// 	return this.storeFirebase.getUserDisplayName ?? "No data";
-		// },
-		// computed_data_userFirstname(): string | null {
-		// 	return this.storeFirebase.getUserFirstname ?? "No data";
-		// },
-		// computed_data_userLastname(): string | null {
-		// 	return this.storeFirebase.getUserLastname ?? "No data";
-		// },
-		// computed_data_userEmail(): string | null {
-		// 	return this.storeFirebase.getUserEmail ?? "No data";
-		// },
-		// computed_data_userPhoneNumber(): string | null {
-		// 	return this.storeFirebase.getUserPhoneNumber ?? "No data";
-		// },
-
-		computed_data_userDisplayName: {
-			get(): string {
-				return this.storeFirebase.getUserDisplayName ?? "No data";
+		computed_data_doesAccountDataMatchState(): boolean {
+			return (
+				this.computed_data_doesDisplayNameLocal_matchState &&
+				this.computed_data_doesFirstnameLocal_matchState &&
+				this.computed_data_doesLastnameLocal_matchState &&
+				this.computed_data_doesEmailLocal_matchState &&
+				this.computed_data_doesPhoneNumberLocal_matchState
+			);
+		},
+		computed_data_doesDisplayNameLocal_matchState(): boolean {
+			return this.computed_data_user_displayName_local === this.computed_data_user_displayName_state;
+		},
+		computed_data_doesFirstnameLocal_matchState(): boolean {
+			return this.computed_data_user_firstname_local === this.computed_data_user_firstname_state;
+		},
+		computed_data_doesLastnameLocal_matchState(): boolean {
+			return this.computed_data_user_lastname_local === this.computed_data_user_lastname_state;
+		},
+		computed_data_doesEmailLocal_matchState(): boolean {
+			return this.computed_data_user_email_local === this.computed_data_user_email_state;
+		},
+		computed_data_doesPhoneNumberLocal_matchState(): boolean {
+			return this.computed_data_user_phoneNumber_local === this.computed_data_user_phoneNumber_state;
+		},
+		computed_data_user_displayName_local: {
+			get(): string | null {
+				return this.profile.input.displayName.value;
+			},
+			set(newValue: string | null): void {
+				this.profile.input.displayName.value = newValue;
+			},
+		},
+		computed_data_user_firstname_local: {
+			get(): string | null {
+				return this.profile.input.firstname.value;
+			},
+			set(newValue: string | null): void {
+				this.profile.input.firstname.value = newValue;
+			},
+		},
+		computed_data_user_lastname_local: {
+			get(): string | null {
+				return this.profile.input.lastname.value;
+			},
+			set(newValue: string | null): void {
+				this.profile.input.lastname.value = newValue;
+			},
+		},
+		computed_data_user_email_local: {
+			get(): string | null {
+				return this.profile.input.email.value;
+			},
+			set(newValue: string | null): void {
+				this.profile.input.email.value = newValue;
+			},
+		},
+		computed_data_user_phoneNumber_local: {
+			get(): string | null {
+				return this.profile.input.phoneNumber.value;
+			},
+			set(newValue: string | null): void {
+				this.profile.input.phoneNumber.value = newValue;
+			},
+		},
+		computed_data_user_displayName_state: {
+			get(): string | null {
+				return this.storeFirebase.getUserDisplayName;
 			},
 			set(newValue: string | null): void {
 				this.storeFirebase.setUserDisplayName({ displayName: newValue });
 			},
 		},
-		computed_data_userFirstname: {
-			get(): string {
-				return this.storeFirebase.getUserFirstname ?? "No data";
+		computed_data_user_firstname_state: {
+			get(): string | null {
+				return this.storeFirebase.getUserFirstname;
 			},
 			set(newValue: string | null): void {
 				this.storeFirebase.setUserFirstname({ firstname: newValue });
 			},
 		},
-		computed_data_userLastname: {
-			get(): string {
-				return this.storeFirebase.getUserLastname ?? "No data";
+		computed_data_user_lastname_state: {
+			get(): string | null {
+				return this.storeFirebase.getUserLastname;
 			},
 			set(newValue: string | null): void {
 				this.storeFirebase.setUserLastname({ lastname: newValue });
 			},
 		},
-		computed_data_userEmail: {
-			get(): string {
-				return this.storeFirebase.getUserEmail ?? "No data";
+		computed_data_user_email_state: {
+			get(): string | null {
+				return this.storeFirebase.getUserEmail;
 			},
 			set(newValue: string | null): void {
 				this.storeFirebase.setUserEmail({ email: newValue });
 			},
 		},
-		computed_data_userPhoneNumber: {
-			get(): string {
-				return this.storeFirebase.getUserPhoneNumber ?? "No data";
+		computed_data_user_phoneNumber_state: {
+			get(): string | null {
+				return this.storeFirebase.getUserPhoneNumber;
 			},
 			set(newValue: string | null): void {
 				this.storeFirebase.setUserPhoneNumber({ phoneNumber: newValue });
 			},
+		},
+	},
+	methods: {
+		method_event_saveProfileSettingsHandler(): void {
+			const displayName: boolean = this.computed_data_doesDisplayNameLocal_matchState;
+			const firstname: boolean = this.computed_data_doesFirstnameLocal_matchState;
+			const lastname: boolean = this.computed_data_doesLastnameLocal_matchState;
+			const email: boolean = this.computed_data_doesEmailLocal_matchState;
+			const phoneNumber: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
+
+			if (displayName) {
+			}
+
+			if (firstname && lastname) {
+			} else {
+				if (firstname) {
+				}
+
+				if (lastname) {
+				}
+			}
+
+			if (email) {
+			}
+
+			if (phoneNumber) {
+			}
 		},
 	},
 	setup() {
