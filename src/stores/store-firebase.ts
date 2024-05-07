@@ -155,7 +155,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						}
 					})
 					.catch((error) => {
-						debugger;
 						switch (error.code) {
 							case "auth/invalid-credential":
 								reject("auth/invalid-credential");
@@ -277,6 +276,22 @@ const useFirebaseStore = defineStore("firebase-store", {
 						break;
 				}
 			}
+		},
+		updateUserProfile(user: { displayName?: string; photoURL?: string }): Promise<void> {
+			return new Promise((resolve, reject) => {
+				// const auth: User | null = auth.currentUser;
+				// let valuesNotUndefined = {};
+				// for (const [key, value] of Object.entries(user)) {
+				// 	if (value !== undefined) {
+				// 		valuesNotUndefined[key] = value;
+				// 	}
+				// }
+				// if (Object.keys(valuesNotUndefined).length > 0) {
+				// 	updateProfile(auth.currentUser, valuesNotUndefined)
+				// 		.then(() => {})
+				// 		.catch(() => {});
+				// }
+			});
 		},
 
 		/* Firebase CLOUD FIRESTORE */

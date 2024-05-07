@@ -202,13 +202,13 @@ export default defineComponent({
 			return retval;
 		},
 		computed_data_doesAccountDataMatchState(): boolean {
-			return (
-				this.computed_data_doesDisplayNameLocal_matchState &&
-				this.computed_data_doesFirstnameLocal_matchState &&
-				this.computed_data_doesLastnameLocal_matchState &&
-				this.computed_data_doesEmailLocal_matchState &&
-				this.computed_data_doesPhoneNumberLocal_matchState
-			);
+			return [
+				this.computed_data_doesDisplayNameLocal_matchState,
+				this.computed_data_doesFirstnameLocal_matchState,
+				this.computed_data_doesLastnameLocal_matchState,
+				this.computed_data_doesEmailLocal_matchState,
+				this.computed_data_doesPhoneNumberLocal_matchState,
+			].every((data) => data === true);
 		},
 		computed_data_doesDisplayNameLocal_matchState(): boolean {
 			return this.computed_data_user_displayName_local === this.computed_data_user_displayName_state;
@@ -314,28 +314,42 @@ export default defineComponent({
 			const email: boolean = this.computed_data_doesEmailLocal_matchState;
 			const phoneNumber: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
 
-			if (displayName) {
+			if (!displayName) {
+				//this.storeFirebase.updateFirestoreUser();
 			}
 
-			if (firstname && lastname) {
+			if (!firstname && !lastname) {
+				this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
+				this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
 			} else {
-				if (firstname) {
+				if (!firstname) {
+					this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
 				}
 
-				if (lastname) {
+				if (!lastname) {
+					this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
 				}
 			}
 
-			if (email) {
+			if (!email) {
+				this.computed_data_user_email_local = this.computed_data_user_email_state;
 			}
 
-			if (phoneNumber) {
+			if (!phoneNumber) {
+				this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
 			}
 		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
 		return { storeFirebase };
+	},
+	created(): void {
+		this.computed_data_user_displayName_local = this.computed_data_user_displayName_state;
+		this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
+		this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
+		this.computed_data_user_email_local = this.computed_data_user_email_state;
+		this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
 	},
 });
 </script>

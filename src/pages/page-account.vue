@@ -175,5 +175,8 @@ export default defineComponent({
 			this.account.content.selectedComponent = comp;
 		},
 	},
+	beforeRouteEnter(): void {
+		debugger;
+	},
 });
 </script>
