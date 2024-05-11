@@ -41,7 +41,8 @@ export interface IAccountProfileData {
 		actions: {
 			btn: {
 				save: {
-					text: "Save";
+					text: string;
+					isLoading: boolean;
 				};
 			};
 		};

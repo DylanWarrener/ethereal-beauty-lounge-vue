@@ -109,6 +109,7 @@
 				class="px-4"
 				:style="computed_css_btnWidth"
 				:disabled="computed_data_doesAccountDataMatchState"
+				:loading="profile.actions.btn.save.isLoading"
 				@click.stop="method_event_saveProfileSettingsHandler"
 			>
 				<template #default>
@@ -171,6 +172,7 @@ export default defineComponent({
 					btn: {
 						save: {
 							text: "Save",
+							isLoading: false,
 						},
 					},
 				},
@@ -315,7 +317,10 @@ export default defineComponent({
 			const doesPhoneNumberLocalMatchState: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
 			const doesEmailLocalMatchState: boolean = this.computed_data_doesEmailLocal_matchState;
 
+			this.profile.actions.btn.save.isLoading = true;
+
 			if (!doesDisplayNameLocalMatchState) {
+				debugger;
 				let displayNameLocal: string | null = this.computed_data_user_displayName_local;
 				let displayNameState: string | null = this.computed_data_user_displayName_state;
 
@@ -331,7 +336,7 @@ export default defineComponent({
 			if (!doesFirstNameLocalMatchState || !doesLastNameLocalMatchState || !doesPhoneNumberLocalMatchState) {
 				let firstNameLocal: string | null = this.computed_data_user_firstname_local;
 				let firstNameState: string | null = this.computed_data_user_firstname_state;
-				let lastNameLocal: string | null = this.computed_data_user_lastname_state;
+				let lastNameLocal: string | null = this.computed_data_user_lastname_local;
 				let lastNameState: string | null = this.computed_data_user_lastname_state;
 				let phoneNumberLocal: string | null = this.computed_data_user_phoneNumber_local;
 				let phoneNumberState: string | null = this.computed_data_user_phoneNumber_state;
@@ -395,6 +400,8 @@ export default defineComponent({
 					// Update firebase firestore users phone number
 				}
 			}
+
+			this.profile.actions.btn.save.isLoading = false;
 		},
 	},
 	setup() {
@@ -402,6 +409,11 @@ export default defineComponent({
 		return { storeFirebase };
 	},
 	created(): void {
+		debugger;
+
+		const userData = this.storeFirebase.getUserData;
+
+		// Use another method to do below. As I think the user state object will not have been set. Check to make sure the monitorAuthState is called and finished, before I set the local data to the state.
 		this.computed_data_user_displayName_local = this.computed_data_user_displayName_state;
 		this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
 		this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;

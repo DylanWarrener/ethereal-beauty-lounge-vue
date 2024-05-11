@@ -174,9 +174,9 @@ export default defineComponent({
 		method_event_setSelectedComponent(comp: string): void {
 			this.account.content.selectedComponent = comp;
 		},
-	},
-	beforeRouteEnter(): void {
-		debugger;
+
+		/* Utils */
+		method_utils_getUserAccountData(): void {},
 	},
 });
 </script>

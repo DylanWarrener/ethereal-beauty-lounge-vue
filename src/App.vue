@@ -82,7 +82,6 @@ export default defineComponent({
 		},
 	},
 	created(): void {
-		debugger;
 		this.storeFirebase.monitorAuthState({ auth }).then(() => {
 			const isUserCreatingAccount: boolean = this.storeFirebase.getIsUserCreatingAccount;
 			if (!isUserCreatingAccount) {
@@ -91,6 +90,7 @@ export default defineComponent({
 						this.storeFirebase.setUserTitle({ title: userData.title });
 						this.storeFirebase.setUserFirstname({ firstname: userData.firstname });
 						this.storeFirebase.setUserLastname({ lastname: userData.lastname });
+						this.storeFirebase.setUserPhoneNumber({ phoneNumber: userData.phoneNumber });
 					}
 				});
 			}

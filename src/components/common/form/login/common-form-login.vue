@@ -163,10 +163,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Services
-import { db } from "@plugins/firebase/firebase.js";
-import { doc, getDoc } from "firebase/firestore";
-
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
@@ -335,8 +331,10 @@ export default defineComponent({
 						}, this.computed_data_snackbar_defaultTimeout_value);
 					})
 					.catch((error) => {
+						debugger;
 						switch (error) {
 							case "auth/invalid-credential":
+								debugger;
 								this.setErrorMessageAndValue("Either your email address or password is incorrect!", true);
 								break;
 						}

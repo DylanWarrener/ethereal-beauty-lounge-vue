@@ -63,6 +63,19 @@
 					</v-text-field>
 					<v-text-field
 						clearable
+						ref="ref_phoneNumber"
+						variant="outlined"
+						type="text"
+						:style="computed_css_dynamicWidth"
+						:rules="computed_data_phoneNumberValidationRules"
+						v-model="data_dialogFormCreateAccount.input.phoneNumber.value"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.phoneNumber.label"></span>
+						</template>
+					</v-text-field>
+					<v-text-field
+						clearable
 						ref="ref_password"
 						variant="outlined"
 						:style="computed_css_dynamicWidth"
@@ -203,6 +216,10 @@ export default defineComponent({
 						label: "Email address",
 						value: null,
 					},
+					phoneNumber: {
+						label: "Phone number",
+						value: null,
+					},
 					password: {
 						show: false,
 						icon: {
@@ -251,6 +268,9 @@ export default defineComponent({
 		},
 		computed_data_emailValidationRules(): any {
 			return [this.isNotEmpty, this.isEmailFormatValid];
+		},
+		computed_data_phoneNumberValidationRules(): any {
+			return [this.isNotEmpty];
 		},
 		computed_data_passwordValidationRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
@@ -339,19 +359,16 @@ export default defineComponent({
 						return this.storeFirebase.sendUserEmailVerification();
 					})
 					.then(() => {
+						return this.storeUserInFirestore();
+					})
+					.then(() => {
 						this.storeUserInState();
-						this.storeUserInFirestore();
 						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 					})
-					.catch((error) => {
-						switch (error) {
-							case "auth/email-already-in-use":
-								this.setErrorMessageAndValue("Email already in use! Try logging in.", true);
-								setTimeout(
-									() => this.$router.push({ name: txtRouteNames.login, hash: "#section-login" }),
-									this.computed_data_snackbar_defaultTimeout_value
-								);
-								break;
+					.catch((errorMessage) => {
+						if (errorMessage) {
+							console.error(errorMessage);
+							this.setErrorMessageAndValue(errorMessage, true);
 						}
 					})
 					.finally(() => {
@@ -386,6 +403,7 @@ export default defineComponent({
 			this.data_dialogFormCreateAccount.input.firstName.value = null;
 			this.data_dialogFormCreateAccount.input.lastName.value = null;
 			this.data_dialogFormCreateAccount.input.email.value = null;
+			this.data_dialogFormCreateAccount.input.phoneNumber.value = null;
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
 		},
@@ -402,19 +420,30 @@ export default defineComponent({
 			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
 			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
 			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+			const phoneNumber: string = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
 
 			this.storeFirebase.setUserDisplayName({ displayName });
 			this.storeFirebase.setUserTitle({ title });
 			this.storeFirebase.setUserFirstname({ firstname });
 			this.storeFirebase.setUserLastname({ lastname });
+			this.storeFirebase.setUserPhoneNumber({ phoneNumber });
 		},
-		storeUserInFirestore(): void {
+		storeUserInFirestore(): Promise<void> {
 			const uid: string = this.storeFirebase.getUserID!;
 			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
 			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
 			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-
-			this.storeFirebase.setFirestoreUser({ uid, title, firstname, lastname });
+			const phoneNumber: string = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
+			return new Promise((resolve, reject) => {
+				this.storeFirebase
+					.setFirestoreUser({ uid, title, firstname, lastname, phoneNumber })
+					.then(() => {
+						resolve();
+					})
+					.catch((errorMessage: string) => {
+						reject(errorMessage);
+					});
+			});
 		},
 
 		/* Validation */
