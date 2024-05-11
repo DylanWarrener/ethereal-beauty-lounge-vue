@@ -336,12 +336,12 @@ export default defineComponent({
 							"You have successfully created an account. We have now sent you an email to verify your account.",
 							true
 						);
-						setTimeout(() => {
-							this.storeFirebase.sendUserEmailVerification();
-							this.storeUserInState();
-							this.storeUserInFirestore();
-							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
-						}, this.computed_data_snackbar_defaultTimeout_value);
+						return this.storeFirebase.sendUserEmailVerification();
+					})
+					.then(() => {
+						this.storeUserInState();
+						this.storeUserInFirestore();
+						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 					})
 					.catch((error) => {
 						switch (error) {

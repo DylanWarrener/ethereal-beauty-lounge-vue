@@ -9,6 +9,7 @@ import {
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 	updateProfile,
+	updateEmail,
 	type Auth,
 	type User,
 	type UserCredential,
@@ -198,7 +199,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		sendUserEmailVerification(): Promise<void> {
 			let retval: Promise<void>;
 			retval = new Promise((resolve, reject) => {
-				if (auth.currentUser) {
+				if (auth.currentUser !== null) {
 					sendEmailVerification(auth.currentUser)
 						.then(() => {
 							resolve();
@@ -279,18 +280,45 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		updateUserProfile(user: { displayName?: string; photoURL?: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
-				// const auth: User | null = auth.currentUser;
-				// let valuesNotUndefined = {};
-				// for (const [key, value] of Object.entries(user)) {
-				// 	if (value !== undefined) {
-				// 		valuesNotUndefined[key] = value;
-				// 	}
-				// }
-				// if (Object.keys(valuesNotUndefined).length > 0) {
-				// 	updateProfile(auth.currentUser, valuesNotUndefined)
-				// 		.then(() => {})
-				// 		.catch(() => {});
-				// }
+				debugger;
+
+				let valuesNotUndefined: any = {};
+				for (const [key, value] of Object.entries(user)) {
+					if (value !== undefined) {
+						valuesNotUndefined[key] = value;
+					}
+				}
+
+				if (Object.keys(valuesNotUndefined).length > 0 && auth.currentUser !== null) {
+					updateProfile(auth.currentUser, valuesNotUndefined)
+						.then(() => {
+							debugger;
+							resolve();
+						})
+						.catch(() => {
+							debugger;
+							reject();
+						});
+				}
+			});
+		},
+		updateUserEmail(user: { email: string }): Promise<void> {
+			return new Promise((resolve, reject) => {
+				if (auth.currentUser !== null) {
+					updateEmail(auth.currentUser, user.email)
+						.then(() => {
+							resolve();
+						})
+						.catch((error) => {
+							switch (error.code) {
+								case "auth/operation-not-allowed":
+									const errorMessage = "You must verify your email address before we can update it";
+									console.error(`${errorMessage}. ${error}`);
+									reject(errorMessage);
+									break;
+							}
+						});
+				}
 			});
 		},
 

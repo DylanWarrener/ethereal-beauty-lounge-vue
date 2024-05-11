@@ -308,35 +308,92 @@ export default defineComponent({
 	},
 	methods: {
 		method_event_saveProfileSettingsHandler(): void {
-			const displayName: boolean = this.computed_data_doesDisplayNameLocal_matchState;
-			const firstname: boolean = this.computed_data_doesFirstnameLocal_matchState;
-			const lastname: boolean = this.computed_data_doesLastnameLocal_matchState;
-			const email: boolean = this.computed_data_doesEmailLocal_matchState;
-			const phoneNumber: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
+			debugger;
+			const doesDisplayNameLocalMatchState: boolean = this.computed_data_doesDisplayNameLocal_matchState;
+			const doesFirstNameLocalMatchState: boolean = this.computed_data_doesFirstnameLocal_matchState;
+			const doesLastNameLocalMatchState: boolean = this.computed_data_doesLastnameLocal_matchState;
+			const doesPhoneNumberLocalMatchState: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
+			const doesEmailLocalMatchState: boolean = this.computed_data_doesEmailLocal_matchState;
 
-			if (!displayName) {
-				//this.storeFirebase.updateFirestoreUser();
-			}
+			if (!doesDisplayNameLocalMatchState) {
+				let displayNameLocal: string | null = this.computed_data_user_displayName_local;
+				let displayNameState: string | null = this.computed_data_user_displayName_state;
 
-			if (!firstname && !lastname) {
-				this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
-				this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
-			} else {
-				if (!firstname) {
-					this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
-				}
+				if (displayNameLocal !== null) {
+					// Update the state with the newest changes from the user.
+					displayNameState = displayNameLocal;
 
-				if (!lastname) {
-					this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
+					// Update the firestore auth user profile
+					this.storeFirebase.updateUserProfile({ displayName: displayNameLocal });
 				}
 			}
 
-			if (!email) {
-				this.computed_data_user_email_local = this.computed_data_user_email_state;
+			if (!doesFirstNameLocalMatchState || !doesLastNameLocalMatchState || !doesPhoneNumberLocalMatchState) {
+				let firstNameLocal: string | null = this.computed_data_user_firstname_local;
+				let firstNameState: string | null = this.computed_data_user_firstname_state;
+				let lastNameLocal: string | null = this.computed_data_user_lastname_state;
+				let lastNameState: string | null = this.computed_data_user_lastname_state;
+				let phoneNumberLocal: string | null = this.computed_data_user_phoneNumber_local;
+				let phoneNumberState: string | null = this.computed_data_user_phoneNumber_state;
+
+				// Both first & last name have been changed.
+				if (!doesFirstNameLocalMatchState && !doesLastNameLocalMatchState && !doesPhoneNumberLocalMatchState) {
+					// Update state to match local changes.
+					firstNameState = firstNameLocal;
+					lastNameState = lastNameLocal;
+					phoneNumberState = phoneNumberLocal;
+
+					// Update firebase firestore users first and last name
+				}
+
+				// Only the first name has been changed.
+				if (!doesFirstNameLocalMatchState) {
+					// Update state to match local changes.
+					firstNameState = firstNameLocal;
+
+					// Update firebase firestore users first name
+				}
+
+				// Only the last name has been changed.
+				if (!doesLastNameLocalMatchState) {
+					// Update state to match local changes.
+					lastNameState = lastNameLocal;
+
+					// Update firebase firestore users last name
+				}
+
+				// Only the last name has been changed.
+				if (!doesPhoneNumberLocalMatchState) {
+					// Update state to match local changes.
+					phoneNumberState = phoneNumberLocal;
+
+					// Update firebase firestore users last name
+				}
 			}
 
-			if (!phoneNumber) {
-				this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
+			if (!doesEmailLocalMatchState) {
+				let emailLocal: string | null = this.computed_data_user_email_local;
+				let emailState: string | null = this.computed_data_user_email_state;
+
+				if (emailLocal !== null) {
+					// Update state to match local changes.
+					emailState = emailLocal;
+
+					// Update firebase firestore users email
+					this.storeFirebase.updateUserEmail({ email: emailLocal });
+				}
+			}
+
+			if (!doesPhoneNumberLocalMatchState) {
+				let phoneNumberLocal: string | null = this.computed_data_user_phoneNumber_local;
+				let phoneNumberState: string | null = this.computed_data_user_phoneNumber_state;
+
+				if (phoneNumberLocal !== null) {
+					// Update state to match local changes.
+					phoneNumberState = phoneNumberLocal;
+
+					// Update firebase firestore users phone number
+				}
 			}
 		},
 	},
