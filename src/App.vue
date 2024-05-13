@@ -35,6 +35,7 @@ import FooterComp from "@components/common/footer/common-footer.vue";
 
 // SVGs
 import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
+import { debugErrorMap } from "firebase/auth";
 
 export default defineComponent({
 	name: "app-component",

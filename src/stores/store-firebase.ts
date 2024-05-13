@@ -104,7 +104,21 @@ const useFirebaseStore = defineStore("firebase-store", {
 		getUserJoinedOn: (state): string | null => {
 			return state.user.joinedOn;
 		},
-		getUserData: (state): any => {
+		getUserData: (
+			state
+		): {
+			uid: string | null;
+			displayName: string | null;
+			title: string | null;
+			firstname: string | null;
+			lastname: string | null;
+			email: string | null;
+			emailVerified: boolean;
+			phoneNumber: string | null;
+			photoURL: string | null;
+			isAnonymous: boolean;
+			joinedOn: string | null;
+		} => {
 			return state.user;
 		},
 	},
@@ -120,7 +134,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): Promise<User> {
 			return new Promise((resolve, reject) => {
+				debugger;
 				onAuthStateChanged(payload.auth, (user: User | null) => {
+					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
@@ -134,6 +150,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 							}
 						}
 						this.setUserAuthData(valuesNotNull);
+						debugger;
 						resolve(user);
 					} else {
 						reject();

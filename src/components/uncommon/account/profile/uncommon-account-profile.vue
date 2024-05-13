@@ -1,5 +1,5 @@
 <template>
-	<v-card elevation="0" class="h-100 bg-accent">
+	<v-card elevation="0" class="h-100 bg-accent" v-if="computed_data_isUserAccountValid">
 		<v-container fluid>
 			<v-row dense>
 				<!-- Title -->
@@ -42,7 +42,10 @@
 														v-show="isHovering"
 													>
 														<template v-slot:default>
-															<v-icon size="32"></v-icon>
+															<v-icon
+																size="32"
+																@click.stop="method_event_changeAvatarPicture"
+															></v-icon>
 														</template>
 													</v-btn>
 												</template>
@@ -192,6 +195,9 @@ export default defineComponent({
 			return `min-width: 100px`;
 		},
 
+		computed_data_isUserAccountValid(): boolean {
+			return this.storeFirebase.getUserData.uid !== null && this.storeFirebase.getUserData.phoneNumber !== null;
+		},
 		computed_data_user_photoURL(): string | undefined {
 			return this.storeFirebase.getUserPhotoURL ?? undefined;
 		},
@@ -403,22 +409,24 @@ export default defineComponent({
 
 			this.profile.actions.btn.save.isLoading = false;
 		},
+		method_event_changeAvatarPicture(): void {
+			// Change avatar picture. Might want to consider using a v-file-input element.
+		},
+	},
+	watch: {
+		computed_data_isUserAccountValid(newValue: boolean): void {
+			if (newValue) {
+				this.computed_data_user_displayName_local = this.computed_data_user_displayName_state;
+				this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
+				this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
+				this.computed_data_user_email_local = this.computed_data_user_email_state;
+				this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
+			}
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
 		return { storeFirebase };
-	},
-	created(): void {
-		debugger;
-
-		const userData = this.storeFirebase.getUserData;
-
-		// Use another method to do below. As I think the user state object will not have been set. Check to make sure the monitorAuthState is called and finished, before I set the local data to the state.
-		this.computed_data_user_displayName_local = this.computed_data_user_displayName_state;
-		this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
-		this.computed_data_user_lastname_local = this.computed_data_user_lastname_state;
-		this.computed_data_user_email_local = this.computed_data_user_email_state;
-		this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
 	},
 });
 </script>
