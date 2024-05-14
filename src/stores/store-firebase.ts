@@ -12,7 +12,6 @@ import {
 	updateEmail,
 	type Auth,
 	type User,
-	type UserCredential,
 } from "firebase/auth";
 import {
 	collection,
@@ -30,33 +29,41 @@ const useFirebaseStore = defineStore("firebase-store", {
 		IsUserLoggingIn: boolean;
 		isUserCreatingAccount: boolean;
 		user: {
-			uid: string | null;
-			displayName: string | null;
-			title: string | null;
-			firstname: string | null;
-			lastname: string | null;
-			email: string | null;
-			emailVerified: boolean;
-			phoneNumber: string | null;
-			photoURL: string | null;
-			isAnonymous: boolean;
-			joinedOn: string | null;
+			authData: {
+				uid: string | null;
+				displayName: string | null;
+				email: string | null;
+				emailVerified: boolean;
+				photoURL?: string | null;
+				isAnonymous: boolean;
+				joinedOn: string | null;
+			};
+			firestoreData: {
+				title: string | null;
+				firstname: string | null;
+				lastname: string | null;
+				phoneNumber: number | null;
+			};
 		};
 	} => ({
 		IsUserLoggingIn: false,
 		isUserCreatingAccount: false,
 		user: {
-			uid: null,
-			displayName: null,
-			title: null,
-			firstname: null,
-			lastname: null,
-			email: null,
-			emailVerified: false,
-			phoneNumber: null,
-			photoURL: null,
-			isAnonymous: false,
-			joinedOn: null,
+			authData: {
+				uid: null,
+				displayName: null,
+				email: null,
+				emailVerified: false,
+				photoURL: null,
+				isAnonymous: false,
+				joinedOn: null,
+			},
+			firestoreData: {
+				title: null,
+				firstname: null,
+				lastname: null,
+				phoneNumber: null,
+			},
 		},
 	}),
 	getters: {
@@ -67,59 +74,55 @@ const useFirebaseStore = defineStore("firebase-store", {
 		getIsUserCreatingAccount: (state): boolean => {
 			return state.isUserCreatingAccount;
 		},
+		getIsUserAuthStoredInState: (state): boolean => {
+			return !!state.user.authData.uid;
+		},
+
 		/* Firebase AUTH */
 		getIsUserLoggedIn: (state): boolean => {
-			return state.user.uid ? true : false;
+			return !!state.user.authData.uid;
 		},
 		getUserID: (state): string | null => {
-			return state.user.uid;
+			return state.user.authData.uid;
 		},
 		getUserDisplayName: (state): string | null => {
-			return state.user.displayName;
+			return state.user.authData.displayName;
 		},
 		getUserTitle: (state): string | null => {
-			return state.user.title;
+			return state.user.firestoreData.title;
 		},
 		getUserFirstname: (state): string | null => {
-			return state.user.firstname;
+			return state.user.firestoreData.firstname;
 		},
 		getUserLastname: (state): string | null => {
-			return state.user.lastname;
+			return state.user.firestoreData.lastname;
 		},
 		getUserEmail: (state): string | null => {
-			return state.user.email;
+			return state.user.authData.email;
 		},
 		getIsUserEmailVerified: (state): boolean => {
-			return state.user.emailVerified;
+			return state.user.authData.emailVerified;
 		},
-		getUserPhoneNumber: (state): string | null => {
-			return state.user.phoneNumber;
+		getUserPhoneNumber: (state): number | null => {
+			return state.user.firestoreData.phoneNumber;
 		},
-		getUserPhotoURL: (state): string | null => {
-			return state.user.photoURL;
+		getUserPhotoURL: (state): string | null | undefined => {
+			return state.user.authData.photoURL;
 		},
 		getIsUserAnonymous: (state): boolean => {
-			return state.user.isAnonymous;
+			return state.user.authData.isAnonymous;
 		},
 		getUserJoinedOn: (state): string | null => {
-			return state.user.joinedOn;
+			return state.user.authData.joinedOn;
 		},
-		getUserData: (
-			state
-		): {
-			uid: string | null;
-			displayName: string | null;
-			title: string | null;
-			firstname: string | null;
-			lastname: string | null;
-			email: string | null;
-			emailVerified: boolean;
-			phoneNumber: string | null;
-			photoURL: string | null;
-			isAnonymous: boolean;
-			joinedOn: string | null;
-		} => {
+		getUserData: (state): any => {
 			return state.user;
+		},
+		getUserAuthData: (state): any => {
+			return state.user.authData;
+		},
+		getUserFirestoreData: (state): any => {
+			return state.user.firestoreData;
 		},
 	},
 	actions: {
@@ -132,74 +135,52 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 
 		/* Firebase AUTH */
-		monitorAuthState(payload: { auth: Auth }): Promise<User> {
+		monitorAuthState(payload: { auth: Auth }): Promise<void> {
 			return new Promise((resolve, reject) => {
-				debugger;
 				onAuthStateChanged(payload.auth, (user: User | null) => {
-					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
 							if (key in this.user && value !== null) {
-								if (key === "uid") {
-									//auth.currentUser?.getIdToken().then((uid: string) => this.setUserID({ uid }));
-									this.setUserID({ uid: value });
-								} else {
-									valuesNotNull[key] = value;
-								}
+								valuesNotNull[key] = value;
 							}
 						}
-						this.setUserAuthData(valuesNotNull);
-						debugger;
-						resolve(user);
+						this.setUserAuthState(valuesNotNull);
+						resolve();
 					} else {
-						reject();
+						reject("User is not valid.");
 					}
 				});
 			});
 		},
-		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<DocumentData> {
+		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
-				debugger;
 				signInWithEmailAndPassword(auth, user.email, user.password)
 					.then(() => {
-						debugger;
 						return this.getFirestoreUser();
 					})
 					.then((userData: DocumentData | undefined) => {
-						debugger;
 						if (userData !== undefined) {
 							this.setUserTitle({ title: userData.title });
 							this.setUserFirstname({ firstname: userData.firstname });
 							this.setUserLastname({ lastname: userData.lastname });
 							this.setUserPhoneNumber({ phoneNumber: userData.phoneNumber });
-							resolve(userData);
+							resolve();
 						}
+						reject("The user data object is empty when signing in. Something went wrong!");
 					})
 					.catch((error) => {
 						switch (error.code) {
 							case "auth/invalid-credential":
-								debugger;
-								reject("auth/invalid-credential");
+								reject("Either the email or password is incorrect");
 								break;
 						}
 					});
 			});
 		},
 		logout(): Promise<void> {
-			this.setUserID({ uid: null });
-			this.setUserTitle({ title: null });
-			this.setUserFirstname({ firstname: null });
-			this.setUserLastname({ lastname: null });
-			this.setUserPhoneNumber({ phoneNumber: null });
-			this.setUserAuthData({
-				displayName: null,
-				email: null,
-				isEmailVerified: false,
-				phoneNumber: null,
-				photoURL: null,
-				isAnonymous: false,
-			});
+			this.resetUserAuthState();
+			this.resetUserFirestoreState();
 			return new Promise((resolve, reject) => {
 				signOut(auth)
 					.then(() => {
@@ -214,6 +195,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 			return new Promise((resolve, reject) => {
 				createUserWithEmailAndPassword(auth, user.email, user.password)
 					.then(() => {
+						return this.sendUserEmailVerification();
+					})
+					.then(() => {
 						resolve();
 					})
 					.catch((error) => {
@@ -226,8 +210,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		sendUserEmailVerification(): Promise<void> {
-			let retval: Promise<void>;
-			retval = new Promise((resolve, reject) => {
+			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
 					sendEmailVerification(auth.currentUser)
 						.then(() => {
@@ -238,74 +221,116 @@ const useFirebaseStore = defineStore("firebase-store", {
 						});
 				}
 			});
-			return retval;
 		},
 		setUserID(user: { uid: string | null }): void {
-			this.user.uid = user.uid;
+			this.user.authData.uid = user.uid;
 		},
 		setUserDisplayName(user: { displayName: string | null }): void {
-			if (auth.currentUser && user.displayName !== null) {
-				updateProfile(auth.currentUser, { displayName: user.displayName });
-				this.user.displayName = user.displayName;
-			}
+			// if (auth.currentUser && user.displayName !== null) {
+			// 	updateProfile(auth.currentUser, { displayName: user.displayName });
+			// 	this.user.displayName = user.displayName;
+			// }
+			this.user.authData.displayName = user.displayName;
 		},
 		setUserTitle(user: { title: string | null }): void {
-			this.user.title = user.title;
+			this.user.firestoreData.title = user.title;
 		},
 		setUserFirstname(user: { firstname: string | null }): void {
-			this.user.firstname = user.firstname;
+			this.user.firestoreData.firstname = user.firstname;
 		},
 		setUserLastname(user: { lastname: string | null }): void {
-			this.user.lastname = user.lastname;
+			this.user.firestoreData.lastname = user.lastname;
 		},
 		setUserEmail(user: { email: string | null }): void {
-			this.user.email = user.email;
+			this.user.authData.email = user.email;
 		},
 		setUserIsEmailVerified(newValue: boolean): void {
-			this.user.emailVerified = newValue;
+			this.user.authData.emailVerified = newValue;
 		},
-		setUserPhoneNumber(user: { phoneNumber: string | null }): void {
-			this.user.phoneNumber = user.phoneNumber;
+		setUserPhoneNumber(user: { phoneNumber: number | null }): void {
+			this.user.firestoreData.phoneNumber = user.phoneNumber;
 		},
 		setUserPhotoURL(user: { photoURL: string | null }): void {
-			this.user.photoURL = user.photoURL;
+			this.user.authData.photoURL = user.photoURL;
 		},
 		setUserIsAnonymous(newValue: boolean): void {
-			this.user.isAnonymous = newValue;
+			this.user.authData.isAnonymous = newValue;
 		},
-		setUserJoinedOn(user: { joinedOn: string }): void {
-			this.user.joinedOn = user.joinedOn;
+		setUserJoinedOn(user: { joinedOn: string | null }): void {
+			this.user.authData.joinedOn = user.joinedOn;
 		},
-		setUserAuthData(user: {
-			displayName?: string | null;
+		setUserAuthState(user: {
+			uid: string | null;
+			displayName: string | null;
 			email: string | null;
 			isEmailVerified: boolean;
-			phoneNumber?: string | null;
-			photoURL?: string | null;
+			photoURL: string | null;
 			isAnonymous: boolean;
+			joinedOn: string | null;
 		}): void {
 			for (const [key, value] of Object.entries(user)) {
 				switch (key) {
+					case "uid":
+						this.setUserID({ uid: value as string });
+						break;
 					case "displayName":
-						this.setUserDisplayName({ displayName: user.displayName! });
+						this.setUserDisplayName({ displayName: value as string });
 						break;
 					case "email":
-						this.setUserEmail({ email: user.email });
+						this.setUserEmail({ email: value as string });
 						break;
 					case "isEmailVerified":
-						this.setUserIsEmailVerified(user.isEmailVerified);
-						break;
-					case "phoneNumber":
-						this.setUserPhoneNumber({ phoneNumber: user.phoneNumber! });
+						this.setUserIsEmailVerified(value as boolean);
 						break;
 					case "photoURL":
-						this.setUserPhotoURL({ photoURL: user.photoURL! });
+						this.setUserPhotoURL({ photoURL: value as string });
 						break;
 					case "isAnonymous":
-						this.setUserIsAnonymous(user.isAnonymous);
+						this.setUserIsAnonymous(value as boolean);
+						break;
+					case "joinedOn":
+						this.setUserJoinedOn({ joinedOn: value as string });
 						break;
 				}
 			}
+		},
+		setUserFirestoreState(user: {
+			title: string | null;
+			firstname: string | null;
+			lastname: string | null;
+			phoneNumber: number | null;
+		}): void {
+			for (const [key, value] of Object.entries(user)) {
+				switch (key) {
+					case "title":
+						this.setUserTitle({ title: value as string });
+						break;
+					case "firstname":
+						this.setUserFirstname({ firstname: value as string });
+						break;
+					case "lastname":
+						this.setUserLastname({ lastname: value as string });
+						break;
+					case "phoneNumber":
+						this.setUserPhoneNumber({ phoneNumber: value as number });
+						break;
+				}
+			}
+		},
+		resetUserAuthState(): void {
+			this.setUserID({ uid: null });
+			this.setUserDisplayName({ displayName: null });
+			this.setUserEmail({ email: null });
+			this.setUserIsEmailVerified(false);
+			this.setUserPhotoURL({ photoURL: null });
+			this.setUserIsAnonymous(false);
+			this.setUserJoinedOn({ joinedOn: null });
+		},
+		resetUserFirestoreState(): void {
+			this.setUserTitle({ title: null });
+			this.setUserFirstname({ firstname: null });
+			this.setUserLastname({ lastname: null });
+			this.setUserPhoneNumber({ phoneNumber: null });
 		},
 		updateUserProfile(user: { displayName?: string; photoURL?: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
@@ -352,49 +377,57 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 
 		/* Firebase CLOUD FIRESTORE */
-		getFirestoreUser(): Promise<DocumentData | undefined> {
+		getFirestoreUser(): Promise<DocumentData> {
 			return new Promise((resolve, reject) => {
-				debugger;
-				const uid: string | null = this.user.uid;
+				const uid: string | null = this.user.authData.uid;
 
 				if (uid !== null) {
 					const userDocumentRef = doc(db, "users", uid);
 
 					getDoc(userDocumentRef)
 						.then((userDocument) => {
-							debugger;
 							const doesUserDocumentExist: boolean = userDocument.exists();
 							const userDocumentData: DocumentData | undefined = userDocument.data();
 
 							if (doesUserDocumentExist && userDocumentData !== undefined) {
+								this.setUserFirestoreState({
+									title: userDocumentData.title,
+									firstname: userDocumentData.firstname,
+									lastname: userDocumentData.lastname,
+									phoneNumber: userDocumentData.phoneNumber,
+								});
 								resolve(userDocumentData);
 							} else {
-								resolve(undefined);
+								reject(
+									"User data object is empty after retrieval. It seems you may have a connection issue"
+								);
 							}
 						})
 						.catch((error) => {
-							reject();
-							console.error(`You are offline, you cannot store user data. ${error}`);
+							reject(`You are offline, so you cannot store user data. ${error}`);
 						});
+				} else {
+					reject("User ID was not populated, before trying to retrieve user data from the firestore.");
 				}
 			});
 		},
 		setFirestoreUser(user: {
 			uid: string;
-			title: string;
-			firstname: string;
-			lastname: string;
-			phoneNumber: string;
+			title: string | null;
+			firstname: string | null;
+			lastname: string | null;
+			phoneNumber: string | null;
 		}): Promise<void> {
-			const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
-			const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
-			const userFirestoreData = {
-				title: user.title,
-				firstname: user.firstname,
-				lastname: user.lastname,
-				phoneNumber: user.phoneNumber,
-			};
 			return new Promise((resolve, reject) => {
+				const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
+				const userDocumentRef: DocumentReference<DocumentData, DocumentData> = doc(userCollectionRef, user.uid);
+				const userFirestoreData = {
+					title: user.title,
+					firstname: user.firstname,
+					lastname: user.lastname,
+					phoneNumber: user.phoneNumber,
+				};
+
 				setDoc(userDocumentRef, userFirestoreData)
 					.then(() => {
 						resolve();
@@ -443,31 +476,3 @@ const useFirebaseStore = defineStore("firebase-store", {
 });
 
 export default useFirebaseStore;
-
-/*
-const uid: string | null = this.user.uid;
-
-				if (uid !== null) {
-					const userDocumentRef = doc(db, "users", uid);
-					const userDocument = await getDoc(userDocumentRef);
-
-					if () {
-
-					}
-
-
-						.then((response) => {
-							debugger;
-							const doesUserDocumentExist: boolean = response.exists();
-							const userDocumentData: DocumentData | undefined = response.data();
-
-							if (doesUserDocumentExist && userDocumentData !== undefined) {
-								resolve(userDocumentData);
-							}
-						})
-						.catch((error) => {
-							reject();
-							console.error(`You are offline, you cannot store their data. ${error}`);
-						});
-				}
-*/

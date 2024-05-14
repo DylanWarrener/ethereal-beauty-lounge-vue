@@ -356,21 +356,13 @@ export default defineComponent({
 							"You have successfully created an account. We have now sent you an email to verify your account.",
 							true
 						);
-						return this.storeFirebase.sendUserEmailVerification();
-					})
-					.then(() => {
 						return this.storeUserInFirestore();
 					})
 					.then(() => {
 						this.storeUserInState();
 						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 					})
-					.catch((errorMessage) => {
-						if (errorMessage) {
-							console.error(errorMessage);
-							this.setErrorMessageAndValue(errorMessage, true);
-						}
-					})
+					.catch((errorMessage: string) => this.setErrorMessageAndValue(errorMessage, true))
 					.finally(() => {
 						setTimeout(() => {
 							this.setSuccessMessageAndValue("", false);
@@ -420,7 +412,7 @@ export default defineComponent({
 			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
 			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
 			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-			const phoneNumber: string = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
+			const phoneNumber: number = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
 
 			this.storeFirebase.setUserDisplayName({ displayName });
 			this.storeFirebase.setUserTitle({ title });
@@ -429,20 +421,26 @@ export default defineComponent({
 			this.storeFirebase.setUserPhoneNumber({ phoneNumber });
 		},
 		storeUserInFirestore(): Promise<void> {
-			const uid: string = this.storeFirebase.getUserID!;
-			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
-			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
-			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-			const phoneNumber: string = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
 			return new Promise((resolve, reject) => {
-				this.storeFirebase
-					.setFirestoreUser({ uid, title, firstname, lastname, phoneNumber })
-					.then(() => {
-						resolve();
-					})
-					.catch((errorMessage: string) => {
-						reject(errorMessage);
-					});
+				const uid: string | null = this.storeFirebase.getUserID;
+
+				if (uid !== null) {
+					const title: string | null = this.data_dialogFormCreateAccount.input.title.value;
+					const firstname: string | null = this.data_dialogFormCreateAccount.input.firstName.value;
+					const lastname: string | null = this.data_dialogFormCreateAccount.input.lastName.value;
+					const phoneNumber: string | null = this.data_dialogFormCreateAccount.input.phoneNumber.value;
+
+					this.storeFirebase
+						.setFirestoreUser({ uid, title, firstname, lastname, phoneNumber })
+						.then(() => {
+							resolve();
+						})
+						.catch((errorMessage: string) => {
+							reject(errorMessage);
+						});
+				} else {
+					reject("User ID was not populated, before trying to retrieve user data from the firestore.");
+				}
 			});
 		},
 

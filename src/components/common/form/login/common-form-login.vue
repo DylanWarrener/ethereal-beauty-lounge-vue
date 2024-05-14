@@ -330,15 +330,7 @@ export default defineComponent({
 							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 						}, this.computed_data_snackbar_defaultTimeout_value);
 					})
-					.catch((error) => {
-						debugger;
-						switch (error) {
-							case "auth/invalid-credential":
-								debugger;
-								this.setErrorMessageAndValue("Either your email address or password is incorrect!", true);
-								break;
-						}
-					})
+					.catch((errorMessage: string) => this.setErrorMessageAndValue(errorMessage, true))
 					.finally(() => {
 						setTimeout(() => {
 							this.setSuccessMessageAndValue("", false);

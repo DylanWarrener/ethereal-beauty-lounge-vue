@@ -266,10 +266,10 @@ export default defineComponent({
 			},
 		},
 		computed_data_user_phoneNumber_local: {
-			get(): string | null {
+			get(): number | null {
 				return this.profile.input.phoneNumber.value;
 			},
-			set(newValue: string | null): void {
+			set(newValue: number | null): void {
 				this.profile.input.phoneNumber.value = newValue;
 			},
 		},
@@ -306,10 +306,10 @@ export default defineComponent({
 			},
 		},
 		computed_data_user_phoneNumber_state: {
-			get(): string | null {
+			get(): number | null {
 				return this.storeFirebase.getUserPhoneNumber;
 			},
-			set(newValue: string | null): void {
+			set(newValue: number | null): void {
 				this.storeFirebase.setUserPhoneNumber({ phoneNumber: newValue });
 			},
 		},
@@ -344,8 +344,8 @@ export default defineComponent({
 				let firstNameState: string | null = this.computed_data_user_firstname_state;
 				let lastNameLocal: string | null = this.computed_data_user_lastname_local;
 				let lastNameState: string | null = this.computed_data_user_lastname_state;
-				let phoneNumberLocal: string | null = this.computed_data_user_phoneNumber_local;
-				let phoneNumberState: string | null = this.computed_data_user_phoneNumber_state;
+				let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
+				let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
 
 				// Both first & last name have been changed.
 				if (!doesFirstNameLocalMatchState && !doesLastNameLocalMatchState && !doesPhoneNumberLocalMatchState) {
@@ -396,8 +396,8 @@ export default defineComponent({
 			}
 
 			if (!doesPhoneNumberLocalMatchState) {
-				let phoneNumberLocal: string | null = this.computed_data_user_phoneNumber_local;
-				let phoneNumberState: string | null = this.computed_data_user_phoneNumber_state;
+				let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
+				let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
 
 				if (phoneNumberLocal !== null) {
 					// Update state to match local changes.

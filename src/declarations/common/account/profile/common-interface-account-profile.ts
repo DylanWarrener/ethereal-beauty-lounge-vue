@@ -35,7 +35,7 @@ export interface IAccountProfileData {
 			};
 			phoneNumber: {
 				label: string;
-				value: string | null;
+				value: number | null;
 			};
 		};
 		actions: {

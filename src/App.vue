@@ -22,10 +22,10 @@ import { defineComponent } from "vue";
 
 // Services
 import { auth } from "@plugins/firebase/firebase.js";
-import { type DocumentData } from "firebase/firestore";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
+import useCommonStore from "@stores/store-common.js";
 
 // Components
 import HeaderComp from "@components/common/header/common-header.vue";
@@ -35,7 +35,6 @@ import FooterComp from "@components/common/footer/common-footer.vue";
 
 // SVGs
 import WhatsAppSVG from "@assets/svg/socials/whatsapp_outline.svg";
-import { debugErrorMap } from "firebase/auth";
 
 export default defineComponent({
 	name: "app-component",
@@ -55,9 +54,28 @@ export default defineComponent({
 		computed_icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
+		computed_data_snackbar_defaultTimeout_value(): number {
+			return this.storeCommon.getSnackbarTimeoutDefaultValue;
+		},
+		computed_data_createUserError_message: {
+			get(): string {
+				return this.storeCommon.getCreateUserErrorMessage;
+			},
+			set(newValue: string): void {
+				this.storeCommon.setCreateUserErrorMessage({ text: newValue });
+			},
+		},
+		computed_data_createUserError_value: {
+			get(): boolean {
+				return this.storeCommon.getCreateUserErrorValue;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setCreateUserErrorValue(newValue);
+			},
+		},
 	},
 	methods: {
-		methods_utils_monitorTargetElement(targetElement: string): void {
+		method_utils_monitorTargetElement(targetElement: string): void {
 			window.addEventListener(
 				"load",
 				(event) => {
@@ -81,28 +99,21 @@ export default defineComponent({
 		method_utils_handleIntersect(entries: any): void {
 			this.showWhatsappChatbot = entries[0].isIntersecting;
 		},
+		method_utils_setErrorMessageAndValue(message: string, value: boolean): void {
+			this.computed_data_createUserError_message = message;
+			this.computed_data_createUserError_value = value;
+		},
 	},
 	created(): void {
-		this.storeFirebase.monitorAuthState({ auth }).then(() => {
-			const isUserCreatingAccount: boolean = this.storeFirebase.getIsUserCreatingAccount;
-			if (!isUserCreatingAccount) {
-				this.storeFirebase.getFirestoreUser().then((userData) => {
-					if (userData !== undefined) {
-						this.storeFirebase.setUserTitle({ title: userData.title });
-						this.storeFirebase.setUserFirstname({ firstname: userData.firstname });
-						this.storeFirebase.setUserLastname({ lastname: userData.lastname });
-						this.storeFirebase.setUserPhoneNumber({ phoneNumber: userData.phoneNumber });
-					}
-				});
-			}
-		});
+		this.storeFirebase.monitorAuthState({ auth }).then(() => this.storeFirebase.getFirestoreUser());
 	},
 	mounted(): void {
-		this.methods_utils_monitorTargetElement("#footer");
+		this.method_utils_monitorTargetElement("#footer");
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
-		return { storeFirebase };
+		const storeCommon = useCommonStore();
+		return { storeFirebase, storeCommon };
 	},
 });
 </script>
