@@ -9,6 +9,7 @@
 					@submit.prevent="createAccount_handler"
 				>
 					<v-select
+						clearable
 						ref="ref_title"
 						variant="outlined"
 						:items="data_dialogFormCreateAccount.input.title.items"
@@ -65,7 +66,7 @@
 						clearable
 						ref="ref_phoneNumber"
 						variant="outlined"
-						type="text"
+						type="number"
 						:style="computed_css_dynamicWidth"
 						:rules="computed_data_phoneNumberValidationRules"
 						v-model="data_dialogFormCreateAccount.input.phoneNumber.value"
@@ -151,7 +152,7 @@
 				</v-btn>
 			</v-col>
 
-			<teleport to="body">
+			<!-- <teleport to="body">
 				<snackbar-container
 					color="success"
 					location="top"
@@ -166,7 +167,7 @@
 					v-model="computed_data_createUserError_value"
 					@close="methods_event_snackbar_close('error')"
 				></snackbar-container>
-			</teleport>
+			</teleport> -->
 		</v-row>
 	</v-container>
 </template>
@@ -178,9 +179,6 @@ import { defineComponent } from "vue";
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
-// Components
-import SnackBarContainerComp from "@components/common/snackbar/common-snackbar.vue";
-
 // Constants
 import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
 
@@ -189,9 +187,6 @@ import { iconsFormPassword } from "@constants/common/objects/common-constants-ob
 
 export default defineComponent({
 	name: "create-account-container-component",
-	components: {
-		"snackbar-container": SnackBarContainerComp,
-	},
 	data() {
 		return {
 			data_dialogFormCreateAccount: {
@@ -270,7 +265,7 @@ export default defineComponent({
 			return [this.isNotEmpty, this.isEmailFormatValid];
 		},
 		computed_data_phoneNumberValidationRules(): any {
-			return [this.isNotEmpty];
+			return [];
 		},
 		computed_data_passwordValidationRules(): any {
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
@@ -359,7 +354,19 @@ export default defineComponent({
 						return this.storeUserInFirestore();
 					})
 					.then(() => {
-						this.storeUserInState();
+						return this.storeUserInState();
+					})
+					.then(() => {
+						debugger;
+						// By here the firestore user data should be populated
+						const firestoreData = this.storeFirebase.getUserFirestoreData;
+
+						// By here the auth user data should be populated
+						const authData = this.storeFirebase.getUserAuthData;
+
+						//const [displayName, email] = this.storeFirebase.getUserAuthData;
+						//const [firstname, lastname, phoneNumber] = this.storeFirebase.getUserFirestoreData;
+
 						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 					})
 					.catch((errorMessage: string) => this.setErrorMessageAndValue(errorMessage, true))
@@ -407,18 +414,32 @@ export default defineComponent({
 			this.computed_data_createUserError_message = message;
 			this.computed_data_createUserError_value = value;
 		},
-		storeUserInState(): void {
-			const displayName: string = `${this.data_dialogFormCreateAccount.input.firstName.value} ${this.data_dialogFormCreateAccount.input.lastName.value}`;
-			const title: string = this.data_dialogFormCreateAccount.input.title.value!;
-			const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
-			const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-			const phoneNumber: number = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
+		storeUserInState(): Promise<void> {
+			debugger;
+			return new Promise((resolve, reject) => {
+				debugger;
+				const displayName: string = `${this.data_dialogFormCreateAccount.input.firstName.value} ${this.data_dialogFormCreateAccount.input.lastName.value}`;
+				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
+				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
+				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
+				const phoneNumber: number = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
 
-			this.storeFirebase.setUserDisplayName({ displayName });
-			this.storeFirebase.setUserTitle({ title });
-			this.storeFirebase.setUserFirstname({ firstname });
-			this.storeFirebase.setUserLastname({ lastname });
-			this.storeFirebase.setUserPhoneNumber({ phoneNumber });
+				this.storeFirebase
+					.updateUserProfile({ displayName })
+					.then(() => {
+						debugger;
+						this.storeFirebase.setUserDisplayName({ displayName });
+						this.storeFirebase.setUserTitle({ title });
+						this.storeFirebase.setUserFirstname({ firstname });
+						this.storeFirebase.setUserLastname({ lastname });
+						this.storeFirebase.setUserPhoneNumber({ phoneNumber });
+						resolve();
+					})
+					.catch((errorMessage: string) => {
+						console.log(errorMessage);
+						reject(errorMessage);
+					});
+			});
 		},
 		storeUserInFirestore(): Promise<void> {
 			return new Promise((resolve, reject) => {

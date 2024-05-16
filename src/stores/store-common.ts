@@ -11,7 +11,10 @@ import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-co
 export const useCommonStore = defineStore("common-store", {
 	state: (): ICommonState => ({
 		snackbar: {
-			defaultTimeout: 5000,
+			timeout: 5000,
+			color: null,
+			btnColor: null,
+			message: null,
 			success: {
 				createUser: {
 					value: false,

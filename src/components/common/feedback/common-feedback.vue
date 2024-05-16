@@ -1,5 +1,5 @@
 <template>
-	<v-snackbar :color="color" :timeout="computed_data_defaultTimeout">
+	<v-snackbar :color="color" :timeout="computed_data_defaultTimeout" v-model="">
 		<template v-slot:text>
 			<span class="text-default" v-text="text"></span>
 		</template>
@@ -16,7 +16,7 @@ import { defineComponent } from "vue";
 import useCommonStore from "@stores/store-common.js";
 
 export default defineComponent({
-	name: "common-snackbar-container-component",
+	name: "user-feedback-container-component",
 	props: {
 		color: { type: String, required: true },
 		text: { type: String, required: true },

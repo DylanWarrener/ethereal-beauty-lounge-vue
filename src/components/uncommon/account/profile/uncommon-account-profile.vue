@@ -1,5 +1,5 @@
 <template>
-	<v-card elevation="0" class="h-100 bg-accent" v-if="computed_data_isUserAccountValid">
+	<v-card elevation="0" class="h-100 bg-accent" v-if="computed_data_isUserLoggedIn">
 		<v-container fluid>
 			<v-row dense>
 				<!-- Title -->
@@ -195,8 +195,8 @@ export default defineComponent({
 			return `min-width: 100px`;
 		},
 
-		computed_data_isUserAccountValid(): boolean {
-			return this.storeFirebase.getUserData.uid !== null && this.storeFirebase.getUserData.phoneNumber !== null;
+		computed_data_isUserLoggedIn(): boolean {
+			return this.storeFirebase.getIsUserLoggedIn;
 		},
 		computed_data_user_photoURL(): string | undefined {
 			return this.storeFirebase.getUserPhotoURL ?? undefined;
@@ -316,105 +316,16 @@ export default defineComponent({
 	},
 	methods: {
 		method_event_saveProfileSettingsHandler(): void {
-			debugger;
-			const doesDisplayNameLocalMatchState: boolean = this.computed_data_doesDisplayNameLocal_matchState;
-			const doesFirstNameLocalMatchState: boolean = this.computed_data_doesFirstnameLocal_matchState;
-			const doesLastNameLocalMatchState: boolean = this.computed_data_doesLastnameLocal_matchState;
-			const doesPhoneNumberLocalMatchState: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
-			const doesEmailLocalMatchState: boolean = this.computed_data_doesEmailLocal_matchState;
-
 			this.profile.actions.btn.save.isLoading = true;
-
-			if (!doesDisplayNameLocalMatchState) {
-				debugger;
-				let displayNameLocal: string | null = this.computed_data_user_displayName_local;
-				let displayNameState: string | null = this.computed_data_user_displayName_state;
-
-				if (displayNameLocal !== null) {
-					// Update the state with the newest changes from the user.
-					displayNameState = displayNameLocal;
-
-					// Update the firestore auth user profile
-					this.storeFirebase.updateUserProfile({ displayName: displayNameLocal });
-				}
-			}
-
-			if (!doesFirstNameLocalMatchState || !doesLastNameLocalMatchState || !doesPhoneNumberLocalMatchState) {
-				let firstNameLocal: string | null = this.computed_data_user_firstname_local;
-				let firstNameState: string | null = this.computed_data_user_firstname_state;
-				let lastNameLocal: string | null = this.computed_data_user_lastname_local;
-				let lastNameState: string | null = this.computed_data_user_lastname_state;
-				let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
-				let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
-
-				// Both first & last name have been changed.
-				if (!doesFirstNameLocalMatchState && !doesLastNameLocalMatchState && !doesPhoneNumberLocalMatchState) {
-					// Update state to match local changes.
-					firstNameState = firstNameLocal;
-					lastNameState = lastNameLocal;
-					phoneNumberState = phoneNumberLocal;
-
-					// Update firebase firestore users first and last name
-				}
-
-				// Only the first name has been changed.
-				if (!doesFirstNameLocalMatchState) {
-					// Update state to match local changes.
-					firstNameState = firstNameLocal;
-
-					// Update firebase firestore users first name
-				}
-
-				// Only the last name has been changed.
-				if (!doesLastNameLocalMatchState) {
-					// Update state to match local changes.
-					lastNameState = lastNameLocal;
-
-					// Update firebase firestore users last name
-				}
-
-				// Only the last name has been changed.
-				if (!doesPhoneNumberLocalMatchState) {
-					// Update state to match local changes.
-					phoneNumberState = phoneNumberLocal;
-
-					// Update firebase firestore users last name
-				}
-			}
-
-			if (!doesEmailLocalMatchState) {
-				let emailLocal: string | null = this.computed_data_user_email_local;
-				let emailState: string | null = this.computed_data_user_email_state;
-
-				if (emailLocal !== null) {
-					// Update state to match local changes.
-					emailState = emailLocal;
-
-					// Update firebase firestore users email
-					this.storeFirebase.updateUserEmail({ email: emailLocal });
-				}
-			}
-
-			if (!doesPhoneNumberLocalMatchState) {
-				let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
-				let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
-
-				if (phoneNumberLocal !== null) {
-					// Update state to match local changes.
-					phoneNumberState = phoneNumberLocal;
-
-					// Update firebase firestore users phone number
-				}
-			}
-
+			this.method_utils_matchLocalDataToStateAndUploadIfRequired().catch((errorMessage: string) => {
+				// Show error message to user.
+			});
 			this.profile.actions.btn.save.isLoading = false;
 		},
 		method_event_changeAvatarPicture(): void {
 			// Change avatar picture. Might want to consider using a v-file-input element.
 		},
-	},
-	watch: {
-		computed_data_isUserAccountValid(newValue: boolean): void {
+		method_event_updateUserData(newValue: boolean): void {
 			if (newValue) {
 				this.computed_data_user_displayName_local = this.computed_data_user_displayName_state;
 				this.computed_data_user_firstname_local = this.computed_data_user_firstname_state;
@@ -423,10 +334,182 @@ export default defineComponent({
 				this.computed_data_user_phoneNumber_local = this.computed_data_user_phoneNumber_state;
 			}
 		},
+
+		method_utils_matchLocalDataToStateAndUploadIfRequired(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				this.method_utils_matchAuthLocalDataToStateAndUploadIfRequired()
+					.then(() => {
+						return this.method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired;
+					})
+					.then(() => resolve())
+					.catch((errorMessage: string) => reject(errorMessage));
+			});
+		},
+		method_utils_matchAuthLocalDataToStateAndUploadIfRequired(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				this.method_utils_matchDisplayNameLocalToState()
+					.then(() => {
+						return this.method_utils_matchEmailLocalToState;
+					})
+					.then(() => resolve())
+					.catch((errorMessage: string) => reject(errorMessage));
+			});
+		},
+		method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				this.method_utils_matchPhoneNumberLocalToState()
+					.then(() => {
+						return this.method_utils_matchFirstNameLocalToState;
+					})
+					.then(() => {
+						return this.method_utils_matchLastNameLocalToState;
+					})
+					.then(() => resolve())
+					.catch((errorMessage: string) => reject(errorMessage));
+			});
+		},
+		method_utils_matchDisplayNameLocalToState(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const doesDisplayNameLocalMatchState: boolean = this.computed_data_doesDisplayNameLocal_matchState;
+
+				if (!doesDisplayNameLocalMatchState) {
+					let displayNameLocal: string | null = this.computed_data_user_displayName_local;
+					let displayNameState: string | null = this.computed_data_user_displayName_state;
+
+					if (displayNameLocal !== null) {
+						// Update the state with the newest changes from the user.
+						displayNameState = displayNameLocal;
+
+						// Update user auth data.
+						this.storeFirebase
+							.updateUserProfile({ displayName: displayNameLocal })
+							.then(() => {
+								resolve();
+							})
+							.catch((errorMessage: string) => {
+								reject(errorMessage);
+							});
+					} else {
+						displayNameLocal = displayNameState;
+						reject("The display name property is set to empty. You must enter a value.");
+					}
+				} else {
+					resolve();
+				}
+			});
+		},
+		method_utils_matchFirstNameLocalToState(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const doesFirstNameLocalMatchState: boolean = this.computed_data_doesFirstnameLocal_matchState;
+
+				if (!doesFirstNameLocalMatchState) {
+					let firstNameLocal: string | null = this.computed_data_user_firstname_local;
+					let firstNameState: string | null = this.computed_data_user_firstname_state;
+
+					if (firstNameLocal !== null) {
+						// Update the state with the newest changes from the user.
+						firstNameState = firstNameLocal;
+
+						// Update user firestore data.
+					} else {
+						firstNameLocal = firstNameState;
+						reject("The first name property is set to empty. You must enter a value.");
+					}
+				} else {
+					resolve();
+				}
+			});
+		},
+		method_utils_matchLastNameLocalToState(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const doesLastNameLocalMatchState: boolean = this.computed_data_doesLastnameLocal_matchState;
+
+				if (!doesLastNameLocalMatchState) {
+					let lastNameLocal: string | null = this.computed_data_user_lastname_local;
+					let lastNameState: string | null = this.computed_data_user_lastname_state;
+
+					if (lastNameLocal !== null) {
+						// Update the state with the newest changes from the user.
+						lastNameState = lastNameLocal;
+
+						// Update user firestore data.
+					} else {
+						lastNameLocal = lastNameState;
+						reject("The last name property is set to empty. You must enter a value.");
+					}
+				} else {
+					resolve();
+				}
+			});
+		},
+		method_utils_matchEmailLocalToState(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const doesEmailLocalMatchState: boolean = this.computed_data_doesEmailLocal_matchState;
+
+				if (!doesEmailLocalMatchState) {
+					let emailLocal: string | null = this.computed_data_user_email_local;
+					let emailState: string | null = this.computed_data_user_email_state;
+
+					if (emailLocal !== null) {
+						// Update the state with the newest changes from the user.
+						emailState = emailLocal;
+
+						// Update user auth data.
+						this.storeFirebase
+							.updateUserEmail({ email: emailLocal })
+							.then(() => {
+								resolve();
+							})
+							.catch((errorMessage: string) => {
+								reject(errorMessage);
+							});
+					} else {
+						emailLocal = emailState;
+						reject("The email property is set to empty. You must enter a value.");
+					}
+				} else {
+					resolve();
+				}
+			});
+		},
+		method_utils_matchPhoneNumberLocalToState(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				const doesPhoneNumberLocalMatchState: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
+
+				if (!doesPhoneNumberLocalMatchState) {
+					let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
+					let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
+
+					if (phoneNumberLocal !== null) {
+						// Update the state with the newest changes from the user.
+						phoneNumberState = phoneNumberLocal;
+
+						// Update user firestore data.
+					} else {
+						phoneNumberLocal = phoneNumberState;
+						reject("The phone property is set to empty. You must enter a value.");
+					}
+				} else {
+					resolve();
+				}
+			});
+		},
+	},
+	watch: {
+		computed_data_isUserLoggedIn(newValue: boolean): void {
+			if (newValue) {
+				this.method_event_updateUserData(newValue);
+			}
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
 		return { storeFirebase };
+	},
+	mounted(): void {
+		if (this.computed_data_isUserLoggedIn) {
+			this.method_event_updateUserData(this.computed_data_isUserLoggedIn);
+		}
 	},
 });
 </script>

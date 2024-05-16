@@ -74,13 +74,10 @@ const useFirebaseStore = defineStore("firebase-store", {
 		getIsUserCreatingAccount: (state): boolean => {
 			return state.isUserCreatingAccount;
 		},
-		getIsUserAuthStoredInState: (state): boolean => {
-			return !!state.user.authData.uid;
-		},
 
 		/* Firebase AUTH */
 		getIsUserLoggedIn: (state): boolean => {
-			return !!state.user.authData.uid;
+			return !!state.user.authData.uid && !!state.user.firestoreData.firstname;
 		},
 		getUserID: (state): string | null => {
 			return state.user.authData.uid;
@@ -136,8 +133,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 		/* Firebase AUTH */
 		monitorAuthState(payload: { auth: Auth }): Promise<void> {
+			debugger;
 			return new Promise((resolve, reject) => {
+				debugger;
 				onAuthStateChanged(payload.auth, (user: User | null) => {
+					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
@@ -334,8 +334,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		updateUserProfile(user: { displayName?: string; photoURL?: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
-				debugger;
-
 				let valuesNotUndefined: any = {};
 				for (const [key, value] of Object.entries(user)) {
 					if (value !== undefined) {
@@ -346,12 +344,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 				if (Object.keys(valuesNotUndefined).length > 0 && auth.currentUser !== null) {
 					updateProfile(auth.currentUser, valuesNotUndefined)
 						.then(() => {
-							debugger;
 							resolve();
 						})
-						.catch(() => {
-							debugger;
-							reject();
+						.catch((error) => {
+							const errorMessage: string = "";
+
+							console.error(`${errorMessage}. ${error}`);
+							reject(errorMessage);
 						});
 				}
 			});
@@ -364,9 +363,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 							resolve();
 						})
 						.catch((error) => {
+							let errorMessage: string = "";
 							switch (error.code) {
 								case "auth/operation-not-allowed":
-									const errorMessage = "You must verify your email address before we can update it";
+									errorMessage =
+										"Cannot update email. This operation requires that you have logged in recently. Reauthenticate now.";
 									console.error(`${errorMessage}. ${error}`);
 									reject(errorMessage);
 									break;
@@ -378,9 +379,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 		/* Firebase CLOUD FIRESTORE */
 		getFirestoreUser(): Promise<DocumentData> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				const uid: string | null = this.user.authData.uid;
 
 				if (uid !== null) {
@@ -388,7 +387,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 					getDoc(userDocumentRef)
 						.then((userDocument) => {
-							debugger;
 							const doesUserDocumentExist: boolean = userDocument.exists();
 							const userDocumentData: DocumentData | undefined = userDocument.data();
 

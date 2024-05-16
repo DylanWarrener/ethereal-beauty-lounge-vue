@@ -1,6 +1,7 @@
 <template>
 	<v-layout id="layout">
 		<header-container-component></header-container-component>
+		<user-feedback-container-component></user-feedback-container-component>
 		<navigation-pages-mobile-menu></navigation-pages-mobile-menu>
 		<user-account-navigation-component></user-account-navigation-component>
 		<v-main style="--v-layout-top: 0">
@@ -25,10 +26,10 @@ import { auth } from "@plugins/firebase/firebase.js";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
-import useCommonStore from "@stores/store-common.js";
 
 // Components
 import HeaderComp from "@components/common/header/common-header.vue";
+import UserFeedbackComp from "@components/common/";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import NavigationPagesMobileMenu from "@components/uncommon/navigation/pages/mobile-menu/uncommon-navigation-pages-mobile-menu.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
@@ -40,6 +41,7 @@ export default defineComponent({
 	name: "app-component",
 	components: {
 		"header-container-component": HeaderComp,
+		"user-feedback-container-component": UserFeedbackComp,
 		"navigation-pages-mobile-menu": NavigationPagesMobileMenu,
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
@@ -53,25 +55,6 @@ export default defineComponent({
 	computed: {
 		computed_icon_whatsapp(): string {
 			return WhatsAppSVG;
-		},
-		computed_data_snackbar_defaultTimeout_value(): number {
-			return this.storeCommon.getSnackbarTimeoutDefaultValue;
-		},
-		computed_data_createUserError_message: {
-			get(): string {
-				return this.storeCommon.getCreateUserErrorMessage;
-			},
-			set(newValue: string): void {
-				this.storeCommon.setCreateUserErrorMessage({ text: newValue });
-			},
-		},
-		computed_data_createUserError_value: {
-			get(): boolean {
-				return this.storeCommon.getCreateUserErrorValue;
-			},
-			set(newValue: boolean): void {
-				this.storeCommon.setCreateUserErrorValue(newValue);
-			},
 		},
 	},
 	methods: {
@@ -99,22 +82,22 @@ export default defineComponent({
 		method_utils_handleIntersect(entries: any): void {
 			this.showWhatsappChatbot = entries[0].isIntersecting;
 		},
-		method_utils_setErrorMessageAndValue(message: string, value: boolean): void {
-			this.computed_data_createUserError_message = message;
-			this.computed_data_createUserError_value = value;
-		},
 	},
 	created(): void {
 		debugger;
-		this.storeFirebase.monitorAuthState({ auth }).then(() => this.storeFirebase.getFirestoreUser());
+		this.storeFirebase.monitorAuthState({ auth }).then(() => {
+			debugger;
+			const user1 = this.storeFirebase.getUserData;
+			this.storeFirebase.getFirestoreUser();
+			const user2 = this.storeFirebase.getUserData;
+		});
 	},
 	mounted(): void {
 		this.method_utils_monitorTargetElement("#footer");
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
-		const storeCommon = useCommonStore();
-		return { storeFirebase, storeCommon };
+		return { storeFirebase };
 	},
 });
 </script>
