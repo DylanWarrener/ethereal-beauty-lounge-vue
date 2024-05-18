@@ -65,7 +65,9 @@
 							<v-text-field
 								clearable
 								variant="outlined"
+								type="text"
 								:label="profile.input.displayName.label"
+								:rules="computed_data_validation_displayNameRules"
 								v-model="computed_data_user_displayName_local"
 							></v-text-field>
 						</v-col>
@@ -73,7 +75,9 @@
 							<v-text-field
 								clearable
 								variant="outlined"
+								type="text"
 								:label="profile.input.firstname.label"
+								:rules="computed_data_validation_nameRules"
 								v-model="computed_data_user_firstname_local"
 							></v-text-field>
 						</v-col>
@@ -81,7 +85,9 @@
 							<v-text-field
 								clearable
 								variant="outlined"
+								type="text"
 								:label="profile.input.lastname.label"
+								:rules="computed_data_validation_nameRules"
 								v-model="computed_data_user_lastname_local"
 							></v-text-field>
 						</v-col>
@@ -89,7 +95,9 @@
 							<v-text-field
 								clearable
 								variant="outlined"
+								type="email"
 								:label="profile.input.email.label"
+								:rules="computed_data_validation_emailRules"
 								v-model="computed_data_user_email_local"
 							></v-text-field>
 						</v-col>
@@ -97,7 +105,9 @@
 							<v-text-field
 								clearable
 								variant="outlined"
+								type="number"
 								:label="profile.input.phoneNumber.label"
+								:rules="computed_data_validation_phoneNumberRules"
 								v-model="computed_data_user_phoneNumber_local"
 							></v-text-field>
 						</v-col>
@@ -128,6 +138,7 @@ import { defineComponent } from "vue";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
+import useCommonStore from "@stores/store-common.js";
 
 // Declarations
 import { IAccountProfileData } from "@declarations/common/account/profile/common-interface-account-profile.js";
@@ -195,6 +206,18 @@ export default defineComponent({
 			return `min-width: 100px`;
 		},
 
+		computed_data_validation_displayNameRules(): any {
+			return [this.method_validation_isNotEmpty];
+		},
+		computed_data_validation_nameRules(): any {
+			return [this.method_validation_isNotEmpty, this.method_validation_isNameMinLength];
+		},
+		computed_data_validation_emailRules(): any {
+			return [this.method_validation_isNotEmpty, this.method_validation_isEmailFormatValid];
+		},
+		computed_data_validation_phoneNumberRules(): any {
+			return [];
+		},
 		computed_data_isUserLoggedIn(): boolean {
 			return this.storeFirebase.getIsUserLoggedIn;
 		},
@@ -278,7 +301,7 @@ export default defineComponent({
 				return this.storeFirebase.getUserDisplayName;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserDisplayName({ displayName: newValue });
+				this.storeFirebase.setUserDisplayName(newValue);
 			},
 		},
 		computed_data_user_firstname_state: {
@@ -286,7 +309,7 @@ export default defineComponent({
 				return this.storeFirebase.getUserFirstname;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserFirstname({ firstname: newValue });
+				this.storeFirebase.setUserFirstname(newValue);
 			},
 		},
 		computed_data_user_lastname_state: {
@@ -294,7 +317,7 @@ export default defineComponent({
 				return this.storeFirebase.getUserLastname;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserLastname({ lastname: newValue });
+				this.storeFirebase.setUserLastname(newValue);
 			},
 		},
 		computed_data_user_email_state: {
@@ -302,7 +325,7 @@ export default defineComponent({
 				return this.storeFirebase.getUserEmail;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserEmail({ email: newValue });
+				this.storeFirebase.setUserEmail(newValue);
 			},
 		},
 		computed_data_user_phoneNumber_state: {
@@ -310,19 +333,29 @@ export default defineComponent({
 				return this.storeFirebase.getUserPhoneNumber;
 			},
 			set(newValue: number | null): void {
-				this.storeFirebase.setUserPhoneNumber({ phoneNumber: newValue });
+				this.storeFirebase.setUserPhoneNumber(newValue);
 			},
 		},
 	},
 	methods: {
 		method_event_saveProfileSettingsHandler(): void {
 			this.profile.actions.btn.save.isLoading = true;
-			this.method_utils_matchLocalDataToStateAndUploadIfRequired().catch((errorMessage: string) => {
-				// Show error message to user.
-			});
-			this.profile.actions.btn.save.isLoading = false;
+			this.method_utils_matchLocalDataToStateAndUploadIfRequired()
+				.then(() => {
+					this.storeCommon.setSnackbar_success_value("We have successfully saved your account settings.");
+				})
+				.catch((errorMessage: string) => {
+					this.storeCommon.setSnackbar_error_value(errorMessage);
+				})
+				.finally(() => {
+					setTimeout(() => {
+						this.storeCommon.setSnackbar_reset_values();
+						this.profile.actions.btn.save.isLoading = false;
+					}, this.storeCommon.getSnackbar_timeout_value);
+				});
 		},
 		method_event_changeAvatarPicture(): void {
+			debugger;
 			// Change avatar picture. Might want to consider using a v-file-input element.
 		},
 		method_event_updateUserData(newValue: boolean): void {
@@ -338,161 +371,113 @@ export default defineComponent({
 		method_utils_matchLocalDataToStateAndUploadIfRequired(): Promise<void> {
 			return new Promise((resolve, reject) => {
 				this.method_utils_matchAuthLocalDataToStateAndUploadIfRequired()
-					.then(() => {
-						return this.method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired;
-					})
+					.then(() => this.method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired())
 					.then(() => resolve())
 					.catch((errorMessage: string) => reject(errorMessage));
 			});
 		},
 		method_utils_matchAuthLocalDataToStateAndUploadIfRequired(): Promise<void> {
 			return new Promise((resolve, reject) => {
-				this.method_utils_matchDisplayNameLocalToState()
-					.then(() => {
-						return this.method_utils_matchEmailLocalToState;
-					})
-					.then(() => resolve())
-					.catch((errorMessage: string) => reject(errorMessage));
+				let displayNameLocal: string = this.computed_data_user_displayName_local!;
+				let displayNameState: string = this.computed_data_user_displayName_state!;
+				let emailLocal: string = this.computed_data_user_email_local!;
+				let emailState: string = this.computed_data_user_email_state!;
+
+				if (!this.computed_data_doesDisplayNameLocal_matchState) {
+					this.storeFirebase
+						.updateUserProfile({ displayName: displayNameLocal })
+						.then(() => {
+							displayNameState = displayNameLocal;
+							resolve();
+						})
+						.catch((errorMessage: string) => reject(errorMessage));
+				}
+
+				if (!this.computed_data_doesEmailLocal_matchState) {
+					this.storeFirebase
+						.updateUserEmail(emailLocal)
+						.then(() => {
+							emailState = emailLocal;
+							resolve();
+						})
+						.catch((errorMessage: string) => reject(errorMessage));
+				}
 			});
 		},
 		method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired(): Promise<void> {
 			return new Promise((resolve, reject) => {
-				this.method_utils_matchPhoneNumberLocalToState()
+				let firstname: any = {
+					local: this.computed_data_user_firstname_local,
+					state: this.computed_data_user_firstname_state,
+				};
+				let lastname: any = {
+					local: this.computed_data_user_lastname_local,
+					state: this.computed_data_user_lastname_state,
+				};
+				let phoneNumber: any = {
+					local: this.computed_data_user_phoneNumber_local,
+					state: this.computed_data_user_phoneNumber_state,
+				};
+
+				let userCredentials = { firstname, lastname, phoneNumber };
+				let valuesThatHaveChanged: any = {};
+				for (const [key, value] of Object.entries(userCredentials)) {
+					if (value.local !== value.state) {
+						valuesThatHaveChanged[key] = value.local;
+					}
+				}
+
+				this.storeFirebase
+					.updateFirestoreUser(valuesThatHaveChanged)
 					.then(() => {
-						return this.method_utils_matchFirstNameLocalToState;
+						this.computed_data_user_firstname_state = this.computed_data_user_firstname_local;
+						this.computed_data_user_lastname_state = this.computed_data_user_lastname_local;
+						this.computed_data_user_phoneNumber_state = this.computed_data_user_phoneNumber_local;
+						resolve();
 					})
-					.then(() => {
-						return this.method_utils_matchLastNameLocalToState;
-					})
-					.then(() => resolve())
 					.catch((errorMessage: string) => reject(errorMessage));
 			});
 		},
-		method_utils_matchDisplayNameLocalToState(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				const doesDisplayNameLocalMatchState: boolean = this.computed_data_doesDisplayNameLocal_matchState;
 
-				if (!doesDisplayNameLocalMatchState) {
-					let displayNameLocal: string | null = this.computed_data_user_displayName_local;
-					let displayNameState: string | null = this.computed_data_user_displayName_state;
+		method_validation_isNotEmpty(newValue: string): boolean | string {
+			let retVal: boolean | string = false;
+			// Checks for null & undefined
+			if (newValue) {
+				// Gets rid of whitespace
+				let val = newValue.trim();
 
-					if (displayNameLocal !== null) {
-						// Update the state with the newest changes from the user.
-						displayNameState = displayNameLocal;
-
-						// Update user auth data.
-						this.storeFirebase
-							.updateUserProfile({ displayName: displayNameLocal })
-							.then(() => {
-								resolve();
-							})
-							.catch((errorMessage: string) => {
-								reject(errorMessage);
-							});
-					} else {
-						displayNameLocal = displayNameState;
-						reject("The display name property is set to empty. You must enter a value.");
-					}
-				} else {
-					resolve();
-				}
-			});
+				// Checks the length
+				retVal = val.length > 0 || "A value must be entered.";
+			} else {
+				retVal = "A value must be entered.";
+			}
+			return retVal;
 		},
-		method_utils_matchFirstNameLocalToState(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				const doesFirstNameLocalMatchState: boolean = this.computed_data_doesFirstnameLocal_matchState;
+		method_validation_isNameMinLength(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
-				if (!doesFirstNameLocalMatchState) {
-					let firstNameLocal: string | null = this.computed_data_user_firstname_local;
-					let firstNameState: string | null = this.computed_data_user_firstname_state;
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = newValue.length >= 3 || "At least 3 characters.";
 
-					if (firstNameLocal !== null) {
-						// Update the state with the newest changes from the user.
-						firstNameState = firstNameLocal;
-
-						// Update user firestore data.
-					} else {
-						firstNameLocal = firstNameState;
-						reject("The first name property is set to empty. You must enter a value.");
-					}
-				} else {
-					resolve();
+				if (retVal !== true) {
+					retVal = retVal as string;
 				}
-			});
+			}
+			return retVal;
 		},
-		method_utils_matchLastNameLocalToState(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				const doesLastNameLocalMatchState: boolean = this.computed_data_doesLastnameLocal_matchState;
+		method_validation_isEmailFormatValid(newValue: string): boolean | string {
+			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
-				if (!doesLastNameLocalMatchState) {
-					let lastNameLocal: string | null = this.computed_data_user_lastname_local;
-					let lastNameState: string | null = this.computed_data_user_lastname_state;
+			let retVal: boolean | string = false;
+			if (isNewValueValid) {
+				retVal = /^([^\s@]+@[^\s@]+\.[^\s@]+)$/g.test(newValue) || "Email must be valid.";
 
-					if (lastNameLocal !== null) {
-						// Update the state with the newest changes from the user.
-						lastNameState = lastNameLocal;
-
-						// Update user firestore data.
-					} else {
-						lastNameLocal = lastNameState;
-						reject("The last name property is set to empty. You must enter a value.");
-					}
-				} else {
-					resolve();
+				if (retVal !== true) {
+					retVal = retVal as string;
 				}
-			});
-		},
-		method_utils_matchEmailLocalToState(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				const doesEmailLocalMatchState: boolean = this.computed_data_doesEmailLocal_matchState;
-
-				if (!doesEmailLocalMatchState) {
-					let emailLocal: string | null = this.computed_data_user_email_local;
-					let emailState: string | null = this.computed_data_user_email_state;
-
-					if (emailLocal !== null) {
-						// Update the state with the newest changes from the user.
-						emailState = emailLocal;
-
-						// Update user auth data.
-						this.storeFirebase
-							.updateUserEmail({ email: emailLocal })
-							.then(() => {
-								resolve();
-							})
-							.catch((errorMessage: string) => {
-								reject(errorMessage);
-							});
-					} else {
-						emailLocal = emailState;
-						reject("The email property is set to empty. You must enter a value.");
-					}
-				} else {
-					resolve();
-				}
-			});
-		},
-		method_utils_matchPhoneNumberLocalToState(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				const doesPhoneNumberLocalMatchState: boolean = this.computed_data_doesPhoneNumberLocal_matchState;
-
-				if (!doesPhoneNumberLocalMatchState) {
-					let phoneNumberLocal: number | null = this.computed_data_user_phoneNumber_local;
-					let phoneNumberState: number | null = this.computed_data_user_phoneNumber_state;
-
-					if (phoneNumberLocal !== null) {
-						// Update the state with the newest changes from the user.
-						phoneNumberState = phoneNumberLocal;
-
-						// Update user firestore data.
-					} else {
-						phoneNumberLocal = phoneNumberState;
-						reject("The phone property is set to empty. You must enter a value.");
-					}
-				} else {
-					resolve();
-				}
-			});
+			}
+			return retVal;
 		},
 	},
 	watch: {
@@ -504,7 +489,8 @@ export default defineComponent({
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
-		return { storeFirebase };
+		const storeCommon = useCommonStore();
+		return { storeFirebase, storeCommon };
 	},
 	mounted(): void {
 		if (this.computed_data_isUserLoggedIn) {

@@ -29,7 +29,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import HeaderComp from "@components/common/header/common-header.vue";
-import UserFeedbackComp from "@components/common/";
+import UserFeedbackComp from "@components/common/feedback/common-feedback.vue";
 import UserAccountNavComp from "@components/uncommon/navigation/uncommon-navigation-user-account.vue";
 import NavigationPagesMobileMenu from "@components/uncommon/navigation/pages/mobile-menu/uncommon-navigation-pages-mobile-menu.vue";
 import FooterComp from "@components/common/footer/common-footer.vue";
@@ -84,13 +84,7 @@ export default defineComponent({
 		},
 	},
 	created(): void {
-		debugger;
-		this.storeFirebase.monitorAuthState({ auth }).then(() => {
-			debugger;
-			const user1 = this.storeFirebase.getUserData;
-			this.storeFirebase.getFirestoreUser();
-			const user2 = this.storeFirebase.getUserData;
-		});
+		this.storeFirebase.monitorAuthState({ auth }).then(() => this.storeFirebase.getFirestoreUser());
 	},
 	mounted(): void {
 		this.method_utils_monitorTargetElement("#footer");

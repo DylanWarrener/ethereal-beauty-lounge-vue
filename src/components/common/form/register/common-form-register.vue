@@ -151,23 +151,6 @@
 					</template>
 				</v-btn>
 			</v-col>
-
-			<!-- <teleport to="body">
-				<snackbar-container
-					color="success"
-					location="top"
-					:text="computed_data_createUserSuccess_message"
-					v-model="computed_data_createUserSuccess_value"
-					@close="methods_event_snackbar_close('success')"
-				></snackbar-container>
-				<snackbar-container
-					color="error"
-					location="top"
-					:text="computed_data_createUserError_message"
-					v-model="computed_data_createUserError_value"
-					@close="methods_event_snackbar_close('error')"
-				></snackbar-container>
-			</teleport> -->
 		</v-row>
 	</v-container>
 </template>
@@ -274,63 +257,7 @@ export default defineComponent({
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
 		computed_data_snackbar_defaultTimeout_value(): number {
-			return this.storeCommon.getSnackbarTimeoutDefaultValue;
-		},
-		computed_data_isUserCreatingAccount: {
-			get(): boolean {
-				return this.storeFirebase.getIsUserCreatingAccount;
-			},
-			set(newValue: boolean): void {
-				this.storeFirebase.setIsUserCreatingAccount(newValue);
-			},
-		},
-		computed_data_createUserSuccess_message: {
-			get(): string {
-				return this.storeCommon.getCreateUserSuccessMessage;
-			},
-			set(newValue: string): void {
-				this.storeCommon.setCreateUserSuccessMessage({ text: newValue });
-			},
-		},
-		computed_data_createUserWarning_message: {
-			get(): string {
-				return this.storeCommon.getCreateUserWarningMessage;
-			},
-			set(newValue: string): void {
-				this.storeCommon.setCreateUserWarningMessage({ text: newValue });
-			},
-		},
-		computed_data_createUserError_message: {
-			get(): string {
-				return this.storeCommon.getCreateUserErrorMessage;
-			},
-			set(newValue: string): void {
-				this.storeCommon.setCreateUserErrorMessage({ text: newValue });
-			},
-		},
-		computed_data_createUserSuccess_value: {
-			get(): boolean {
-				return this.storeCommon.getCreateUserSuccessValue;
-			},
-			set(newValue: boolean): void {
-				this.storeCommon.setCreateUserSuccessValue(newValue);
-			},
-		},
-		computed_data_createUserWarning_value: {
-			get(): boolean {
-				return this.storeCommon.getCreateUserWarningValue;
-			},
-			set(newValue: boolean): void {
-				this.storeCommon.setCreateUserWarningValue(newValue);
-			},
-		},
-		computed_data_createUserError_value: {
-			get(): boolean {
-				return this.storeCommon.getCreateUserErrorValue;
-			},
-			set(newValue: boolean): void {
-				this.storeCommon.setCreateUserErrorValue(newValue);
-			},
+			return this.storeCommon.getSnackbar_timeout_value;
 		},
 	},
 	methods: {
@@ -342,56 +269,25 @@ export default defineComponent({
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
 				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
-				this.computed_data_isUserCreatingAccount = true;
 				this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
 				this.storeFirebase
 					.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
-						this.setSuccessMessageAndValue(
-							"You have successfully created an account. We have now sent you an email to verify your account.",
-							true
+						this.storeCommon.setSnackbar_success_value(
+							"You have successfully created an account. We have now sent you an email to verify your account."
 						);
 						return this.storeUserInFirestore();
 					})
-					.then(() => {
-						return this.storeUserInState();
-					})
-					.then(() => {
-						debugger;
-						// By here the firestore user data should be populated
-						const firestoreData = this.storeFirebase.getUserFirestoreData;
-
-						// By here the auth user data should be populated
-						const authData = this.storeFirebase.getUserAuthData;
-
-						//const [displayName, email] = this.storeFirebase.getUserAuthData;
-						//const [firstname, lastname, phoneNumber] = this.storeFirebase.getUserFirestoreData;
-
-						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
-					})
-					.catch((errorMessage: string) => this.setErrorMessageAndValue(errorMessage, true))
+					.then(() => this.storeUserInState())
+					.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_value(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
-							this.setSuccessMessageAndValue("", false);
-							this.setErrorMessageAndValue("", false);
+							this.storeCommon.setSnackbar_reset_values();
 							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
 							this.resetFormInputs();
-							this.computed_data_isUserCreatingAccount = false;
 						}, this.computed_data_snackbar_defaultTimeout_value);
 					});
-			}
-		},
-		methods_event_snackbar_close(typeOfSnackbar: "success" | "warning" | "error"): void {
-			switch (typeOfSnackbar) {
-				case "error":
-					this.computed_data_createUserError_value = false;
-					break;
-				case "success":
-					this.computed_data_createUserSuccess_value = false;
-					break;
-				case "warning":
-					this.computed_data_createUserWarning_value = false;
-					break;
 			}
 		},
 
@@ -406,18 +302,8 @@ export default defineComponent({
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
 		},
-		setSuccessMessageAndValue(message: string, value: boolean): void {
-			this.computed_data_createUserSuccess_message = message;
-			this.computed_data_createUserSuccess_value = value;
-		},
-		setErrorMessageAndValue(message: string, value: boolean): void {
-			this.computed_data_createUserError_message = message;
-			this.computed_data_createUserError_value = value;
-		},
 		storeUserInState(): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				const displayName: string = `${this.data_dialogFormCreateAccount.input.firstName.value} ${this.data_dialogFormCreateAccount.input.lastName.value}`;
 				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
 				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
@@ -427,18 +313,14 @@ export default defineComponent({
 				this.storeFirebase
 					.updateUserProfile({ displayName })
 					.then(() => {
-						debugger;
-						this.storeFirebase.setUserDisplayName({ displayName });
-						this.storeFirebase.setUserTitle({ title });
-						this.storeFirebase.setUserFirstname({ firstname });
-						this.storeFirebase.setUserLastname({ lastname });
-						this.storeFirebase.setUserPhoneNumber({ phoneNumber });
+						this.storeFirebase.setUserDisplayName(displayName);
+						this.storeFirebase.setUserTitle(title);
+						this.storeFirebase.setUserFirstname(firstname);
+						this.storeFirebase.setUserLastname(lastname);
+						this.storeFirebase.setUserPhoneNumber(phoneNumber);
 						resolve();
 					})
-					.catch((errorMessage: string) => {
-						console.log(errorMessage);
-						reject(errorMessage);
-					});
+					.catch((errorMessage: string) => reject(errorMessage));
 			});
 		},
 		storeUserInFirestore(): Promise<void> {
@@ -447,12 +329,12 @@ export default defineComponent({
 
 				if (uid !== null) {
 					const title: string | null = this.data_dialogFormCreateAccount.input.title.value;
-					const firstname: string | null = this.data_dialogFormCreateAccount.input.firstName.value;
-					const lastname: string | null = this.data_dialogFormCreateAccount.input.lastName.value;
+					const firstname: string | null = this.data_dialogFormCreateAccount.input.firstName.value!;
+					const lastname: string | null = this.data_dialogFormCreateAccount.input.lastName.value!;
 					const phoneNumber: string | null = this.data_dialogFormCreateAccount.input.phoneNumber.value;
 
 					this.storeFirebase
-						.setFirestoreUser({ uid, title, firstname, lastname, phoneNumber })
+						.setUserFirestore({ uid, title, firstname, lastname, phoneNumber })
 						.then(() => {
 							resolve();
 						})

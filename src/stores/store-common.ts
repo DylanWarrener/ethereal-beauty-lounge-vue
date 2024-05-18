@@ -11,42 +11,12 @@ import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-co
 export const useCommonStore = defineStore("common-store", {
 	state: (): ICommonState => ({
 		snackbar: {
+			show: false,
 			timeout: 5000,
 			color: null,
 			btnColor: null,
 			message: null,
-			success: {
-				createUser: {
-					value: false,
-					text: "",
-				},
-				signInUser: {
-					value: false,
-					text: "",
-				},
-			},
-			warnings: {
-				createUser: {
-					value: false,
-					text: "",
-				},
-				signInUser: {
-					value: false,
-					text: "",
-				},
-			},
-			errors: {
-				signInUser: {
-					value: false,
-					text: "",
-				},
-				createUser: {
-					value: false,
-					text: "",
-				},
-			},
 		},
-
 		appBarDrawer: true, // Needs deleting once the referenes are deleted.
 		dialog: {
 			default: {
@@ -65,49 +35,21 @@ export const useCommonStore = defineStore("common-store", {
 		navigation: {},
 	}),
 	getters: {
-		/* Feedback */
-		// Timeout
-		getSnackbarTimeoutDefaultValue: (state): number => {
-			return state.snackbar.defaultTimeout;
+		/* Snackbar - Feedback */
+		getSnackbar_show_value: (state: ICommonState): boolean => {
+			return state.snackbar.show;
 		},
-		// Success
-		getCreateUserSuccessValue: (state): boolean => {
-			return state.snackbar.success.createUser.value;
+		getSnackbar_timeout_value: (state: ICommonState): number => {
+			return state.snackbar.timeout;
 		},
-		getSignInSuccessValue: (state): boolean => {
-			return state.snackbar.success.signInUser.value;
+		getSnackbar_color_value: (state: ICommonState): string => {
+			return state.snackbar.color;
 		},
-		getCreateUserSuccessMessage: (state): string => {
-			return state.snackbar.success.createUser.text;
+		getSnackbar_btnColor_value: (state: ICommonState): string => {
+			return state.snackbar.btnColor;
 		},
-		getSignInSuccessMessage: (state): string => {
-			return state.snackbar.success.signInUser.text;
-		},
-		// Warning
-		getCreateUserWarningValue: (state): boolean => {
-			return state.snackbar.warnings.createUser.value;
-		},
-		getSignInWarningValue: (state): boolean => {
-			return state.snackbar.warnings.signInUser.value;
-		},
-		getCreateUserWarningMessage: (state): string => {
-			return state.snackbar.warnings.createUser.text;
-		},
-		getSignInWarningMessage: (state): string => {
-			return state.snackbar.warnings.signInUser.text;
-		},
-		// Errors
-		getCreateUserErrorValue: (state): boolean => {
-			return state.snackbar.errors.createUser.value;
-		},
-		getSignInErrorValue: (state): boolean => {
-			return state.snackbar.errors.signInUser.value;
-		},
-		getCreateUserErrorMessage: (state): string => {
-			return state.snackbar.errors.createUser.text;
-		},
-		getSignInErrorMessage: (state): string => {
-			return state.snackbar.errors.signInUser.text;
+		getSnackbar_message_value: (state: ICommonState): string => {
+			return state.snackbar.message;
 		},
 
 		/* App bar */
@@ -122,45 +64,45 @@ export const useCommonStore = defineStore("common-store", {
 		getDialogLoginBtnCloseTooltipDrawerState: (state: ICommonState): boolean => state.dialog.login.showTooltip,
 	},
 	actions: {
-		/* Feedback */
-		// Success
-		setCreateUserSuccessValue(newValue: boolean): void {
-			this.snackbar.success.createUser.value = newValue;
+		/* Snackbar - Feedback */
+		setSnackbar_show_value(show: boolean): void {
+			this.snackbar.show = show;
 		},
-		setSignInSuccessValue(newValue: boolean): void {
-			this.snackbar.success.signInUser.value = newValue;
+		setSnackbar_timeout_value(timeout: number): void {
+			this.snackbar.timeout = timeout;
 		},
-		setCreateUserSuccessMessage(success: { text: string }): void {
-			this.snackbar.success.createUser.text = success.text;
+		setSnackbar_color_value(color: string): void {
+			this.snackbar.color = color;
 		},
-		setSignInSuccessMessage(success: { text: string }): void {
-			this.snackbar.success.signInUser.text = success.text;
+		setSnackbar_btnColor_value(btnColor: string): void {
+			this.snackbar.btnColor = btnColor;
 		},
-		// Warning
-		setCreateUserWarningValue(newValue: boolean): void {
-			this.snackbar.warnings.createUser.value = newValue;
+		setSnackbar_message_value(message: string): void {
+			this.snackbar.message = message;
 		},
-		setSignInWarningValue(newValue: boolean): void {
-			this.snackbar.warnings.signInUser.value = newValue;
+		setSnackbar_reset_values(): void {
+			this.snackbar.show = false;
+			this.snackbar.color = "";
+			this.snackbar.btnColor = "";
+			this.snackbar.message = "";
 		},
-		setCreateUserWarningMessage(warning: { text: string }): void {
-			this.snackbar.warnings.createUser.text = warning.text;
+		setSnackbar_success_value(message: string): void {
+			this.snackbar.show = true;
+			this.snackbar.color = "success";
+			this.snackbar.btnColor = "default";
+			this.snackbar.message = message;
 		},
-		setSignInWarningMessage(warning: { text: string }): void {
-			this.snackbar.warnings.signInUser.text = warning.text;
+		setSnackbar_warning_value(message: string): void {
+			this.snackbar.show = true;
+			this.snackbar.color = "warning";
+			this.snackbar.btnColor = "inverted";
+			this.snackbar.message = message;
 		},
-		// Errors
-		setCreateUserErrorValue(newValue: boolean): void {
-			this.snackbar.errors.createUser.value = newValue;
-		},
-		setSignInErrorValue(newValue: boolean): void {
-			this.snackbar.errors.signInUser.value = newValue;
-		},
-		setCreateUserErrorMessage(errors: { text: string }): void {
-			this.snackbar.errors.createUser.text = errors.text;
-		},
-		setSignInErrorMessage(errors: { text: string }): void {
-			this.snackbar.errors.signInUser.text = errors.text;
+		setSnackbar_error_value(message: string): void {
+			this.snackbar.show = true;
+			this.snackbar.color = "error";
+			this.snackbar.btnColor = "default";
+			this.snackbar.message = message;
 		},
 
 		/* App bar */
