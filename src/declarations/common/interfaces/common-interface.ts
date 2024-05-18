@@ -3,7 +3,6 @@ import IDialogState from "@declarations/common/dialog/interfaces/common-interfac
 
 export default interface ICommonState {
 	snackbar: any;
-	appBarDrawer: boolean;
-	dialog: IDialogState;
+	dialog: any;
 	navigation: {};
 }

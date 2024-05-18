@@ -131,6 +131,8 @@
 			</v-btn>
 		</v-card-actions>
 	</v-card>
+
+	/* Dialog component to change profile picture */
 </template>
 
 <script lang="ts">

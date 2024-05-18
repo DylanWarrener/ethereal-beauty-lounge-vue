@@ -2,11 +2,29 @@
 	<v-dialog
 		persistent
 		transition="dialog-top-transition"
-		:max-width="maxWidth"
-		:max-height="maxHeight"
-		v-model="dialogDrawer"
+		:max-width="computed_data_css_maxWidth"
+		:max-height="computed_data_css_maxHeight"
+		v-model="dialog.show"
 	>
-		<slot name="dialog-content"></slot>
+		<v-card>
+			<v-toolbar flat class="bg-accent">
+				<h5 class="text-default" v-if="propsToolbarTitle">{{ propsToolbarTitle }}</h5>
+				<v-spacer></v-spacer>
+				<slot name="toolbar-buttons"></slot>
+				<v-tooltip location="bottom" :text="dialog.toolbar.defaults.btn.close.tooltip">
+					<template #activator="{ props }">
+						<v-btn icon variant="flat" class="bg-transparent" v-bind="props">
+							<v-icon class="text-default" :icon="dialog.toolbar.defaults.btn.close.icon"></v-icon>
+						</v-btn>
+					</template>
+				</v-tooltip>
+			</v-toolbar>
+			<v-card-text style="border: 2px solid black">
+				<v-container fluid>
+					<slot name="dialog-content"></slot>
+				</v-container>
+			</v-card-text>
+		</v-card>
 	</v-dialog>
 </template>
 
@@ -16,31 +34,35 @@ import { defineComponent } from "vue";
 // Stores
 import useEventStore from "@stores/store-events.js";
 
-// Components
-import ImgComp from "@components/common/img/common-img.vue";
+// Icons
+import { mdiClose } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 export default defineComponent({
-	name: "dialog-component",
-	components: {
-		"img-container-component": ImgComp,
-	},
+	name: "dialog-container-component",
 	props: {
-		dialogState: { type: Boolean, required: true },
+		propsToolbarTitle: { type: String, required: false },
 	},
 	data() {
 		return {
-			dialogDrawer: false,
+			dialog: {
+				show: true,
+				toolbar: {
+					defaults: {
+						btn: {
+							close: {
+								icon: mdiClose,
+								tooltip: "Close dialog",
+							},
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {
-		/* CSS */
-		maxWidth(): string {
-			let retVal: string = "";
+		computed_data_css_maxWidth(): string {
+			let retVal: string = "80%";
 			switch (this.$vuetify.display.name) {
-				case "xs":
-				case "sm":
-					retVal = "80%";
-					break;
 				case "md":
 				case "lg":
 				case "xl":
@@ -50,24 +72,8 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		maxHeight(): string {
-			let retVal: string = "";
-			switch (this.$vuetify.display.name) {
-				case "xs":
-				case "sm":
-				case "md":
-				case "lg":
-				case "xl":
-				case "xxl":
-					retVal = "80%";
-					break;
-			}
-			return retVal;
-		},
-	},
-	watch: {
-		dialogState(): void {
-			this.dialogDrawer = this.dialogState;
+		computed_data_css_maxHeight(): string {
+			return "80%";
 		},
 	},
 	setup() {

@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 // Interfaces
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
-import { IDialogDefaultState, IDialogLoginState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
+import { IDialogDefaultState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
 
 // Constants
 import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-constants-objects.js";
@@ -17,7 +17,6 @@ export const useCommonStore = defineStore("common-store", {
 			btnColor: null,
 			message: null,
 		},
-		appBarDrawer: true, // Needs deleting once the referenes are deleted.
 		dialog: {
 			default: {
 				icons: {
@@ -26,10 +25,6 @@ export const useCommonStore = defineStore("common-store", {
 						tooltip: tooltipsDialog.close,
 					},
 				},
-			},
-			login: {
-				showTooltip: false,
-				showDialog: false,
 			},
 		},
 		navigation: {},
@@ -52,16 +47,8 @@ export const useCommonStore = defineStore("common-store", {
 			return state.snackbar.message;
 		},
 
-		/* App bar */
-		getAppBarDrawer: (state: ICommonState): boolean => state.appBarDrawer,
-
 		/* Dialog */
 		getDialogDefaultState: (state: ICommonState): IDialogDefaultState => state.dialog.default,
-
-		// Login
-		getDialogLoginState: (state: ICommonState): IDialogLoginState => state.dialog.login,
-		getDialogLoginDrawerState: (state: ICommonState): boolean => state.dialog.login.showDialog,
-		getDialogLoginBtnCloseTooltipDrawerState: (state: ICommonState): boolean => state.dialog.login.showTooltip,
 	},
 	actions: {
 		/* Snackbar - Feedback */
@@ -103,19 +90,6 @@ export const useCommonStore = defineStore("common-store", {
 			this.snackbar.color = "error";
 			this.snackbar.btnColor = "default";
 			this.snackbar.message = message;
-		},
-
-		/* App bar */
-		setAppBarDrawer(newValue: boolean): void {
-			this.appBarDrawer = newValue;
-		},
-
-		/* Dialog */
-		setDialogLoginDrawerState(newValue: boolean): void {
-			this.dialog.login.showDialog = newValue;
-		},
-		setDialogLoginBtnCloseTooltipDrawerState(newValue: boolean): void {
-			this.dialog.login.showTooltip = newValue;
 		},
 	},
 });

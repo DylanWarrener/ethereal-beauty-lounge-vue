@@ -1,13 +1,21 @@
 <template>
 	<v-layout id="layout">
 		<header-container-component></header-container-component>
+
+		<!-- Snackbar -->
 		<user-feedback-container-component></user-feedback-container-component>
+
+		<!-- Navigation menus -->
 		<navigation-pages-mobile-menu></navigation-pages-mobile-menu>
 		<user-account-navigation-component></user-account-navigation-component>
+
+		<!-- Pages -->
 		<v-main style="--v-layout-top: 0">
 			<router-view></router-view>
 		</v-main>
+
 		<footer-container-component id="footer"></footer-container-component>
+
 		<v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
 			<v-icon>
 				<template #default>
@@ -61,7 +69,7 @@ export default defineComponent({
 		method_utils_monitorTargetElement(targetElement: string): void {
 			window.addEventListener(
 				"load",
-				(event) => {
+				() => {
 					this.targetElement = document.querySelector(targetElement) as HTMLElement;
 					this.method_utils_createObserver();
 				},
