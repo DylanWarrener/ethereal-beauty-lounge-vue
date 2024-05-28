@@ -132,7 +132,7 @@
 		</v-card-actions>
 	</v-card>
 
-	/* Dialog component to change profile picture */
+	<v-dialog v-model="computed_data_dialogDrawer_state"></v-dialog>
 </template>
 
 <script lang="ts">
@@ -258,6 +258,14 @@ export default defineComponent({
 		computed_data_doesPhoneNumberLocal_matchState(): boolean {
 			return this.computed_data_user_phoneNumber_local === this.computed_data_user_phoneNumber_state;
 		},
+		computed_data_dialogDrawer_state: {
+			get(): boolean {
+				return this.storeCommon.getDialog_accountProfile_updateAvatar_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setDialog_accountProfile_updateAvatar_show_state(newValue);
+			},
+		},
 		computed_data_user_displayName_local: {
 			get(): string | null {
 				return this.profile.input.displayName.value;
@@ -343,17 +351,13 @@ export default defineComponent({
 		method_event_saveProfileSettingsHandler(): void {
 			this.profile.actions.btn.save.isLoading = true;
 			this.method_utils_matchLocalDataToStateAndUploadIfRequired()
-				.then(() => {
-					this.storeCommon.setSnackbar_success_value("We have successfully saved your account settings.");
-				})
-				.catch((errorMessage: string) => {
-					this.storeCommon.setSnackbar_error_value(errorMessage);
-				})
+				.then(() => this.storeCommon.setSnackbar_success_state("We have successfully saved your account settings."))
+				.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 				.finally(() => {
 					setTimeout(() => {
-						this.storeCommon.setSnackbar_reset_values();
+						this.storeCommon.setSnackbar_reset_state();
 						this.profile.actions.btn.save.isLoading = false;
-					}, this.storeCommon.getSnackbar_timeout_value);
+					}, this.storeCommon.getSnackbar_timeout_state);
 				});
 		},
 		method_event_changeAvatarPicture(): void {
