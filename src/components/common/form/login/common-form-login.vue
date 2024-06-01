@@ -254,7 +254,7 @@ export default defineComponent({
 
 				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
 				this.storeFirebase
-					.loginWithEmailAndPassword({ email, password })
+					.login_userAuth_withEmailAndPassword({ email, password })
 					.then(() => {
 						this.storeCommon.setSnackbar_success_state(
 							"You have successfully logged into your account. Redirecting you to your account now."

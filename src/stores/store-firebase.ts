@@ -25,8 +25,13 @@ import {
 	type DocumentData,
 } from "firebase/firestore";
 
-// Interfaces 
-import ICommon_firebase_state, { ICommon_firebase_user_state, ICommon_firebase_user_notifications_state, ICommon_firebase_user_auth_state, ICommon_firebase_user_firestore_state } from "@declarations/common/firebase/common-interface-firebase.js";
+// Interfaces
+import ICommon_firebase_state, {
+	ICommon_firebase_user_state,
+	ICommon_firebase_user_notifications_state,
+	ICommon_firebase_user_auth_state,
+	ICommon_firebase_user_firestore_state,
+} from "@declarations/common/firebase/common-interface-firebase.js";
 
 const useFirebaseStore = defineStore("firebase-store", {
 	state: (): ICommon_firebase_state => ({
@@ -34,17 +39,17 @@ const useFirebaseStore = defineStore("firebase-store", {
 			isLoggedIn: false,
 			notifications: {
 				treatments: {
-					isEnabled: true
+					isEnabled: true,
 				},
 				store: {
-					isEnabled: true
+					isEnabled: true,
 				},
 				promotions: {
-					isEnabled: true
+					isEnabled: true,
 				},
 				unsubscribeToAll: {
-					isEnabled: false
-				}
+					isEnabled: false,
+				},
 			},
 			authData: {
 				uid: null,
@@ -77,16 +82,16 @@ const useFirebaseStore = defineStore("firebase-store", {
 		get_userNotifications_state: (state): ICommon_firebase_user_notifications_state => {
 			return state.user.notifications;
 		},
-		get_userNotification_treatments_isEnabled_state: (state): boolean => {
+		get_userNotifications_treatments_isEnabled_state: (state): boolean => {
 			return state.user.notifications.treatments.isEnabled;
 		},
 		get_userNotifications_store_isEnabled_state: (state): boolean => {
 			return state.user.notifications.store.isEnabled;
 		},
-		set_userNotification_promotions_isEnabled_state: (state): boolean => {
+		get_userNotifications_promotions_isEnabled_state: (state): boolean => {
 			return state.user.notifications.promotions.isEnabled;
 		},
-		get_userNotification_unsubscribeToAll_isEnabled_state: (state): boolean => {
+		get_userNotifications_unsubscribeToAll_isEnabled_state: (state): boolean => {
 			return state.user.notifications.unsubscribeToAll.isEnabled;
 		},
 		// User AUTH
@@ -139,16 +144,16 @@ const useFirebaseStore = defineStore("firebase-store", {
 	actions: {
 		/* User */
 		// User NOTIFICATION setters
-		set_userNotification_treatments_isEnabled_state(isEnabled: boolean): void {
+		set_userNotifications_treatments_isEnabled_state(isEnabled: boolean): void {
 			this.user.notifications.treatments.isEnabled = isEnabled;
 		},
-		set_userNotification_store_isEnabled_state(isEnabled: boolean): void {
+		set_userNotifications_store_isEnabled_state(isEnabled: boolean): void {
 			this.user.notifications.store.isEnabled = isEnabled;
 		},
-		set_userNotification_promotions_isEnabled_state(isEnabled: boolean): void {
+		set_userNotifications_promotions_isEnabled_state(isEnabled: boolean): void {
 			this.user.notifications.promotions.isEnabled = isEnabled;
 		},
-		set_userNotification_unsubscribeToAll_isEnabled_state(isEnabled: boolean): void {
+		set_userNotifications_unsubscribeToAll_isEnabled_state(isEnabled: boolean): void {
 			this.user.notifications.unsubscribeToAll.isEnabled = isEnabled;
 		},
 		// User AUTH actions
@@ -445,6 +450,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 						}
 					}
 
+					debugger;
 					if (Object.keys(valuesNotUndefined).length > 0) {
 						const userDocumentRef = doc(db, "users", uid);
 						updateDoc(userDocumentRef, valuesNotUndefined)
@@ -505,7 +511,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		set_userFirestore_phoneNumber_state(phoneNumber: number | null): void {
 			this.user.firestoreData.phoneNumber = phoneNumber;
-		}
+		},
 	},
 });
 

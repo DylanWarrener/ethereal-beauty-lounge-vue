@@ -44,7 +44,7 @@
 														<template v-slot:default>
 															<v-icon
 																size="32"
-																@click="method_event_changeAvatarPicture"
+																@click="method_event_changeAvatarPicture_clickHandler"
 															></v-icon>
 														</template>
 													</v-btn>
@@ -123,7 +123,7 @@
 				style="min-width: 100px"
 				:disabled="computed_data_doesAccountDataMatchState"
 				:loading="profile.actions.btn.save.isLoading"
-				@click="method_event_saveSettingsHandler"
+				@click="method_event_saveSettings_clickHandler"
 			>
 				<template #default>
 					<small class="text-default" v-text="profile.actions.btn.save.text"></small>
@@ -194,8 +194,8 @@ export default defineComponent({
 						phoneNumber: {
 							label: "Phone number",
 							value: null,
-						}	
-					}
+						},
+					},
 				},
 				actions: {
 					btn: {
@@ -364,10 +364,10 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		method_event_saveSettingsHandler(): void {
+		method_event_saveSettings_clickHandler(): void {
 			this.profile.actions.btn.save.isLoading = true;
 			this.method_utils_matchLocalDataToStateAndUploadIfRequired()
-				.then(() => this.storeCommon.setSnackbar_success_state("We have successfully saved your account settings."))
+				.then(() => this.storeCommon.setSnackbar_success_state("Successfully saved your account profile settings."))
 				.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 				.finally(() => {
 					setTimeout(() => {
@@ -376,7 +376,7 @@ export default defineComponent({
 					}, this.storeCommon.getSnackbar_timeout_state);
 				});
 		},
-		method_event_changeAvatarPicture(): void {
+		method_event_changeAvatarPicture_clickHandler(): void {
 			// Change avatar picture. Might want to consider using a v-file-input element.
 			//this.computed_data_dialog_accountProfile_updateAvatar_show_state = true;
 		},
@@ -424,19 +424,21 @@ export default defineComponent({
 						})
 						.catch((errorMessage: string) => reject(errorMessage));
 				}
+
+				resolve();
 			});
 		},
 		method_utils_matchFirestoreLocalDataToStateAndUploadIfRequired(): Promise<void> {
 			return new Promise((resolve, reject) => {
-				let firstname: any = {
+				let firstname: { local: string | null; state: string | null } = {
 					local: this.computed_data_user_firstname_local,
 					state: this.computed_data_user_firstname_state,
 				};
-				let lastname: any = {
+				let lastname: { local: string | null; state: string | null } = {
 					local: this.computed_data_user_lastname_local,
 					state: this.computed_data_user_lastname_state,
 				};
-				let phoneNumber: any = {
+				let phoneNumber: { local: number | null; state: number | null } = {
 					local: this.computed_data_user_phoneNumber_local,
 					state: this.computed_data_user_phoneNumber_state,
 				};

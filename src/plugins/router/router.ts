@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-// State
-import storeFirebase from "@stores/store-firebase.js";
-
 // Constants
 import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
