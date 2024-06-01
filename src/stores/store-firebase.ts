@@ -25,32 +25,27 @@ import {
 	type DocumentData,
 } from "firebase/firestore";
 
+// Interfaces 
+import ICommon_firebase_state, { ICommon_firebase_user_state, ICommon_firebase_user_notifications_state, ICommon_firebase_user_auth_state, ICommon_firebase_user_firestore_state } from "@declarations/common/firebase/common-interface-firebase.js";
+
 const useFirebaseStore = defineStore("firebase-store", {
-	state: (): {
+	state: (): ICommon_firebase_state => ({
 		user: {
-			authData: {
-				uid: string | null;
-				displayName: string | null;
-				email: string | null;
-				emailVerified: boolean;
-				photoURL?: string | null;
-				isAnonymous: boolean;
-				joinedOn: string | null;
-			};
-			firestoreData: {
-				title: string | null;
-				firstname: string | null;
-				lastname: string | null;
-				phoneNumber: number | null;
-			};
-		};
-		dialogs: {
-			avatar: {
-				show: boolean;
-			};
-		};
-	} => ({
-		user: {
+			isLoggedIn: false,
+			notifications: {
+				treatments: {
+					isEnabled: true
+				},
+				store: {
+					isEnabled: true
+				},
+				promotions: {
+					isEnabled: true
+				},
+				unsubscribeToAll: {
+					isEnabled: false
+				}
+			},
 			authData: {
 				uid: null,
 				displayName: null,
@@ -74,62 +69,92 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 	}),
 	getters: {
-		/* General */
-		getIsUserLoggedIn: (state): boolean => {
-			return !!state.user.authData.uid && !!state.user.firestoreData.firstname;
-		},
-
-		/* Firebase AUTH */
-		getUserID: (state): string | null => {
-			return state.user.authData.uid;
-		},
-		getUserDisplayName: (state): string | null => {
-			return state.user.authData.displayName;
-		},
-		getUserTitle: (state): string | null => {
-			return state.user.firestoreData.title;
-		},
-		getUserFirstname: (state): string | null => {
-			return state.user.firestoreData.firstname;
-		},
-		getUserLastname: (state): string | null => {
-			return state.user.firestoreData.lastname;
-		},
-		getUserEmail: (state): string | null => {
-			return state.user.authData.email;
-		},
-		getIsUserEmailVerified: (state): boolean => {
-			return state.user.authData.emailVerified;
-		},
-		getUserPhoneNumber: (state): number | null => {
-			return state.user.firestoreData.phoneNumber;
-		},
-		getUserPhotoURL: (state): string | null | undefined => {
-			return state.user.authData.photoURL;
-		},
-		getIsUserAnonymous: (state): boolean => {
-			return state.user.authData.isAnonymous;
-		},
-		getUserJoinedOn: (state): string | null => {
-			return state.user.authData.joinedOn;
-		},
-		getUserState: (state): any => {
+		/* User */
+		get_user_state: (state): ICommon_firebase_user_state => {
 			return state.user;
 		},
-		getUserAuthState: (state): any => {
+		// User NOTIFICATIONS
+		get_userNotifications_state: (state): ICommon_firebase_user_notifications_state => {
+			return state.user.notifications;
+		},
+		get_userNotification_treatments_isEnabled_state: (state): boolean => {
+			return state.user.notifications.treatments.isEnabled;
+		},
+		get_userNotifications_store_isEnabled_state: (state): boolean => {
+			return state.user.notifications.store.isEnabled;
+		},
+		set_userNotification_promotions_isEnabled_state: (state): boolean => {
+			return state.user.notifications.promotions.isEnabled;
+		},
+		get_userNotification_unsubscribeToAll_isEnabled_state: (state): boolean => {
+			return state.user.notifications.unsubscribeToAll.isEnabled;
+		},
+		// User AUTH
+		get_userAuth_state: (state): ICommon_firebase_user_auth_state => {
 			return state.user.authData;
 		},
-
-		/* Firebase FIRESTORE */
-		getUserFirestoreState: (state): any => {
+		get_userAuth_isLoggedIn_state: (state): boolean => {
+			// If UID is available in state, the user auth is populated.
+			// If firstname is available in state, the user credentials have been stored.
+			return !!state.user.authData.uid && !!state.user.firestoreData.firstname;
+		},
+		get_userAuth_id_state: (state): string | null => {
+			return state.user.authData.uid;
+		},
+		get_userAuth_displayName_state: (state): string | null => {
+			return state.user.authData.displayName;
+		},
+		get_userAuth_email_state: (state): string | null => {
+			return state.user.authData.email;
+		},
+		get_userAuth_emailVerified_state: (state): boolean => {
+			return state.user.authData.emailVerified;
+		},
+		get_userAuth_photoUrl_state: (state): string | null | undefined => {
+			return state.user.authData.photoURL;
+		},
+		get_userAuth_isAnonymous_state: (state): boolean => {
+			return state.user.authData.isAnonymous;
+		},
+		get_userAuth_joinedOn_state: (state): string | null => {
+			return state.user.authData.joinedOn;
+		},
+		// User FIRESTORE
+		get_userFirestore_state: (state): ICommon_firebase_user_firestore_state => {
 			return state.user.firestoreData;
+		},
+		get_userFirestore_title_state: (state): string | null => {
+			return state.user.firestoreData.title;
+		},
+		get_userFirestore_firstname_state: (state): string | null => {
+			return state.user.firestoreData.firstname;
+		},
+		get_userFirestore_lastname_state: (state): string | null => {
+			return state.user.firestoreData.lastname;
+		},
+		get_userFirestore_phoneNumber_state: (state): number | null => {
+			return state.user.firestoreData.phoneNumber;
 		},
 	},
 	actions: {
-		/* Firebase AUTH */
-		monitorAuthState(payload: { auth: Auth }): Promise<void> {
+		/* User */
+		// User NOTIFICATION setters
+		set_userNotification_treatments_isEnabled_state(isEnabled: boolean): void {
+			this.user.notifications.treatments.isEnabled = isEnabled;
+		},
+		set_userNotification_store_isEnabled_state(isEnabled: boolean): void {
+			this.user.notifications.store.isEnabled = isEnabled;
+		},
+		set_userNotification_promotions_isEnabled_state(isEnabled: boolean): void {
+			this.user.notifications.promotions.isEnabled = isEnabled;
+		},
+		set_userNotification_unsubscribeToAll_isEnabled_state(isEnabled: boolean): void {
+			this.user.notifications.unsubscribeToAll.isEnabled = isEnabled;
+		},
+		// User AUTH actions
+		monitor_userAuth_state(user: { auth: Auth }): Promise<void> {
 			return new Promise((resolve, reject) => {
-				onAuthStateChanged(payload.auth, (user: User | null) => {
+				onAuthStateChanged(user.auth, (user: User | null) => {
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
@@ -137,7 +162,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 								valuesNotNull[key] = value;
 							}
 						}
-						this.setUserAuthState(valuesNotNull);
+						this.set_userAuth_state(valuesNotNull);
 						resolve();
 					} else {
 						reject("User is not valid.");
@@ -145,16 +170,16 @@ const useFirebaseStore = defineStore("firebase-store", {
 				});
 			});
 		},
-		loginWithEmailAndPassword(user: { email: string; password: string }): Promise<void> {
+		login_userAuth_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
 				signInWithEmailAndPassword(auth, user.email, user.password)
-					.then(() => this.getFirestoreUser())
+					.then(() => this.get_userFirestore_user())
 					.then((userData: DocumentData | undefined) => {
 						if (userData !== undefined) {
-							this.setUserTitle(userData.title);
-							this.setUserFirstname(userData.firstname);
-							this.setUserLastname(userData.lastname);
-							this.setUserPhoneNumber(userData.phoneNumber);
+							this.set_userFirestore_title_state(userData.title);
+							this.set_userFirestore_firstname_state(userData.firstname);
+							this.set_userFirestore_lastname_state(userData.lastname);
+							this.set_userFirestore_phoneNumber_state(userData.phoneNumber);
 							resolve();
 						}
 						reject("The user data object is empty when signing in. Something went wrong!");
@@ -170,19 +195,19 @@ const useFirebaseStore = defineStore("firebase-store", {
 					});
 			});
 		},
-		logout(): Promise<void> {
-			this.resetUserAuthState();
-			this.resetUserFirestoreState();
+		logout_userAuth(): Promise<void> {
+			this.reset_userAuth_state();
+			this.reset_userFirestore_state();
 			return new Promise((resolve, reject) => {
 				signOut(auth)
 					.then(() => resolve())
 					.catch(() => reject());
 			});
 		},
-		createAccountWithEmailAndPassword(user: { email: string; password: string }): Promise<void> {
+		create_userAuth_account_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
 				createUserWithEmailAndPassword(auth, user.email, user.password)
-					.then(() => this.sendUserEmailVerification())
+					.then(() => this.send_userAuth_emailVerification())
 					.then(() => resolve())
 					.catch((error) => {
 						switch (error.code) {
@@ -195,7 +220,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 					});
 			});
 		},
-		sendUserEmailVerification(): Promise<void> {
+		send_userAuth_emailVerification(): Promise<void> {
 			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
 					sendEmailVerification(auth.currentUser)
@@ -204,7 +229,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		deleteUser(): Promise<void> {
+		delete_userAuth(): Promise<void> {
 			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
 					deleteUser(auth.currentUser)
@@ -222,82 +247,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		setUserID(uid: string | null): void {
-			this.user.authData.uid = uid;
-		},
-		setUserDisplayName(displayName: string | null): void {
-			// if (auth.currentUser && user.displayName !== null) {
-			// 	updateProfile(auth.currentUser, { displayName: user.displayName });
-			// 	this.user.displayName = user.displayName;
-			// }
-			this.user.authData.displayName = displayName;
-		},
-		setUserTitle(title: string | null): void {
-			this.user.firestoreData.title = title;
-		},
-		setUserFirstname(firstname: string | null): void {
-			this.user.firestoreData.firstname = firstname;
-		},
-		setUserLastname(lastname: string | null): void {
-			this.user.firestoreData.lastname = lastname;
-		},
-		setUserEmail(email: string | null): void {
-			this.user.authData.email = email;
-		},
-		setUserIsEmailVerified(isEmailVerified: boolean): void {
-			this.user.authData.emailVerified = isEmailVerified;
-		},
-		setUserPhoneNumber(phoneNumber: number | null): void {
-			this.user.firestoreData.phoneNumber = phoneNumber;
-		},
-		setUserPhotoURL(photoURL: string | null): void {
-			this.user.authData.photoURL = photoURL;
-		},
-		setIsUserAnonymous(isAnonymous: boolean): void {
-			this.user.authData.isAnonymous = isAnonymous;
-		},
-		setUserAuthState(user: {
-			uid: string | null;
-			displayName: string | null;
-			email: string | null;
-			isEmailVerified: boolean;
-			photoURL: string | null;
-			isAnonymous: boolean;
-		}): void {
-			for (const [key, value] of Object.entries(user)) {
-				switch (key) {
-					case "uid":
-						this.setUserID(value as string);
-						break;
-					case "displayName":
-						this.setUserDisplayName(value as string);
-						break;
-					case "email":
-						this.setUserEmail(value as string);
-						break;
-					case "isEmailVerified":
-						this.setUserIsEmailVerified(value as boolean);
-						break;
-					case "photoURL":
-						this.setUserPhotoURL(value as string);
-						break;
-					case "isAnonymous":
-						this.setIsUserAnonymous(value as boolean);
-						break;
-				}
-			}
-		},
-		resetUserAuthState(): void {
-			this.setUserAuthState({
-				uid: null,
-				displayName: null,
-				email: null,
-				isEmailVerified: false,
-				photoURL: null,
-				isAnonymous: false,
-			});
-		},
-		updateUserProfile(user: { displayName?: string; photoURL?: string }): Promise<void> {
+		update_userAuth_profile_displayNameAndPhotoUrl(user: { displayName?: string; photoURL?: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
 					let valuesNotUndefined: any = {};
@@ -323,7 +273,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		updateUserEmail(email: string): Promise<void> {
+		update_userAuth_email(email: string): Promise<void> {
 			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
 					updateEmail(auth.currentUser, email)
@@ -344,9 +294,72 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-
-		/* Firebase FIRESTORE */
-		getFirestoreUser(): Promise<DocumentData> {
+		// User AUTH setters
+		reset_userAuth_state(): void {
+			this.set_userAuth_state({
+				uid: null,
+				displayName: null,
+				email: null,
+				isEmailVerified: false,
+				photoURL: null,
+				isAnonymous: false,
+			});
+		},
+		set_userAuth_state(user: {
+			uid: string | null;
+			displayName: string | null;
+			email: string | null;
+			isEmailVerified: boolean;
+			photoURL: string | null;
+			isAnonymous: boolean;
+		}): void {
+			for (const [key, value] of Object.entries(user)) {
+				switch (key) {
+					case "uid":
+						this.set_userAuth_uid_state(value as string);
+						break;
+					case "displayName":
+						this.set_userAuth_displayName_state(value as string);
+						break;
+					case "email":
+						this.set_userAuth_email_state(value as string);
+						break;
+					case "isEmailVerified":
+						this.set_userAuth_emailIsVerified_state(value as boolean);
+						break;
+					case "photoURL":
+						this.set_userAuth_photoUrl_state(value as string);
+						break;
+					case "isAnonymous":
+						this.set_userAuth_isAnonymous_state(value as boolean);
+						break;
+				}
+			}
+		},
+		set_userAuth_uid_state(uid: string | null): void {
+			this.user.authData.uid = uid;
+		},
+		set_userAuth_displayName_state(displayName: string | null): void {
+			// if (auth.currentUser && user.displayName !== null) {
+			// 	updateProfile(auth.currentUser, { displayName: user.displayName });
+			// 	this.user.displayName = user.displayName;
+			// }
+			this.user.authData.displayName = displayName;
+		},
+		set_userAuth_email_state(email: string | null): void {
+			this.user.authData.email = email;
+		},
+		set_userAuth_emailIsVerified_state(emailIsVerified: boolean): void {
+			this.user.authData.emailVerified = emailIsVerified;
+		},
+		set_userAuth_photoUrl_state(photoURL: string | null): void {
+			this.user.authData.photoURL = photoURL;
+		},
+		set_userAuth_isAnonymous_state(isAnonymous: boolean): void {
+			this.user.authData.isAnonymous = isAnonymous;
+		},
+		// User FIRESTORE actions
+		get_userFirestore_user(): Promise<DocumentData> {
 			return new Promise((resolve, reject) => {
 				const uid: string | null = this.user.authData.uid;
 
@@ -359,7 +372,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 							const userDocumentData: DocumentData | undefined = userDocument.data();
 
 							if (doesUserDocumentExist && userDocumentData !== undefined) {
-								this.setUserFirestoreState({
+								this.set_userFirestore_state({
 									title: userDocumentData.title,
 									firstname: userDocumentData.firstname,
 									lastname: userDocumentData.lastname,
@@ -382,7 +395,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		setUserFirestore(user: {
+		store_userFirestore_user(user: {
 			uid: string;
 			title: string | null;
 			firstname: string;
@@ -390,7 +403,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			phoneNumber: string | null;
 		}): Promise<void> {
 			return new Promise((resolve, reject) => {
-				const uid: string | null = this.getUserID;
+				const uid: string | null = this.get_userAuth_id_state;
 
 				if (uid !== null) {
 					const userCollectionRef: CollectionReference<DocumentData, DocumentData> = collection(db, "users");
@@ -415,45 +428,14 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		setUserFirestoreState(user: {
-			title: string | null;
-			firstname: string | null;
-			lastname: string | null;
-			phoneNumber: number | null;
-		}): void {
-			for (const [key, value] of Object.entries(user)) {
-				switch (key) {
-					case "title":
-						this.setUserTitle(value as string);
-						break;
-					case "firstname":
-						this.setUserFirstname(value as string);
-						break;
-					case "lastname":
-						this.setUserLastname(value as string);
-						break;
-					case "phoneNumber":
-						this.setUserPhoneNumber(value as number);
-						break;
-				}
-			}
-		},
-		resetUserFirestoreState(): void {
-			this.setUserFirestoreState({
-				title: null,
-				firstname: null,
-				lastname: null,
-				phoneNumber: null,
-			});
-		},
-		updateFirestoreUser(user: {
+		update_userFirestore_user(user: {
 			title?: string;
 			firstname?: string;
 			lastname?: string;
 			phoneNumber?: number;
 		}): Promise<void> {
 			return new Promise((resolve, reject) => {
-				const uid: string | null = this.getUserID;
+				const uid: string | null = this.get_userAuth_id_state;
 
 				if (uid !== null) {
 					let valuesNotUndefined: any = {};
@@ -480,6 +462,50 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
+		// User FIRESTORE setters
+		reset_userFirestore_state(): void {
+			this.set_userFirestore_state({
+				title: null,
+				firstname: null,
+				lastname: null,
+				phoneNumber: null,
+			});
+		},
+		set_userFirestore_state(user: {
+			title: string | null;
+			firstname: string | null;
+			lastname: string | null;
+			phoneNumber: number | null;
+		}): void {
+			for (const [key, value] of Object.entries(user)) {
+				switch (key) {
+					case "title":
+						this.set_userFirestore_title_state(value as string);
+						break;
+					case "firstname":
+						this.set_userFirestore_firstname_state(value as string);
+						break;
+					case "lastname":
+						this.set_userFirestore_lastname_state(value as string);
+						break;
+					case "phoneNumber":
+						this.set_userFirestore_phoneNumber_state(value as number);
+						break;
+				}
+			}
+		},
+		set_userFirestore_title_state(title: string | null): void {
+			this.user.firestoreData.title = title;
+		},
+		set_userFirestore_firstname_state(firstname: string | null): void {
+			this.user.firestoreData.firstname = firstname;
+		},
+		set_userFirestore_lastname_state(lastname: string | null): void {
+			this.user.firestoreData.lastname = lastname;
+		},
+		set_userFirestore_phoneNumber_state(phoneNumber: number | null): void {
+			this.user.firestoreData.phoneNumber = phoneNumber;
+		}
 	},
 });
 

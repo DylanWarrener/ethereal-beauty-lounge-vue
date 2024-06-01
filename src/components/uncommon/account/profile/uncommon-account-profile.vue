@@ -66,7 +66,7 @@
 								clearable
 								variant="outlined"
 								type="text"
-								:label="profile.input.displayName.label"
+								:label="profile.input.textField.displayName.label"
 								:rules="computed_data_validation_displayNameRules"
 								v-model="computed_data_user_displayName_local"
 							></v-text-field>
@@ -76,7 +76,7 @@
 								clearable
 								variant="outlined"
 								type="text"
-								:label="profile.input.firstname.label"
+								:label="profile.input.textField.firstname.label"
 								:rules="computed_data_validation_nameRules"
 								v-model="computed_data_user_firstname_local"
 							></v-text-field>
@@ -86,7 +86,7 @@
 								clearable
 								variant="outlined"
 								type="text"
-								:label="profile.input.lastname.label"
+								:label="profile.input.textField.lastname.label"
 								:rules="computed_data_validation_nameRules"
 								v-model="computed_data_user_lastname_local"
 							></v-text-field>
@@ -96,7 +96,7 @@
 								clearable
 								variant="outlined"
 								type="email"
-								:label="profile.input.email.label"
+								:label="profile.input.textField.email.label"
 								:rules="computed_data_validation_emailRules"
 								v-model="computed_data_user_email_local"
 							></v-text-field>
@@ -106,7 +106,7 @@
 								clearable
 								variant="outlined"
 								type="number"
-								:label="profile.input.phoneNumber.label"
+								:label="profile.input.textField.phoneNumber.label"
 								:rules="computed_data_validation_phoneNumberRules"
 								v-model="computed_data_user_phoneNumber_local"
 							></v-text-field>
@@ -120,7 +120,7 @@
 			<v-btn
 				variant="outlined"
 				class="px-4"
-				:style="computed_css_btnWidth"
+				style="min-width: 100px"
 				:disabled="computed_data_doesAccountDataMatchState"
 				:loading="profile.actions.btn.save.isLoading"
 				@click="method_event_saveSettingsHandler"
@@ -174,26 +174,28 @@ export default defineComponent({
 					},
 				},
 				input: {
-					displayName: {
-						label: "Display name",
-						value: null,
-					},
-					firstname: {
-						label: "First name",
-						value: null,
-					},
-					lastname: {
-						label: "Last name",
-						value: null,
-					},
-					email: {
-						label: "Email",
-						value: null,
-					},
-					phoneNumber: {
-						label: "Phone number",
-						value: null,
-					},
+					textField: {
+						displayName: {
+							label: "Display name",
+							value: null,
+						},
+						firstname: {
+							label: "First name",
+							value: null,
+						},
+						lastname: {
+							label: "Last name",
+							value: null,
+						},
+						email: {
+							label: "Email",
+							value: null,
+						},
+						phoneNumber: {
+							label: "Phone number",
+							value: null,
+						}	
+					}
 				},
 				actions: {
 					btn: {
@@ -220,10 +222,6 @@ export default defineComponent({
 
 		computed_img_canvas(): string {
 			return CanvasPNG;
-		},
-
-		computed_css_btnWidth(): string {
-			return `min-width: 100px`;
 		},
 
 		computed_data_validation_displayNameRules(): any {
@@ -286,42 +284,42 @@ export default defineComponent({
 		},
 		computed_data_user_displayName_local: {
 			get(): string | null {
-				return this.profile.input.displayName.value;
+				return this.profile.input.textField.displayName.value;
 			},
 			set(newValue: string | null): void {
-				this.profile.input.displayName.value = newValue;
+				this.profile.input.textField.displayName.value = newValue;
 			},
 		},
 		computed_data_user_firstname_local: {
 			get(): string | null {
-				return this.profile.input.firstname.value;
+				return this.profile.input.textField.firstname.value;
 			},
 			set(newValue: string | null): void {
-				this.profile.input.firstname.value = newValue;
+				this.profile.input.textField.firstname.value = newValue;
 			},
 		},
 		computed_data_user_lastname_local: {
 			get(): string | null {
-				return this.profile.input.lastname.value;
+				return this.profile.input.textField.lastname.value;
 			},
 			set(newValue: string | null): void {
-				this.profile.input.lastname.value = newValue;
+				this.profile.input.textField.lastname.value = newValue;
 			},
 		},
 		computed_data_user_email_local: {
 			get(): string | null {
-				return this.profile.input.email.value;
+				return this.profile.input.textField.email.value;
 			},
 			set(newValue: string | null): void {
-				this.profile.input.email.value = newValue;
+				this.profile.input.textField.email.value = newValue;
 			},
 		},
 		computed_data_user_phoneNumber_local: {
 			get(): number | null {
-				return this.profile.input.phoneNumber.value;
+				return this.profile.input.textField.phoneNumber.value;
 			},
 			set(newValue: number | null): void {
-				this.profile.input.phoneNumber.value = newValue;
+				this.profile.input.textField.phoneNumber.value = newValue;
 			},
 		},
 		computed_data_user_displayName_state: {

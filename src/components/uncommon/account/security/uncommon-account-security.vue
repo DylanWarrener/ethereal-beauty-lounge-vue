@@ -4,34 +4,35 @@
 			<v-row dense>
 				<!-- Title -->
 				<v-col cols="12">
-					<h3 v-text="security.title"></h3>
+					<h4 v-text="security.title"></h4>
 				</v-col>
 
 				<!-- Security info -->
 				<v-col cols="12" class="d-flex align-center">
 					<v-text-field
 						readonly
+						disabled
 						variant="outlined"
 						:label="security.input.accountID.label"
 						:model-value="computed_data_userID"
 					></v-text-field>
 				</v-col>
 				<v-col cols="12" md="6" class="d-flex align-center">
-					<v-switch readonly density="compact" color="default">
+					<v-switch readonly disabled color="default">
 						<template v-slot:label>
 							<span class="text-default" v-text="security.input.switch.twoFactorAuth.label"></span>
 						</template>
 					</v-switch>
 				</v-col>
 				<v-col cols="12" md="6" class="d-flex align-center">
-					<v-switch readonly density="compact" color="default" v-model="computed_data_hasUserVerifiedEmail">
+					<v-switch readonly disabled color="default" v-model="computed_data_hasUserVerifiedEmail">
 						<template v-slot:label>
 							<span class="text-default" v-text="security.input.switch.emailVerified.label"></span>
 						</template>
 					</v-switch>
 				</v-col>
 				<v-col cols="12" md="6" class="d-flex align-center">
-					<v-switch readonly density="compact" color="default" v-model="computed_data_isUserAnonymous">
+					<v-switch readonly disabled color="default" v-model="computed_data_isUserAnonymous">
 						<template v-slot:label>
 							<span class="text-default" v-text="security.input.switch.anonymous.label"></span>
 						</template>
@@ -41,7 +42,7 @@
 		</v-container>
 		<v-card-actions class="pa-4">
 			<v-spacer></v-spacer>
-			<v-btn variant="outlined" @click="computed_data_dialog_confirmDeleteAccount_show_state = true">
+			<v-btn class="px-4" variant="outlined" style="min-width: 100px" @click="computed_data_dialog_confirmDeleteAccount_show_state = true">
 				<template #default>
 					<small class="text-default" v-text="security.actions.btn.deleteAccount.text"></small>
 				</template>
@@ -79,7 +80,7 @@ export default defineComponent({
 				input: {
 					switch: {
 						emailVerified: {
-							label: "Verified email",
+							label: "Email verified",
 						},
 						twoFactorAuth: {
 							label: "Enabled two-factor authentication",

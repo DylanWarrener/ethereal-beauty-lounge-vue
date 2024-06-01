@@ -17,26 +17,28 @@ export interface IAccountProfileData {
 			};
 		};
 		input: {
-			displayName: {
-				label: string;
-				value: string | null;
-			};
-			firstname: {
-				label: string;
-				value: string | null;
-			};
-			lastname: {
-				label: string;
-				value: string | null;
-			};
-			email: {
-				label: string;
-				value: string | null;
-			};
-			phoneNumber: {
-				label: string;
-				value: number | null;
-			};
+			textField: {
+				displayName: {
+					label: string;
+					value: string | null;
+				};
+				firstname: {
+					label: string;
+					value: string | null;
+				};
+				lastname: {
+					label: string;
+					value: string | null;
+				};
+				email: {
+					label: string;
+					value: string | null;
+				};
+				phoneNumber: {
+					label: string;
+					value: number | null;
+				};
+			}
 		};
 		actions: {
 			btn: {

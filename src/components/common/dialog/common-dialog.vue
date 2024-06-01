@@ -6,7 +6,7 @@
 		:max-height="computed_data_css_maxHeight"
 	>
 		<v-card elevation="0">
-			<v-toolbar flat class="px-2 bg-accent">
+			<v-toolbar flat class="px-2 bg-accent">	
 				<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 				<v-spacer></v-spacer>
 				<slot name="card-toolbar-buttons"></slot>
