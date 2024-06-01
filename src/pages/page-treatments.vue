@@ -20,11 +20,16 @@
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
+										class="px-4"
+										style="min-width: 100px"
 										size="large"
 										color="accent"
-										text="See our treatments?"
 										@click="scrollToElement"
-									></v-btn>
+									>
+									<template #default>
+										<small class="text-default" v-text="treatmentsPage.canvas.card.actions.buttons.seeRecentTreatments.text"></small>
+									</template>
+									</v-btn>
 								</v-card-actions>
 							</template>
 						</card-container-component>
@@ -195,7 +200,11 @@
 											</v-card-item>
 											<v-card-actions class="w-100">
 												<v-spacer></v-spacer>
-												<v-btn class="bg-accent text-default">Book</v-btn>
+												<v-btn class="px-4 bg-accent text-default" style="min-width: 100px" size="large">
+													<template #default>
+														<small class="text-default" v-text="treatmentsPage.treatment.card.buttons.book.text"></small>
+													</template>
+												</v-btn>
 												<v-spacer></v-spacer>
 											</v-card-actions>
 										</v-card>
@@ -235,6 +244,28 @@ export default defineComponent({
 	},
 	data() {
 		return {
+			treatmentsPage: {
+				canvas: {
+					card: {
+						actions: {
+							buttons: {
+								seeRecentTreatments: {
+									text: "See our treatments?"
+								}
+							}
+						}
+					}
+				},
+				treatment: {
+					card: {
+						buttons: {
+							book: {
+								text: "Book?"
+							}
+						}
+					}
+				}
+			},
 			data_treatmentCategories: [
 				{
 					category: "Non Surgical Body Treatments",

@@ -20,11 +20,16 @@
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
+										class="px-4"
+										style="min-width: 100px"
 										size="large"
 										color="accent"
-										text="See our reviews?"
 										@click="scrollToElement('section-reviews')"
-									></v-btn>
+									>
+									<template #default>
+										<small class="text-default" v-text="data_reviewsPage.canvas.card.actions.buttons.seeOurReviews.text"></small>
+									</template>
+									</v-btn>
 								</v-card-actions>
 							</template>
 						</card-container-component>
@@ -209,6 +214,19 @@ export default defineComponent({
 	},
 	data() {
 		return {
+			data_reviewsPage: {
+				canvas: {
+					card: {
+						actions: {
+							buttons: {
+								seeOurReviews: {
+									text: "See our reviews?"
+								}
+							}
+						}
+					}
+				}
+			},
 			reviews: {
 				value: 0,
 				items: [

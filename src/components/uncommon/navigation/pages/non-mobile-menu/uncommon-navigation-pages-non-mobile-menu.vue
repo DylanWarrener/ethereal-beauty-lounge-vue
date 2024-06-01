@@ -1,12 +1,18 @@
 <template>
-	<v-btn class="nav-text__underline d-none d-md-flex" :to="navigation.home.link">
-		{{ navigation.home.text }}
+	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.home.link">
+		<template #default>
+			<small class="text-default" v-text="navigation.home.text"></small>
+		</template>
 	</v-btn>
-	<v-btn class="nav-text__underline d-none d-md-flex" :to="navigation.treatments.link">
-		{{ navigation.treatments.text }}
+	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.treatments.link">
+		<template #default>
+			<small class="text-default" v-text="navigation.treatments.text"></small>
+		</template>
 	</v-btn>
-	<v-btn class="nav-text__underline d-none d-md-flex" :to="navigation.store.link">
-		{{ navigation.store.text }}
+	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.store.link">
+		<template #default>
+			<small class="text-default" v-text="navigation.store.text"></small>
+		</template>
 	</v-btn>
 	<button-text-menu-container-component
 		btn-class="d-none d-md-flex"
@@ -17,14 +23,14 @@
 	>
 		<template #menu-items>
 			<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-				<v-list-item class="text-inverted text-uppercase" :to="navigation.information.items.contact.link">
-					<span class="text-uppercase" v-text="navigation.information.items.contact.text"></span>
+				<v-list-item class="text-inverted text-capitalize" :to="navigation.information.items.contact.link">
+					<span class="text-default" v-text="navigation.information.items.contact.text"></span>
 				</v-list-item>
-				<v-list-item class="text-inverted text-uppercase" :to="navigation.information.items.reviews.link">
-					<span class="text-uppercase" v-text="navigation.information.items.reviews.text"></span>
+				<v-list-item class="text-inverted text-capitalize" :to="navigation.information.items.reviews.link">
+					<span class="text-default" v-text="navigation.information.items.reviews.text"></span>
 				</v-list-item>
-				<v-list-item class="text-inverted text-uppercase" :to="navigation.information.items.about.link">
-					<span class="text-uppercase" v-text="navigation.information.items.about.text"></span>
+				<v-list-item class="text-inverted text-capitalize" :to="navigation.information.items.about.link">
+					<span class="text-default" v-text="navigation.information.items.about.text"></span>
 				</v-list-item>
 			</v-list>
 		</template>

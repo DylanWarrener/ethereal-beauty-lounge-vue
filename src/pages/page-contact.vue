@@ -20,11 +20,16 @@
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
+										class="px-4"
+										style="min-width: 100px"
 										size="large"
 										color="accent"
-										text="Go To Contact details?"
 										@click="scrollToElement('section-contact')"
-									></v-btn>
+									>
+									<template #default>
+										<small class="text-default" v-text="data_contactPage.canvas.card.actions.buttons.contactDetails.text"></small>
+									</template>
+									</v-btn>
 								</v-card-actions>
 							</template>
 						</card-container-component>
@@ -159,6 +164,19 @@ export default defineComponent({
 	},
 	data() {
 		return {
+			data_contactPage: {
+				canvas: {
+					card: {
+						actions: {
+							buttons: {
+								contactDetails: {
+									text: "Go to contact details?"
+								}
+							}
+						}
+					}
+				}
+			},
 			valid: false,
 			data_contactDetails: [
 				{

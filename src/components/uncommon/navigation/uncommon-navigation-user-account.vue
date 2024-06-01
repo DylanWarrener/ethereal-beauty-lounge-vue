@@ -5,7 +5,7 @@
 		location="right"
 		class="bg-accent"
 		:rail="navigation.rail"
-		v-if="computed_data_isUserLoggedIn"
+		v-if="computed_data_isLoggedIn"
 	>
 		<!-- <div class="close-rail d-flex" style="border: 2px solid red">
 			<v-tooltip location="left" text="Close account bar">
@@ -34,14 +34,20 @@
 		<divider-container-component color="default" thickness="1"></divider-container-component>
 
 		<v-list nav density="compact" class="pl-1">
-			<v-list-item to="/account" :title="navigation.items.account.text" :value="navigation.items.account.value">
+			<v-list-item class="px-4 text-inverted text-capitalize" to="/account" :value="navigation.items.account.value">
 				<template #prepend>
-					<v-icon :icon="navigation.items.account.icon"></v-icon>
+					<v-icon class="text-default" :icon="navigation.items.account.icon"></v-icon>
+				</template>
+				<template #default>
+					<span class="text-default" v-text="navigation.items.account.text"></span>
 				</template>
 			</v-list-item>
-			<v-list-item to="/basket" :title="navigation.items.basket.text" :value="navigation.items.basket.value">
+			<v-list-item class="px-4 text-inverted text-capitalize" to="/basket" :value="navigation.items.basket.value">
 				<template #prepend>
-					<v-icon :icon="navigation.items.basket.icon"></v-icon>
+					<v-icon class="text-default" :icon="navigation.items.basket.icon"></v-icon>
+				</template>
+				<template #default>
+					<span class="text-default" v-text="navigation.items.basket.text"></span>
 				</template>
 			</v-list-item>
 			<!-- <v-list-item prepend-icon="mdi-account-multiple" title="Shared with me" value="shared"></v-list-item> -->
@@ -109,22 +115,22 @@ export default defineComponent({
 	},
 	computed: {
 		computed_data_user_displayName(): string {
-			return this.storeFirebase.getUserDisplayName ?? "Loading display name...";
+			return this.storeFirebase.get_userAuth_displayName_state ?? "Loading display name...";
 		},
 		computed_data_user_email(): string {
-			return this.storeFirebase.getUserEmail?.toLowerCase() ?? "Loading email...";
+			return this.storeFirebase.get_userAuth_email_state?.toLowerCase() ?? "Loading email...";
 		},
 		computed_data_user_initials(): string {
 			const [firstname, lastname] = this.computed_data_user_displayName.split(" ");
 			return `${firstname[0]}${lastname[0]}`.toUpperCase();
 		},
-		computed_data_isUserLoggedIn(): boolean {
-			return this.storeFirebase.getIsUserLoggedIn;
+		computed_data_isLoggedIn(): boolean {
+			return this.storeFirebase.get_userAuth_isLoggedIn_state;
 		},
 	},
 	methods: {
 		method_event_logout(): void {
-			this.storeFirebase.logout();
+			this.storeFirebase.logout_userAuth();
 			this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });
 		},
 	},

@@ -121,6 +121,7 @@
 				variant="outlined"
 				class="px-4"
 				style="min-width: 100px"
+				size="large"
 				:disabled="computed_data_doesAccountDataMatchState"
 				:loading="profile.actions.btn.save.isLoading"
 				@click="method_event_saveSettings_clickHandler"

@@ -218,10 +218,10 @@ export default defineComponent({
 			return retval;
 		},
 		computed_data_userDisplayName(): string | null {
-			return this.storeFirebase.getUserDisplayName ?? "No data";
+			return this.storeFirebase.get_userAuth_displayName_state ?? "No data";
 		},
 		data_isUserLoggedIn(): boolean {
-			return this.storeFirebase.getIsUserLoggedIn;
+			return this.storeFirebase.get_userAuth_isLoggedIn_state;
 		},
 		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
 			return this.storeHeader.getNavigationNonMobileMenuState;
@@ -280,7 +280,7 @@ export default defineComponent({
 			this.$router.push({ name: txtRouteNames.account });
 		},
 		method_event_logout(): void {
-			this.storeFirebase.logout();
+			this.storeFirebase.logout_userAuth();
 		},
 	},
 	setup() {

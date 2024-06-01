@@ -1,6 +1,6 @@
 <template>
-	<v-btn :class="btnClass" :append-icon="btnAppendIcon" @click="showMenuDrawer">
-		{{ btnText }}
+	<v-btn class="px-4" :class="btnClass" style="min-width: 100px" size="large" :append-icon="btnAppendIcon" @click="showMenuDrawer">
+		<small class="text-default" v-text="btnText"></small>
 		<v-menu
 			close-on-content-click
 			:top="data_locationTop"

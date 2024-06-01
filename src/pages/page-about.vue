@@ -20,11 +20,16 @@
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
+										class="px-4"
+										style="min-width: 100px"
 										size="large"
 										color="accent"
-										text="See who we are?"
 										@click="scrollToElement('section-about')"
-									></v-btn>
+									>
+									<template #default>
+										<small class="text-default" v-text="data_aboutPage.canvas.card.actions.buttons.seeWhoWeAre.text"></small>
+									</template>
+								</v-btn>
 								</v-card-actions>
 							</template>
 						</card-container-component>
@@ -137,6 +142,23 @@ export default defineComponent({
 		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
+	},
+	data() {
+		return {
+			data_aboutPage: {
+				canvas: {
+					card: {
+						actions: {
+							buttons: {
+								seeWhoWeAre: {
+									text: "See who we are?"
+								}
+							}
+						}
+					}
+				}
+			},
+		};
 	},
 	computed: {
 		/* IMGs */

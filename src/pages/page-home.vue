@@ -20,11 +20,16 @@
 									<v-spacer></v-spacer>
 									<v-btn
 										variant="flat"
+										class="px-4"
+										style="min-width: 100px"
 										size="large"
 										color="accent"
-										text="See recent portfolio?"
 										@click="method_event_scrollToElement('section-portfolio')"
-									></v-btn>
+									>
+									<template #default>
+										<small class="text-default" v-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text"></small>
+									</template>
+									</v-btn>
 								</v-card-actions>
 							</template>
 						</common-card-container-component>
@@ -70,6 +75,23 @@ export default defineComponent({
 		"common-card-container-component": CardContainerComp,
 		"common-section-container-component": SectionContainerComp,
 		"common-card-grid-container-component": CardGridContainerComp,
+	},
+	data() {
+		return {
+			homePage: {
+				canvas: {
+					card: {
+						actions: {
+							buttons: {
+								seeRecentPortfolio: {
+									text: "See recent portfolio?"
+								}
+							}
+						}
+					}
+				}
+			}
+		};
 	},
 	computed: {
 		computed_img_canvas(): string {
