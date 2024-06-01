@@ -4,5 +4,5 @@ import IDialogState from "@declarations/common/dialog/interfaces/common-interfac
 export default interface ICommonState {
 	snackbar: any;
 	dialog: any;
-	navigation: {};
+	appbar: any;
 }

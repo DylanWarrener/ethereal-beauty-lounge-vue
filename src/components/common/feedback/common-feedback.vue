@@ -1,18 +1,18 @@
 <template>
 	<v-snackbar
 		location="top"
-		:color="computed_data_color_value"
-		:timeout="computed_data_timeout_value"
-		v-model="computed_data_show_value"
+		:color="computed_data_color_state"
+		:timeout="computed_data_timeout_state"
+		v-model="computed_data_show_state"
 	>
 		<template v-slot:text>
-			<span class="text-default" v-text="computed_data_message_value"></span>
+			<span class="text-default" v-text="computed_data_message_state"></span>
 		</template>
 		<template v-slot:actions>
 			<v-btn
 				variant="text"
 				:text="feedback.btnText"
-				:color="computed_data_btnColor_value"
+				:color="computed_data_btnColor_state"
 				@click="method_event_closeSnackbar"
 			></v-btn>
 		</template>
@@ -35,50 +35,50 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_data_show_value: {
+		computed_data_show_state: {
 			get(): boolean {
-				return this.storeCommon.getSnackbar_show_value;
+				return this.storeCommon.getSnackbar_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeCommon.setSnackbar_show_value(newValue);
+				this.storeCommon.setSnackbar_show_state(newValue);
 			},
 		},
-		computed_data_timeout_value: {
+		computed_data_timeout_state: {
 			get(): number {
-				return this.storeCommon.getSnackbar_timeout_value;
+				return this.storeCommon.getSnackbar_timeout_state;
 			},
 			set(newValue: number): void {
-				this.storeCommon.setSnackbar_timeout_value(newValue);
+				this.storeCommon.setSnackbar_timeout_state(newValue);
 			},
 		},
-		computed_data_color_value: {
+		computed_data_color_state: {
 			get(): string {
-				return this.storeCommon.getSnackbar_color_value;
+				return this.storeCommon.getSnackbar_color_state;
 			},
 			set(newValue: string): void {
-				this.storeCommon.setSnackbar_color_value(newValue);
+				this.storeCommon.setSnackbar_color_state(newValue);
 			},
 		},
-		computed_data_btnColor_value: {
+		computed_data_btnColor_state: {
 			get(): string {
-				return this.storeCommon.getSnackbar_btnColor_value;
+				return this.storeCommon.getSnackbar_btnColor_state;
 			},
 			set(newValue: string): void {
-				this.storeCommon.setSnackbar_btnColor_value(newValue);
+				this.storeCommon.setSnackbar_btnColor_state(newValue);
 			},
 		},
-		computed_data_message_value: {
+		computed_data_message_state: {
 			get(): string {
-				return this.storeCommon.getSnackbar_message_value;
+				return this.storeCommon.getSnackbar_message_state;
 			},
 			set(newValue: string): void {
-				this.storeCommon.setSnackbar_message_value(newValue);
+				this.storeCommon.setSnackbar_message_state(newValue);
 			},
 		},
 	},
 	methods: {
 		method_event_closeSnackbar(): void {
-			this.computed_data_show_value = false;
+			this.computed_data_show_state = false;
 		},
 	},
 	setup() {

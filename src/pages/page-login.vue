@@ -133,41 +133,11 @@ export default defineComponent({
 			return retVal;
 		},
 
-		computed_tooltip_dialog_btnClose(): string {
-			return this.computed_data_dialog_defaultState.icons.close.tooltip;
-		},
-
-		computed_css_dialog_dynamicMaxWidth(): string {
-			let retVal: string = "";
-			if (this.$vuetify.display.mdAndUp) retVal = "50%";
-			return retVal;
-		},
-
-		computed_icon_dialogCloseBtn(): string {
-			return this.computed_data_dialog_defaultState.icons.close.icon;
-		},
 		computed_data_canvas_img(): string {
 			return CanvasPNG;
 		},
-
-		computed_data_dialog_defaultState(): any {
-			return this.storeCommon.getDialogDefaultState;
-		},
-		computed_data_dialog_loginDrawerState: {
-			get(): boolean {
-				return this.storeHeader.getAppBarAccountDrawerState;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarAccountDrawerState(newValue);
-			},
-		},
 	},
 	methods: {
-		/* Events */
-		method_event_dialogCloseBtn_handler(): void {
-			this.computed_data_dialog_loginDrawerState = !this.computed_data_dialog_loginDrawerState;
-			setTimeout(() => this.method_event_setSelectedComponent("uncommon-login-container-component"), 100);
-		},
 		method_event_setSelectedComponent(comp: string): void {
 			this.selectedComponent = comp;
 		},

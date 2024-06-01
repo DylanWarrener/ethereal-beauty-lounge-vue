@@ -228,10 +228,10 @@ export default defineComponent({
 		},
 		data_appBarDrawerState: {
 			get(): boolean {
-				return this.storeCommon.getAppBarDrawer;
+				return this.storeCommon.getAppbar_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeCommon.setAppBarDrawer(newValue);
+				this.storeCommon.setAppbar_show_state(newValue);
 			},
 		},
 		data_appBarMobileMenuDrawerState: {

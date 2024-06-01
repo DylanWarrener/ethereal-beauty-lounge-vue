@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 
 // Interfaces
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
-import { IDialogDefaultState } from "@declarations/common/dialog/interfaces/common-interface-dialog.js";
 
 // Constants
 import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-constants-objects.js";
@@ -19,7 +18,7 @@ export const useCommonStore = defineStore("common-store", {
 		},
 		dialog: {
 			default: {
-				icons: {
+				buttons: {
 					close: {
 						icon: iconsDialog.close,
 						tooltip: tooltipsDialog.close,
@@ -32,12 +31,22 @@ export const useCommonStore = defineStore("common-store", {
 						show: false,
 					},
 				},
+				security: {
+					deleteAccount: {
+						show: false,
+					},
+				},
 			},
 		},
-		navigation: {},
+		appbar: {
+			show: true,
+		},
 	}),
 	getters: {
 		/* Snackbar - Feedback */
+		getSnackbar_state: (state: ICommonState): any => {
+			return state.snackbar;
+		},
 		getSnackbar_show_state: (state: ICommonState): boolean => {
 			return state.snackbar.show;
 		},
@@ -55,14 +64,22 @@ export const useCommonStore = defineStore("common-store", {
 		},
 
 		/* Dialog */
-		getDialog_default_icon_close_state: (state: ICommonState): string => {
-			return state.dialog.default.icons.close.icon;
+		getDialog_default_btnClose_icon_state: (state: ICommonState): string => {
+			return state.dialog.default.buttons.close.icon;
 		},
-		getDialog_default_iconTooltip_close_state: (state: ICommonState): string => {
-			return state.dialog.default.icons.close.tooltip;
+		getDialog_default_btnClose_tooltip_state: (state: ICommonState): string => {
+			return state.dialog.default.buttons.close.tooltip;
 		},
 		getDialog_accountProfile_updateAvatar_show_state: (state: ICommonState): boolean => {
 			return state.dialog.account.profile.updateAvatar.show;
+		},
+		getDialog_accountSecurity_deleteAccount_show_state: (state: ICommonState): boolean => {
+			return state.dialog.account.security.deleteAccount.show;
+		},
+
+		/* App bar */
+		getAppbar_show_state: (state: ICommonState): boolean => {
+			return state.appbar.show;
 		},
 	},
 	actions: {
@@ -83,33 +100,41 @@ export const useCommonStore = defineStore("common-store", {
 			this.snackbar.message = message;
 		},
 		setSnackbar_reset_state(): void {
-			this.snackbar.show = false;
-			this.snackbar.color = "";
-			this.snackbar.btnColor = "";
-			this.snackbar.message = "";
+			this.setSnackbar_show_state(false);
+			this.setSnackbar_color_state("");
+			this.setSnackbar_btnColor_state("");
+			this.setSnackbar_message_state("");
 		},
 		setSnackbar_success_state(message: string): void {
-			this.snackbar.show = true;
-			this.snackbar.color = "success";
-			this.snackbar.btnColor = "default";
-			this.snackbar.message = message;
+			this.setSnackbar_show_state(true);
+			this.setSnackbar_color_state("success");
+			this.setSnackbar_btnColor_state("default");
+			this.setSnackbar_message_state(message);
 		},
 		setSnackbar_warning_state(message: string): void {
-			this.snackbar.show = true;
-			this.snackbar.color = "warning";
-			this.snackbar.btnColor = "inverted";
-			this.snackbar.message = message;
+			this.setSnackbar_show_state(true);
+			this.setSnackbar_color_state("warning");
+			this.setSnackbar_btnColor_state("inverted");
+			this.setSnackbar_message_state(message);
 		},
 		setSnackbar_error_state(message: string): void {
-			this.snackbar.show = true;
-			this.snackbar.color = "error";
-			this.snackbar.btnColor = "default";
-			this.snackbar.message = message;
+			this.setSnackbar_show_state(true);
+			this.setSnackbar_color_state("error");
+			this.setSnackbar_btnColor_state("default");
+			this.setSnackbar_message_state(message);
 		},
 
 		/* Dialog */
 		setDialog_accountProfile_updateAvatar_show_state(newValue: boolean): void {
 			this.dialog.account.profile.updateAvatar.show = newValue;
+		},
+		setDialog_accountSecurity_deleteAccount_show_state(newValue: boolean): void {
+			this.dialog.account.security.deleteAccount.show = newValue;
+		},
+
+		/* App bar */
+		setAppbar_show_state(newValue: boolean): void {
+			this.appbar.show = newValue;
 		},
 	},
 });

@@ -257,7 +257,7 @@ export default defineComponent({
 			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
 		},
 		computed_data_snackbar_defaultTimeout_value(): number {
-			return this.storeCommon.getSnackbar_timeout_value;
+			return this.storeCommon.getSnackbar_timeout_state;
 		},
 	},
 	methods: {
@@ -273,17 +273,17 @@ export default defineComponent({
 				this.storeFirebase
 					.createAccountWithEmailAndPassword({ email, password })
 					.then(() => {
-						this.storeCommon.setSnackbar_success_value(
+						this.storeCommon.setSnackbar_success_state(
 							"You have successfully created an account. We have now sent you an email to verify your account."
 						);
 						return this.storeUserInFirestore();
 					})
 					.then(() => this.storeUserInState())
 					.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
-					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_value(errorMessage))
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
-							this.storeCommon.setSnackbar_reset_values();
+							this.storeCommon.setSnackbar_reset_state();
 							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
 							this.resetFormInputs();
 						}, this.computed_data_snackbar_defaultTimeout_value);

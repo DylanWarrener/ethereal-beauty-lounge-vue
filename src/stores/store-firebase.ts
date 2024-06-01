@@ -10,6 +10,7 @@ import {
 	sendEmailVerification,
 	updateProfile,
 	updateEmail,
+	deleteUser,
 	type Auth,
 	type User,
 } from "firebase/auth";
@@ -203,6 +204,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
+		deleteUser(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				if (auth.currentUser !== null) {
+					deleteUser(auth.currentUser)
+						.then(() => resolve())
+						.catch((error) => {
+							switch (error.code) {
+								case "auth/requires-recent-login":
+									const errorMessage: string =
+										"Cannot delete account. A recent login is required. Please re-log first and try again!";
+									console.error(`${errorMessage}. ${error}`);
+									reject(errorMessage);
+									break;
+							}
+						});
+				}
+			});
+		},
 		setUserID(uid: string | null): void {
 			this.user.authData.uid = uid;
 		},
@@ -234,7 +253,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		setUserPhotoURL(photoURL: string | null): void {
 			this.user.authData.photoURL = photoURL;
 		},
-		setUserIsAnonymous(isAnonymous: boolean): void {
+		setIsUserAnonymous(isAnonymous: boolean): void {
 			this.user.authData.isAnonymous = isAnonymous;
 		},
 		setUserAuthState(user: {
@@ -263,7 +282,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 						this.setUserPhotoURL(value as string);
 						break;
 					case "isAnonymous":
-						this.setUserIsAnonymous(value as boolean);
+						this.setIsUserAnonymous(value as boolean);
 						break;
 				}
 			}

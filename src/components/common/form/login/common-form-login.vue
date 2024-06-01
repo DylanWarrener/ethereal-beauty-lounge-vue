@@ -230,12 +230,11 @@ export default defineComponent({
 			return retVal;
 		},
 
-		/* Data */
 		computed_data_isFormValid(): boolean {
 			return this.data_dialogFormLogin.valid;
 		},
 		computed_data_timeout_value(): number {
-			return this.storeCommon.getSnackbar_timeout_value;
+			return this.storeCommon.getSnackbar_timeout_state;
 		},
 		computed_data_validation_emailRules(): any {
 			return [this.isNotEmpty, this.isEmailFormatValid];
@@ -257,17 +256,17 @@ export default defineComponent({
 				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
 					.then(() => {
-						this.storeCommon.setSnackbar_success_value(
+						this.storeCommon.setSnackbar_success_state(
 							"You have successfully logged into your account. Redirecting you to your account now."
 						);
 						setTimeout(() => {
 							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
 						}, this.computed_data_timeout_value);
 					})
-					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_value(errorMessage))
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
-							this.storeCommon.setSnackbar_reset_values();
+							this.storeCommon.setSnackbar_reset_state();
 							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
 							this.resetFormInputs();
 						}, this.computed_data_timeout_value);

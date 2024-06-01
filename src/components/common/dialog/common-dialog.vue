@@ -4,26 +4,29 @@
 		transition="dialog-top-transition"
 		:max-width="computed_data_css_maxWidth"
 		:max-height="computed_data_css_maxHeight"
-		v-model="dialog.show"
 	>
-		<v-card>
-			<v-toolbar flat class="bg-accent">
-				<h5 class="text-default" v-if="propsToolbarTitle">{{ propsToolbarTitle }}</h5>
+		<v-card elevation="0">
+			<v-toolbar flat class="px-2 bg-accent">
+				<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 				<v-spacer></v-spacer>
-				<slot name="toolbar-buttons"></slot>
-				<v-tooltip location="bottom" :text="dialog.toolbar.defaults.btn.close.tooltip">
+				<slot name="card-toolbar-buttons"></slot>
+				<v-tooltip location="bottom" :text="computed_tooltip_dialog_closeBtn_state">
 					<template #activator="{ props }">
-						<v-btn icon variant="flat" class="bg-transparent" v-bind="props">
-							<v-icon class="text-default" :icon="dialog.toolbar.defaults.btn.close.icon"></v-icon>
+						<v-btn icon variant="flat" class="ma-0 bg-transparent" v-bind="props" @click="$emit('close')">
+							<v-icon class="text-default" :icon="computed_icon_dialog_closeBtn_state"></v-icon>
 						</v-btn>
 					</template>
 				</v-tooltip>
 			</v-toolbar>
-			<v-card-text style="border: 2px solid black">
+			<v-card-text>
 				<v-container fluid>
-					<slot name="dialog-content"></slot>
+					<slot name="card-content"></slot>
 				</v-container>
 			</v-card-text>
+			<v-divider></v-divider>
+			<v-card-actions class="pa-2">
+				<slot name="card-actions"></slot>
+			</v-card-actions>
 		</v-card>
 	</v-dialog>
 </template>
@@ -33,33 +36,22 @@ import { defineComponent } from "vue";
 
 // Stores
 import useEventStore from "@stores/store-events.js";
-
-// Icons
-import { mdiClose } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import useCommonStore from "@stores/store-common.js";
 
 export default defineComponent({
 	name: "dialog-container-component",
 	props: {
-		propsToolbarTitle: { type: String, required: false },
-	},
-	data() {
-		return {
-			dialog: {
-				show: true,
-				toolbar: {
-					defaults: {
-						btn: {
-							close: {
-								icon: mdiClose,
-								tooltip: "Close dialog",
-							},
-						},
-					},
-				},
-			},
-		};
+		toolbarTitle: { type: String, required: false },
 	},
 	computed: {
+		computed_icon_dialog_closeBtn_state(): string {
+			return this.storeCommon.getDialog_default_btnClose_icon_state;
+		},
+
+		computed_tooltip_dialog_closeBtn_state(): string {
+			return this.storeCommon.getDialog_default_btnClose_tooltip_state;
+		},
+
 		computed_data_css_maxWidth(): string {
 			let retVal: string = "80%";
 			switch (this.$vuetify.display.name) {
@@ -78,7 +70,8 @@ export default defineComponent({
 	},
 	setup() {
 		const storeEvent = useEventStore();
-		return { storeEvent };
+		const storeCommon = useCommonStore();
+		return { storeEvent, storeCommon };
 	},
 });
 </script>

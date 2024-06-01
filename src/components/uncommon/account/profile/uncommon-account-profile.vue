@@ -44,7 +44,7 @@
 														<template v-slot:default>
 															<v-icon
 																size="32"
-																@click.stop="method_event_changeAvatarPicture"
+																@click="method_event_changeAvatarPicture"
 															></v-icon>
 														</template>
 													</v-btn>
@@ -123,7 +123,7 @@
 				:style="computed_css_btnWidth"
 				:disabled="computed_data_doesAccountDataMatchState"
 				:loading="profile.actions.btn.save.isLoading"
-				@click.stop="method_event_saveProfileSettingsHandler"
+				@click="method_event_saveSettingsHandler"
 			>
 				<template #default>
 					<small class="text-default" v-text="profile.actions.btn.save.text"></small>
@@ -132,7 +132,12 @@
 		</v-card-actions>
 	</v-card>
 
-	<v-dialog v-model="computed_data_dialogDrawer_state"></v-dialog>
+	<!-- <dialog-container-component
+		props-toolbar-title="Update avatar"
+		v-model="computed_data_dialog_accountProfile_updateAvatar_show_state"
+	>
+		<template #dialog-content> Content </template>
+	</dialog-container-component> -->
 </template>
 
 <script lang="ts">
@@ -141,6 +146,9 @@ import { defineComponent } from "vue";
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
+
+// Components
+//import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
 // Declarations
 import { IAccountProfileData } from "@declarations/common/account/profile/common-interface-account-profile.js";
@@ -153,6 +161,9 @@ import CanvasPNG from "@assets/jpg/temp.jpg";
 
 export default defineComponent({
 	name: "uncommon-account-profile-component",
+	components: {
+		//"dialog-container-component": DialogContainerComp,
+	},
 	data(): IAccountProfileData {
 		return {
 			profile: {
@@ -198,6 +209,13 @@ export default defineComponent({
 	computed: {
 		computed_icon_editImage(): string {
 			return iconsAccountProfile.editImage;
+		},
+		computed_icon_dialog_closeBtn_state(): string {
+			return this.storeCommon.getDialog_default_btnClose_icon_state;
+		},
+
+		computed_tooltip_dialog_closeBtn_state(): string {
+			return this.storeCommon.getDialog_default_btnClose_tooltip_state;
 		},
 
 		computed_img_canvas(): string {
@@ -258,7 +276,7 @@ export default defineComponent({
 		computed_data_doesPhoneNumberLocal_matchState(): boolean {
 			return this.computed_data_user_phoneNumber_local === this.computed_data_user_phoneNumber_state;
 		},
-		computed_data_dialogDrawer_state: {
+		computed_data_dialog_accountProfile_updateAvatar_show_state: {
 			get(): boolean {
 				return this.storeCommon.getDialog_accountProfile_updateAvatar_show_state;
 			},
@@ -348,7 +366,7 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		method_event_saveProfileSettingsHandler(): void {
+		method_event_saveSettingsHandler(): void {
 			this.profile.actions.btn.save.isLoading = true;
 			this.method_utils_matchLocalDataToStateAndUploadIfRequired()
 				.then(() => this.storeCommon.setSnackbar_success_state("We have successfully saved your account settings."))
@@ -361,8 +379,8 @@ export default defineComponent({
 				});
 		},
 		method_event_changeAvatarPicture(): void {
-			debugger;
 			// Change avatar picture. Might want to consider using a v-file-input element.
+			//this.computed_data_dialog_accountProfile_updateAvatar_show_state = true;
 		},
 		method_event_updateUserData(newValue: boolean): void {
 			if (newValue) {
