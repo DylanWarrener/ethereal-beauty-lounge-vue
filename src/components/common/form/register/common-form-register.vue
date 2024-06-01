@@ -6,7 +6,7 @@
 					class="ga-4 d-flex flex-column align-center"
 					validate-on="input lazy"
 					v-model="data_dialogFormCreateAccount.valid"
-					@submit.prevent="createAccount_handler"
+					@submit.prevent="method_event_createAccount_handler"
 				>
 					<v-select
 						clearable
@@ -242,27 +242,26 @@ export default defineComponent({
 			return this.data_dialogFormCreateAccount.valid;
 		},
 		computed_data_nameValidationRules(): any {
-			return [this.isNotEmpty, this.isNameMinLength];
+			return [this.method_validation_isNotEmpty, this.method_validation_isNameMinLength];
 		},
 		computed_data_emailValidationRules(): any {
-			return [this.isNotEmpty, this.isEmailFormatValid];
+			return [this.method_validation_isNotEmpty, this.method_validation_isEmailFormatValid];
 		},
 		computed_data_phoneNumberValidationRules(): any {
 			return [];
 		},
 		computed_data_passwordValidationRules(): any {
-			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination];
+			return [this.method_validation_isNotEmpty, this.method_validation_isPasswordMinLength, this.method_validation_isCombination];
 		},
 		computed_data_repeatPasswordValidationRules(): any {
-			return [this.isNotEmpty, this.isPasswordMinLength, this.isCombination, this.arePasswordsIdentical];
+			return [this.method_validation_isNotEmpty, this.method_validation_isPasswordMinLength, this.method_validation_isCombination, this.method_validation_arePasswordsIdentical];
 		},
 		computed_data_snackbar_defaultTimeout_value(): number {
 			return this.storeCommon.getSnackbar_timeout_state;
 		},
 	},
 	methods: {
-		/* Events */
-		createAccount_handler(): void {
+		method_event_createAccount_handler(): void {
 			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
@@ -271,28 +270,27 @@ export default defineComponent({
 
 				this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
 				this.storeFirebase
-					.createAccountWithEmailAndPassword({ email, password })
+					.create_userAuth_account_withEmailAndPassword({ email, password })
 					.then(() => {
 						this.storeCommon.setSnackbar_success_state(
 							"You have successfully created an account. We have now sent you an email to verify your account."
 						);
-						return this.storeUserInFirestore();
+						return this.method_utils_store_userInFirestore();
 					})
-					.then(() => this.storeUserInState())
+					.then(() => this.method_utils_store_userInState())
 					.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
 							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
-							this.resetFormInputs();
+							this.method_utils_reset_formInputs();
 						}, this.computed_data_snackbar_defaultTimeout_value);
 					});
 			}
 		},
 
-		/* Utils */
-		resetFormInputs(): void {
+		method_utils_reset_formInputs(): void {
 			this.data_dialogFormCreateAccount.valid = false;
 			this.data_dialogFormCreateAccount.input.title.value = null;
 			this.data_dialogFormCreateAccount.input.firstName.value = null;
@@ -302,30 +300,22 @@ export default defineComponent({
 			this.data_dialogFormCreateAccount.input.password.value = null;
 			this.data_dialogFormCreateAccount.input.repeatPassword.value = null;
 		},
-		storeUserInState(): Promise<void> {
+		method_utils_store_userInState(): Promise<void> {
 			return new Promise((resolve, reject) => {
 				const displayName: string = `${this.data_dialogFormCreateAccount.input.firstName.value} ${this.data_dialogFormCreateAccount.input.lastName.value}`;
-				const title: string = this.data_dialogFormCreateAccount.input.title.value!;
-				const firstname: string = this.data_dialogFormCreateAccount.input.firstName.value!;
-				const lastname: string = this.data_dialogFormCreateAccount.input.lastName.value!;
-				const phoneNumber: number = this.data_dialogFormCreateAccount.input.phoneNumber.value!;
 
 				this.storeFirebase
-					.updateUserProfile({ displayName })
+					.update_userAuth_profile_displayNameAndPhotoUrl({ displayName })
 					.then(() => {
-						this.storeFirebase.setUserDisplayName(displayName);
-						this.storeFirebase.setUserTitle(title);
-						this.storeFirebase.setUserFirstname(firstname);
-						this.storeFirebase.setUserLastname(lastname);
-						this.storeFirebase.setUserPhoneNumber(phoneNumber);
+						this.storeFirebase.set_userAuth_displayName_state(displayName);
 						resolve();
 					})
 					.catch((errorMessage: string) => reject(errorMessage));
 			});
 		},
-		storeUserInFirestore(): Promise<void> {
+		method_utils_store_userInFirestore(): Promise<void> {
 			return new Promise((resolve, reject) => {
-				const uid: string | null = this.storeFirebase.getUserID;
+				const uid: string | null = this.storeFirebase.get_userAuth_id_state;
 
 				if (uid !== null) {
 					const title: string | null = this.data_dialogFormCreateAccount.input.title.value;
@@ -334,21 +324,16 @@ export default defineComponent({
 					const phoneNumber: string | null = this.data_dialogFormCreateAccount.input.phoneNumber.value;
 
 					this.storeFirebase
-						.setUserFirestore({ uid, title, firstname, lastname, phoneNumber })
-						.then(() => {
-							resolve();
-						})
-						.catch((errorMessage: string) => {
-							reject(errorMessage);
-						});
+						.store_userFirestore_user({ uid, title, firstname, lastname, phoneNumber })
+						.then(() => resolve())
+						.catch((errorMessage: string) => reject(errorMessage));
 				} else {
 					reject("User ID was not populated, before trying to retrieve user data from the firestore.");
 				}
 			});
 		},
 
-		/* Validation */
-		isNotEmpty(newValue: string): boolean | string {
+		method_validation_isNotEmpty(newValue: string): boolean | string {
 			let retVal: boolean | string = false;
 			// Checks for null & undefined
 			if (newValue) {
@@ -362,7 +347,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isNameMinLength(newValue: string): boolean | string {
+		method_validation_isNameMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -375,7 +360,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isEmailFormatValid(newValue: string): boolean | string {
+		method_validation_isEmailFormatValid(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -388,7 +373,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isPasswordMinLength(newValue: string): boolean | string {
+		method_validation_isPasswordMinLength(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -401,7 +386,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		isCombination(newValue: string): boolean | string {
+		method_validation_isCombination(newValue: string): boolean | string {
 			const isNewValueValid: boolean = !!newValue && newValue.length > 0;
 
 			let retVal: boolean | string = false;
@@ -416,7 +401,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		arePasswordsIdentical(newValue: string): boolean | string {
+		method_validation_arePasswordsIdentical(newValue: string): boolean | string {
 			const passwordValue: string = this.data_dialogFormCreateAccount.input.password.value! as string;
 			const isPasswordValid: boolean = !!passwordValue && passwordValue.length > 0;
 			const repeatPasswordValue: string = newValue;

@@ -24,7 +24,7 @@
 					<div
 						class="w-100 d-flex justify-end"
 						:style="dynamicWidth_dialogFormInput"
-						@click="emit_handler('common-forgotten-password-container-component')"
+						@click="() => $emit('common-forgotten-password-container-component')"
 					>
 						<v-btn variant="flat">
 							<template v-slot:default>

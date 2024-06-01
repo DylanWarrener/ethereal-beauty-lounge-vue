@@ -11,6 +11,7 @@ import {
 	updateProfile,
 	updateEmail,
 	deleteUser,
+	sendPasswordResetEmail,
 	type Auth,
 	type User,
 } from "firebase/auth";
@@ -207,6 +208,18 @@ const useFirebaseStore = defineStore("firebase-store", {
 				signOut(auth)
 					.then(() => resolve())
 					.catch(() => reject());
+			});
+		},
+		reset_userAuth_password(email: string): Promise<void> {
+			return new Promise((resolve, reject) => {
+				sendPasswordResetEmail(auth, email)
+					.then(() => {
+						resolve();
+					})
+					.catch((error) => {
+						debugger;
+						switch (error.code) {}
+					});
 			});
 		},
 		create_userAuth_account_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
