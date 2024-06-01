@@ -237,10 +237,10 @@ export default defineComponent({
 			return [];
 		},
 		computed_data_isUserLoggedIn(): boolean {
-			return this.storeFirebase.getIsUserLoggedIn;
+			return this.storeFirebase.get_userAuth_isLoggedIn_state;
 		},
 		computed_data_user_photoURL(): string | undefined {
-			return this.storeFirebase.getUserPhotoURL ?? undefined;
+			return this.storeFirebase.get_userAuth_photoUrl_state ?? undefined;
 		},
 		computed_data_user_initials(): string | null {
 			let retval: string | null = null;
@@ -324,42 +324,42 @@ export default defineComponent({
 		},
 		computed_data_user_displayName_state: {
 			get(): string | null {
-				return this.storeFirebase.getUserDisplayName;
+				return this.storeFirebase.get_userAuth_displayName_state;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserDisplayName(newValue);
+				this.storeFirebase.set_userAuth_displayName_state(newValue);
 			},
 		},
 		computed_data_user_firstname_state: {
 			get(): string | null {
-				return this.storeFirebase.getUserFirstname;
+				return this.storeFirebase.get_userFirestore_firstname_state;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserFirstname(newValue);
+				this.storeFirebase.set_userFirestore_firstname_state(newValue);
 			},
 		},
 		computed_data_user_lastname_state: {
 			get(): string | null {
-				return this.storeFirebase.getUserLastname;
+				return this.storeFirebase.get_userFirestore_lastname_state;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserLastname(newValue);
+				this.storeFirebase.set_userFirestore_lastname_state(newValue);
 			},
 		},
 		computed_data_user_email_state: {
 			get(): string | null {
-				return this.storeFirebase.getUserEmail;
+				return this.storeFirebase.get_userAuth_email_state;
 			},
 			set(newValue: string | null): void {
-				this.storeFirebase.setUserEmail(newValue);
+				this.storeFirebase.set_userAuth_email_state(newValue);
 			},
 		},
 		computed_data_user_phoneNumber_state: {
 			get(): number | null {
-				return this.storeFirebase.getUserPhoneNumber;
+				return this.storeFirebase.get_userFirestore_phoneNumber_state;
 			},
 			set(newValue: number | null): void {
-				this.storeFirebase.setUserPhoneNumber(newValue);
+				this.storeFirebase.set_userFirestore_phoneNumber_state(newValue);
 			},
 		},
 	},
@@ -407,7 +407,7 @@ export default defineComponent({
 
 				if (!this.computed_data_doesDisplayNameLocal_matchState) {
 					this.storeFirebase
-						.updateUserProfile({ displayName: displayNameLocal })
+						.update_userAuth_profile_displayNameAndPhotoUrl({ displayName: displayNameLocal })
 						.then(() => {
 							displayNameState = displayNameLocal;
 							resolve();
@@ -417,7 +417,7 @@ export default defineComponent({
 
 				if (!this.computed_data_doesEmailLocal_matchState) {
 					this.storeFirebase
-						.updateUserEmail(emailLocal)
+						.update_userAuth_email(emailLocal)
 						.then(() => {
 							emailState = emailLocal;
 							resolve();
@@ -450,7 +450,7 @@ export default defineComponent({
 				}
 
 				this.storeFirebase
-					.updateFirestoreUser(valuesThatHaveChanged)
+					.update_userFirestore_user(valuesThatHaveChanged)
 					.then(() => {
 						this.computed_data_user_firstname_state = this.computed_data_user_firstname_local;
 						this.computed_data_user_lastname_state = this.computed_data_user_lastname_local;

@@ -112,25 +112,25 @@ export default defineComponent({
 		},
 
 		computed_data_userID(): string | null {
-			return this.storeFirebase.getUserID;
+			return this.storeFirebase.get_userAuth_id_state;
 		},
 		computed_data_timeout_value(): number {
 			return this.storeCommon.getSnackbar_timeout_state;
 		},
 		computed_data_hasUserVerifiedEmail: {
 			get(): boolean {
-				return this.storeFirebase.getIsUserEmailVerified;
+				return this.storeFirebase.get_userAuth_emailIsVerified_state;
 			},
 			set(newValue: boolean): void {
-				this.storeFirebase.setUserIsEmailVerified(newValue);
+				this.storeFirebase.set_userAuth_emailIsVerified_state(newValue);
 			},
 		},
 		computed_data_isUserAnonymous: {
 			get(): boolean {
-				return this.storeFirebase.getIsUserAnonymous;
+				return this.storeFirebase.get_userAuth_isAnonymous_state;
 			},
 			set(newValue: boolean): void {
-				this.storeFirebase.setIsUserAnonymous(newValue);
+				this.storeFirebase.set_userAuth_isAnonymous_state(newValue);
 			},
 		},
 		computed_data_dialog_confirmDeleteAccount_show_state: {
@@ -145,7 +145,7 @@ export default defineComponent({
 	methods: {
 		method_event_deleteAccount_clickHandler(): void {
 			this.storeFirebase
-				.deleteUser()
+				.delete_userAuth()
 				.then(() => {
 					this.storeCommon.setSnackbar_success_state(
 						"Sucessfully deleted account. Thank you for being a member. We are sorry to see you leave."

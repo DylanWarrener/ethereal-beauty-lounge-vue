@@ -92,7 +92,7 @@ export default defineComponent({
 		},
 	},
 	created(): void {
-		this.storeFirebase.monitorAuthState({ auth }).then(() => this.storeFirebase.getFirestoreUser());
+		this.storeFirebase.monitor_userAuth_state({ auth }).then(() => this.storeFirebase.get_userFirestore_user());
 	},
 	mounted(): void {
 		this.method_utils_monitorTargetElement("#footer");

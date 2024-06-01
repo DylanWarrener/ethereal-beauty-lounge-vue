@@ -107,7 +107,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		get_userAuth_email_state: (state): string | null => {
 			return state.user.authData.email;
 		},
-		get_userAuth_emailVerified_state: (state): boolean => {
+		get_userAuth_emailIsVerified_state: (state): boolean => {
 			return state.user.authData.emailVerified;
 		},
 		get_userAuth_photoUrl_state: (state): string | null | undefined => {
@@ -229,24 +229,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 				}
 			});
 		},
-		delete_userAuth(): Promise<void> {
-			return new Promise((resolve, reject) => {
-				if (auth.currentUser !== null) {
-					deleteUser(auth.currentUser)
-						.then(() => resolve())
-						.catch((error) => {
-							switch (error.code) {
-								case "auth/requires-recent-login":
-									const errorMessage: string =
-										"Cannot delete account. A recent login is required. Please re-log first and try again!";
-									console.error(`${errorMessage}. ${error}`);
-									reject(errorMessage);
-									break;
-							}
-						});
-				}
-			});
-		},
 		update_userAuth_profile_displayNameAndPhotoUrl(user: { displayName?: string; photoURL?: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
 				if (auth.currentUser !== null) {
@@ -291,6 +273,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 						});
 				} else {
 					reject("You must be logged in to change email");
+				}
+			});
+		},
+		delete_userAuth(): Promise<void> {
+			return new Promise((resolve, reject) => {
+				if (auth.currentUser !== null) {
+					deleteUser(auth.currentUser)
+						.then(() => resolve())
+						.catch((error) => {
+							switch (error.code) {
+								case "auth/requires-recent-login":
+									const errorMessage: string =
+										"Cannot delete account. A recent login is required. Please re-log first and try again!";
+									console.error(`${errorMessage}. ${error}`);
+									reject(errorMessage);
+									break;
+							}
+						});
 				}
 			});
 		},
