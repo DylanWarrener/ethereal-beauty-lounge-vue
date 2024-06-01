@@ -44,15 +44,18 @@
 		</v-container>
 		<v-card-actions class="pa-4">
 			<v-spacer></v-spacer>
-			<v-btn variant="outlined" class="px-4" style="min-width: 100px" @click="method_event_saveSettings_clickHandler">
+			<v-btn
+				variant="outlined"
+				class="px-4"
+				style="min-width: 100px"
+				:disabled="computed_data_doesNotificationsMatchState"
+				@click="method_event_saveSettings_clickHandler"
+			>
 				<template #default>
 					<small class="text-default" v-text="notifications.actions.btn.save.text"></small>
 				</template>
 			</v-btn>
 		</v-card-actions>
-		{{ local_data }}
-		<br />
-		{{ state_data }}
 	</v-card>
 </template>
 
@@ -104,6 +107,14 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_data_doesNotificationsMatchState(): boolean {
+			return [
+				this.computed_data_doesTreatmentsLocal_matchState,
+				this.computed_data_doesStoreLocal_matchState,
+				this.computed_data_doesPromotionsLocal_matchState,
+				this.computed_data_doesUnsubscribeToAllLocal_matchState,
+			].every((data) => data === true);
+		},
 		computed_data_doesTreatmentsLocal_matchState(): boolean {
 			return (
 				this.computed_data_notifications_treatments_isEnabled_local ===
@@ -191,13 +202,6 @@ export default defineComponent({
 			set(newValue: boolean): void {
 				this.storeFirebase.set_userNotifications_unsubscribeToAll_isEnabled_state(newValue);
 			},
-		},
-
-		local_data(): any {
-			return {};
-		},
-		state_data(): any {
-			return this.storeFirebase.get_userNotifications_state;
 		},
 	},
 	methods: {
