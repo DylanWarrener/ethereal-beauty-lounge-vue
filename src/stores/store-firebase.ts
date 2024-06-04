@@ -4,14 +4,16 @@ import { defineStore } from "pinia";
 import { db, auth } from "@plugins/firebase/firebase.js";
 import {
 	onAuthStateChanged,
+	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
-	createUserWithEmailAndPassword,
+	reauthenticateWithCredential,
 	sendEmailVerification,
+	sendPasswordResetEmail,
 	updateProfile,
 	updateEmail,
+	updatePassword,
 	deleteUser,
-	sendPasswordResetEmail,
 	type Auth,
 	type User,
 } from "firebase/auth";
@@ -210,18 +212,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 					.catch(() => reject());
 			});
 		},
-		reset_userAuth_password(email: string): Promise<void> {
-			return new Promise((resolve, reject) => {
-				sendPasswordResetEmail(auth, email)
-					.then(() => {
-						resolve();
-					})
-					.catch((error) => {
-						debugger;
-						switch (error.code) {}
-					});
-			});
-		},
+		// reauthenticate_userAuth_credentials(user: { email: string; password: string }): Promise<void> {
+		// 	debugger;
+		// 	return new Promise((resolve, reject) => {
+		// 		debugger;
+		// 		if (auth.currentUser !== null) {
+		// 			reauthenticateWithCredential(auth.currentUser, user)
+		// 				.then(() => {
+		// 					debugger;
+		// 					resolve();
+		// 				})
+		// 				.catch((error) => {
+		// 					debugger;
+		// 					switch (error.code) {
+		// 					}
+		// 				});
+		// 		}
+		// 	});
+		// },
 		create_userAuth_account_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
 				createUserWithEmailAndPassword(auth, user.email, user.password)
@@ -244,6 +252,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 					sendEmailVerification(auth.currentUser)
 						.then(() => resolve())
 						.catch(() => reject());
+				}
+			});
+		},
+		send_userAuth_passwordResetLink(email: string): Promise<void> {
+			debugger;
+			return new Promise((resolve, reject) => {
+				debugger;
+				if (auth !== null) {
+					sendPasswordResetEmail(auth, email)
+						.then(() => {
+							debugger;
+							resolve();
+						})
+						.catch((error) => {
+							debugger;
+							switch (error.code) {
+							}
+						});
 				}
 			});
 		},
@@ -291,6 +317,24 @@ const useFirebaseStore = defineStore("firebase-store", {
 						});
 				} else {
 					reject("You must be logged in to change email");
+				}
+			});
+		},
+		update_userAuth_password(newPassword: string): Promise<void> {
+			debugger;
+			return new Promise((resolve, reject) => {
+				debugger;
+				if (auth.currentUser !== null) {
+					updatePassword(auth.currentUser, newPassword)
+						.then(() => {
+							debugger;
+							resolve();
+						})
+						.catch((error) => {
+							debugger;
+							switch (error.code) {
+							}
+						});
 				}
 			});
 		},

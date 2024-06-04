@@ -42,11 +42,18 @@
 						:style="computed_css_dynamicWidth"
 						:disabled="!computed_data_isFormValid"
 						:text="data_forgottenPassword.actions.btn.send.text"
+						@click=""
 					></v-btn>
 				</v-form>
 			</v-col>
 			<v-col class="d-flex flex-column justify-center align-center">
-				<v-btn variant="flat" class="px-4" style="min-width: 100px" size="large" @click="() => $emit('change', 'common-login-container-component')">
+				<v-btn
+					variant="flat"
+					class="px-4"
+					style="min-width: 100px"
+					size="large"
+					@click="() => $emit('change', 'common-login-container-component')"
+				>
 					<template #default>
 						<small
 							class="font-weight-bold text-inverted"
@@ -61,6 +68,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
+// Stores
+import useFirebaseStore from "@stores/store-firebase.js";
+import useCommonStore from "@stores/store-common.js";
+
+// Constants
+import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "forgotten-password-container-component",
@@ -86,7 +100,7 @@ export default defineComponent({
 					btn: {
 						send: {
 							text: "Send email",
-							isLoading: false
+							isLoading: false,
 						},
 					},
 				},
@@ -105,13 +119,41 @@ export default defineComponent({
 		computed_data_emailValidationRules(): any {
 			return [this.method_validation_isNotEmpty, this.method_validation_isEmailFormatValid];
 		},
+		computed_data_timeout_value(): number {
+			return this.storeCommon.getSnackbar_timeout_state;
+		},
 	},
 	methods: {
 		method_event_sendEmail_clickHandler(): void {
 			const isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
+				const email: string = this.data_forgottenPassword.input.email.value!;
+
+				debugger;
+				this.data_forgottenPassword.actions.btn.send.isLoading = true;
+				this.storeFirebase
+					.send_userAuth_passwordResetLink(email)
+					.then(() => {
+						debugger;
+						this.storeCommon.setSnackbar_success_state("Successfully sent a password reset link to your email.");
+						setTimeout(() => {
+							this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });
+						}, this.computed_data_timeout_value);
+					})
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
+					.finally(() => {
+						setTimeout(() => {
+							this.storeCommon.setSnackbar_reset_state();
+							this.data_forgottenPassword.actions.btn.send.isLoading = false;
+							this.method_utils_resetFormInputs();
+						}, this.computed_data_timeout_value);
+					});
 			}
+		},
+
+		method_utils_resetFormInputs(): void {
+			this.data_forgottenPassword.input.email.value = null;
 		},
 
 		method_validation_isNotEmpty(newValue: string): boolean | string {
@@ -141,6 +183,11 @@ export default defineComponent({
 			}
 			return retVal;
 		},
+	},
+	setup() {
+		const storeFirebase = useFirebaseStore();
+		const storeCommon = useCommonStore();
+		return { storeFirebase, storeCommon };
 	},
 });
 </script>
