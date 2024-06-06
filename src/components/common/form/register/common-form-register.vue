@@ -75,7 +75,7 @@
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.phoneNumber.label"></span>
 						</template>
 					</v-text-field>
-					<v-text-field
+					<!-- <v-text-field
 						clearable
 						ref="ref_password"
 						variant="outlined"
@@ -129,7 +129,7 @@
 								"
 							></v-icon>
 						</template>
-					</v-text-field>
+					</v-text-field> -->
 					<v-btn
 						height="50"
 						class="mt-4 px-8 bg-accent"
@@ -262,25 +262,54 @@ export default defineComponent({
 	},
 	methods: {
 		method_event_createAccount_handler(): void {
+			debugger;
 			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
+				// const email: string = this.data_dialogFormCreateAccount.input.email.value!;
+				// const password: string = this.data_dialogFormCreateAccount.input.password.value!;
+
+				// this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
+				// this.storeFirebase
+				// 	.create_userAuth_account_withEmailAndPassword({ email, password })
+				// 	.then(() => {
+				// 		this.storeCommon.setSnackbar_success_state(
+				// 			"You have successfully created an account. We have now sent you an email to verify your account."
+				// 		);
+				// 		return this.method_utils_store_userInFirestore();
+				// 	})
+				// 	.then(() => this.method_utils_store_userInState())
+				// 	.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
+				// 	.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
+				// 	.finally(() => {
+				// 		setTimeout(() => {
+				// 			this.storeCommon.setSnackbar_reset_state();
+				// 			this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
+				// 			this.method_utils_reset_formInputs();
+				// 		}, this.computed_data_snackbar_defaultTimeout_value);
+				// 	});
+
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
-				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
 				this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
 				this.storeFirebase
-					.create_userAuth_account_withEmailAndPassword({ email, password })
+					.send_userAuth_signInLinkToEmail(email)
 					.then(() => {
+						debugger;
 						this.storeCommon.setSnackbar_success_state(
-							"You have successfully created an account. We have now sent you an email to verify your account."
+							"Successfully created an account for you. You are being logged in now."
 						);
-						return this.method_utils_store_userInFirestore();
 					})
-					.then(() => this.method_utils_store_userInState())
-					.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
-					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
+					.then(() => {
+						debugger;
+						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" })
+					})
+					.catch((errorMessage: string) => {
+						debugger;
+						this.storeCommon.setSnackbar_error_state(errorMessage)
+					})
 					.finally(() => {
+						debugger;
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
 							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;

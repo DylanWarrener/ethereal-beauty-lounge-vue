@@ -9,6 +9,7 @@ import {
 	signOut,
 	reauthenticateWithCredential,
 	sendEmailVerification,
+	sendSignInLinkToEmail,
 	sendPasswordResetEmail,
 	updateProfile,
 	updateEmail,
@@ -16,6 +17,7 @@ import {
 	deleteUser,
 	type Auth,
 	type User,
+	type ActionCodeSettings
 } from "firebase/auth";
 import {
 	collection,
@@ -78,69 +80,69 @@ const useFirebaseStore = defineStore("firebase-store", {
 	}),
 	getters: {
 		/* User */
-		get_user_state: (state): ICommon_firebase_user_state => {
+		get_user_state: (state: ICommon_firebase_state): ICommon_firebase_user_state => {
 			return state.user;
 		},
 		// User NOTIFICATIONS
-		get_userNotifications_state: (state): ICommon_firebase_user_notifications_state => {
+		get_userNotifications_state: (state: ICommon_firebase_state): ICommon_firebase_user_notifications_state => {
 			return state.user.notifications;
 		},
-		get_userNotifications_treatments_isEnabled_state: (state): boolean => {
+		get_userNotifications_treatments_isEnabled_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.notifications.treatments.isEnabled;
 		},
-		get_userNotifications_store_isEnabled_state: (state): boolean => {
+		get_userNotifications_store_isEnabled_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.notifications.store.isEnabled;
 		},
-		get_userNotifications_promotions_isEnabled_state: (state): boolean => {
+		get_userNotifications_promotions_isEnabled_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.notifications.promotions.isEnabled;
 		},
-		get_userNotifications_unsubscribeToAll_isEnabled_state: (state): boolean => {
+		get_userNotifications_unsubscribeToAll_isEnabled_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.notifications.unsubscribeToAll.isEnabled;
 		},
 		// User AUTH
-		get_userAuth_state: (state): ICommon_firebase_user_auth_state => {
+		get_userAuth_state: (state: ICommon_firebase_state): ICommon_firebase_user_auth_state => {
 			return state.user.authData;
 		},
-		get_userAuth_isLoggedIn_state: (state): boolean => {
+		get_userAuth_isLoggedIn_state: (state: ICommon_firebase_state): boolean => {
 			// If UID is available in state, the user auth is populated.
 			// If firstname is available in state, the user credentials have been stored.
 			return !!state.user.authData.uid && !!state.user.firestoreData.firstname;
 		},
-		get_userAuth_id_state: (state): string | null => {
+		get_userAuth_id_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.authData.uid;
 		},
-		get_userAuth_displayName_state: (state): string | null => {
+		get_userAuth_displayName_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.authData.displayName;
 		},
-		get_userAuth_email_state: (state): string | null => {
+		get_userAuth_email_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.authData.email;
 		},
-		get_userAuth_emailIsVerified_state: (state): boolean => {
+		get_userAuth_emailIsVerified_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.authData.emailVerified;
 		},
-		get_userAuth_photoUrl_state: (state): string | null | undefined => {
+		get_userAuth_photoUrl_state: (state: ICommon_firebase_state): string | null | undefined => {
 			return state.user.authData.photoURL;
 		},
-		get_userAuth_isAnonymous_state: (state): boolean => {
+		get_userAuth_isAnonymous_state: (state: ICommon_firebase_state): boolean => {
 			return state.user.authData.isAnonymous;
 		},
-		get_userAuth_joinedOn_state: (state): string | null => {
+		get_userAuth_joinedOn_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.authData.joinedOn;
 		},
 		// User FIRESTORE
-		get_userFirestore_state: (state): ICommon_firebase_user_firestore_state => {
+		get_userFirestore_state: (state: ICommon_firebase_state): ICommon_firebase_user_firestore_state => {
 			return state.user.firestoreData;
 		},
-		get_userFirestore_title_state: (state): string | null => {
+		get_userFirestore_title_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.firestoreData.title;
 		},
-		get_userFirestore_firstname_state: (state): string | null => {
+		get_userFirestore_firstname_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.firestoreData.firstname;
 		},
-		get_userFirestore_lastname_state: (state): string | null => {
+		get_userFirestore_lastname_state: (state: ICommon_firebase_state): string | null => {
 			return state.user.firestoreData.lastname;
 		},
-		get_userFirestore_phoneNumber_state: (state): number | null => {
+		get_userFirestore_phoneNumber_state: (state: ICommon_firebase_state): number | null => {
 			return state.user.firestoreData.phoneNumber;
 		},
 	},
@@ -161,8 +163,11 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		// User AUTH actions
 		monitor_userAuth_state(user: { auth: Auth }): Promise<void> {
+			debugger;
 			return new Promise((resolve, reject) => {
+				debugger;
 				onAuthStateChanged(user.auth, (user: User | null) => {
+					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {
@@ -268,6 +273,32 @@ const useFirebaseStore = defineStore("firebase-store", {
 						.catch((error) => {
 							debugger;
 							switch (error.code) {
+							}
+						});
+				}
+			});
+		},
+		send_userAuth_signInLinkToEmail(email: string): Promise<void> {
+			debugger;
+			return new Promise((resolve, reject) => {
+				debugger;
+				if (auth !== null) {
+					const actionCodeSettings: ActionCodeSettings = {
+						url: "https://localhost:5173/login#section-login",
+						handleCodeInApp: true
+					};
+					sendSignInLinkToEmail(auth, email, actionCodeSettings)
+						.then(() => {
+							debugger;
+							resolve();
+						})
+						.catch((error) => {
+							debugger;
+							switch (error.code) {
+								case "auth/argument-error":
+									break;
+								case "auth/operation-not-allowed": 
+									break;
 							}
 						});
 				}
