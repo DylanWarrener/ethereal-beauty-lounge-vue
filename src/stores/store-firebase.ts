@@ -285,7 +285,15 @@ const useFirebaseStore = defineStore("firebase-store", {
 				if (auth !== null) {
 					const actionCodeSettings: ActionCodeSettings = {
 						url: "https://localhost:5173/login#section-login",
-						handleCodeInApp: true
+						iOS: {
+							bundleId: 'com.example.ios'
+						},
+						android: {
+							packageName: 'com.example.android',
+							installApp: true,
+							minimumVersion: '12'
+						},
+						handleCodeInApp: false
 					};
 					sendSignInLinkToEmail(auth, email, actionCodeSettings)
 						.then(() => {
