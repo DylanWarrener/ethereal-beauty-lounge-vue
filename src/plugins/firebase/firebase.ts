@@ -12,7 +12,7 @@ const firebaseApp: FirebaseApp = initializeApp({
 	storageBucket: "ethereal-beauty-lounge.appspot.com",
 	messagingSenderId: "812911544888",
 	appId: "1:812911544888:web:bcd6b34ddfc86311e234cd",
-	measurementId: "G-ENKRXHN33D"
+	measurementId: "G-ENKRXHN33D",
 });
 
 // Initialize firebase database & auth
@@ -21,6 +21,6 @@ const auth = getAuth(firebaseApp);
 //export const analytics = getAnalytics(app);
 
 // Connect auth emulator
-connectAuthEmulator(auth, "http://localhost:5173");
+//connectAuthEmulator(auth, "http://localhost:5173");
 
 export { db, auth };

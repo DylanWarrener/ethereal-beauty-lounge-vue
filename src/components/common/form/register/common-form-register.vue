@@ -75,7 +75,7 @@
 							<span class="text-inverted" v-text="data_dialogFormCreateAccount.input.phoneNumber.label"></span>
 						</template>
 					</v-text-field>
-					<!-- <v-text-field
+					<v-text-field
 						clearable
 						ref="ref_password"
 						variant="outlined"
@@ -129,7 +129,7 @@
 								"
 							></v-icon>
 						</template>
-					</v-text-field> -->
+					</v-text-field>
 					<v-btn
 						height="50"
 						class="mt-4 px-8 bg-accent"
@@ -251,10 +251,19 @@ export default defineComponent({
 			return [];
 		},
 		computed_data_passwordValidationRules(): any {
-			return [this.method_validation_isNotEmpty, this.method_validation_isPasswordMinLength, this.method_validation_isCombination];
+			return [
+				this.method_validation_isNotEmpty,
+				this.method_validation_isPasswordMinLength,
+				this.method_validation_isCombination,
+			];
 		},
 		computed_data_repeatPasswordValidationRules(): any {
-			return [this.method_validation_isNotEmpty, this.method_validation_isPasswordMinLength, this.method_validation_isCombination, this.method_validation_arePasswordsIdentical];
+			return [
+				this.method_validation_isNotEmpty,
+				this.method_validation_isPasswordMinLength,
+				this.method_validation_isCombination,
+				this.method_validation_arePasswordsIdentical,
+			];
 		},
 		computed_data_snackbar_defaultTimeout_value(): number {
 			return this.storeCommon.getSnackbar_timeout_state;
@@ -262,54 +271,25 @@ export default defineComponent({
 	},
 	methods: {
 		method_event_createAccount_handler(): void {
-			debugger;
 			let isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
-				// const email: string = this.data_dialogFormCreateAccount.input.email.value!;
-				// const password: string = this.data_dialogFormCreateAccount.input.password.value!;
-
-				// this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
-				// this.storeFirebase
-				// 	.create_userAuth_account_withEmailAndPassword({ email, password })
-				// 	.then(() => {
-				// 		this.storeCommon.setSnackbar_success_state(
-				// 			"You have successfully created an account. We have now sent you an email to verify your account."
-				// 		);
-				// 		return this.method_utils_store_userInFirestore();
-				// 	})
-				// 	.then(() => this.method_utils_store_userInState())
-				// 	.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
-				// 	.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
-				// 	.finally(() => {
-				// 		setTimeout(() => {
-				// 			this.storeCommon.setSnackbar_reset_state();
-				// 			this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;
-				// 			this.method_utils_reset_formInputs();
-				// 		}, this.computed_data_snackbar_defaultTimeout_value);
-				// 	});
-
 				const email: string = this.data_dialogFormCreateAccount.input.email.value!;
+				const password: string = this.data_dialogFormCreateAccount.input.password.value!;
 
 				this.data_dialogFormCreateAccount.actions.btn.create.isLoading = true;
 				this.storeFirebase
-					.send_userAuth_signInLinkToEmail(email)
+					.create_userAuth_account_withEmailAndPassword({ email, password })
 					.then(() => {
-						debugger;
 						this.storeCommon.setSnackbar_success_state(
-							"Successfully created an account for you. You are being logged in now."
+							"You have successfully created an account. We have now sent you an email to verify your account."
 						);
+						return this.method_utils_store_userInFirestore();
 					})
-					.then(() => {
-						debugger;
-						this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" })
-					})
-					.catch((errorMessage: string) => {
-						debugger;
-						this.storeCommon.setSnackbar_error_state(errorMessage)
-					})
+					.then(() => this.method_utils_store_userInState())
+					.then(() => this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" }))
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
-						debugger;
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
 							this.data_dialogFormCreateAccount.actions.btn.create.isLoading = false;

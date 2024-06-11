@@ -26,9 +26,12 @@
 										color="accent"
 										@click="method_event_scrollToElement('section-portfolio')"
 									>
-									<template #default>
-										<small class="text-default" v-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text"></small>
-									</template>
+										<template #default>
+											<small
+												class="text-default"
+												v-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text"
+											></small>
+										</template>
 									</v-btn>
 								</v-card-actions>
 							</template>
@@ -84,13 +87,13 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeRecentPortfolio: {
-									text: "See recent portfolio?"
-								}
-							}
-						}
-					}
-				}
-			}
+									text: "See recent portfolio?",
+								},
+							},
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {

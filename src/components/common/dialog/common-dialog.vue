@@ -2,11 +2,11 @@
 	<v-dialog
 		persistent
 		transition="dialog-top-transition"
-		:max-width="computed_data_css_maxWidth"
-		:max-height="computed_data_css_maxHeight"
+		:max-width="computed_css_maxWidth"
+		:max-height="computed_css_maxHeight"
 	>
 		<v-card elevation="0">
-			<v-toolbar flat class="px-2 bg-accent">	
+			<v-toolbar flat class="px-2 bg-accent">
 				<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 				<v-spacer></v-spacer>
 				<slot name="card-toolbar-buttons"></slot>
@@ -52,7 +52,7 @@ export default defineComponent({
 			return this.storeCommon.getDialog_default_btnClose_tooltip_state;
 		},
 
-		computed_data_css_maxWidth(): string {
+		computed_css_maxWidth(): string {
 			let retVal: string = "80%";
 			switch (this.$vuetify.display.name) {
 				case "md":
@@ -64,7 +64,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		computed_data_css_maxHeight(): string {
+		computed_css_maxHeight(): string {
 			return "80%";
 		},
 	},

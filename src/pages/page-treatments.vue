@@ -24,11 +24,14 @@
 										style="min-width: 100px"
 										size="large"
 										color="accent"
-										@click="scrollToElement"
+										@click="method_utils_scrollToElement"
 									>
-									<template #default>
-										<small class="text-default" v-text="treatmentsPage.canvas.card.actions.buttons.seeRecentTreatments.text"></small>
-									</template>
+										<template #default>
+											<small
+												class="text-default"
+												v-text="treatmentsPage.canvas.card.actions.buttons.seeTreatments.text"
+											></small>
+										</template>
 									</v-btn>
 								</v-card-actions>
 							</template>
@@ -200,9 +203,17 @@
 											</v-card-item>
 											<v-card-actions class="w-100">
 												<v-spacer></v-spacer>
-												<v-btn class="px-4 bg-accent text-default" style="min-width: 100px" size="large">
+												<v-btn
+													size="large"
+													style="min-width: 100px"
+													class="px-4 bg-accent text-default"
+													@click="method_event_showDialog(treatmentType.title)"
+												>
 													<template #default>
-														<small class="text-default" v-text="treatmentsPage.treatment.card.buttons.book.text"></small>
+														<small
+															class="text-default"
+															v-text="treatmentsPage.section.treatment.card.buttons.book.text"
+														></small>
 													</template>
 												</v-btn>
 												<v-spacer></v-spacer>
@@ -217,16 +228,42 @@
 			</v-container>
 		</template>
 	</section-container-component>
+
+	<dialog-container-component
+		:toolbar-title="treatmentsPage.dialog.toolbar.title"
+		@close="treatmentsPage.dialog.show = false"
+		v-model="treatmentsPage.dialog.show"
+	>
+		<template #card-content>Content</template>
+		<template #card-actions>
+			<v-spacer></v-spacer>
+			<v-btn
+				variant="outlined"
+				size="large"
+				style="min-width: 100px"
+				class="px-4 bg-accent"
+				@click="method_event_bookTreatmentNow"
+			>
+				<template #default>
+					<small class="text-default" v-text="treatmentsPage.dialog.actions.buttons.book.text"></small>
+				</template>
+			</v-btn>
+		</template>
+	</dialog-container-component>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
+// Stores
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
+import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -241,6 +278,7 @@ export default defineComponent({
 		"divider-container-component": DividerContainerComp,
 		"card-container-component": CardContainerComp,
 		"section-container-component": SectionContainerComp,
+		"dialog-container-component": DialogContainerComp,
 	},
 	data() {
 		return {
@@ -249,22 +287,37 @@ export default defineComponent({
 					card: {
 						actions: {
 							buttons: {
-								seeRecentTreatments: {
-									text: "See our treatments?"
-								}
-							}
-						}
-					}
+								seeTreatments: {
+									text: "See our treatments?",
+								},
+							},
+						},
+					},
 				},
-				treatment: {
-					card: {
+				section: {
+					treatment: {
+						card: {
+							buttons: {
+								book: {
+									text: "Book?",
+								},
+							},
+						},
+					},
+				},
+				dialog: {
+					show: false,
+					toolbar: {
+						title: "",
+					},
+					actions: {
 						buttons: {
 							book: {
-								text: "Book?"
-							}
-						}
-					}
-				}
+								text: "Book now",
+							},
+						},
+					},
+				},
 			},
 			data_treatmentCategories: [
 				{
@@ -657,10 +710,26 @@ export default defineComponent({
 		icon_treatmentCardInformation(): string {
 			return mdiInformationVariant;
 		},
+
+		computed_data_hasUserVerifiedEmail: {
+			get(): boolean {
+				return this.storeFirebase.get_userAuth_emailIsVerified_state;
+			},
+			set(newValue: boolean): void {
+				this.storeFirebase.set_userAuth_emailIsVerified_state(newValue);
+			},
+		},
 	},
 	methods: {
-		/* Utils */
-		scrollToElement(): void {
+		method_event_showDialog(title: string): void {
+			this.treatmentsPage.dialog.show = true;
+			this.treatmentsPage.dialog.toolbar.title = `Book treatment - ${title}`;
+		},
+		method_event_bookTreatmentNow(): void {
+			// Here I should make a request to the booking API to book an appointment.
+		},
+
+		method_utils_scrollToElement(): void {
 			const targetElementID: HTMLDivElement = document.getElementById("section-treatments") as HTMLDivElement;
 
 			window.scrollTo({
@@ -668,6 +737,10 @@ export default defineComponent({
 				behavior: "smooth",
 			});
 		},
+	},
+	setup() {
+		const storeFirebase = useFirebaseStore();
+		return { storeFirebase };
 	},
 });
 </script>

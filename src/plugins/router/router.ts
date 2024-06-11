@@ -43,7 +43,7 @@ const router = createRouter({
 				// Then scroll to the element with the hash
 				const targetElement = document.getElementById(to.hash.slice(1));
 				if (targetElement) {
-					targetElement.scrollIntoView({ behavior: "smooth" });
+					window.scrollTo({ behavior: "smooth" });
 				}
 				resolve();
 			}, 0); // Adjust the delay if needed

@@ -17,7 +17,7 @@ import {
 	deleteUser,
 	type Auth,
 	type User,
-	type ActionCodeSettings
+	type ActionCodeSettings,
 } from "firebase/auth";
 import {
 	collection,
@@ -286,14 +286,14 @@ const useFirebaseStore = defineStore("firebase-store", {
 					const actionCodeSettings: ActionCodeSettings = {
 						url: "https://localhost:5173/login#section-login",
 						iOS: {
-							bundleId: 'com.example.ios'
+							bundleId: "com.example.ios",
 						},
 						android: {
-							packageName: 'com.example.android',
+							packageName: "com.example.android",
 							installApp: true,
-							minimumVersion: '12'
+							minimumVersion: "12",
 						},
-						handleCodeInApp: false
+						handleCodeInApp: false,
 					};
 					sendSignInLinkToEmail(auth, email, actionCodeSettings)
 						.then(() => {
@@ -305,7 +305,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 							switch (error.code) {
 								case "auth/argument-error":
 									break;
-								case "auth/operation-not-allowed": 
+								case "auth/operation-not-allowed":
 									break;
 							}
 						});
