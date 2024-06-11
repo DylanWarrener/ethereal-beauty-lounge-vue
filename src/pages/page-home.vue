@@ -8,31 +8,21 @@
 							<template #card-headings>
 								<v-card-item class="pa-4">
 									<v-card-title class="text-wrap">
-										<h1>Where Beauty Radiates With Delicacy</h1>
+										<h1 v-text="homePage.canvas.card.headings.title"></h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap">
-										<h3>Transform your look with our non-invasive treatments for the face & body.</h3>
+										<h3 v-text="homePage.canvas.card.headings.subtitle"></h3>
 									</v-card-subtitle>
 								</v-card-item>
 							</template>
 							<template #card-actions>
 								<v-card-actions class="pa-4">
 									<v-spacer></v-spacer>
-									<v-btn
-										variant="flat"
-										class="px-4"
-										style="min-width: 100px"
-										size="large"
-										color="accent"
-										@click="method_event_scrollToElement('section-portfolio')"
-									>
-										<template #default>
-											<small
-												class="text-default"
-												v-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text"
-											></small>
-										</template>
-									</v-btn>
+									<common-btn-container-component 
+										variant="flat" 
+										:btn-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text" 
+										@click="method_event_scrollToElement">
+									</common-btn-container-component>
 								</v-card-actions>
 							</template>
 						</common-card-container-component>
@@ -62,6 +52,7 @@ import { defineComponent } from "vue";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
@@ -74,6 +65,7 @@ export default defineComponent({
 	name: "common-home-page-container-component",
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
+		"common-btn-container-component": BtnContainerComp,
 		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
 		"common-section-container-component": SectionContainerComp,
@@ -84,6 +76,10 @@ export default defineComponent({
 			homePage: {
 				canvas: {
 					card: {
+						headings: {
+							title: "Where Beauty Radiates With Delicacy",
+							subtitle: "Transform your look with our non-invasive treatments for the face & body."
+						},
 						actions: {
 							buttons: {
 								seeRecentPortfolio: {
@@ -102,8 +98,8 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		method_event_scrollToElement(targetElement: string): void {
-			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
+		method_event_scrollToElement(): void {
+			const targetElementID: HTMLDivElement = document.getElementById("section-portfolio") as HTMLDivElement;
 
 			if (targetElementID) {
 				window.scrollTo({

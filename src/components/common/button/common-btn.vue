@@ -1,16 +1,23 @@
 <template>
-	<v-btn :id="id" :class="class" :icon="icon"></v-btn>
+	<v-btn color="accent" size="large" style="min-width: 100px" class="px-4" :style="btnStyle" :class="btnClass">
+		<template #default v-if="btnText">
+			<small :style="btnTextStyle" :class="btnTextClass" v-text="btnText"></small>
+		</template>
+	</v-btn>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "btn-container-component",
+	name: "button-container-component",
 	props: {
-		id: { type: String, required: false },
-		class: { type: String, required: false },
-		icon: { type: String, required: false },
-	},
+		btnStyle: { type: String, required: false },
+		btnClass: { type: String, required: false },
+		btnTextStyle: { type: String, required: false },
+		btnTextClass: { type: String, required: false },
+		btnTextColour: { type: String, required: false, default: "text-default" },
+		btnText: { type: String, required: false }
+	}
 });
 </script>

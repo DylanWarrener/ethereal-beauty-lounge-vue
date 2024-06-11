@@ -1,54 +1,44 @@
 <template>
-	<canvas-container-component :src="img_canvas">
+	<common-canvas-container-component :src="img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
 							<template #card-headings>
 								<v-card-item class="pa-4">
 									<v-card-title class="text-wrap">
-										<h1>All Treatments</h1>
+										<h1 v-text="treatmentsPage.canvas.card.headings.title"></h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap">
-										<h3>Explore our entire collection of treatments.</h3>
+										<h3 v-text="treatmentsPage.canvas.card.headings.subtitle"></h3>
 									</v-card-subtitle>
 								</v-card-item>
 							</template>
 							<template #card-actions>
 								<v-card-actions class="pa-4">
 									<v-spacer></v-spacer>
-									<v-btn
-										variant="flat"
-										class="px-4"
-										style="min-width: 100px"
-										size="large"
-										color="accent"
-										@click="method_utils_scrollToElement"
-									>
-										<template #default>
-											<small
-												class="text-default"
-												v-text="treatmentsPage.canvas.card.actions.buttons.seeTreatments.text"
-											></small>
-										</template>
-									</v-btn>
+									<common-btn-container-component
+										variant="flat" 
+										:btn-text="treatmentsPage.canvas.card.actions.buttons.seeTreatments.text" 
+										@click="method_event_scrollToElement">
+									</common-btn-container-component>
 								</v-card-actions>
 							</template>
-						</card-container-component>
+						</common-card-container-component>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</canvas-container-component>
+	</common-canvas-container-component>
 
-	<divider-container-component></divider-container-component>
+	<common-divider-container-component></common-divider-container-component>
 
-	<section-container-component
+	<common-section-container-component
 		id="section-treatments"
 		class="bg-default"
 		class_title="text-inverted"
-		title="All our Treatments"
+		:title="treatmentsPage.section.title"
 	>
 		<template #section-content>
 			<v-container fluid class="text-inverted">
@@ -227,9 +217,9 @@
 				</v-row>
 			</v-container>
 		</template>
-	</section-container-component>
+	</common-section-container-component>
 
-	<dialog-container-component
+	<common-dialog-container-component
 		:toolbar-title="treatmentsPage.dialog.toolbar.title"
 		@close="treatmentsPage.dialog.show = false"
 		v-model="treatmentsPage.dialog.show"
@@ -237,19 +227,13 @@
 		<template #card-content>Content</template>
 		<template #card-actions>
 			<v-spacer></v-spacer>
-			<v-btn
-				variant="outlined"
-				size="large"
-				style="min-width: 100px"
-				class="px-4 bg-accent"
-				@click="method_event_bookTreatmentNow"
-			>
-				<template #default>
-					<small class="text-default" v-text="treatmentsPage.dialog.actions.buttons.book.text"></small>
-				</template>
-			</v-btn>
+			<common-btn-container-component 
+				variant="flat" 
+				:btn-text="treatmentsPage.dialog.actions.buttons.book.text" 
+				@click="method_event_bookTreatmentNow">
+			</common-btn-container-component>
 		</template>
-	</dialog-container-component>
+	</common-dialog-container-component>
 </template>
 
 <script lang="ts">
@@ -260,6 +244,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
@@ -274,17 +259,22 @@ import { mdiInformationVariant } from "@constants/common/primitives/icons/common
 export default defineComponent({
 	name: "treatments-page-component",
 	components: {
-		"canvas-container-component": CanvasContainerComp,
-		"divider-container-component": DividerContainerComp,
-		"card-container-component": CardContainerComp,
-		"section-container-component": SectionContainerComp,
-		"dialog-container-component": DialogContainerComp,
+		"common-canvas-container-component": CanvasContainerComp,
+		"common-btn-container-component": BtnContainerComp,
+		"common-divider-container-component": DividerContainerComp,
+		"common-card-container-component": CardContainerComp,
+		"common-section-container-component": SectionContainerComp,
+		"common-dialog-container-component": DialogContainerComp,
 	},
 	data() {
 		return {
 			treatmentsPage: {
 				canvas: {
 					card: {
+						headings: {
+							title: "All Treatments",
+							subtitle: "Explore our entire collection of treatments."
+						},
 						actions: {
 							buttons: {
 								seeTreatments: {
@@ -295,6 +285,7 @@ export default defineComponent({
 					},
 				},
 				section: {
+					title: "All our Treatments",
 					treatment: {
 						card: {
 							buttons: {
@@ -728,14 +719,15 @@ export default defineComponent({
 		method_event_bookTreatmentNow(): void {
 			// Here I should make a request to the booking API to book an appointment.
 		},
-
-		method_utils_scrollToElement(): void {
+		method_event_scrollToElement(): void {
 			const targetElementID: HTMLDivElement = document.getElementById("section-treatments") as HTMLDivElement;
 
-			window.scrollTo({
-				top: targetElementID!.offsetTop,
-				behavior: "smooth",
-			});
+			if (targetElementID) {
+				window.scrollTo({
+					top: targetElementID.offsetTop,
+					behavior: "smooth",
+				});
+			}
 		},
 	},
 	setup() {

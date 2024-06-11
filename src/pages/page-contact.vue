@@ -1,57 +1,52 @@
 <template>
-	<canvas-container-component :src="img_canvas">
+	<common-canvas-container-component :src="img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
 							<template #card-headings>
 								<v-card-item class="pa-4">
 									<v-card-title class="text-wrap">
-										<h1>Contact us</h1>
+										<h1 v-text="contactPage.canvas.card.headings.title"></h1>
 									</v-card-title>
 									<v-card-subtitle class="text-wrap">
-										<h3>Ready to get started?</h3>
+										<h3 v-text="contactPage.canvas.card.headings.subtitle"></h3>
 									</v-card-subtitle>
 								</v-card-item>
 							</template>
 							<template #card-actions>
 								<v-card-actions class="pa-4">
 									<v-spacer></v-spacer>
-									<v-btn
-										variant="flat"
-										class="px-4"
-										style="min-width: 100px"
-										size="large"
-										color="accent"
-										@click="scrollToElement('section-contact')"
-									>
-									<template #default>
-										<small class="text-default" v-text="data_contactPage.canvas.card.actions.buttons.contactDetails.text"></small>
-									</template>
-									</v-btn>
+									<common-btn-container-component
+										variant="flat" 
+										:btn-text="contactPage.canvas.card.actions.buttons.contactDetails.text" 
+										@click="method_event_scrollToElement('section-contact')">
+									</common-btn-container-component>
 								</v-card-actions>
 							</template>
-						</card-container-component>
+						</common-card-container-component>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</canvas-container-component>
+	</common-canvas-container-component>
 
-	<divider-container-component></divider-container-component>
+	<common-divider-container-component></common-divider-container-component>
 
-	<section-container-component id="section-contact" class="bg-default" class_title="text-inverted" title="Contact details">
+	<common-section-container-component 
+		id="section-contact" 
+		class="bg-default" 
+		class_title="text-inverted" 
+		:title="contactPage.section.title">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense>
+					<!-- Information -->
 					<v-col cols="12" lg="6" class="pa-4 d-flex flex-column justify-space-evenly">
 						<v-row dense>
 							<v-col cols="12" class="d-flex flex-row justify-center align-center">
-								<h4 class="text-inverted">
-									Give us a call or complete the form. We endeavour to answer all enquiries within 24 hours
-									on business days. We will be happy to answer your queries.
-								</h4>
+								<h4 class="text-inverted" v-text="contactPage.section.content.information.text"></h4>
 							</v-col>
 							<v-col cols="12">
 								<v-row dense>
@@ -69,14 +64,14 @@
 												<template v-slot:prepend>
 													<v-tooltip location="bottom" :text="item.btn.tooltip">
 														<template v-slot:activator="{ props }">
-															<v-btn
-																variant="flat"
-																class="ma-4 bg-accent"
-																size="large"
+															<common-btn-container-component
+																variant="flat" 
+																btn-class="ma-4"
 																:icon="item.btn.icon"
-																v-bind="props"
-																@click="scrollToElement(item.btn.to)"
-															></v-btn>
+																v-bind="props" 
+																@click="method_event_scrollToElement(item.btn.to)">
+															</common-btn-container-component>
+															<!-- class="ma-4 bg-accent" -->
 														</template>
 													</v-tooltip>
 												</template>
@@ -95,6 +90,8 @@
 							</v-col>
 						</v-row>
 					</v-col>
+
+					<!-- Form -->
 					<v-col cols="12" lg="6" class="pa-4">
 						<div class="pa-4 w-100 h-100 rounded d-flex flex-column bg-accent">
 							<h4>Enter your details.</h4>
@@ -136,7 +133,7 @@
 				</v-row>
 			</v-container>
 		</template>
-	</section-container-component>
+	</common-section-container-component>
 </template>
 
 <script lang="ts">
@@ -144,6 +141,7 @@ import { defineComponent } from "vue";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
@@ -157,16 +155,21 @@ import { iconsContactDetails } from "@constants/common/objects/common-constants-
 export default defineComponent({
 	name: "contact-page-component",
 	components: {
-		"canvas-container-component": CanvasContainerComp,
-		"divider-container-component": DividerContainerComp,
-		"card-container-component": CardContainerComp,
-		"section-container-component": SectionContainerComp,
+		"common-canvas-container-component": CanvasContainerComp,
+		"common-btn-container-component": BtnContainerComp,
+		"common-divider-container-component": DividerContainerComp,
+		"common-card-container-component": CardContainerComp,
+		"common-section-container-component": SectionContainerComp,
 	},
 	data() {
 		return {
-			data_contactPage: {
+			contactPage: {
 				canvas: {
 					card: {
+						headings: {
+							title: "Contact us",
+							subtitle: "Ready to get started?"
+						},
 						actions: {
 							buttons: {
 								contactDetails: {
@@ -174,6 +177,15 @@ export default defineComponent({
 								}
 							}
 						}
+					}
+				},
+				section: {
+					title: "Contact details",
+					content: {
+						information: {
+							text: "Give us a call or complete the form. We endeavour to answer all enquiries within 24 hours on business days. We will be happy to answer your queries."
+						},
+						form: {}
 					}
 				}
 			},
@@ -217,7 +229,7 @@ export default defineComponent({
 	},
 	methods: {
 		/* Utils */
-		scrollToElement(targetElement: string): void {
+		method_event_scrollToElement(targetElement: string): void {
 			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
 			if (targetElementID) {
