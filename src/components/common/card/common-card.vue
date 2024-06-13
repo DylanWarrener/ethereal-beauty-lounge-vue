@@ -1,5 +1,5 @@
 <template>
-	<v-card class="d-flex flex-column" :class="class" :style="style">
+	<v-card class="d-flex flex-column" :style="cardStyle" :class="computed_css_cardClass">
 		<v-container
 			fluid
 			class="h-100 d-flex flex-column"
@@ -67,8 +67,9 @@ export default defineComponent({
 	name: "card-container-component",
 	props: {
 		/* Card */
-		class: { type: String, required: false },
-		style: { type: String, required: false },
+		isHovering: { type: Boolean, required: false },
+		cardClass: { type: String, required: false },
+		cardStyle: { type: String, required: false },
 
 		/* Card container */
 		containerClass: { type: String, required: false },
@@ -95,6 +96,14 @@ export default defineComponent({
 		actionRowStyle: { type: String, required: false },
 		actionColClass: { type: String, required: false },
 		actionColStyle: { type: String, required: false },
+	},
+	computed: {
+		computed_css_cardClass(): { "on-hover"?: boolean; "text-default"?: boolean } {
+			let retval: { "on-hover"?: boolean; "text-default"?: boolean } = {};
+			if (this.isHovering) retval["on-hover"] = this.isHovering;
+			if (this.cardClass !== undefined) retval["text-default"] = !!this.cardClass;
+			return retval;
+		},
 	},
 	methods: {
 		method_event_slotIsPopulated(slotName: string): boolean {

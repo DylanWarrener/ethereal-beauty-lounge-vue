@@ -1,7 +1,13 @@
 <template>
 	<v-tooltip :text="tooltip">
 		<template #activator="{ props }">
-			<common-btn-icon-container-component :icon="icon" v-bind="props"></common-btn-icon-container-component>
+			<common-btn-icon-container-component
+				:icon="icon"
+				:style="btnStyle"
+				:class="btnClass"
+				v-bind="props"
+				@click="$emit('click')"
+			></common-btn-icon-container-component>
 		</template>
 	</v-tooltip>
 </template>
@@ -19,7 +25,10 @@ export default defineComponent({
 	},
 	props: {
 		tooltip: { type: String, required: true },
+
 		icon: { type: String, required: true },
+		btnStyle: { type: String, required: false },
+		btnClass: { type: String, required: false },
 	},
 });
 </script>

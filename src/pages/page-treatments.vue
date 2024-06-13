@@ -4,7 +4,7 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" :style="computed_css_canvasCardBackgroundOpacity">
+						<common-card-container-component variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
 							<template #card-headings>
 								<!-- Title -->
 								<v-col cols="12">
@@ -35,8 +35,7 @@
 
 	<common-section-container-component
 		id="section-treatments"
-		class="bg-default"
-		class-title="text-inverted"
+		title-class="text-inverted"
 		:title="computed_text_section_title"
 	>
 		<template #section-content>
@@ -755,7 +754,7 @@ export default defineComponent({
 			if (this.$vuetify.display.xlAndUp) retVal = "325";
 			return retVal;
 		},
-		computed_css_canvasCardBackgroundOpacity(): string {
+		computed_css_canvas_cardBackgroundOpacity(): string {
 			return "background-color: rgba(0, 0, 0, 0.3)";
 		},
 

@@ -1,10 +1,9 @@
 <template>
 	<common-btn-container-component
-		elevation="0"
-		density="compact"
-		:style="style"
-		:ripple="false"
+		varient="flat"
 		:icon="icon"
+		:style="style"
+		@click="$emit('click')"
 	></common-btn-container-component>
 </template>
 
@@ -20,8 +19,8 @@ export default defineComponent({
 		"common-btn-container-component": BtnContainerComp,
 	},
 	props: {
-		style: { type: String, required: false },
 		icon: { type: String, required: true },
+		style: { type: String, required: false },
 	},
 });
 </script>
