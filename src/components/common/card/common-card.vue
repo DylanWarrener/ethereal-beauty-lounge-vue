@@ -1,50 +1,105 @@
 <template>
-	<v-card>
-		<!-- Header -->
-		<slot name="card-header"></slot>
-		<slot name="card-img"></slot>
-		<slot name="card-other"></slot>
+	<v-card class="d-flex flex-column" :class="class" :style="style">
+		<v-container
+			fluid
+			class="h-100 d-flex flex-column"
+			style="border: 4px solid red"
+			:class="containerClass"
+			:style="containerStyle"
+		>
+			<!-- Toolbar -->
+			<v-row :class="toolbarRowClass" :style="toolbarRowStyle" v-if="method_event_slotIsPopulated('card-toolbar')">
+				<slot name="card-toolbar"></slot>
+			</v-row>
 
-		<!-- Headings -->
-		<slot name="card-headings"></slot>
+			<!-- Images -->
+			<v-row :class="imageRowClass" :style="imageRowStyle" v-if="method_event_slotIsPopulated('card-img')">
+				<slot name="card-img"></slot>
+			</v-row>
 
-		<!-- Content -->
-		<slot name="card-content"></slot>
+			<!-- Headings -->
+			<v-row
+				style="border: 4px solid green"
+				:class="headingRowClass"
+				:style="headingRowStyle"
+				v-if="method_event_slotIsPopulated('card-headings')"
+			>
+				<slot name="card-headings"></slot>
+			</v-row>
 
-		<!-- Actions -->
-		<slot name="card-actions"></slot>
+			<!-- Content -->
+			<v-row
+				style="border: 4px solid green"
+				:class="contentRowClass"
+				:style="contentRowStyle"
+				v-if="method_event_slotIsPopulated('card-content')"
+			>
+				<slot name="card-content"></slot>
+			</v-row>
+
+			<!-- Actions -->
+			<v-row
+				style="border: 4px solid green"
+				:class="actionRowClass"
+				:style="actionRowStyle"
+				v-if="method_event_slotIsPopulated('card-actions')"
+			>
+				<v-col
+					cols="12"
+					class="pa-0 flex-row align-center"
+					style="border: 4px solid blue"
+					:class="actionColClass"
+					:style="actionColStyle"
+				>
+					<v-card-actions class="pa-1">
+						<slot name="card-actions"></slot>
+					</v-card-actions>
+				</v-col>
+			</v-row>
+		</v-container>
 	</v-card>
 </template>
 
 <script lang="ts">
-/*
-<v-card-item class="pa-4" style="border: 2px solid red">	
-	<v-card-title class="text-center text-wrap" :class="titleClass" style="border: 2px solid green">
-		<slot name="card-title">
-			<h1>{{ title }}</h1>
-		</slot>
-	</v-card-title>
-	<v-card-subtitle class="d-flex pa-2 text-wrap" :class="subtitleClass" style="border: 2px solid blue">
-		<slot name="card-subtitle"></slot>
-	</v-card-subtitle>
-</v-card-item>
-*/
 import { defineComponent } from "vue";
 
 export default defineComponent({
 	name: "card-container-component",
 	props: {
-		cardClass: { type: String, required: false },
-		titleClass: { type: String, required: false },
-		subtitleClass: { type: String, required: false },
-		contentClass: { type: String, required: false },
-		actionClass: { type: String, required: false },
-		actionBtnClass: { type: String, required: false },
-		actionBtnColor: { type: String, required: false },
-		cardStyle: { type: String, required: false },
-		title: { type: String, required: false },
-		subtitle: { type: String, required: false },
-		text: { type: String, required: false },
+		/* Card */
+		class: { type: String, required: false },
+		style: { type: String, required: false },
+
+		/* Card container */
+		containerClass: { type: String, required: false },
+		containerStyle: { type: String, required: false },
+
+		/* Card toolbar */
+		toolbarRowClass: { type: String, required: false },
+		toolbarRowStyle: { type: String, required: false },
+
+		/* Card images */
+		imageRowClass: { type: String, required: false },
+		imageRowStyle: { type: String, required: false },
+
+		/* Card headings */
+		headingRowClass: { type: String, required: false },
+		headingRowStyle: { type: String, required: false },
+
+		/* Card content */
+		contentRowClass: { type: String, required: false },
+		contentRowStyle: { type: String, required: false },
+
+		/* Card actions */
+		actionRowClass: { type: String, required: false },
+		actionRowStyle: { type: String, required: false },
+		actionColClass: { type: String, required: false },
+		actionColStyle: { type: String, required: false },
+	},
+	methods: {
+		method_event_slotIsPopulated(slotName: string): boolean {
+			return this.$slots[slotName] !== undefined;
+		},
 	},
 });
 </script>

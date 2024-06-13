@@ -4,27 +4,25 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<common-card-container-component variant="flat" :style="computed_css_canvasCardBackgroundOpacity">
 							<template #card-headings>
-								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap">
-										<h1 v-text="treatmentsPage.canvas.card.headings.title"></h1>
-									</v-card-title>
-									<v-card-subtitle class="text-wrap">
-										<h3 v-text="treatmentsPage.canvas.card.headings.subtitle"></h3>
-									</v-card-subtitle>
-								</v-card-item>
+								<!-- Title -->
+								<v-col cols="12">
+									<h1 v-text="computed_text_canvas_cardTitle"></h1>
+								</v-col>
+
+								<!-- Subtitle -->
+								<v-col cols="12">
+									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
+								</v-col>
 							</template>
 							<template #card-actions>
-								<v-card-actions class="pa-4">
-									<v-spacer></v-spacer>
-									<common-btn-container-component
-										variant="flat"
-										:btn-text="treatmentsPage.canvas.card.actions.buttons.seeTreatments.text"
-										@click="method_event_scrollToElement"
-									>
-									</common-btn-container-component>
-								</v-card-actions>
+								<v-spacer></v-spacer>
+								<common-btn-container-component
+									variant="flat"
+									:text="computed_text_canvas_cardBtnText"
+									@click="method_event_scrollToElement"
+								></common-btn-container-component>
 							</template>
 						</common-card-container-component>
 					</v-col>
@@ -39,24 +37,24 @@
 		id="section-treatments"
 		class="bg-default"
 		class-title="text-inverted"
-		:title="treatmentsPage.section.title"
+		:title="computed_text_section_title"
 	>
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense>
 					<!-- Filter options -->
 					<v-col cols="12">
-						<v-sheet class="d-flex flex-wrap justify-center align-center" elevation="0">
+						<v-sheet elevation="0" class="d-flex flex-wrap justify-center align-center">
 							<v-chip-group
 								filter
 								mandatory
 								selected-class="text-accent"
-								v-model="treatmentsPage.section.filter.chips.selectedItem"
+								v-model="computed_data_section_filterableCategories_value"
 							>
 								<v-chip
 									class="bg-default text-capitalize"
 									:key="index"
-									v-for="(treatment, index) in treatmentsPage.section.filter.chips.items"
+									v-for="(treatment, index) in computed_data_section_filteredCategoryIndex_items"
 								>
 									{{ treatment.category }}
 								</v-chip>
@@ -66,10 +64,10 @@
 
 					<!-- Notes -->
 					<v-col cols="12">
-						<h5 class="text-left text-inverted" v-if="computed_data_treatmentCategoryHasNote">
-							{{ treatmentsPage.section.notes.default }}
+						<h5 class="text-left text-inverted" v-if="computed_data_section_categoryHasNote">
+							{{ computed_text_section_noteDefault }}
 							<span class="text-inverted font-italic font-weight-regular">
-								{{ computed_data_treatmentCategoryNote }}
+								{{ computed_text_section_note }}
 							</span>
 						</h5>
 					</v-col>
@@ -78,134 +76,136 @@
 					<v-col cols="12">
 						<v-container fluid>
 							<v-row class="d-flex justify-center align-center">
-								<v-col
-									cols="auto"
-									:style="method_utils_css_treatmentCard_displayAndVisibility(treatmentType)"
-									v-for="treatmentType in treatmentsPage.section.treatments.cards.items"
+								<template
+									:key="index"
+									v-for="(treatmentType, index) in computed_data_section_treatments_items"
 								>
-									<common-card-container-component
-										variant="outlined"
-										class="flex-column align-center justify-space-between"
-										:width="computed_css_dynamicWidth"
-										:height="computed_css_dynamicHeight"
-										:style="method_utils_css_treatmentCard_display(treatmentType)"
+									<v-col
+										cols="auto"
+										v-if="method_utils_treatmentCardShouldRender(treatmentType.treatmentCategory)"
 									>
-										<template #card-headings>
-											<v-card-item class="w-100 pa-0 flex-shrink-1 flex-grow-0">
-												<v-card-title
-													class="d-flex flex-row justify-center align-center text-wrap"
+										<common-card-container-component
+											variant="outlined"
+											action-col-class="d-flex flex-column justify-center align-center"
+											:width="computed_css_dynamicWidth"
+											:height="computed_css_dynamicHeight"
+										>
+											<template #card-headings>
+												<!-- Title -->
+												<v-col
+													cols="12"
+													sm="10"
+													class="d-flex flex-column justify-center align-center"
 												>
-													<h4 class="text-inverted">
-														{{ treatmentType.title }}
-													</h4>
-													<v-tooltip
-														:text="
-															treatmentsPage.section.treatments.cards.actions.buttons
-																.moreInformation.text
-														"
+													<v-card-item class="w-100 pa-0 flex-shrink-1 flex-grow-0">
+														<v-card-title
+															class="d-flex flex-row justify-center align-center text-wrap"
+														>
+															<h4 class="text-inverted">
+																{{ treatmentType.title }}
+															</h4>
+														</v-card-title>
+													</v-card-item>
+												</v-col>
+
+												<!-- More information -->
+												<v-col
+													cols="12"
+													sm="2"
+													class="d-flex flex-column justify-center align-center"
+												>
+													<common-tooltip-container-component
+														location="bottom"
+														:tooltip="computed_tooltip_section_treatmentCard_moreInformation"
+														:icon="computed_icon_moreInformation"
+													></common-tooltip-container-component>
+												</v-col>
+											</template>
+											<template #card-content>
+												<!-- Treatment price filter -->
+												<v-col cols="12" class="d-flex flex-column justify-center">
+													<v-chip-group
+														filter
+														mandatory
+														selected-class="text-accent"
+														class="d-flex justify-center"
+														v-model="treatmentType.price.selected"
 													>
-														<template #activator="{ props }">
-															<v-btn
-																density="compact"
-																elevation="0"
-																color="accent"
-																:ripple="false"
-																:icon="computed_icon_moreInformation"
-																v-bind="props"
-															></v-btn>
-														</template>
-													</v-tooltip>
-												</v-card-title>
-											</v-card-item>
-										</template>
-										<template #card-content>
-											<v-card-text class="w-100 pa-0 flex-shrink-1 flex-grow-1">
-												<v-container fluid style="max-height: 100%">
-													<v-row dense>
-														<v-col cols="12" class="d-flex flex-column justify-center">
-															<v-chip-group
-																filter
-																mandatory
-																selected-class="text-accent"
-																class="d-flex justify-center"
-																v-model="treatmentType.price.selected"
-															>
-																<v-chip
-																	size="small"
-																	class="text-inverted"
-																	:key="index"
-																	v-for="(price, index) in treatmentType.price.treatment"
-																>
-																	{{ price + " " }}
-																</v-chip>
-															</v-chip-group>
-														</v-col>															
-														<v-col cols="12" v-if="treatmentType.includes">
-															<p class="text-left" v-if="treatmentType.includes">
-																<span class="text-inverted font-weight-bold">
-																	Includes:
-																</span>
-																<small class="text-inverted text-uppercase">
-																	{{ treatmentType.includes }}
-																</small>
-															</p>
-														</v-col>
-														<v-col cols="12" sm="6">
-															<p :class="computed_css_treatmentCardTextAlign">
-																<span class="text-inverted font-weight-bold">
-																	Duration:
-																</span>
-																<small class="text-inverted">
-																	{{
-																		treatmentType.time > 60
-																			? `${Math.floor(
-																					treatmentType.time / 60
-																				)} hour`
-																			: `${treatmentType.time} mins`
-																	}}
-																	{{
-																		treatmentType.time > 60
-																			? `${
-																					((treatmentType.time / 60) % 1) *
-																						60 ===
-																					0
-																						? ""
-																						: ((treatmentType.time / 60) %
-																								1) *
-																							60
-																				} mins`
-																			: ""
-																	}}
-																</small>
-															</p>
-														</v-col>
-														<v-col cols="12" sm="6">
-															<p :class="computed_css_treatmentCardTextAlign">
-																<span class="text-inverted font-weight-bold">
-																	Consultation:
-																</span>
-																<small class="text-inverted">
-																	{{
-																		treatmentType.price.consultation === 0
-																			? "Free"
-																			: `£${treatmentType.price.consultation}`
-																	}}
-																</small>
-															</p>
-														</v-col>
-													</v-row>
-												</v-container>
-											</v-card-text>
-										</template>
-										<template #card-actions>
-											<v-card-actions class="w-100 pa-2 flex-shrink-1 flex-grow-1">
+														<v-chip
+															size="small"
+															class="text-inverted"
+															:key="index"
+															v-for="(price, index) in treatmentType.price.treatment"
+														>
+															{{ price + " " }}
+														</v-chip>
+													</v-chip-group>
+												</v-col>
+
+												<!-- Treatments include -->
+												<v-col
+													cols="12"
+													class="d-flex flex-column justify-center"
+													v-if="treatmentType.includes"
+												>
+													<p class="text-left">
+														<span class="text-inverted font-weight-bold">
+															{{
+																computed_text_section_treatmentCard_contentInformation_includes
+															}}
+														</span>
+														<small class="text-inverted text-uppercase">
+															{{ treatmentType.includes }}
+														</small>
+													</p>
+												</v-col>
+
+												<!-- Treatments duration -->
+												<v-col cols="12" sm="6" class="d-flex flex-column justify-center">
+													<p>
+														<span class="text-inverted font-weight-bold">
+															{{
+																computed_text_section_treatmentCard_contentInformation_duration
+															}}
+														</span>
+														<small class="text-inverted">
+															{{
+																method_utils_section_treatmentCard_contentInformation_formattedDuration(
+																	treatmentType
+																)
+															}}
+														</small>
+													</p>
+												</v-col>
+
+												<!-- Treatments consultation fee -->
+												<v-col cols="12" sm="6" class="d-flex flex-column justify-center">
+													<p>
+														<span class="text-inverted font-weight-bold">
+															{{
+																computed_text_section_treatmentCard_contentInformation_consultation
+															}}
+														</span>
+														<small class="text-inverted">
+															{{
+																method_utils_section_treatmentCard_contentInformation_formattedPrice(
+																	treatmentType
+																)
+															}}
+														</small>
+													</p>
+												</v-col>
+											</template>
+											<template #card-actions>
 												<v-spacer></v-spacer>
-												<common-btn-container-component class="bg-accent" :btn-text="treatmentsPage.section.treatments.cards.actions.buttons.book.text"></common-btn-container-component>
+												<common-btn-text-container-component
+													:text="computed_text_section_treatmentCard_actions_btnBook"
+												></common-btn-text-container-component>
 												<v-spacer></v-spacer>
-											</v-card-actions>
-										</template>
-									</common-card-container-component>
-								</v-col>
+											</template>
+										</common-card-container-component>
+									</v-col>
+								</template>
 							</v-row>
 						</v-container>
 					</v-col>
@@ -215,16 +215,16 @@
 	</common-section-container-component>
 
 	<common-dialog-container-component
-		:toolbar-title="treatmentsPage.dialog.toolbar.title"
-		@close="treatmentsPage.dialog.show = false"
-		v-model="treatmentsPage.dialog.show"
+		:toolbar-title="computed_text_dialogCard_toolbarTitle"
+		@close="computed_data_dialogCard_show_value = false"
+		v-model="computed_data_dialogCard_show_value"
 	>
-		<template #card-content>Content</template>
-		<template #card-actions>
+		<template #dialog-card-content></template>
+		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
 			<common-btn-container-component
 				variant="flat"
-				:btn-text="treatmentsPage.dialog.actions.buttons.book.text"
+				:text="computed_text_dialogCard_actions_btnBook"
 				@click="method_event_bookTreatmentNow"
 			></common-btn-container-component>
 		</template>
@@ -240,8 +240,11 @@ import useFirebaseStore from "@stores/store-firebase.js";
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
+import BtnIconContainerComp from "@components/common/button/common-btn-icon.vue";
+import BtnTextContainerComp from "@components/common/button/common-btn-text.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
+import TooltipContainerComp from "@components/common/button/tooltip/common-tooltip.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
@@ -256,8 +259,11 @@ export default defineComponent({
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
 		"common-btn-container-component": BtnContainerComp,
+		"common-btn-icon-container-component": BtnIconContainerComp,
+		"common-btn-text-container-component": BtnTextContainerComp,
 		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
+		"common-tooltip-container-component": TooltipContainerComp,
 		"common-section-container-component": SectionContainerComp,
 		"common-dialog-container-component": DialogContainerComp,
 	},
@@ -280,7 +286,7 @@ export default defineComponent({
 					},
 				},
 				section: {
-					title: "All our Treatments",
+					title: "Available treatments",
 					filter: {
 						chips: {
 							selectedItem: 0,
@@ -648,10 +654,24 @@ export default defineComponent({
 									treatmentCategory: 4,
 								},
 							],
+							content: {
+								information: {
+									includes: {
+										text: "Includes: ",
+									},
+									duration: {
+										text: "Duration: ",
+									},
+									consultation: {
+										text: "Consultation: ",
+									},
+								},
+							},
 							actions: {
 								buttons: {
 									moreInformation: {
-										text: "x1 represents the amount of sessions, e.g. x5 = 5 sessions.",
+										icon: "",
+										tooltip: "x1 represents the amount of sessions, e.g. x5 = 5 sessions.",
 									},
 									book: {
 										text: "Book?",
@@ -678,6 +698,49 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_text_canvas_cardTitle(): string {
+			return this.treatmentsPage.canvas.card.headings.title;
+		},
+		computed_text_canvas_cardSubtitle(): string {
+			return this.treatmentsPage.canvas.card.headings.subtitle;
+		},
+		computed_text_canvas_cardBtnText(): string {
+			return this.treatmentsPage.canvas.card.actions.buttons.seeTreatments.text;
+		},
+		computed_text_section_title(): string {
+			return this.treatmentsPage.section.title;
+		},
+		computed_text_section_noteDefault(): string {
+			return this.treatmentsPage.section.notes.default;
+		},
+		computed_text_section_note(): string {
+			const filterableCategories_items = this.computed_data_section_filteredCategoryIndex_items;
+			const filteredCategoryIndex_value = this.computed_data_section_filterableCategories_value;
+			return filterableCategories_items[filteredCategoryIndex_value].note;
+		},
+		computed_text_section_treatmentCard_contentInformation_includes(): string {
+			return this.treatmentsPage.section.treatments.cards.content.information.includes.text;
+		},
+		computed_text_section_treatmentCard_contentInformation_duration(): string {
+			return this.treatmentsPage.section.treatments.cards.content.information.duration.text;
+		},
+		computed_text_section_treatmentCard_contentInformation_consultation(): string {
+			return this.treatmentsPage.section.treatments.cards.content.information.consultation.text;
+		},
+		computed_text_section_treatmentCard_actions_btnBook(): string {
+			return this.treatmentsPage.section.treatments.cards.actions.buttons.book.text;
+		},
+		computed_text_dialogCard_toolbarTitle(): string {
+			return this.treatmentsPage.dialog.toolbar.title;
+		},
+		computed_text_dialogCard_actions_btnBook(): string {
+			return this.treatmentsPage.dialog.actions.buttons.book.text;
+		},
+
+		computed_tooltip_section_treatmentCard_moreInformation(): string {
+			return this.treatmentsPage.section.treatments.cards.actions.buttons.moreInformation.tooltip;
+		},
+
 		computed_css_dynamicWidth(): string {
 			let retVal: string = "100%";
 			if (this.$vuetify.display.smAndUp) retVal = "400";
@@ -688,14 +751,12 @@ export default defineComponent({
 		},
 		computed_css_dynamicHeight(): string {
 			let retVal: string = "100%";
-			if (this.$vuetify.display.mdAndUp) retVal = "300";
+			if (this.$vuetify.display.mdAndUp) retVal = "400";
 			if (this.$vuetify.display.xlAndUp) retVal = "325";
 			return retVal;
 		},
-		computed_css_treatmentCardTextAlign(): string {
-			let retVal: string = "text-left";
-			if (this.$vuetify.display.smAndUp) retVal = "text-center";
-			return retVal;
+		computed_css_canvasCardBackgroundOpacity(): string {
+			return "background-color: rgba(0, 0, 0, 0.3)";
 		},
 
 		computed_img_canvas(): string {
@@ -706,20 +767,30 @@ export default defineComponent({
 			return mdiInformationVariant;
 		},
 
-		computed_data_treatmentCategoryNote(): string {
-			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
-			return this.treatmentsPage.section.filter.chips.items[selectedItem].note;
-		},
-		computed_data_treatmentCategoryHasNote(): boolean {
+		computed_data_section_categoryHasNote(): boolean {
 			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
 			return !!this.treatmentsPage.section.filter.chips.items[selectedItem].note;
 		},
-		computed_data_hasUserVerifiedEmail: {
+		computed_data_section_filteredCategoryIndex_items(): any {
+			return this.treatmentsPage.section.filter.chips.items;
+		},
+		computed_data_section_treatments_items(): any {
+			return this.treatmentsPage.section.treatments.cards.items;
+		},
+		computed_data_section_filterableCategories_value: {
+			get(): number {
+				return this.treatmentsPage.section.filter.chips.selectedItem;
+			},
+			set(newValue: number): void {
+				this.treatmentsPage.section.filter.chips.selectedItem = newValue;
+			},
+		},
+		computed_data_dialogCard_show_value: {
 			get(): boolean {
-				return this.storeFirebase.get_userAuth_emailIsVerified_state;
+				return this.treatmentsPage.dialog.show;
 			},
 			set(newValue: boolean): void {
-				this.storeFirebase.set_userAuth_emailIsVerified_state(newValue);
+				this.treatmentsPage.dialog.show = newValue;
 			},
 		},
 	},
@@ -730,6 +801,7 @@ export default defineComponent({
 		},
 		method_event_bookTreatmentNow(): void {
 			// Here I should make a request to the booking API to book an appointment.
+			this.computed_data_dialogCard_show_value = !this.computed_data_dialogCard_show_value;
 		},
 		method_event_scrollToElement(): void {
 			const targetElementID: HTMLDivElement = document.getElementById("section-treatments") as HTMLDivElement;
@@ -742,26 +814,30 @@ export default defineComponent({
 			}
 		},
 
-		method_utils_css_treatmentCard_displayAndVisibility(treatmentType: {
-			title: string;
-			price: { consultation: number; treatment: string[]; selected: number };
-			time: number;
-			treatmentCategory: number;
-		}): any {
-			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
-			const display = this.method_utils_css_treatmentCard_display(treatmentType);
-			const visibility = treatmentType.treatmentCategory === selectedItem ? `visible` : `hidden`;
-			return { display, visibility };
+		method_utils_treatmentCardShouldRender(treatmentCardCategoryIndex: number): boolean {
+			const filteredCategoryIndex: number = this.treatmentsPage.section.filter.chips.selectedItem;
+			return treatmentCardCategoryIndex === filteredCategoryIndex;
 		},
-		method_utils_css_treatmentCard_display(treatmentType: {
-			title: string;
-			price: { consultation: number; treatment: string[]; selected: number };
-			time: number;
-			treatmentCategory: number;
-		}): any {
-			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
-			const display = treatmentType.treatmentCategory === selectedItem ? `flex` : `none`;
-			return { display };
+		method_utils_section_treatmentCard_contentInformation_formattedDuration(treatmentType: any): string {
+			return this.method_utils_formattedDuration(treatmentType.time);
+		},
+		method_utils_section_treatmentCard_contentInformation_formattedPrice(treatmentType: any): string {
+			return treatmentType.price.consultation === 0 ? "Free" : `£${treatmentType.price.consultation}`;
+		},
+		method_utils_formattedDuration(time: number): string {
+			if (time < 0 || isNaN(time)) return "Invalid time";
+
+			const hours = Math.floor(time / 60);
+			const mins = time % 60;
+
+			let retval: string = "";
+			if (hours > 0) retval += `${hours} hr${hours > 1 ? "s" : ""}`;
+			if (mins > 0) {
+				if (retval.length > 0) retval += " ";
+				retval += `${mins} min${mins > 1 ? "s" : ""}`;
+			}
+
+			return retval || "0 mins";
 		},
 	},
 	setup() {

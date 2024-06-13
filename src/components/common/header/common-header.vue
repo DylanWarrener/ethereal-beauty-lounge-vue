@@ -98,7 +98,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import MenuComp from "@components/common/menu/common-menu.vue";
-import TooltipComp from "@components/common/tooltip/common-tooltip.vue";
+import TooltipComp from "@base/src/components/common/button/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";

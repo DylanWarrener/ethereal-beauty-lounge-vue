@@ -26,9 +26,12 @@
 										color="accent"
 										@click="scrollToElement('section-reviews')"
 									>
-									<template #default>
-										<small class="text-default" v-text="data_reviewsPage.canvas.card.actions.buttons.seeOurReviews.text"></small>
-									</template>
+										<template #default>
+											<small
+												class="text-default"
+												v-text="data_reviewsPage.canvas.card.actions.buttons.seeOurReviews.text"
+											></small>
+										</template>
 									</v-btn>
 								</v-card-actions>
 							</template>
@@ -220,12 +223,12 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeOurReviews: {
-									text: "See our reviews?"
-								}
-							}
-						}
-					}
-				}
+									text: "See our reviews?",
+								},
+							},
+						},
+					},
+				},
 			},
 			reviews: {
 				value: 0,

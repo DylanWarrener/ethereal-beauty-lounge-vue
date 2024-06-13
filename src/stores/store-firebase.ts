@@ -163,11 +163,8 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		// User AUTH actions
 		monitor_userAuth_state(user: { auth: Auth }): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				onAuthStateChanged(user.auth, (user: User | null) => {
-					debugger;
 					if (user !== null) {
 						let valuesNotNull: any = {};
 						for (const [key, value] of Object.entries(user)) {

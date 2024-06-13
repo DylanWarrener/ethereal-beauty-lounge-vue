@@ -36,7 +36,7 @@
 
 	<common-section-container-component 
 		id="section-contact" 
-		class="bg-default" 
+	class="bg-default
 		class_title="text-inverted" 
 		:title="contactPage.section.title">
 		<template #section-content>

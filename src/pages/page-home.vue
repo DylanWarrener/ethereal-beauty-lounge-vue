@@ -4,26 +4,25 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<common-card-container-component variant="flat" :style="computed_css_canvasCardBackgroundOpacity">
 							<template #card-headings>
-								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap">
-										<h1 v-text="homePage.canvas.card.headings.title"></h1>
-									</v-card-title>
-									<v-card-subtitle class="text-wrap">
-										<h3 v-text="homePage.canvas.card.headings.subtitle"></h3>
-									</v-card-subtitle>
-								</v-card-item>
+								<!-- Title -->
+								<v-col cols="12">
+									<h1 v-text="computed_text_canvas_cardTitle"></h1>
+								</v-col>
+
+								<!-- Subtitle -->
+								<v-col cols="12">
+									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
+								</v-col>
 							</template>
 							<template #card-actions>
-								<v-card-actions class="pa-4">
-									<v-spacer></v-spacer>
-									<common-btn-container-component 
-										variant="flat" 
-										:btn-text="homePage.canvas.card.actions.buttons.seeRecentPortfolio.text" 
-										@click="method_event_scrollToElement">
-									</common-btn-container-component>
-								</v-card-actions>
+								<v-spacer></v-spacer>
+								<common-btn-container-component
+									variant="flat"
+									:text="computed_text_canvas_cardBtnText"
+									@click="method_event_scrollToElement"
+								></common-btn-container-component>
 							</template>
 						</common-card-container-component>
 					</v-col>
@@ -38,8 +37,8 @@
 		id="section-portfolio"
 		class-title="text-inverted"
 		class-subtitle="text-inverted"
-		title="Portfolio: most recent"
-		subtitle="Letting Beauty Take Flight So You Don't Have To"
+		:title="computed_text_section_title"
+		:subtitle="computed_text_section_subtitle"
 	>
 		<template #section-content>
 			<common-card-grid-container-component></common-card-grid-container-component>
@@ -52,9 +51,9 @@ import { defineComponent } from "vue";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import CardContainerComp from "@components/common/card/common-card.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
-import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
 
@@ -68,8 +67,8 @@ export default defineComponent({
 		"common-btn-container-component": BtnContainerComp,
 		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
-		"common-section-container-component": SectionContainerComp,
 		"common-card-grid-container-component": CardGridContainerComp,
+		"common-section-container-component": SectionContainerComp,
 	},
 	data() {
 		return {
@@ -78,7 +77,7 @@ export default defineComponent({
 					card: {
 						headings: {
 							title: "Where Beauty Radiates With Delicacy",
-							subtitle: "Transform your look with our non-invasive treatments for the face & body."
+							subtitle: "Transform your look with our non-invasive treatments for the face & body.",
 						},
 						actions: {
 							buttons: {
@@ -89,10 +88,34 @@ export default defineComponent({
 						},
 					},
 				},
+				section: {
+					title: "Portfolio: most recent",
+					subtitle: "Letting Beauty Take Flight So You Don't Have To",
+				},
 			},
 		};
 	},
 	computed: {
+		computed_text_canvas_cardTitle(): string {
+			return this.homePage.canvas.card.headings.title;
+		},
+		computed_text_canvas_cardSubtitle(): string {
+			return this.homePage.canvas.card.headings.subtitle;
+		},
+		computed_text_canvas_cardBtnText(): string {
+			return this.homePage.canvas.card.actions.buttons.seeRecentPortfolio.text;
+		},
+		computed_text_section_title(): string {
+			return this.homePage.section.title;
+		},
+		computed_text_section_subtitle(): string {
+			return this.homePage.section.subtitle;
+		},
+
+		computed_css_canvasCardBackgroundOpacity(): string {
+			return "background-color: rgba(0, 0, 0, 0.3)";
+		},
+
 		computed_img_canvas(): string {
 			return CanvasPNG;
 		},

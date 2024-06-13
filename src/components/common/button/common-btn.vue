@@ -1,7 +1,7 @@
 <template>
-	<v-btn color="accent" size="large" style="min-width: 100px" class="px-4" :style="btnStyle" :class="btnClass">
-		<template #default v-if="btnText">
-			<small :style="btnTextStyle" :class="btnTextClass" v-text="btnText"></small>
+	<v-btn color="accent" size="large" class="px-4" :style="style" :class="class" @click="$emit('click')">
+		<template #default v-if="text">
+			<small :style="textStyle" :class="textClass" v-text="text"></small>
 		</template>
 	</v-btn>
 </template>
@@ -10,14 +10,15 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "button-container-component",
+	name: "btn-container-component",
 	props: {
-		btnStyle: { type: String, required: false },
-		btnClass: { type: String, required: false },
-		btnTextStyle: { type: String, required: false },
-		btnTextClass: { type: String, required: false },
-		btnTextColour: { type: String, required: false, default: "text-default" },
-		btnText: { type: String, required: false }
-	}
+		style: { type: String, required: false },
+		class: { type: String, required: false },
+
+		textStyle: { type: String, required: false },
+		textClass: { type: String, required: false, default: "text-default" },
+
+		text: { type: String, required: false },
+	},
 });
 </script>

@@ -1,13 +1,13 @@
 <template>
-	<v-container fluid tag="section" :id="idContainer" :class="classContainer" :style="styleContainer">
-		<v-row dense :class="classRow" :style="styleRow">
-			<v-col cols="12" v-if="title" :class="classColTitle" :style="styleColTitle">
-				<h2 :class="classTitle" :style="styleTitle">{{ title }}</h2>
+	<v-container fluid tag="section" :id="containerId" :style="containerStyle" :class="containerClass">
+		<v-row dense :style="rowStyle" :class="rowClass">
+			<v-col cols="12" v-if="title" :style="columnTitleStyle" :class="columnTitleClass">
+				<h2 :style="titleStyle" :class="titleClass">{{ title }}</h2>
 			</v-col>
-			<v-col cols="12" v-if="subtitle" :class="classSubtitle" :style="styleSubtitle">
-				<h3 :class="classSubtitle" :style="styleSubtitle">{{ subtitle }}</h3>
+			<v-col cols="12" v-if="subtitle" :style="columnSubtitleStyle" :class="columnSubtitleClass">
+				<h3 :style="subtitleStyle" :class="subtitleClass">{{ subtitle }}</h3>
 			</v-col>
-			<v-col cols="12" :class="classContent" :style="styleContent">
+			<v-col cols="12" :style="columnContentStyle" :class="columnContentClass">
 				<slot name="section-content"></slot>
 			</v-col>
 		</v-row>
@@ -20,25 +20,26 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "section-container-component",
 	props: {
-		idContainer: { type: String, required: false },
+		containerId: { type: String, required: false },
+		containerStyle: { type: String, required: false },
+		containerClass: { type: String, required: false },
 
-		classContainer: { type: String, required: false },
-		classRow: { type: String, required: false },
-		classColTitle: { type: String, required: false },
-		classTitle: { type: String, required: false },
-		classColSubtitle: { type: String, required: false },
-		classSubtitle: { type: String, required: false },
-		classContent: { type: String, required: false },
+		rowStyle: { type: String, required: false },
+		rowClass: { type: String, required: false },
 
-		styleContainer: { type: String, required: false },
-		styleRow: { type: String, required: false },
-		styleColTitle: { type: String, required: false },
-		styleTitle: { type: String, required: false },
-		styleColSubtitle: { type: String, required: false },
-		styleSubtitle: { type: String, required: false },
-		styleContent: { type: String, required: false },
+		columnTitleStyle: { type: String, required: false },
+		columnTitleClass: { type: String, required: false },
+		columnSubtitleStyle: { type: String, required: false },
+		columnSubtitleClass: { type: String, required: false },
+		columnContentStyle: { type: String, required: false },
+		columnContentClass: { type: String, required: false },
 
+		titleStyle: { type: String, required: false },
+		titleClass: { type: String, required: false },
 		title: { type: String, required: false },
+
+		subtitleStyle: { type: String, required: false },
+		subtitleClass: { type: String, required: false },
 		subtitle: { type: String, required: false },
 	},
 });
