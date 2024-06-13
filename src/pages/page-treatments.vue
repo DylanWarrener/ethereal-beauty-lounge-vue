@@ -75,217 +75,137 @@
 					</v-col>
 
 					<!-- Treatment options -->
-					<v-col>
+					<v-col cols="12">
 						<v-container fluid>
-							<v-row dense class="d-flex justify-center align-center">
-								<template v-for="treatmentType in treatmentsPage.section.treatments.cards.items">
-									<v-col
-										cols="auto"
-										class="justify-center align-center"
-										:style="method_utils_css_treatmentCard_displayAndVisibility(treatmentType)"
+							<v-row class="d-flex justify-center align-center">
+								<v-col
+									cols="auto"
+									:style="method_utils_css_treatmentCard_displayAndVisibility(treatmentType)"
+									v-for="treatmentType in treatmentsPage.section.treatments.cards.items"
+								>
+									<common-card-container-component
+										variant="outlined"
+										class="flex-column align-center justify-space-between"
+										:width="computed_css_dynamicWidth"
+										:height="computed_css_dynamicHeight"
+										:style="method_utils_css_treatmentCard_display(treatmentType)"
 									>
-										<common-card-container-component
-											variant="outlined"
-											class="flex-column align-center justify-space-between"
-											:width="computed_css_dynamicWidth"
-											:height="computed_css_dynamicHeight"
-											:style="method_utils_css_treatmentCard_display(treatmentType)"
-										>
-											<template #card-headings>
-												<v-card-item class="w-100" style="border: 2px solid black">
-													<v-card-title
-														class="d-flex flex-row justify-center align-center text-wrap"
-														style="border: 2px solid red"
+										<template #card-headings>
+											<v-card-item class="w-100 pa-0 flex-shrink-1 flex-grow-0">
+												<v-card-title
+													class="d-flex flex-row justify-center align-center text-wrap"
+												>
+													<h4 class="text-inverted">
+														{{ treatmentType.title }}
+													</h4>
+													<v-tooltip
+														:text="
+															treatmentsPage.section.treatments.cards.actions.buttons
+																.moreInformation.text
+														"
 													>
-														<h4 class="text-inverted">
-															{{ treatmentType.title }}
-														</h4>
-														<v-tooltip
-															:text="
-																treatmentsPage.section.treatments.cards.actions.buttons
-																	.moreInformation.text
-															"
-														>
-															<template #activator="{ props }">
-																<v-btn
-																	density="compact"
-																	elevation="0"
-																	color="accent"
-																	:ripple="false"
-																	:icon="computed_icon_moreInformation"
-																	v-bind="props"
-																></v-btn>
-															</template>
-														</v-tooltip>
-													</v-card-title>
-													<v-card-subtitle class="text-wrap text-center">
-														<v-chip-group
-															filter
-															mandatory
-															selected-class="text-accent"
-															class="d-flex justify-center"
-															v-model="treatmentType.price.selected"
-														>
-															<v-chip
-																size="small"
-																class="text-inverted"
-																:key="index"
-																v-for="(price, index) in treatmentType.price.treatment"
-															>
-																{{ price + " " }}
-															</v-chip>
-														</v-chip-group>
-														<v-container fluid style="border: 2px solid red">
-															<v-row dense>
-																<v-col cols="12" v-if="treatmentType.includes">
-																	<p class="text-left" v-if="treatmentType.includes">
-																		<span class="text-inverted font-weight-bold">
-																			Includes:
-																		</span>
-																		<small class="text-inverted text-uppercase">
-																			{{ treatmentType.includes }}
-																		</small>
-																	</p>
-																</v-col>
-																<v-col cols="12" sm="6">
-																	<p :class="computed_css_treatmentCardTextAlign">
-																		<span class="text-inverted font-weight-bold">
-																			Duration:
-																		</span>
-																		<small class="text-inverted">
-																			{{
-																				treatmentType.time > 60
-																					? `${Math.floor(
-																							treatmentType.time / 60
-																					  )} hour`
-																					: `${treatmentType.time} mins`
-																			}}
-																			{{
-																				treatmentType.time > 60
-																					? `${
-																							((treatmentType.time / 60) % 1) *
-																								60 ===
-																							0
-																								? ""
-																								: ((treatmentType.time /
-																										60) %
-																										1) *
-																								  60
-																					  } mins`
-																					: ""
-																			}}
-																		</small>
-																	</p>
-																</v-col>
-																<v-col cols="12" sm="6">
-																	<p :class="computed_css_treatmentCardTextAlign">
-																		<span class="text-inverted font-weight-bold">
-																			Consultation:
-																		</span>
-																		<small class="text-inverted">
-																			{{
-																				treatmentType.price.consultation === 0
-																					? "Free"
-																					: `£${treatmentType.price.consultation}`
-																			}}
-																		</small>
-																	</p>
-																</v-col>
-															</v-row>
-														</v-container>
-													</v-card-subtitle>
-												</v-card-item>
-											</template>
-											<template #card-content>
-												<v-card-text class="w-100" style="border: 2px solid red">
-													<v-container fluid class="w-100 h-100" style="border: 2px solid blue">
-														<v-row dense style="border: 2px solid green">
-															<v-col
-																cols="12"
-																v-if="treatmentType.includes"
-																style="border: 2px solid orange"
-															>
-																<p class="text-left" v-if="treatmentType.includes">
-																	<span class="text-inverted font-weight-bold">
-																		Includes:
-																	</span>
-																	<small class="text-inverted text-uppercase">
-																		{{ treatmentType.includes }}
-																	</small>
-																</p>
-															</v-col>
-															<v-col cols="12" sm="6">
-																<p :class="computed_css_treatmentCardTextAlign">
-																	<span class="text-inverted font-weight-bold">
-																		Duration:
-																	</span>
-																	<small class="text-inverted">
-																		{{
-																			treatmentType.time > 60
-																				? `${Math.floor(
-																						treatmentType.time / 60
-																				  )} hour`
-																				: `${treatmentType.time} mins`
-																		}}
-																		{{
-																			treatmentType.time > 60
-																				? `${
-																						((treatmentType.time / 60) % 1) *
-																							60 ===
-																						0
-																							? ""
-																							: ((treatmentType.time / 60) %
-																									1) *
-																							  60
-																				  } mins`
-																				: ""
-																		}}
-																	</small>
-																</p>
-															</v-col>
-															<v-col cols="12" sm="6">
-																<p :class="computed_css_treatmentCardTextAlign">
-																	<span class="text-inverted font-weight-bold">
-																		Consultation:
-																	</span>
-																	<small class="text-inverted">
-																		{{
-																			treatmentType.price.consultation === 0
-																				? "Free"
-																				: `£${treatmentType.price.consultation}`
-																		}}
-																	</small>
-																</p>
-															</v-col>
-														</v-row>
-													</v-container>
-												</v-card-text>
-											</template>
-											<template #card-actions>
-												<v-card-actions class="w-100" style="border: 2px solid blue">
-													<v-spacer></v-spacer>
-													<v-btn
-														size="large"
-														style="min-width: 100px"
-														class="px-4 bg-accent text-default"
-														@click="method_event_showDialog(treatmentType.title)"
-													>
-														<template #default>
-															<small
-																class="text-default"
-																v-text="
-																	treatmentsPage.section.treatments.cards.actions.buttons
-																		.book.text
-																"
-															></small>
+														<template #activator="{ props }">
+															<v-btn
+																density="compact"
+																elevation="0"
+																color="accent"
+																:ripple="false"
+																:icon="computed_icon_moreInformation"
+																v-bind="props"
+															></v-btn>
 														</template>
-													</v-btn>
-													<v-spacer></v-spacer>
-												</v-card-actions>
-											</template>
-										</common-card-container-component>
-									</v-col>
-								</template>
+													</v-tooltip>
+												</v-card-title>
+											</v-card-item>
+										</template>
+										<template #card-content>
+											<v-card-text class="w-100 pa-0 flex-shrink-1 flex-grow-1">
+												<v-container fluid style="max-height: 100%">
+													<v-row dense>
+														<v-col cols="12" class="d-flex flex-column justify-center">
+															<v-chip-group
+																filter
+																mandatory
+																selected-class="text-accent"
+																class="d-flex justify-center"
+																v-model="treatmentType.price.selected"
+															>
+																<v-chip
+																	size="small"
+																	class="text-inverted"
+																	:key="index"
+																	v-for="(price, index) in treatmentType.price.treatment"
+																>
+																	{{ price + " " }}
+																</v-chip>
+															</v-chip-group>
+														</v-col>															
+														<v-col cols="12" v-if="treatmentType.includes">
+															<p class="text-left" v-if="treatmentType.includes">
+																<span class="text-inverted font-weight-bold">
+																	Includes:
+																</span>
+																<small class="text-inverted text-uppercase">
+																	{{ treatmentType.includes }}
+																</small>
+															</p>
+														</v-col>
+														<v-col cols="12" sm="6">
+															<p :class="computed_css_treatmentCardTextAlign">
+																<span class="text-inverted font-weight-bold">
+																	Duration:
+																</span>
+																<small class="text-inverted">
+																	{{
+																		treatmentType.time > 60
+																			? `${Math.floor(
+																					treatmentType.time / 60
+																				)} hour`
+																			: `${treatmentType.time} mins`
+																	}}
+																	{{
+																		treatmentType.time > 60
+																			? `${
+																					((treatmentType.time / 60) % 1) *
+																						60 ===
+																					0
+																						? ""
+																						: ((treatmentType.time / 60) %
+																								1) *
+																							60
+																				} mins`
+																			: ""
+																	}}
+																</small>
+															</p>
+														</v-col>
+														<v-col cols="12" sm="6">
+															<p :class="computed_css_treatmentCardTextAlign">
+																<span class="text-inverted font-weight-bold">
+																	Consultation:
+																</span>
+																<small class="text-inverted">
+																	{{
+																		treatmentType.price.consultation === 0
+																			? "Free"
+																			: `£${treatmentType.price.consultation}`
+																	}}
+																</small>
+															</p>
+														</v-col>
+													</v-row>
+												</v-container>
+											</v-card-text>
+										</template>
+										<template #card-actions>
+											<v-card-actions class="w-100 pa-2 flex-shrink-1 flex-grow-1">
+												<v-spacer></v-spacer>
+												<common-btn-container-component class="bg-accent" :btn-text="treatmentsPage.section.treatments.cards.actions.buttons.book.text"></common-btn-container-component>
+												<v-spacer></v-spacer>
+											</v-card-actions>
+										</template>
+									</common-card-container-component>
+								</v-col>
 							</v-row>
 						</v-container>
 					</v-col>
@@ -831,7 +751,7 @@ export default defineComponent({
 			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
 			const display = this.method_utils_css_treatmentCard_display(treatmentType);
 			const visibility = treatmentType.treatmentCategory === selectedItem ? `visible` : `hidden`;
-			return { display: display, visibility: visibility };
+			return { display, visibility };
 		},
 		method_utils_css_treatmentCard_display(treatmentType: {
 			title: string;
@@ -841,7 +761,7 @@ export default defineComponent({
 		}): any {
 			const selectedItem: number = this.treatmentsPage.section.filter.chips.selectedItem;
 			const display = treatmentType.treatmentCategory === selectedItem ? `flex` : `none`;
-			return { display: display };
+			return { display };
 		},
 	},
 	setup() {
