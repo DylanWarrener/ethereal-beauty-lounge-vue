@@ -101,6 +101,7 @@
 														clearable
 														variant="outlined"
 														:label="computed_text_section_content_form_inputFirstnameLabel"
+														v-model="computed_data_section_content_form_firstnameInput_value"
 													></v-text-field>
 												</v-col>
 												<v-col cols="12" md="6" lg="12">
@@ -108,6 +109,7 @@
 														clearable
 														variant="outlined"
 														:label="computed_text_section_content_form_inputLastnameLabel"
+														v-model="computed_data_section_content_form_lastnameInput_value"
 													></v-text-field>
 												</v-col>
 												<v-col cols="12" md="6" lg="12">
@@ -115,6 +117,7 @@
 														clearable
 														variant="outlined"
 														:label="computed_text_section_content_form_inputEmailLabel"
+														v-model="computed_data_section_content_form_emailInput_value"
 													></v-text-field>
 												</v-col>
 												<v-col cols="12" md="6" lg="12">
@@ -122,6 +125,7 @@
 														clearable
 														variant="outlined"
 														:label="computed_text_section_content_form_inputPhoneLabel"
+														v-model="computed_data_section_content_form_phoneInput_value"
 													></v-text-field>
 												</v-col>
 												<v-col cols="12">
@@ -129,20 +133,22 @@
 														clearable
 														variant="outlined"
 														:label="computed_text_section_content_form_inputMessageLabel"
+														v-model="computed_data_section_content_form_messageInput_value"
 													></v-textarea>
-												</v-col>
-												<v-col cols="12">
-													<common-btn-container-component
-														variant="outlined"
-														color="default"
-														:text="computed_text_section_content_form_btnSendMessage"
-														@click="method_event_scrollToElement('section-contact')"
-													></common-btn-container-component>
 												</v-col>
 											</v-row>
 										</v-container>
 									</v-form>
 								</v-col>
+							</template>
+							<template #card-actions>
+								<v-spacer></v-spacer>
+								<common-btn-container-component
+									variant="outlined"
+									color="default"
+									:text="computed_text_section_content_form_btnSendMessage"
+									@click="method_event_sendMessage_clickHandler"
+								></common-btn-container-component>
 							</template>
 						</common-card-container-component>
 					</v-col>
@@ -241,18 +247,23 @@ export default defineComponent({
 							inputs: {
 								firstname: {
 									label: "First Name*",
+									value: "",
 								},
 								lastname: {
 									label: "Last Name*",
+									value: "",
 								},
 								email: {
 									label: "Email*",
+									value: "",
 								},
 								phone: {
 									label: "Phone",
+									value: "",
 								},
 								message: {
 									label: "Message*",
+									value: "",
 								},
 							},
 							actions: {
@@ -328,6 +339,46 @@ export default defineComponent({
 				this.contactPage.section.content.form.valid = newValue;
 			},
 		},
+		computed_data_section_content_form_firstnameInput_value: {
+			get(): string {
+				return this.contactPage.section.content.form.inputs.firstname.value;
+			},
+			set(newValue: string): void {
+				this.contactPage.section.content.form.inputs.firstname.value = newValue;
+			},
+		},
+		computed_data_section_content_form_lastnameInput_value: {
+			get(): string {
+				return this.contactPage.section.content.form.inputs.lastname.value;
+			},
+			set(newValue: string): void {
+				this.contactPage.section.content.form.inputs.lastname.value = newValue;
+			},
+		},
+		computed_data_section_content_form_emailInput_value: {
+			get(): string {
+				return this.contactPage.section.content.form.inputs.email.value;
+			},
+			set(newValue: string): void {
+				this.contactPage.section.content.form.inputs.email.value = newValue;
+			},
+		},
+		computed_data_section_content_form_phoneInput_value: {
+			get(): string {
+				return this.contactPage.section.content.form.inputs.phone.value;
+			},
+			set(newValue: string): void {
+				this.contactPage.section.content.form.inputs.phone.value = newValue;
+			},
+		},
+		computed_data_section_content_form_messageInput_value: {
+			get(): string {
+				return this.contactPage.section.content.form.inputs.message.value;
+			},
+			set(newValue: string): void {
+				this.contactPage.section.content.form.inputs.message.value = newValue;
+			},
+		},
 	},
 	methods: {
 		method_event_scrollToElement(targetElement: string): void {
@@ -339,6 +390,9 @@ export default defineComponent({
 					behavior: "smooth",
 				});
 			}
+		},
+		method_event_sendMessage_clickHandler(): void {
+			//* Needs updating
 		},
 	},
 });

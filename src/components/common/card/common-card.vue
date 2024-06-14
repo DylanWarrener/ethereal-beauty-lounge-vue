@@ -29,6 +29,7 @@
 
 			<!-- Content -->
 			<v-row
+				class="h-100"
 				style="border: 4px solid green"
 				:class="contentRowClass"
 				:style="contentRowStyle"
