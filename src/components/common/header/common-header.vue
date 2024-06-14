@@ -1,21 +1,24 @@
 <template>
-	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" v-model="data_appBarDrawerState">
+	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" density="comfortable" v-model="data_appBarDrawerState">
 		<!-- APP BAR LEFT -->
-		<v-card
+		<common-card-container-component
 			hover
 			exact
-			class="py-2"
-			width="200"
-			height="100"
-			variant="flat"
 			elevation="0"
+			variant="flat"
 			color="transparent"
+			max-width="200"
+			height="100%"
 			style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 119, 145, 1) 100%)"
 			:to="txt_homePageLink"
 			v-ripple="{ class: 'text-accent' }"
 		>
-			<v-img src="logo-transparent.png" width="200" height="100"></v-img>
-		</v-card>
+			<template #card-img>
+				<v-col cols="12" class="pa-0" style="height: 100%">
+					<v-img cover src="logo-transparent.png" width="100" height="100%"></v-img>
+				</v-col>
+			</template>
+		</common-card-container-component>
 		<menu-container-component
 			menu-location="bottom"
 			btn-class="d-flex d-md-none"
@@ -24,13 +27,6 @@
 			:btn-icon="icon_appBarMobileMenuBtn"
 			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
 		></menu-container-component>
-		<!-- <menu-container-component
-			menu-location="bottom"
-			:tooltip-text="tooltip_appBarSearchBtn"
-			:btn-id="id_appBarSearchBtn"
-			:btn-icon="icon_appBarSearchBtn"
-			@toggle-menu-drawer="data_appBarSearchDrawerState = !data_appBarSearchDrawerState"
-		></menu-container-component> -->
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
@@ -97,6 +93,7 @@ import useHeaderStore from "@stores/store-header.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
+import CardContainerComp from "@components/common/card/common-card.vue";
 import MenuComp from "@components/common/menu/common-menu.vue";
 import TooltipComp from "@base/src/components/common/button/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
@@ -119,6 +116,7 @@ import { mdiAccount, mdiBasket, mdiMenu } from "@constants/common/primitives/ico
 export default defineComponent({
 	name: "header-container-component",
 	components: {
+		"common-card-container-component": CardContainerComp,
 		"menu-container-component": MenuComp,
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,

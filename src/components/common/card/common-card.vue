@@ -13,7 +13,12 @@
 			</v-row>
 
 			<!-- Images -->
-			<v-row :class="imageRowClass" :style="imageRowStyle" v-if="method_event_slotIsPopulated('card-img')">
+			<v-row
+				class="overflow-hidden"
+				:class="imageRowClass"
+				:style="imageRowStyle"
+				v-if="method_event_slotIsPopulated('card-img')"
+			>
 				<slot name="card-img"></slot>
 			</v-row>
 

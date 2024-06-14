@@ -112,9 +112,9 @@ export default defineComponent({
 	name: "reviews-page-container-component",
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
+		"common-card-container-component": CardContainerComp,
 		"common-btn-container-component": BtnContainerComp,
 		"common-divider-container-component": DividerContainerComp,
-		"common-card-container-component": CardContainerComp,
 		"common-section-container-component": SectionContainerComp,
 	},
 	data() {

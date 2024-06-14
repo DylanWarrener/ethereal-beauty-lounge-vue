@@ -1,52 +1,39 @@
 <template>
-	<canvas-container-component :src="img_canvas">
+	<common-canvas-container-component :src="computed_img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<common-card-container-component variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
 							<template #card-headings>
-								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap">
-										<h1>About us</h1>
-									</v-card-title>
-									<v-card-subtitle class="text-wrap">
-										<h3>Where Timeless Beauty Meets Professional Expertise</h3>
-									</v-card-subtitle>
-								</v-card-item>
+								<!-- Title -->
+								<v-col cols="12">
+									<h1 v-text="computed_text_canvas_cardTitle"></h1>
+								</v-col>
+
+								<!-- Subtitle -->
+								<v-col cols="12">
+									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
+								</v-col>
 							</template>
 							<template #card-actions>
-								<v-card-actions class="pa-4">
-									<v-spacer></v-spacer>
-									<v-btn
-										variant="flat"
-										class="px-4"
-										style="min-width: 100px"
-										size="large"
-										color="accent"
-										@click="scrollToElement('section-about')"
-									>
-									<template #default>
-										<small class="text-default" v-text="data_aboutPage.canvas.card.actions.buttons.seeWhoWeAre.text"></small>
-									</template>
-								</v-btn>
-								</v-card-actions>
+								<v-spacer></v-spacer>
+								<common-btn-container-component
+									variant="flat"
+									:text="computed_text_canvas_cardBtnText"
+									@click="method_event_scrollToElement('section-about')"
+								></common-btn-container-component>
 							</template>
-						</card-container-component>
+						</common-card-container-component>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</canvas-container-component>
+	</common-canvas-container-component>
 
-	<divider-container-component></divider-container-component>
+	<common-divider-container-component></common-divider-container-component>
 
-	<section-container-component
-		id="section-about"
-		class="bg-default"
-		class_title="text-inverted"
-		title="Ethereal Beauty Lounge"
-	>
+	<common-section-container-component id="section-about" title-class="text-inverted" :title="computed_text_section_title">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense class="d-flex ga-4">
@@ -54,22 +41,16 @@
 					<v-col cols="12">
 						<v-row dense>
 							<v-col cols="12" md="6" class="pa-4 d-flex flex-column justify-center align-center">
-								<h3 class="text-accent">Our Mission</h3>
-								<p class="text-inverted text-center">
-									At Ethereal Beauty Lounge, we are committed to providing our clients with the best beauty
-									services that will suit all lifestyles & ensure affordability is met for all. We promise
-									to leave clients feeling confident, radiant and reborn. We strive to create an authentic
-									and welcoming environment where our clients can relax and enjoy their beauty treatments
-									forgetting the worries of life.
-								</p>
+								<h3 class="text-accent" v-text="computed_text_section_ourMission_title"></h3>
+								<p class="text-inverted text-center" v-text="computed_text_section_ourMission_message"></p>
 							</v-col>
 							<v-col cols="12" md="6" style="max-height: 500px">
-								<v-img cover :src="img_canvas"></v-img>
+								<v-img cover :src="computed_img_canvas"></v-img>
 							</v-col>
 						</v-row>
 					</v-col>
 
-					<divider-container-component></divider-container-component>
+					<common-divider-container-component></common-divider-container-component>
 
 					<!-- Our services -->
 					<v-col cols="12">
@@ -80,13 +61,8 @@
 								class="pa-4 d-flex flex-column justify-center align-center"
 								:class="$vuetify.display.mdAndUp ? 'order-2' : 'order-1'"
 							>
-								<h3 class="text-accent">Our Services</h3>
-								<p class="text-inverted text-center">
-									From facials and dermaplaning to non surgical tummy tucks and skin tightening, we offer a
-									wide range of beauty services to meet the needs of our clients. Our services are
-									authentic to each individual, ensuring that they receive the best possible care for their
-									desired image.
-								</p>
+								<h3 class="text-accent" v-text="computed_text_section_ourServices_title"></h3>
+								<p class="text-inverted text-center" v-text="computed_text_section_ourServices_message"></p>
 							</v-col>
 							<v-col
 								cols="12"
@@ -94,33 +70,29 @@
 								:class="$vuetify.display.mdAndUp ? 'order-1' : 'order-2'"
 								style="max-height: 500px"
 							>
-								<v-img cover :src="img_canvas"></v-img>
+								<v-img cover :src="computed_img_canvas"></v-img>
 							</v-col>
 						</v-row>
 					</v-col>
 
-					<divider-container-component></divider-container-component>
+					<common-divider-container-component></common-divider-container-component>
 
 					<!-- Our team -->
 					<v-col cols="12">
 						<v-row dense>
 							<v-col cols="12" md="6" class="pa-4 d-flex flex-column justify-center align-center">
-								<h3 class="text-accent">Our Team</h3>
-								<p class="text-inverted text-center">
-									Our team of experienced and skilled beauty professionals are dedicated to providing
-									top-notch services to our clients. We take pride in staying up-to-date with the latest
-									beauty trends and techniques to ensure that our clients receive the best possible care.
-								</p>
+								<h3 class="text-accent" v-text="computed_text_section_ourTeam_title"></h3>
+								<p class="text-inverted text-center" v-text="computed_text_section_ourTeam_message"></p>
 							</v-col>
 							<v-col cols="12" md="6" style="max-height: 500px">
-								<v-img cover :src="img_canvas"></v-img>
+								<v-img cover :src="computed_img_canvas"></v-img>
 							</v-col>
 						</v-row>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</section-container-component>
+	</common-section-container-component>
 </template>
 
 <script lang="ts">
@@ -128,6 +100,7 @@ import { defineComponent } from "vue";
 
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
@@ -138,37 +111,101 @@ import CanvasPNG from "@assets/jpg/temp.jpg";
 export default defineComponent({
 	name: "about-page-container-component",
 	components: {
-		"canvas-container-component": CanvasContainerComp,
-		"divider-container-component": DividerContainerComp,
-		"card-container-component": CardContainerComp,
-		"section-container-component": SectionContainerComp,
+		"common-canvas-container-component": CanvasContainerComp,
+		"common-card-container-component": CardContainerComp,
+		"common-btn-container-component": BtnContainerComp,
+		"common-divider-container-component": DividerContainerComp,
+		"common-section-container-component": SectionContainerComp,
 	},
 	data() {
 		return {
-			data_aboutPage: {
+			aboutPage: {
 				canvas: {
 					card: {
+						headings: {
+							title: "About us",
+							subtitle: "Where Timeless Beauty Meets Professional Expertise",
+						},
 						actions: {
 							buttons: {
 								seeWhoWeAre: {
-									text: "See who we are?"
-								}
-							}
-						}
-					}
-				}
+									text: "See who we are?",
+								},
+							},
+						},
+					},
+				},
+				section: {
+					title: "",
+					content: {
+						ourMission: {
+							title: "Our Mission",
+							message: `At Ethereal Beauty Lounge, we are committed to providing our clients with the best beauty
+								services that will suit all lifestyles & ensure affordability is met for all. We promise
+								to leave clients feeling confident, radiant and reborn. We strive to create an authentic
+								and welcoming environment where our clients can relax and enjoy their beauty treatments
+								forgetting the worries of life.`,
+						},
+						ourServices: {
+							title: "Our Services",
+							message: `From facials and dermaplaning to non surgical tummy tucks and skin tightening, we offer a
+								wide range of beauty services to meet the needs of our clients. Our services are
+								authentic to each individual, ensuring that they receive the best possible care for their
+								desired image.`,
+						},
+						ourTeam: {
+							title: "Our Team",
+							message: `Our team of experienced and skilled beauty professionals are dedicated to providing
+								top-notch services to our clients. We take pride in staying up-to-date with the latest
+								beauty trends and techniques to ensure that our clients receive the best possible care.`,
+						},
+					},
+				},
 			},
 		};
 	},
 	computed: {
-		/* IMGs */
-		img_canvas(): string {
+		computed_text_canvas_cardTitle(): string {
+			return this.aboutPage.canvas.card.headings.title;
+		},
+		computed_text_canvas_cardSubtitle(): string {
+			return this.aboutPage.canvas.card.headings.subtitle;
+		},
+		computed_text_canvas_cardBtnText(): string {
+			return this.aboutPage.canvas.card.actions.buttons.seeWhoWeAre.text;
+		},
+		computed_text_section_title(): string {
+			return this.aboutPage.section.title;
+		},
+		computed_text_section_ourMission_title(): string {
+			return this.aboutPage.section.content.ourMission.title;
+		},
+		computed_text_section_ourMission_message(): string {
+			return this.aboutPage.section.content.ourMission.message;
+		},
+		computed_text_section_ourServices_title(): string {
+			return this.aboutPage.section.content.ourServices.title;
+		},
+		computed_text_section_ourServices_message(): string {
+			return this.aboutPage.section.content.ourServices.message;
+		},
+		computed_text_section_ourTeam_title(): string {
+			return this.aboutPage.section.content.ourTeam.title;
+		},
+		computed_text_section_ourTeam_message(): string {
+			return this.aboutPage.section.content.ourTeam.message;
+		},
+
+		computed_img_canvas(): string {
 			return CanvasPNG;
+		},
+
+		computed_css_canvas_cardBackgroundOpacity(): string {
+			return "background-color: rgba(0, 0, 0, 0.3)";
 		},
 	},
 	methods: {
-		/* Utils */
-		scrollToElement(targetElement: string): void {
+		method_event_scrollToElement(targetElement: string): void {
 			const targetElementID: HTMLDivElement = document.getElementById(targetElement) as HTMLDivElement;
 
 			if (targetElementID) {
