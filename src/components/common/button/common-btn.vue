@@ -1,5 +1,11 @@
 <template>
-	<v-btn size="large" class="px-4" :id="id" :color="color" :style="style" :class="class" :icon="icon" @click="emit">
+	<v-btn size="large"
+		:id="id" 
+		:color="color" 
+		:style="style" 
+		:class="class" 
+		:icon="icon" 
+		@click="emit">
 		<template #default v-if="text">
 			<small :style="textStyle" :class="textClass" v-text="text"></small>
 		</template>
@@ -12,18 +18,19 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "btn-container-component",
 	props: {
-		id: { type: String, required: true },
-		color: { type: String, required: false, default: "accent" },
-		style: { type: String, required: false },
-		class: { type: String, required: false },
-		icon: { type: String, required: false },
+		id: { type: String as () => string, required: true },
+		color: { type: String as () => string | undefined, required: false, default: "accent" },
+		style: { type: String as () => string | undefined, required: false },
+		class: { type: String as () => string | string[] | undefined, required: false },
+		icon: { type: String as () => string | undefined, required: false },
 
-		textStyle: { type: String, required: false },
-		textClass: { type: String, required: false, default: "text-default" },
-		text: { type: String, required: false },
+		textStyle: { type: String as () => string | undefined, required: false },
+		textClass: { type: String as () => string | undefined, required: false, default: "text-default" },
+		text: { type: String as () => string | undefined, required: false },
 	},
 	computed: {
 		computed_css_class(): any {
+			debugger;
 			let retval: any = [];
 			if (this.class !== undefined) {
 				retval.push(this.class);

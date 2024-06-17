@@ -19,14 +19,18 @@
 				</v-col>
 			</template>
 		</common-card-container-component>
-		<common-menu-icon-container-component
-			menu-location="bottom"
-			btn-class="d-flex d-md-none"
-			:tooltip-text="tooltip_appBarMobileMenuBtn"
-			:btn-id="id_appBarMobileMenuBtn"
-			:btn-icon="icon_appBarMobileMenuBtn"
-			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
-		></common-menu-icon-container-component>
+		<common-btn-tooltip-container-component :tooltip="tooltip_appBarMobileMenuBtn">
+			<template #tooltip-btn="{ props }">
+				<common-btn-container-component
+					varient="flat"
+					class="d-flex d-md-none"
+					:id="id_appBarMobileMenuBtn"
+					:icon="icon_appBarMobileMenuBtn"
+					v-bind="props"
+					@click="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
+				></common-btn-container-component>
+			</template>
+		</common-btn-tooltip-container-component>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
@@ -94,9 +98,9 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CardContainerComp from "@components/common/card/common-card.vue";
-import MenuIconContainerComp from "@components/common/button/menu/common-button-icon-menu.vue";
-import TooltipComp from "@base/src/components/common/button/tooltip/common-tooltip.vue";
-import BtnComp from "@components/common/button/common-btn.vue";
+import BtnTooltipContainerComp from "@components/common/button/tooltip/common-btn-tooltip.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
+import MenuIconContainerComp from "@components/common/button/menu/common-btn-icon-menu.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
 
@@ -117,9 +121,9 @@ export default defineComponent({
 	name: "header-container-component",
 	components: {
 		"common-card-container-component": CardContainerComp,
+		"common-btn-tooltip-container-component": BtnTooltipContainerComp,
+		"common-btn-container-component": BtnContainerComp,
 		"common-menu-icon-container-component": MenuIconContainerComp,
-		"tooltip-container-component": TooltipComp,
-		"button-container-component": BtnComp,
 		"dialog-login-component": DialogLoginComp,
 		"navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
 	},
