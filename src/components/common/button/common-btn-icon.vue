@@ -1,9 +1,12 @@
 <template>
 	<common-btn-container-component
 		varient="flat"
-		:icon="icon"
+		:id="id"
+		:color="color"
 		:style="style"
-		@click="$emit('click')"
+		:class="class"
+		:icon="icon"
+		@click="emit"
 	></common-btn-container-component>
 </template>
 
@@ -19,8 +22,17 @@ export default defineComponent({
 		"common-btn-container-component": BtnContainerComp,
 	},
 	props: {
-		icon: { type: String, required: true },
+		id: { type: String, required: true },
+		color: { type: String, required: false },
 		style: { type: String, required: false },
+		class: { type: String, required: false },
+		icon: { type: String, required: true },
 	},
+	methods: {
+		emit(): void {
+			debugger;
+			this.$emit('toggle-menu-drawer');
+		}
+	}
 });
 </script>

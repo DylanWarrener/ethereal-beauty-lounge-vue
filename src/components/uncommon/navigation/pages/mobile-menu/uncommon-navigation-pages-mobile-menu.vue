@@ -3,7 +3,7 @@
 		class="d-flex d-md-none"
 		location="bottom"
 		:navigation="navigation"
-		v-model="data_appBarMobileMenuDrawerState"
+		v-model="computed_data_appBarMobileMenuDrawerState"
 	></navigation-container-component>
 </template>
 
@@ -30,11 +30,13 @@ export default defineComponent({
         };
     },
     computed: {
-        data_appBarMobileMenuDrawerState: {
+        computed_data_appBarMobileMenuDrawerState: {
 			get(): boolean {
+				debugger;
 				return this.storeHeader.getAppBarMobileMenuDrawerState;
 			},
 			set(newValue: boolean): void {
+				debugger;
 				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
 			},
 		},

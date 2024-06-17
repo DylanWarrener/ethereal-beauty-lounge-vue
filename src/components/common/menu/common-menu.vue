@@ -1,22 +1,16 @@
 <template>
 	<v-menu
 		close-on-content-click
-		:top="data_locationTop"
-		:right="data_locationRight"
-		:bottom="data_locationBottom"
-		:left="data_locationLeft"
+		:top="computed_data_menuLocationTop"
+		:right="computed_data_menuLocationRight"
+		:bottom="computed_data_menuLocationBottom"
+		:left="computed_data_menuLocationLeft"
 		:transition="menuTransition"
 	>
 		<template #activator="{ props: menu }">
 			<v-tooltip location="bottom" :text="tooltipText">
 				<template #activator="{ props: tooltip }">
-					<button-container-component
-						:id="btnId"
-						:class="btnClass"
-						:icon="btnIcon"
-						v-bind="mergeProps(menu, tooltip)"
-						@click.left="showMenuDrawer"
-					></button-container-component>
+					<slot name="btn" :menu-props="menu" :tooltip-props="tooltip"></slot>
 				</template>
 			</v-tooltip>
 		</template>
@@ -25,51 +19,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, mergeProps } from "vue";
-
-// Components
-import BtnComp from "@components/common/button/common-btn.vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
 	name: "menu-container-component",
-	components: {
-		"button-container-component": BtnComp,
-	},
 	props: {
-		menuLocation: { type: String, required: true },
+		menuLocation: { type: String, required: false, default: "bottom" },
 		menuTransition: { type: String, required: false, default: "slide-y-transition" },
-		tooltipLocation: { type: String, required: false, default: "bottom" },
-		tooltipText: { type: String, required: true },
-		btnId: { type: String, required: true },
-		btnClass: { type: String, required: false },
-		btnIcon: { type: String, required: true },
+		
+		tooltipText: { type: String, required: true }
 	},
 	computed: {
-		/* Data */
-		data_locationTop(): boolean {
-			return this.isLocationValid("top");
+		computed_data_menuLocationTop(): boolean {
+			return this.method_utils_isMenuLocationValid("top");
 		},
-		data_locationRight(): boolean {
-			return this.isLocationValid("right");
+		computed_data_menuLocationRight(): boolean {
+			return this.method_utils_isMenuLocationValid("right");
 		},
-		data_locationBottom(): boolean {
-			return this.isLocationValid("bottom");
+		computed_data_menuLocationBottom(): boolean {
+			return this.method_utils_isMenuLocationValid("bottom");
 		},
-		data_locationLeft(): boolean {
-			return this.isLocationValid("left");
+		computed_data_menuLocationLeft(): boolean {
+			return this.method_utils_isMenuLocationValid("left");
 		},
 	},
 	methods: {
-		/* Events */
-		mergeProps,
-		showMenuDrawer(): void {
-			this.$emit("toggle-menu-drawer");
-		},
-
-		/* Utils */
-		isLocationValid(location: string): boolean {
+		method_utils_isMenuLocationValid(location: string): boolean {
+			if (this.menuLocation === undefined) 
+				return false;
 			return this.menuLocation === location;
 		},
-	},
+	}
 });
 </script>

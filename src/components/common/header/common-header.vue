@@ -7,7 +7,7 @@
 			elevation="0"
 			variant="flat"
 			color="transparent"
-			max-width="200"
+			width="150"
 			height="100%"
 			style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 119, 145, 1) 100%)"
 			:to="txt_homePageLink"
@@ -15,18 +15,18 @@
 		>
 			<template #card-img>
 				<v-col cols="12" class="pa-0" style="height: 100%">
-					<v-img cover src="logo-transparent.png" width="100" height="100%"></v-img>
+					<v-img cover src="logo-transparent.png" width="100%" height="100%"></v-img>
 				</v-col>
 			</template>
 		</common-card-container-component>
-		<menu-container-component
+		<common-menu-icon-container-component
 			menu-location="bottom"
 			btn-class="d-flex d-md-none"
 			:tooltip-text="tooltip_appBarMobileMenuBtn"
 			:btn-id="id_appBarMobileMenuBtn"
 			:btn-icon="icon_appBarMobileMenuBtn"
 			@toggle-menu-drawer="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
-		></menu-container-component>
+		></common-menu-icon-container-component>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
@@ -94,7 +94,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CardContainerComp from "@components/common/card/common-card.vue";
-import MenuComp from "@components/common/menu/common-menu.vue";
+import MenuIconContainerComp from "@components/common/button/menu/common-button-icon-menu.vue";
 import TooltipComp from "@base/src/components/common/button/tooltip/common-tooltip.vue";
 import BtnComp from "@components/common/button/common-btn.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
@@ -117,7 +117,7 @@ export default defineComponent({
 	name: "header-container-component",
 	components: {
 		"common-card-container-component": CardContainerComp,
-		"menu-container-component": MenuComp,
+		"common-menu-icon-container-component": MenuIconContainerComp,
 		"tooltip-container-component": TooltipComp,
 		"button-container-component": BtnComp,
 		"dialog-login-component": DialogLoginComp,
@@ -234,9 +234,11 @@ export default defineComponent({
 		},
 		data_appBarMobileMenuDrawerState: {
 			get(): boolean {
+				debugger;
 				return this.storeHeader.getAppBarMobileMenuDrawerState;
 			},
 			set(newValue: boolean): void {
+				debugger;
 				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
 			},
 		},

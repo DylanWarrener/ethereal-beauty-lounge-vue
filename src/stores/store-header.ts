@@ -72,7 +72,10 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		/* AppBar */
 		getAppBar: (state: IHeaderState): IHeaderAppBarState => state.appBar,
 		getAppBarIcons: (state: IHeaderState): IHeaderAppbarIconsState => state.appBar.icons,
-		getAppBarMobileMenuDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showDrawer,
+		getAppBarMobileMenuDrawerState: (state: IHeaderState): boolean => {
+			debugger;
+			return state.appBar.icons.menu.showDrawer;
+		},
 		getAppBarMobileMenuTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showTooltip,
 		getAppBarSearchDrawerState: (state: IHeaderState): boolean => state.appBar.icons.search.showDrawer,
 		getAppBarSearchTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.search.showTooltip,
@@ -94,6 +97,7 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	actions: {
 		/* AppBar */
 		setAppBarMobileMenuDrawerState(newValue: boolean): void {
+			debugger;
 			this.appBar.icons.menu.showDrawer = newValue;
 		},
 		setAppBarMobileMenuTooltipDrawerState(newValue: boolean): void {
