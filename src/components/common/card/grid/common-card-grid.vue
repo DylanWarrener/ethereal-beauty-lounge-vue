@@ -27,6 +27,7 @@
 									>
 										<common-btn-container-component
 											variant="flat"
+											:id="computed_id_section_card_actions_btnSeeTreatments"
 											:text="computed_text_section_card_actions_btnSeeTreatments"
 										></common-btn-container-component>
 									</div>
@@ -46,6 +47,9 @@ import { defineComponent } from "vue";
 // Components
 import CardContainerComp from "@components/common/card/common-card.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
+
+// Constants
+import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "card-grid-container-component",
@@ -83,6 +87,7 @@ export default defineComponent({
 					actions: {
 						buttons: {
 							seeTreatments: {
+								id: btnIDs.pages.home.portfolio.cards.btn.id,
 								text: "See treatments?",
 							},
 						},
@@ -92,6 +97,10 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_id_section_card_actions_btnSeeTreatments(): string {
+			return this.grid.card.actions.buttons.seeTreatments.id;
+		},
+
 		computed_text_section_card_actions_btnSeeTreatments(): string {
 			return this.grid.card.actions.buttons.seeTreatments.text;
 		},

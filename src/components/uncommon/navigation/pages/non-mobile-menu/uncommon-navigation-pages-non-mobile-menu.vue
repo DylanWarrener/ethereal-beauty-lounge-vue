@@ -1,26 +1,32 @@
 <template>
-	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.home.link">
-		<template #default>
-			<small class="text-default" v-text="navigation.home.text"></small>
+	<common-btn-container-component
+		class="d-none d-md-flex"
+		:id="computed_id_appBar_homeBtn"
+		:text="computed_text_appBar_homeBtn"
+		:to="navigation.home.link"
+	></common-btn-container-component>
+	<common-btn-container-component
+		class="d-none d-md-flex"
+		:id="computed_id_appBar_treatmentBtn"
+		:text="computed_text_appBar_treatmentBtn"
+		:to="navigation.treatments.link"
+	></common-btn-container-component>
+	<common-btn-container-component
+		class="d-none d-md-flex"
+		:id="computed_id_appBar_storeBtn"
+		:text="computed_text_appBar_storeBtn"
+		:to="navigation.store.link"
+	></common-btn-container-component>
+	<common-btn-menu-container-component>
+		<template #menu-btn="{ menuProps, tooltipProps }">
+			<common-btn-container-component
+				class="d-flex d-md-flex"
+				:id="computed_id_appBar_informationBtn"
+				:text="computed_text_appBar_informationBtn"
+				v-bind="mergeProps(menuProps, tooltipProps)"
+				@click="navigation.information.drawer = !navigation.information.drawer"
+			></common-btn-container-component>
 		</template>
-	</v-btn>
-	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.treatments.link">
-		<template #default>
-			<small class="text-default" v-text="navigation.treatments.text"></small>
-		</template>
-	</v-btn>
-	<v-btn class="px-4 nav-text__underline d-none d-md-flex" style="min-width: 100px" size="large" :to="navigation.store.link">
-		<template #default>
-			<small class="text-default" v-text="navigation.store.text"></small>
-		</template>
-	</v-btn>
-	<button-text-menu-container-component
-		btn-class="d-none d-md-flex"
-		menu-transition="slide-y-transition"
-		:btn-append-icon="navigation.information.drawer ? iconArrowUp : iconArrowDown"
-		:btn-text="navigation.information.text"
-		@toggle-menu-drawer="navigation.information.drawer = !navigation.information.drawer"
-	>
 		<template #menu-items>
 			<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
 				<v-list-item class="text-inverted text-capitalize" :to="navigation.information.items.contact.link">
@@ -34,17 +40,18 @@
 				</v-list-item>
 			</v-list>
 		</template>
-	</button-text-menu-container-component>
+	</common-btn-menu-container-component>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, mergeProps } from "vue";
 
 // Components
-import BtnTextMenuContainerComp from "@components/common/button/menu/common-button-text-menu.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
+import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 
 // Constants
-import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { btnIDs, txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiMenu, mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -52,37 +59,45 @@ import { mdiMenu, mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/ic
 export default defineComponent({
 	name: "navigation-pages-non-mobile-menu-container-component",
 	components: {
-		"button-text-menu-container-component": BtnTextMenuContainerComp,
+		"common-btn-container-component": BtnContainerComp,
+		"common-btn-menu-container-component": BtnMenuContainerComp,
 	},
 	data() {
 		return {
 			navigation: {
 				home: {
+					id: btnIDs.appbar.home,
 					text: txtRouteNames.home,
 					link: txtRouteLinks.home,
 				},
 				treatments: {
+					id: btnIDs.appbar.treatments,
 					text: txtRouteNames.treatments,
 					link: txtRouteLinks.treatments,
 				},
 				store: {
+					id: btnIDs.appbar.store,
 					text: txtRouteNames.store,
 					link: txtRouteLinks.store,
 				},
 				information: {
 					drawer: false,
+					id: btnIDs.appbar.information,
 					text: "Information",
 					icon: mdiMenuDown,
 					items: {
 						contact: {
+							id: btnIDs.appbar.contact,
 							text: txtRouteNames.contact,
 							link: txtRouteLinks.contact,
 						},
 						reviews: {
+							id: btnIDs.appbar.reviews,
 							text: txtRouteNames.reviews,
 							link: txtRouteLinks.reviews,
 						},
 						about: {
+							id: btnIDs.appbar.about,
 							text: txtRouteNames.about,
 							link: txtRouteLinks.about,
 						},
@@ -92,12 +107,78 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		iconArrowUp(): string {
+		computed_id_appBar_homeBtn(): string {
+			return this.navigation.home.id;
+		},
+		computed_id_appBar_treatmentBtn(): string {
+			return this.navigation.treatments.id;
+		},
+		computed_id_appBar_storeBtn(): string {
+			return this.navigation.store.id;
+		},
+		computed_id_appBar_informationBtn(): string {
+			return this.navigation.information.id;
+		},
+		computed_id_appBar_contactBtn(): string {
+			return this.navigation.information.items.contact.id;
+		},
+		computed_id_appBar_reviewBtn(): string {
+			return this.navigation.information.items.reviews.id;
+		},
+		computed_id_appBar_aboutBtn(): string {
+			return this.navigation.information.items.about.id;
+		},
+
+		computed_text_appBar_homeBtn(): string {
+			return this.navigation.home.text;
+		},
+		computed_text_appBar_treatmentBtn(): string {
+			return this.navigation.treatments.text;
+		},
+		computed_text_appBar_storeBtn(): string {
+			return this.navigation.store.text;
+		},
+		computed_text_appBar_informationBtn(): string {
+			return this.navigation.information.text;
+		},
+		computed_text_appBar_contactBtn(): string {
+			return this.navigation.information.items.contact.text;
+		},
+		computed_text_appBar_reviewBtn(): string {
+			return this.navigation.information.items.reviews.text;
+		},
+		computed_text_appBar_aboutBtn(): string {
+			return this.navigation.information.items.about.text;
+		},
+
+		computed_link_appBar_homeBtn(): string {
+			return this.navigation.home.link;
+		},
+		computed_link_appBar_treatmentBtn(): string {
+			return this.navigation.treatments.link;
+		},
+		computed_link_appBar_storeBtn(): string {
+			return this.navigation.store.link;
+		},
+		computed_link_appBar_contactBtn(): string {
+			return this.navigation.information.items.contact.link;
+		},
+		computed_link_appBar_reviewBtn(): string {
+			return this.navigation.information.items.reviews.link;
+		},
+		computed_link_appBar_aboutBtn(): string {
+			return this.navigation.information.items.about.link;
+		},
+
+		computed_icon_arrowUp(): string {
 			return mdiMenuUp;
 		},
-		iconArrowDown(): string {
+		computed_icon_arrowDown(): string {
 			return mdiMenuDown;
 		},
+	},
+	methods: {
+		mergeProps,
 	},
 });
 </script>

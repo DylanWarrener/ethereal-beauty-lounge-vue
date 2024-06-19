@@ -34,27 +34,32 @@
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
-		<navigation-pages-non-mobile-menu></navigation-pages-non-mobile-menu>
+		<common-navigation-pages-non-mobile-menu></common-navigation-pages-non-mobile-menu>
 
 		<v-divider vertical inset class="mx-2 d-flex d-lg-none border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
-		<menu-container-component
-			menu-location="bottom"
-			btn-class="d-flex d-lg-none"
-			:tooltip-text="tooltip_appBarBasketBtn"
-			:btn-id="id_appBarBasketBtn"
-			:btn-icon="icon_appBarBasketBtn"
-			@toggle-menu-drawer="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
-		></menu-container-component>
-		<menu-container-component
-			menu-location="bottom"
-			:tooltip-text="tooltip_appBarAccountBtn"
-			:btn-id="id_appbarAccountBtn"
-			:btn-icon="icon_appBarAccountBtn"
-			v-if="!data_isUserLoggedIn"
-			@toggle-menu-drawer="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
-		>
+		<common-btn-menu-container-component :tooltip-text="tooltip_appBarBasketBtn">
+			<template #menu-btn="{ menuProps, tooltipProps }">
+				<common-btn-container-component
+					class="d-flex d-md-flex"
+					:id="id_appBarBasketBtn"
+					:icon="icon_appBarBasketBtn"
+					v-bind="mergeProps(menuProps, tooltipProps)"
+					@click="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
+				></common-btn-container-component>
+			</template>
+		</common-btn-menu-container-component>
+		<common-btn-menu-container-component :tooltip-text="tooltip_appBarAccountBtn" v-if="!data_isUserLoggedIn">
+			<template #menu-btn="{ menuProps, tooltipProps }">
+				<common-btn-container-component
+					class="d-flex d-md-flex"
+					:id="id_appbarAccountBtn"
+					:icon="icon_appBarAccountBtn"
+					v-bind="mergeProps(menuProps, tooltipProps)"
+					@click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+				></common-btn-container-component>
+			</template>
 			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
 					<v-list-item class="text-inverted text-uppercase" to="/login">
@@ -65,7 +70,7 @@
 					</v-list-item>
 				</v-list>
 			</template>
-		</menu-container-component>
+		</common-btn-menu-container-component>
 		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
 			<template #activator="{ props }">
 				<v-btn
@@ -89,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, mergeProps } from "vue";
 
 // Stores
 import useCommonStore from "@stores/store-common.js";
@@ -100,7 +105,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import BtnTooltipContainerComp from "@components/common/button/tooltip/common-btn-tooltip.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
-import MenuIconContainerComp from "@components/common/button/menu/common-btn-icon-menu.vue";
+import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
 
@@ -123,9 +128,9 @@ export default defineComponent({
 		"common-card-container-component": CardContainerComp,
 		"common-btn-tooltip-container-component": BtnTooltipContainerComp,
 		"common-btn-container-component": BtnContainerComp,
-		"common-menu-icon-container-component": MenuIconContainerComp,
+		"common-navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
+		"common-btn-menu-container-component": BtnMenuContainerComp,
 		"dialog-login-component": DialogLoginComp,
-		"navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
 	},
 	data() {
 		return {
@@ -280,6 +285,7 @@ export default defineComponent({
 		},
 	},
 	methods: {
+		mergeProps,
 		method_event_navigateToAccount(): void {
 			this.$router.push({ name: txtRouteNames.account });
 		},

@@ -26,6 +26,145 @@ import {
 } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 // ---------------------------------------------------------------------------------------------------------
+// IDs
+// ---------------------------------------------------------------------------------------------------------
+export const btnIDs = {
+	header: {
+		appBar: {
+			pcMenu: {
+				btn: {
+					home: {
+						id: "btnID_pcMenu_home",
+					},
+					treatments: {
+						id: "btnID_pcMenu_treatments",
+					},
+					portfolio: {
+						id: "btnID_pcMenu_portfolio",
+					},
+					store: {
+						id: "btnID_pcMenu_store",
+					},
+					information: {
+						id: "btnID_pcMenu_information",
+					},
+					contact: {
+						id: "btnID_pcMenu_contact",
+					},
+					reviews: {
+						id: "btnID_pcMenu_reviews",
+					},
+					about: {
+						id: "btnID_pcMenu_account",
+					},
+				},
+			},
+			mobileMenu: {
+				btn: {
+					home: {
+						id: "btnID_mobileMenu_home",
+					},
+					treatments: {
+						id: "btnID_mobileMenu_treatments",
+					},
+					portfolio: {
+						id: "btnID_mobileMenu_portfolio",
+					},
+					store: {
+						id: "btnID_mobileMenu_store",
+					},
+					information: {
+						id: "btnID_mobileMenu_information",
+					},
+					contact: {
+						id: "btnID_mobileMenu_contact",
+					},
+					reviews: {
+						id: "btnID_mobileMenu_reviews",
+					},
+					about: {
+						id: "btnID_mobileMenu_about",
+					},
+				},
+			},
+		},
+	},
+	pages: {
+		home: {
+			canvas: {
+				btn: {
+					id: "btnID_home_canvas",
+				},
+			},
+			portfolio: {
+				cards: {
+					btn: {
+						id: "btnID_home_portfolio",
+					},
+				},
+			},
+		},
+		treatments: {
+			canvas: {
+				btn: {
+					id: "btnID_treatments_canvas",
+				},
+			},
+		},
+		portfolio: {
+			canvas: {
+				btn: {
+					id: "btnID_portfolio_canvas",
+				},
+			},
+		},
+		store: {
+			canvas: {
+				btn: {
+					id: "btnID_store_canvas",
+				},
+			},
+		},
+		information: {
+			canvas: {
+				btn: {
+					id: "btnID_information_canvas",
+				},
+			},
+		},
+		contact: {
+			canvas: {
+				btn: {
+					id: "btnID_contact_canvas",
+				},
+			},
+		},
+		reviews: {
+			canvas: {
+				btn: {
+					id: "btnID_reviews_canvas",
+				},
+			},
+		},
+		about: {
+			canvas: {
+				btn: {
+					id: "btnID_about_canvas",
+				},
+			},
+		},
+		login: {
+			canvas: {
+				btn: {
+					id: "btnID_login_canvas",
+				},
+			},
+		},
+	},
+	footer: {},
+};
+
+// ---------------------------------------------------------------------------------------------------------
 // TEXT
 // ---------------------------------------------------------------------------------------------------------
 export const txtGeneral = {

@@ -10,7 +10,7 @@
 		<template #activator="{ props: menu }">
 			<v-tooltip location="bottom" :text="tooltipText">
 				<template #activator="{ props: tooltip }">
-					<slot name="btn" :menu-props="menu" :tooltip-props="tooltip"></slot>
+					<slot name="menu-btn" :menu-props="menu" :tooltip-props="tooltip"></slot>
 				</template>
 			</v-tooltip>
 		</template>
@@ -26,8 +26,8 @@ export default defineComponent({
 	props: {
 		menuLocation: { type: String, required: false, default: "bottom" },
 		menuTransition: { type: String, required: false, default: "slide-y-transition" },
-		
-		tooltipText: { type: String, required: true }
+
+		tooltipText: { type: String, required: false, default: "" },
 	},
 	computed: {
 		computed_data_menuLocationTop(): boolean {
@@ -45,10 +45,9 @@ export default defineComponent({
 	},
 	methods: {
 		method_utils_isMenuLocationValid(location: string): boolean {
-			if (this.menuLocation === undefined) 
-				return false;
+			if (this.menuLocation === undefined) return false;
 			return this.menuLocation === location;
 		},
-	}
+	},
 });
 </script>

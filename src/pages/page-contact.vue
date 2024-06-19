@@ -20,7 +20,8 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:text="computed_text_canvas_cardBtnText"
+									:id="computed_id_canvasCard_actions_btn"
+									:text="computed_text_canvasCard_actions_btnSendMessage"
 									@click="method_event_scrollToElement('section-contact')"
 								></common-btn-container-component>
 							</template>
@@ -145,7 +146,7 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="outlined"
-									color="default"
+									:id="computed_id_section_content_form_actions_btn"
 									:text="computed_text_section_content_form_btnSendMessage"
 									@click="method_event_sendMessage_clickHandler"
 								></common-btn-container-component>
@@ -167,7 +168,9 @@ import BtnContainerComp from "@components/common/button/common-btn.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
-import TooltipContainerComp from "@components/common/button/tooltip/common-tooltip.vue";
+
+// Constants
+import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -183,7 +186,6 @@ export default defineComponent({
 		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
 		"common-section-container-component": SectionContainerComp,
-		"common-tooltip-container-component": TooltipContainerComp,
 	},
 	data() {
 		return {
@@ -197,6 +199,7 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								contactDetails: {
+									id: btnIDs.pages.contact.canvas.btn.id,
 									text: "Go to contact details?",
 								},
 							},
@@ -269,6 +272,7 @@ export default defineComponent({
 							actions: {
 								buttons: {
 									sendMessage: {
+										id: btnIDs.pages.contact.canvas.btn.id,
 										text: "Send message",
 									},
 								},
@@ -280,13 +284,20 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_id_canvasCard_actions_btn(): string {
+			return this.contactPage.section.content.form.actions.buttons.sendMessage.id;
+		},
+		computed_id_section_content_form_actions_btn(): string {
+			return this.contactPage.section.content.form.actions.buttons.sendMessage.id;
+		},
+
 		computed_text_canvas_cardTitle(): string {
 			return this.contactPage.canvas.card.headings.title;
 		},
 		computed_text_canvas_cardSubtitle(): string {
 			return this.contactPage.canvas.card.headings.subtitle;
 		},
-		computed_text_canvas_cardBtnText(): string {
+		computed_text_canvasCard_actions_btnSendMessage(): string {
 			return this.contactPage.canvas.card.actions.buttons.contactDetails.text;
 		},
 		computed_text_section_title(): string {

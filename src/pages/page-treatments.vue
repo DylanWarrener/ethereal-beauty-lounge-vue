@@ -20,7 +20,8 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:text="computed_text_canvas_cardBtnText"
+									:id="computed_id_canvasCard_actions_btnSeeTreatments"
+									:text="computed_text_canvasCard_actions_btnSeeTreatments"
 									@click="method_event_scrollToElement"
 								></common-btn-container-component>
 							</template>
@@ -223,6 +224,7 @@
 			<v-spacer></v-spacer>
 			<common-btn-container-component
 				variant="flat"
+				:id="computed_id_dialogCard_actions_btnBook"
 				:text="computed_text_dialogCard_actions_btnBook"
 				@click="method_event_bookTreatmentNow"
 			></common-btn-container-component>
@@ -239,13 +241,13 @@ import useFirebaseStore from "@stores/store-firebase.js";
 // Components
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
-import BtnIconContainerComp from "@components/common/button/common-btn-icon.vue";
-import BtnTextContainerComp from "@components/common/button/common-btn-text.vue";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
-import TooltipContainerComp from "@components/common/button/tooltip/common-tooltip.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
+
+// Constants
+import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -258,11 +260,8 @@ export default defineComponent({
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
 		"common-btn-container-component": BtnContainerComp,
-		"common-btn-icon-container-component": BtnIconContainerComp,
-		"common-btn-text-container-component": BtnTextContainerComp,
 		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
-		"common-tooltip-container-component": TooltipContainerComp,
 		"common-section-container-component": SectionContainerComp,
 		"common-dialog-container-component": DialogContainerComp,
 	},
@@ -278,6 +277,7 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeTreatments: {
+									id: btnIDs.pages.treatments.canvas.btn.id,
 									text: "See our treatments?",
 								},
 							},
@@ -688,6 +688,7 @@ export default defineComponent({
 					actions: {
 						buttons: {
 							book: {
+								id: btnIDs.pages.treatments.canvas.btn.id,
 								text: "Book now",
 							},
 						},
@@ -697,13 +698,20 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_id_canvasCard_actions_btnSeeTreatments(): string {
+			return this.treatmentsPage.canvas.card.actions.buttons.seeTreatments.id;
+		},
+		computed_id_dialogCard_actions_btnBook(): string {
+			return this.treatmentsPage.dialog.actions.buttons.book.id;
+		},
+
 		computed_text_canvas_cardTitle(): string {
 			return this.treatmentsPage.canvas.card.headings.title;
 		},
 		computed_text_canvas_cardSubtitle(): string {
 			return this.treatmentsPage.canvas.card.headings.subtitle;
 		},
-		computed_text_canvas_cardBtnText(): string {
+		computed_text_canvasCard_actions_btnSeeTreatments(): string {
 			return this.treatmentsPage.canvas.card.actions.buttons.seeTreatments.text;
 		},
 		computed_text_section_title(): string {

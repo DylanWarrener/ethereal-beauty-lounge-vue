@@ -20,7 +20,8 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:text="computed_text_canvas_cardBtnText"
+									:id="computed_id_canvasCard_btn"
+									:text="computed_text_canvasCard_btn"
 									@click="method_event_scrollToElement('section-about')"
 								></common-btn-container-component>
 							</template>
@@ -105,6 +106,9 @@ import DividerContainerComp from "@components/common/divider/common-divider.vue"
 import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
+// Constants
+import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
 
@@ -129,6 +133,7 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeWhoWeAre: {
+									id: btnIDs.pages.about.canvas.btn.id,
 									text: "See who we are?",
 								},
 							},
@@ -165,13 +170,17 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_id_canvasCard_btn(): string {
+			return this.aboutPage.canvas.card.actions.buttons.seeWhoWeAre.id;
+		},
+
 		computed_text_canvas_cardTitle(): string {
 			return this.aboutPage.canvas.card.headings.title;
 		},
 		computed_text_canvas_cardSubtitle(): string {
 			return this.aboutPage.canvas.card.headings.subtitle;
 		},
-		computed_text_canvas_cardBtnText(): string {
+		computed_text_canvasCard_btn(): string {
 			return this.aboutPage.canvas.card.actions.buttons.seeWhoWeAre.text;
 		},
 		computed_text_section_title(): string {

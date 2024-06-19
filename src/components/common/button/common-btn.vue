@@ -1,11 +1,5 @@
 <template>
-	<v-btn size="large"
-		:id="id" 
-		:color="color" 
-		:style="style" 
-		:class="class" 
-		:icon="icon" 
-		@click="emit">
+	<v-btn size="large" :id="id" :color="color" :style="style" :class="class" :icon="icon" @click="$emit('click')">
 		<template #default v-if="text">
 			<small :style="textStyle" :class="textClass" v-text="text"></small>
 		</template>
@@ -42,13 +36,7 @@ export default defineComponent({
 				retval.push("px-4");
 			}
 			return retval;
-		}
+		},
 	},
-	methods: {
-		emit(): void {
-			debugger;
-			this.$emit('click');
-		}
-	}
 });
 </script>

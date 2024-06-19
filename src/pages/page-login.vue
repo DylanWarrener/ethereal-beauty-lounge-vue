@@ -6,26 +6,24 @@
 					<v-col cols="12" md="8">
 						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
 							<template #card-headings>
-								<v-card-item class="pa-4">
-									<v-card-title class="text-wrap">
-										<h1>Log in</h1>
-									</v-card-title>
-									<v-card-subtitle class="text-wrap">
-										<h3>Please log into Ethereal Beauty Lounge.</h3>
-									</v-card-subtitle>
-								</v-card-item>
+								<!-- Title -->
+								<v-col cols="12">
+									<h1 v-text="computed_text_canvas_cardTitle"></h1>
+								</v-col>
+
+								<!-- Subtitle -->
+								<v-col cols="12">
+									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
+								</v-col>
 							</template>
 							<template #card-actions>
-								<v-card-actions class="pa-4">
-									<v-spacer></v-spacer>
-									<v-btn
-										variant="flat"
-										size="large"
-										color="accent"
-										text="Log in now?"
-										@click="method_event_scrollToElement('section-login')"
-									></v-btn>
-								</v-card-actions>
+								<v-spacer></v-spacer>
+								<common-btn-container-component
+									variant="flat"
+									:id="computed_id_canvasCard_btn"
+									:text="computed_text_canvasCard_btn"
+									@click="method_event_scrollToElement('section-login')"
+								></common-btn-container-component>
 							</template>
 						</common-card-container-component>
 					</v-col>
@@ -38,11 +36,10 @@
 
 	<common-section-container-component
 		id="section-login"
-		class-title="text-inverted"
-		class-subtitle="text-inverted font-weight-regular"
-		style-container="margin-top: 64px"
-		:title="computed_txt_section_title"
-		:subtitle="computed_txt_section_subtitle"
+		title-class="text-inverted"
+		subtitle-class="text-inverted"
+		:title="computed_text_section_title"
+		:subtitle="computed_text_section_subtitle"
 	>
 		<template #section-content>
 			<v-container fluid>
@@ -70,16 +67,18 @@ import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 
 /* Components */
-// Common
 import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
-import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import CardContainerComp from "@components/common/card/common-card.vue";
+import BtnContainerComp from "@components/common/button/common-btn.vue";
+import DividerContainerComp from "@components/common/divider/common-divider.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
-// Uncommon
 import LoginContainerComp from "@components/common/form/login/common-form-login.vue";
 import ForgottenPasswordContainerComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 import RecoverAccountContainerComp from "@components/common/form/recover-account/common-form-recover-account.vue";
 import MoreInfoRequiredContainerComp from "@components/common/form/more-info-required/common-more-information-required.vue";
+
+// Constants
+import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
 
 /* IMGs */
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -88,8 +87,9 @@ export default defineComponent({
 	name: "common-login-page-container-component",
 	components: {
 		"common-canvas-container-component": CanvasContainerComp,
-		"common-divider-container-component": DividerContainerComp,
 		"common-card-container-component": CardContainerComp,
+		"common-btn-container-component": BtnContainerComp,
+		"common-divider-container-component": DividerContainerComp,
 		"common-section-container-component": SectionContainerComp,
 		"common-login-container-component": LoginContainerComp,
 		"common-forgotten-password-container-component": ForgottenPasswordContainerComp,
@@ -98,11 +98,45 @@ export default defineComponent({
 	},
 	data() {
 		return {
+			loginPage: {
+				canvas: {
+					card: {
+						headings: {
+							title: "Log in",
+							subtitle: "Please log into Ethereal Beauty Lounge.",
+						},
+						actions: {
+							buttons: {
+								seeWhoWeAre: {
+									id: btnIDs.pages.login.canvas.btn.id,
+									text: "Log in now?",
+								},
+							},
+						},
+					},
+				},
+				section: {
+					title: "",
+				},
+			},
 			selectedComponent: "common-login-container-component",
 		};
 	},
 	computed: {
-		computed_txt_section_title(): string {
+		computed_id_canvasCard_btn(): string {
+			return this.loginPage.canvas.card.actions.buttons.seeWhoWeAre.id;
+		},
+
+		computed_text_canvas_cardTitle(): string {
+			return this.loginPage.canvas.card.headings.title;
+		},
+		computed_text_canvas_cardSubtitle(): string {
+			return this.loginPage.canvas.card.headings.subtitle;
+		},
+		computed_text_canvasCard_btn(): string {
+			return this.loginPage.canvas.card.actions.buttons.seeWhoWeAre.text;
+		},
+		computed_text_section_title(): string {
 			let retVal: string = "Please log into Ethereal Beauty Lounge";
 			switch (this.selectedComponent) {
 				case "common-forgotten-password-container-component":
@@ -117,7 +151,7 @@ export default defineComponent({
 			}
 			return retVal;
 		},
-		computed_txt_section_subtitle(): string {
+		computed_text_section_subtitle(): string {
 			let retVal: string = "";
 			switch (this.selectedComponent) {
 				case "common-forgotten-password-container-component":
