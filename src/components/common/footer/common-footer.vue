@@ -60,7 +60,7 @@
 import { defineComponent } from "vue";
 
 // Constants
-import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES, CONST_OBJECT_TEXT_ROUTE_LINKS } from "@constants/common/objects/common-constants-objects.js";
 
 // SVGs
 import FacebookSVG from "@assets/svg/socials/facebook.svg";
@@ -88,28 +88,28 @@ export default defineComponent({
 			//[FacebookSVG, InstagramSVG, TikTokSVG],
 			navigation: [
 				{
-					text: txtRouteNames.home,
-					link: txtRouteLinks.home,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
 				},
 				{
-					text: txtRouteNames.treatments,
-					link: txtRouteLinks.treatments,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
 				},
 				{
-					text: txtRouteNames.store,
-					link: txtRouteLinks.store,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
 				},
 				{
-					text: txtRouteNames.contact,
-					link: txtRouteLinks.contact,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
 				},
 				{
-					text: txtRouteNames.reviews,
-					link: txtRouteLinks.reviews,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
 				},
 				{
-					text: txtRouteNames.about,
-					link: txtRouteLinks.about,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 				},
 			],
 		};

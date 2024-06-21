@@ -19,7 +19,8 @@
 				</v-col>
 			</template>
 		</common-card-container-component>
-		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
+		<template v-if="computed_data_appBar_btnMobileMenu_show_state">
+			<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
 			<template #activator="{ props }">
 				<common-btn-container-component
 					varient="flat"
@@ -31,6 +32,7 @@
 				></common-btn-container-component>
 			</template>
 		</v-tooltip>
+		</template>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
@@ -308,14 +310,14 @@ export default defineComponent({
 			return this.header.appbar.buttons.icons.account.tooltip;
 		},
 
-		computed_icon_appBar_btnMobileMenu_local(): string {
-			return this.header.appbar.buttons.mobileMenu.icon;
+		computed_icon_appBar_btnMobileMenu_local(): any {
+			return this.header.appbar.buttons.icons.mobileMenu.icon;
 		},
-		computed_icon_appBar_btnBasket_local(): string {
-			return this.header.appbar.buttons.basket.icon;
+		computed_icon_appBar_btnBasket_local(): any {
+			return this.header.appbar.buttons.icons.basket.icon;
 		},
-		computed_icon_appBar_btnAccount_local(): string {
-			return this.header.appbar.buttons.account.icon;
+		computed_icon_appBar_btnAccount_local(): any {
+			return this.header.appbar.buttons.icons.account.icon;
 		},
 
 		computed_data_user_initials(): string | null {
@@ -382,7 +384,27 @@ export default defineComponent({
 		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
-		return { storeFirebase, storeCommon, storeHeader };
+
+		const routeNames = CONST_OBJECT_TEXT_ROUTE_NAMES;
+		const routeLinks = CONST_OBJECT_TEXT_ROUTE_LINKS;
+
+		const appbarTooltips = CONST_OBJECT_TOOLTIPS_APPBAR;
+		const appbarIcons = CONST_OBJECT_ICONS_APPBAR_GENERAL;
+		const navigationGroups = CONST_OBJECT_TEXT_NAVIGATION_GROUPS;
+
+
+		return { 
+			storeFirebase, 
+			storeCommon, 
+			storeHeader, 
+			
+			routeNames, 
+			routeLinks,
+
+			appbarTooltips,
+			appbarIcons,
+			navigationGroups,
+		};
 	},
 });
 </script>

@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
 
 // Constants
-import { iconsDialog, tooltipsDialog } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_DIALOG, CONST_OBJECT_TOOLTIPS_DIALOG } from "@constants/common/objects/common-constants-objects.js";
 
 // Main store
 export const useCommonStore = defineStore("common-store", {
@@ -20,8 +20,8 @@ export const useCommonStore = defineStore("common-store", {
 			default: {
 				buttons: {
 					close: {
-						icon: iconsDialog.close,
-						tooltip: tooltipsDialog.close,
+						icon: CONST_OBJECT_ICONS_DIALOG.close,
+						tooltip: CONST_OBJECT_TOOLTIPS_DIALOG.close,
 					},
 				},
 			},

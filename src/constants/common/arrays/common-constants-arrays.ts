@@ -7,74 +7,74 @@ import {
 // Constants
 import {
 	// Text
-	txtRouteNames,
-	txtRouteLinks,
-	txtNavigationGroups,
+	CONST_OBJECT_TEXT_ROUTE_NAMES,
+	CONST_OBJECT_TEXT_ROUTE_LINKS,
+	CONST_OBJECT_TEXT_NAVIGATION_GROUPS,
 
 	// Icons
-	iconsNavigation,
+	CONST_OBJECT_ICONS_NAVIGATION,
 } from '@base/src/constants/common/objects/common-constants-objects.js';
 
 export const NAVIGATION_MOBLE_MENU: IHeaderNavigationCommonItemState[] = [
 	{
-		title: txtRouteNames.home,
-		icon: iconsNavigation.home,
-		link: txtRouteLinks.home,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.home,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
 	},
 	{
-		title: txtRouteNames.treatments,
-		icon: iconsNavigation.treatments,
-		link: txtRouteLinks.treatments,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.treatments,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
 	},
 	{
-		title: txtRouteNames.store,
-		icon: iconsNavigation.store,
-		link: txtRouteLinks.store,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.store,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
 	},
 	{
-		title: txtRouteNames.contact,
-		icon: iconsNavigation.contact,
-		link: txtRouteLinks.contact,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.contact,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
 	},
 	{
-		title: txtRouteNames.reviews,
-		icon: iconsNavigation.reviews,
-		link: txtRouteLinks.reviews,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.reviews,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
 	},
 	{
-		title: txtRouteNames.about,
-		icon: iconsNavigation.about,
-		link: txtRouteLinks.about,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.about,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 	},
 ];
 export const NAVIGATION_NON_MOBILE_MENU: IHeaderNavigationCommonNonMobileItemState[] = [
 	{
-		title: txtRouteNames.home,
-		link: txtRouteLinks.home,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
 	},
 	{
-		title: txtRouteNames.treatments,
-		link: txtRouteLinks.treatments,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
 	},
 	{
-		title: txtRouteNames.store,
-		link: txtRouteLinks.store,
+		title: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
+		link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
 	},
 	{
-		title: txtNavigationGroups.information,
-		icon: iconsNavigation.information,
+		title: CONST_OBJECT_TEXT_NAVIGATION_GROUPS.information,
+		icon: CONST_OBJECT_ICONS_NAVIGATION.information,
 		items: [
 			{
-				title: txtRouteNames.contact,
-				link: txtRouteLinks.contact,
+				title: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
+				link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
 			},
 			{
-				title: txtRouteNames.reviews,
-				link: txtRouteLinks.reviews,
+				title: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
+				link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
 			},
 			{
-				title: txtRouteNames.about,
-				link: txtRouteLinks.about,
+				title: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
+				link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 			},
 		],
 	},

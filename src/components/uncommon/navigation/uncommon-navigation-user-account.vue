@@ -83,7 +83,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 
 // Icons
-import { txtRouteNames, iconsSidebarNavigation } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES, CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "navigation-user-account-component",
@@ -98,16 +98,16 @@ export default defineComponent({
 					account: {
 						text: "Account",
 						value: "account",
-						icon: iconsSidebarNavigation.account,
+						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.account,
 					},
 					basket: {
 						text: "Basket",
 						value: "basket",
-						icon: iconsSidebarNavigation.basket,
+						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.basket,
 					},
 					logout: {
 						tooltip: "Log out",
-						icon: iconsSidebarNavigation.logout,
+						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.logout,
 					},
 				},
 			},
@@ -131,7 +131,7 @@ export default defineComponent({
 	methods: {
 		method_event_logout(): void {
 			this.storeFirebase.logout_userAuth();
-			this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });
+			this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.login, hash: "#section-login" });
 		},
 	},
 	setup() {

@@ -32,10 +32,10 @@ export default defineComponent({
 	computed: {
 		computed_data_appBarMobileMenuDrawerState: {
 			get(): boolean {
-				return this.storeHeader.getAppBarMobileMenuDrawerState;
+				return this.storeHeader.get_appBar_mobileMenu_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
+				this.storeHeader.set_appBar_mobileMenu_show_state(newValue);
 			},
 		},
 	},

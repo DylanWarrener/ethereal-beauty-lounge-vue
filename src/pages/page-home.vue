@@ -57,9 +57,6 @@ import DividerContainerComp from "@components/common/divider/common-divider.vue"
 import SectionContainerComp from "@components/common/section/common-section.vue";
 import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
 
-// Constants
-import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
-
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
 

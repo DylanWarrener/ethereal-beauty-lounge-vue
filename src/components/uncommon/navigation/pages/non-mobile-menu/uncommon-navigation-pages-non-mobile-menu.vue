@@ -1,19 +1,16 @@
 <template>
 	<common-btn-container-component
 		class="d-none d-md-flex"
-		:id="computed_id_appBar_btnHome"
 		:text="computed_text_appBar_btnHome"
 		:to="computed_link_appBar_homeBtn"
 	></common-btn-container-component>
 	<common-btn-container-component
 		class="d-none d-md-flex"
-		:id="computed_id_appBar_btnTreatments"
 		:text="computed_text_appBar_btnTreatments"
 		:to="computed_link_appBar_treatmentBtn"
 	></common-btn-container-component>
 	<common-btn-container-component
 		class="d-none d-md-flex"
-		:id="computed_id_appBar_btnStore"
 		:text="computed_text_appBar_btnStore"
 		:to="computed_link_appBar_storeBtn"
 	></common-btn-container-component>
@@ -21,7 +18,6 @@
 		<template #menu-btn="{ menuProps, tooltipProps }">
 			<common-btn-container-component
 				class="d-flex d-md-flex"
-				:id="computed_id_appBar_btnInformation"
 				:text="computed_text_appBar_btnInformation"
 				v-bind="mergeProps(menuProps, tooltipProps)"
 				@click="navigation.information.drawer = !navigation.information.drawer"
@@ -51,7 +47,7 @@ import BtnContainerComp from "@components/common/button/common-btn.vue";
 import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 
 // Constants
-import { btnIDs, txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES, CONST_OBJECT_TEXT_ROUTE_LINKS } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -66,40 +62,33 @@ export default defineComponent({
 		return {
 			navigation: {
 				home: {
-					id: btnIDs.header.appBar.pcMenu.btn.home.id,
-					text: txtRouteNames.home,
-					link: txtRouteLinks.home,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
 				},
 				treatments: {
-					id: btnIDs.header.appBar.pcMenu.btn.treatments.id,
-					text: txtRouteNames.treatments,
-					link: txtRouteLinks.treatments,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
 				},
 				store: {
-					id: btnIDs.header.appBar.pcMenu.btn.store.id,
-					text: txtRouteNames.store,
-					link: txtRouteLinks.store,
+					text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
+					link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
 				},
 				information: {
 					drawer: false,
-					id: btnIDs.header.appBar.pcMenu.btn.information.id,
 					text: "Information",
 					icon: mdiMenuDown,
 					items: {
 						contact: {
-							id: btnIDs.header.appBar.pcMenu.btn.contact.id,
-							text: txtRouteNames.contact,
-							link: txtRouteLinks.contact,
+							text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
+							link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
 						},
 						reviews: {
-							id: btnIDs.header.appBar.pcMenu.btn.reviews.id,
-							text: txtRouteNames.reviews,
-							link: txtRouteLinks.reviews,
+							text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
+							link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
 						},
 						about: {
-							id: btnIDs.header.appBar.pcMenu.btn.about.id,
-							text: txtRouteNames.about,
-							link: txtRouteLinks.about,
+							text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
+							link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 						},
 					},
 				},
@@ -107,28 +96,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_appBar_btnHome(): string {
-			return this.navigation.home.id;
-		},
-		computed_id_appBar_btnTreatments(): string {
-			return this.navigation.treatments.id;
-		},
-		computed_id_appBar_btnStore(): string {
-			return this.navigation.store.id;
-		},
-		computed_id_appBar_btnInformation(): string {
-			return this.navigation.information.id;
-		},
-		computed_id_appBar_btnContact(): string {
-			return this.navigation.information.items.contact.id;
-		},
-		computed_id_appBar_btnReviews(): string {
-			return this.navigation.information.items.reviews.id;
-		},
-		computed_id_appBar_btnAbout(): string {
-			return this.navigation.information.items.about.id;
-		},
-
 		computed_text_appBar_btnHome(): string {
 			return this.navigation.home.text;
 		},
