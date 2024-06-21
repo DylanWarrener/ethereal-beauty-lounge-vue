@@ -1,8 +1,9 @@
 <template>
-	<common-menu-container-component 
-		:menu-location="menuLocation" 
-		:menu-transition="menuTransition" 
-		:tooltip-text="tooltipText">
+	<common-menu-container-component
+		:menu-location="menuLocation"
+		:menu-transition="menuTransition"
+		:tooltip-text="tooltipText"
+	>
 		<template #btn="{ menuProps, tooltipProps }">
 			<common-button-container-component
 				:id="btnId"
@@ -37,14 +38,13 @@ export default defineComponent({
 
 		btnId: { type: String, required: true },
 		btnClass: { type: String, required: false },
-		btnIcon: { type: String, required: true }
+		btnIcon: { type: String, required: true },
 	},
 	methods: {
 		mergeProps,
 		emit(): void {
-			debugger;
-			this.$emit('toggle-menu-drawer');
-		}
-	}
+			this.$emit("toggle-menu-drawer");
+		},
+	},
 });
 </script>

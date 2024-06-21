@@ -94,7 +94,6 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	actions: {
 		/* AppBar */
 		setAppBarMobileMenuDrawerState(newValue: boolean): void {
-			debugger;
 			this.appBar.icons.menu.showDrawer = newValue;
 		},
 		setAppBarMobileMenuTooltipDrawerState(newValue: boolean): void {

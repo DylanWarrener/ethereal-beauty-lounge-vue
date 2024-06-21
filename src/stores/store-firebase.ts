@@ -215,17 +215,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		// reauthenticate_userAuth_credentials(user: { email: string; password: string }): Promise<void> {
-		// 	debugger;
 		// 	return new Promise((resolve, reject) => {
-		// 		debugger;
 		// 		if (auth.currentUser !== null) {
 		// 			reauthenticateWithCredential(auth.currentUser, user)
 		// 				.then(() => {
-		// 					debugger;
 		// 					resolve();
 		// 				})
 		// 				.catch((error) => {
-		// 					debugger;
 		// 					switch (error.code) {
 		// 					}
 		// 				});
@@ -258,17 +254,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		send_userAuth_passwordResetLink(email: string): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				if (auth !== null) {
 					sendPasswordResetEmail(auth, email)
 						.then(() => {
-							debugger;
 							resolve();
 						})
 						.catch((error) => {
-							debugger;
 							switch (error.code) {
 							}
 						});
@@ -276,9 +268,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		send_userAuth_signInLinkToEmail(email: string): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				if (auth !== null) {
 					const actionCodeSettings: ActionCodeSettings = {
 						url: "https://localhost:5173/login#section-login",
@@ -294,11 +284,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 					};
 					sendSignInLinkToEmail(auth, email, actionCodeSettings)
 						.then(() => {
-							debugger;
 							resolve();
 						})
 						.catch((error) => {
-							debugger;
 							switch (error.code) {
 								case "auth/argument-error":
 									break;
@@ -357,17 +345,13 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		update_userAuth_password(newPassword: string): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				if (auth.currentUser !== null) {
 					updatePassword(auth.currentUser, newPassword)
 						.then(() => {
-							debugger;
 							resolve();
 						})
 						.catch((error) => {
-							debugger;
 							switch (error.code) {
 							}
 						});
@@ -543,7 +527,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						}
 					}
 
-					debugger;
 					if (Object.keys(valuesNotUndefined).length > 0) {
 						const userDocumentRef = doc(db, "users", uid);
 						updateDoc(userDocumentRef, valuesNotUndefined)

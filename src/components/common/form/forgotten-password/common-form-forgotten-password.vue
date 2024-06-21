@@ -130,12 +130,10 @@ export default defineComponent({
 			if (isFormValid) {
 				const email: string = this.data_forgottenPassword.input.email.value!;
 
-				debugger;
 				this.data_forgottenPassword.actions.btn.send.isLoading = true;
 				this.storeFirebase
 					.send_userAuth_passwordResetLink(email)
 					.then(() => {
-						debugger;
 						this.storeCommon.setSnackbar_success_state("Successfully sent a password reset link to your email.");
 						setTimeout(() => {
 							this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });

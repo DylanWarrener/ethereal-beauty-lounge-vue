@@ -24,7 +24,6 @@ export default defineComponent({
 	},
 	computed: {
 		computed_css_class(): any {
-			debugger;
 			let retval: any = [];
 			if (this.class !== undefined) {
 				retval.push(this.class);

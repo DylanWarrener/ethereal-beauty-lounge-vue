@@ -245,7 +245,6 @@ export default defineComponent({
 	methods: {
 		/* Events */
 		login_handler(): void {
-			debugger;
 			const isFormValid: boolean = this.data_isFormValid;
 
 			if (isFormValid) {
@@ -256,15 +255,12 @@ export default defineComponent({
 				this.storeFirebase
 					.loginWithEmailAndPassword({ email, password })
 					.then((response) => {
-						debugger;
 						//console.log("Logged in user: ", response);
 					})
 					.catch((error) => {
-						debugger;
 						//console.log(error);
 					})
 					.finally(() => {
-						debugger;
 						this.isLoading = false;
 					});
 			}

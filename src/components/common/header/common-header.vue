@@ -20,13 +20,13 @@
 			</template>
 		</common-card-container-component>
 		<common-btn-tooltip-container-component :tooltip="tooltip_appBarMobileMenuBtn">
-			<template #tooltip-btn="{ props }">
+			<template #tooltip-btn="{ tooltipProps }">
 				<common-btn-container-component
 					varient="flat"
 					class="d-flex d-md-none"
 					:id="id_appBarMobileMenuBtn"
 					:icon="icon_appBarMobileMenuBtn"
-					v-bind="props"
+					v-bind="tooltipProps"
 					@click="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
 				></common-btn-container-component>
 			</template>
@@ -243,11 +243,9 @@ export default defineComponent({
 		},
 		data_appBarMobileMenuDrawerState: {
 			get(): boolean {
-				debugger;
 				return this.storeHeader.getAppBarMobileMenuDrawerState;
 			},
 			set(newValue: boolean): void {
-				debugger;
 				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
 			},
 		},
