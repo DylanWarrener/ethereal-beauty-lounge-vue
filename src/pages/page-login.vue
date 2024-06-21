@@ -20,7 +20,6 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:id="computed_id_canvasCard_btn"
 									:text="computed_text_canvasCard_btn"
 									@click="method_event_scrollToElement('section-login')"
 								></common-btn-container-component>
@@ -78,7 +77,7 @@ import RecoverAccountContainerComp from "@components/common/form/recover-account
 import MoreInfoRequiredContainerComp from "@components/common/form/more-info-required/common-more-information-required.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 /* IMGs */
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -108,7 +107,6 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeWhoWeAre: {
-									id: btnIDs.pages.login.canvas.btn.id,
 									text: "Log in now?",
 								},
 							},
@@ -123,10 +121,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_canvasCard_btn(): string {
-			return this.loginPage.canvas.card.actions.buttons.seeWhoWeAre.id;
-		},
-
 		computed_text_canvas_cardTitle(): string {
 			return this.loginPage.canvas.card.headings.title;
 		},

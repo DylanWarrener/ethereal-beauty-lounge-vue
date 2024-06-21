@@ -5,8 +5,6 @@
 		<!-- Snackbar -->
 		<user-feedback-container-component></user-feedback-container-component>
 
-		<!-- Navigation menus -->
-		<navigation-pages-mobile-menu></navigation-pages-mobile-menu>
 		<user-account-navigation-component></user-account-navigation-component>
 
 		<!-- Pages -->
@@ -16,13 +14,14 @@
 
 		<footer-container-component id="footer"></footer-container-component>
 
-		<v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
+		<!-- Whatsapp -->
+		<!-- <v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
 			<v-icon>
 				<template #default>
 					<v-img :src="computed_icon_whatsapp"></v-img>
 				</template>
 			</v-icon>
-		</v-btn>
+		</v-btn> -->
 	</v-layout>
 </template>
 

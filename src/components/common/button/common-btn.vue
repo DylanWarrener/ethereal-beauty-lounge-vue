@@ -1,7 +1,16 @@
 <template>
-	<v-btn size="large" :id="id" :color="color" :style="style" :class="class" :icon="icon" @click.once="$emit('click')">
+	<v-btn
+		size="large"
+		:color="color"
+		:id="id"
+		:class="class"
+		:style="style"
+		:icon="icon"
+		:to="to"
+		@click.once="$emit('click')"
+	>
 		<template #default v-if="text">
-			<small :style="textStyle" :class="textClass" v-text="text"></small>
+			<small :class="textClass" :style="textStyle" v-text="text"></small>
 		</template>
 	</v-btn>
 </template>
@@ -12,11 +21,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "btn-container-component",
 	props: {
-		id: { type: String, required: true },
+		id: { type: String, required: false },
 		color: { type: String, required: false, default: "accent" },
 		style: { type: String, required: false },
 		class: { type: String, required: false },
 		icon: { type: String, required: false },
+		to: { type: String, required: false },
 
 		textStyle: { type: String, required: false },
 		textClass: { type: String, required: false, default: "text-default" },

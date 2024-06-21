@@ -49,7 +49,7 @@ import CardContainerComp from "@components/common/card/common-card.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "card-grid-container-component",
@@ -87,7 +87,7 @@ export default defineComponent({
 					actions: {
 						buttons: {
 							seeTreatments: {
-								id: btnIDs.pages.home.portfolio.cards.btn.id,
+								id: CONST_OBJECT_IDS_SECTION_BUTTONS.seeTreatments,
 								text: "See treatments?",
 							},
 						},

@@ -20,7 +20,6 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:id="computed_id_canvasCard_actions_btnSeeTreatments"
 									:text="computed_text_canvasCard_actions_btnSeeTreatments"
 									@click="method_event_scrollToElement"
 								></common-btn-container-component>
@@ -224,7 +223,6 @@
 			<v-spacer></v-spacer>
 			<common-btn-container-component
 				variant="flat"
-				:id="computed_id_dialogCard_actions_btnBook"
 				:text="computed_text_dialogCard_actions_btnBook"
 				@click="method_event_bookTreatmentNow"
 			></common-btn-container-component>
@@ -247,7 +245,7 @@ import SectionContainerComp from "@components/common/section/common-section.vue"
 import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -277,7 +275,6 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeTreatments: {
-									id: btnIDs.pages.treatments.canvas.btn.id,
 									text: "See our treatments?",
 								},
 							},
@@ -688,7 +685,6 @@ export default defineComponent({
 					actions: {
 						buttons: {
 							book: {
-								id: btnIDs.pages.treatments.canvas.btn.id,
 								text: "Book now",
 							},
 						},
@@ -698,13 +694,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_canvasCard_actions_btnSeeTreatments(): string {
-			return this.treatmentsPage.canvas.card.actions.buttons.seeTreatments.id;
-		},
-		computed_id_dialogCard_actions_btnBook(): string {
-			return this.treatmentsPage.dialog.actions.buttons.book.id;
-		},
-
 		computed_text_canvas_cardTitle(): string {
 			return this.treatmentsPage.canvas.card.headings.title;
 		},

@@ -28,6 +28,9 @@ import {
 // ---------------------------------------------------------------------------------------------------------
 // IDs
 // ---------------------------------------------------------------------------------------------------------
+export const CONST_OBJECT_IDS_SECTION_BUTTONS = {
+	sendMessage: "section_id_btnSendMessage",
+};
 
 // ---------------------------------------------------------------------------------------------------------
 // TEXT
@@ -53,7 +56,7 @@ export const CONST_OBJECT_TEXT_NAVIGATION_GROUPS = {
 	information: "information",
 };
 /* Route names */
-export const txtRouteNames = {
+export const CONST_OBJECT_TEXT_ROUTE_NAMES = {
 	home: "home",
 	treatments: "treatments",
 	portfolio: "portfolio",
@@ -63,11 +66,11 @@ export const txtRouteNames = {
 	about: "about",
 	login: "login",
 	register: "register",
-	account: "Account",
-	basket: "Basket",
+	account: "account",
+	basket: "basket",
 };
 /* Route links */
-export const txtRouteLinks = {
+export const CONST_OBJECT_TEXT_ROUTE_LINKS = {
 	home: "/",
 	treatments: "/treatments",
 	portfolio: "/portfolio",
@@ -104,13 +107,13 @@ export const CONST_OBJECT_ICONS_NAVIGATION = {
 	information: mdiMenuDown,
 };
 /* Side bar */
-export const iconsSidebarNavigation = {
+export const CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR = {
 	account: mdiAccount,
 	basket: mdiBasket,
 	logout: mdiLogout,
 };
 /* List groups */
-export const iconsAccountNavigation = {
+export const CONST_OBJECT_ICONS_LIST_GROUPS = {
 	profile: mdiAccountEdit,
 	security: mdiSecurity,
 	notifications: mdiBell,

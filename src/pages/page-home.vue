@@ -20,7 +20,6 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:id="computed_id_canvas_cardBtnText"
 									:text="computed_text_canvas_cardBtnText"
 									@click="method_event_scrollToElement"
 								></common-btn-container-component>
@@ -59,7 +58,7 @@ import SectionContainerComp from "@components/common/section/common-section.vue"
 import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -86,7 +85,6 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeRecentPortfolio: {
-									id: btnIDs.pages.home.canvas.btn.id,
 									text: "See recent portfolio?",
 								},
 							},
@@ -101,10 +99,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_canvas_cardBtnText(): string {
-			return this.homePage.canvas.card.actions.buttons.seeRecentPortfolio.id;
-		},
-
 		computed_text_canvas_cardTitle(): string {
 			return this.homePage.canvas.card.headings.title;
 		},

@@ -106,26 +106,24 @@
 			</template>
 			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-					<v-list-item class="text-inverted text-uppercase" to="/login">
-						<span class="text-uppercase">Log in</span>
+					<v-list-item class="text-inverted text-uppercase" :to="computed_link_appBar_btnLogin_local">
+						<span class="text-uppercase" v-text="computed_text_appBar_btnLogin_local"></span>
 					</v-list-item>
-					<v-list-item class="text-inverted text-uppercase" to="/register">
-						<span class="text-uppercase">Register</span>
+					<v-list-item class="text-inverted text-uppercase" :to="computed_link_appBar_btnLogin_local">
+						<span class="text-uppercase" v-text="computed_text_appBar_btnRegister_local"></span>
 					</v-list-item>
 				</v-list>
 			</template>
 		</common-btn-menu-container-component>
 		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount" v-else>
 			<template #activator="{ props }">
-				<v-btn
-					icon
-					variant="flat"
-					density="compact"
-					class="bg-white d-flex d-lg-none"
-					:to="computed_link_pageAccount"
-					v-text="computed_data_user_initials"
+				<common-btn-container-component
+					class="d-flex d-lg-none"
+					:text="computed_text_appBar_btnAccount_local"
+					:to="computed_link_appBar_btnAccount_local"
 					v-bind="props"
-				></v-btn>
+					@click="computed_data_appBar_btnAccount_show_state = !computed_data_appBar_btnAccount_show_state"
+				></common-btn-container-component>
 			</template>
 		</v-tooltip>
 	</v-app-bar>
@@ -152,14 +150,14 @@ import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
 import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
 
-// Enums
-import { ElementIDs } from "@enums/enums.js";
-
 // Constants
-import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
-
-// Icons
-import { mdiAccount, mdiBasket, mdiMenu } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import {
+	CONST_OBJECT_TEXT_ROUTE_NAMES,
+	CONST_OBJECT_TEXT_ROUTE_LINKS,
+	CONST_OBJECT_TEXT_NAVIGATION_GROUPS,
+	CONST_OBJECT_TOOLTIPS_APPBAR,
+	CONST_OBJECT_ICONS_APPBAR_GENERAL,
+} from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -177,67 +175,59 @@ export default defineComponent({
 					buttons: {
 						icons: {
 							mobileMenu: {
-								id: "header_appbar_btnMobileMenu_id",
-								icon: mdiMenu,
-								tooltip: "Menu",
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.menu,
+								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.menu,
 							},
 							basket: {
-								id: "header_appbar_btnBasket_id",
-								icon: mdiBasket,
-								tooltip: "Basket",
-								link: "",
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.basket,
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.basket,
+								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.basket,
 							},
 							account: {
-								id: "header_appbar_btnAccount_id",
-								icon: mdiAccount,
-								tooltip: "Account",
-								link: "",
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.account,
+								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.account,
 							},
 						},
 						text: {
 							home: {
-								id: "header_appbar_btnHome_id",
-								text: "Home",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
 							},
 							treatments: {
-								id: "header_appbar_btnTreatments_id",
-								text: "Treatments",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
 							},
 							store: {
-								id: "header_appbar_btnStore_id",
-								text: "Store",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
 							},
 							information: {
-								id: "header_appbar_btnInformation_id",
-								text: "Information",
+								text: CONST_OBJECT_TEXT_NAVIGATION_GROUPS.information,
 							},
 							contact: {
-								id: "header_appbar_btnContact_id",
-								text: "Contact",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
 							},
 							reviews: {
-								id: "header_appbar_btnReviews_id",
-								text: "Reviews",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
 							},
 							about: {
-								id: "header_appbar_btnAbout_id",
-								text: "About",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 							},
 							login: {
-								id: "header_appbar_btnLogin_id",
-								text: "Login",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.login,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.login,
 							},
 							register: {
-								id: "header_appbar_btnRegister_id",
-								text: "Register",
-								link: "",
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.register,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.register,
+							},
+							account: {
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.account,
+								link: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
 							},
 						},
 					},
@@ -246,28 +236,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_appBar_btnMobileMenu_local(): string {
-			return this.header.appbar.buttons.icons.mobileMenu.id;
-		},
-		computed_id_appBar_btnHome_local(): string {
-			return this.header.appbar.buttons.text.home.id;
-		},
-		computed_id_appBar_btnTreatments_local(): string {
-			return this.header.appbar.buttons.text.treatments.id;
-		},
-		computed_id_appBar_btnStore_local(): string {
-			return this.header.appbar.buttons.text.store.id;
-		},
-		computed_id_appBar_btnInformation_local(): string {
-			return this.header.appbar.buttons.text.information.id;
-		},
-		computed_id_appBar_btnBasket_local(): string {
-			return this.header.appbar.buttons.icons.basket.id;
-		},
-		computed_id_appBar_btnAccount_local(): string {
-			return this.header.appbar.buttons.icons.account.id;
-		},
-
 		computed_text_appBar_btnHome_local(): string {
 			return this.header.appbar.buttons.text.home.text;
 		},
@@ -288,6 +256,15 @@ export default defineComponent({
 		},
 		computed_text_appBar_btnAbout_local(): string {
 			return this.header.appbar.buttons.text.about.text;
+		},
+		computed_text_appBar_btnLogin_local(): string {
+			return this.header.appbar.buttons.text.login.text;
+		},
+		computed_text_appBar_btnRegister_local(): string {
+			return this.header.appbar.buttons.text.register.text;
+		},
+		computed_text_appBar_btnAccount_local(): string {
+			return this.header.appbar.buttons.text.account.text;
 		},
 
 		computed_link_appBar_btnHome_local(): string {
@@ -313,6 +290,12 @@ export default defineComponent({
 		},
 		computed_link_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.link;
+		},
+		computed_link_appBar_btnLogin_local(): string {
+			return this.header.appbar.buttons.text.login.link;
+		},
+		computed_link_appBar_btnRegister_local(): string {
+			return this.header.appbar.buttons.text.register.link;
 		},
 
 		computed_tooltip_appBar_btnMobileMenu_local(): string {
@@ -372,7 +355,7 @@ export default defineComponent({
 				this.storeHeader.set_appBar_information_show_state(newValue);
 			},
 		},
-		computed_data_appBar_btnBasketShow_show_state: {
+		computed_data_appBar_btnBasket_show_state: {
 			get(): boolean {
 				return this.storeHeader.get_appBar_basket_show_state;
 			},
@@ -380,7 +363,7 @@ export default defineComponent({
 				this.storeHeader.set_appBar_basket_show_state(newValue);
 			},
 		},
-		computed_data_appBar_btnAccountShow_show_state: {
+		computed_data_appBar_btnAccount_show_state: {
 			get(): boolean {
 				return this.storeHeader.get_appBar_account_show_state;
 			},

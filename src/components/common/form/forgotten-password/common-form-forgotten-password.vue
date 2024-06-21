@@ -74,7 +74,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
 // Constants
-import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "forgotten-password-container-component",
@@ -136,7 +136,7 @@ export default defineComponent({
 					.then(() => {
 						this.storeCommon.setSnackbar_success_state("Successfully sent a password reset link to your email.");
 						setTimeout(() => {
-							this.$router.replace({ name: txtRouteNames.login, hash: "#section-login" });
+							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.login, hash: "#section-login" });
 						}, this.computed_data_timeout_value);
 					})
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))

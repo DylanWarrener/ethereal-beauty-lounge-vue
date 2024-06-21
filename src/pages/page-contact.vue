@@ -20,7 +20,6 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:id="computed_id_canvasCard_actions_btn"
 									:text="computed_text_canvasCard_actions_btnSendMessage"
 									@click="method_event_scrollToElement('section-contact')"
 								></common-btn-container-component>
@@ -170,13 +169,13 @@ import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import {
+	CONST_OBJECT_IDS_SECTION_BUTTONS,
+	CONST_OBJECT_ICONS_FORM,
+} from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
-
-// Icons
-import { iconsContactDetails } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "contact-page-component",
@@ -199,7 +198,6 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								contactDetails: {
-									id: btnIDs.pages.contact.canvas.btn.id,
 									text: "Go to contact details?",
 								},
 							},
@@ -218,7 +216,7 @@ export default defineComponent({
 									title: "Office Location",
 									subtitle: "48 Papyrus Road, Peterborough, <br /> Cambridgeshire, PE4 5BH, UK",
 									btn: {
-										icon: iconsContactDetails.location,
+										icon: CONST_OBJECT_ICONS_FORM.location,
 										tooltip: "See office location",
 										to: "section-contact-map",
 									},
@@ -227,7 +225,7 @@ export default defineComponent({
 									title: "Email",
 									subtitle: "contact@etherealbeautylounge.co.uk",
 									btn: {
-										icon: iconsContactDetails.email,
+										icon: CONST_OBJECT_ICONS_FORM.email,
 										tooltip: "No sure yet",
 										to: "",
 									},
@@ -236,7 +234,7 @@ export default defineComponent({
 									title: "Phone",
 									subtitle: "+44 (0)7778 564553",
 									btn: {
-										icon: iconsContactDetails.phone,
+										icon: CONST_OBJECT_ICONS_FORM.phone,
 										tooltip: "Open whatsapp messaging service",
 										to: "",
 									},
@@ -272,7 +270,7 @@ export default defineComponent({
 							actions: {
 								buttons: {
 									sendMessage: {
-										id: btnIDs.pages.contact.canvas.btn.id,
+										id: CONST_OBJECT_IDS_SECTION_BUTTONS.sendMessage,
 										text: "Send message",
 									},
 								},
@@ -284,9 +282,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_canvasCard_actions_btn(): string {
-			return this.contactPage.section.content.form.actions.buttons.sendMessage.id;
-		},
 		computed_id_section_content_form_actions_btn(): string {
 			return this.contactPage.section.content.form.actions.buttons.sendMessage.id;
 		},

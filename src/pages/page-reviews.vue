@@ -20,7 +20,6 @@
 								<v-spacer></v-spacer>
 								<common-btn-container-component
 									variant="flat"
-									:id="computed_id_canvasCard_actions_btn"
 									:text="computed_text_canvasCard_actions_btn"
 									@click="method_event_scrollToElement('section-reviews')"
 								></common-btn-container-component>
@@ -107,7 +106,7 @@ import CardContainerComp from "@components/common/card/common-card.vue";
 import SectionContainerComp from "@components/common/section/common-section.vue";
 
 // Constants
-import { btnIDs } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -133,7 +132,6 @@ export default defineComponent({
 						actions: {
 							buttons: {
 								seeOurReviews: {
-									id: btnIDs.pages.reviews.canvas.btn.id,
 									text: "See our reviews?",
 								},
 							},
@@ -252,10 +250,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_canvasCard_actions_btn(): string {
-			return this.reviewsPage.canvas.card.actions.buttons.seeOurReviews.id;
-		},
-
 		computed_text_canvas_cardTitle(): string {
 			return this.reviewsPage.canvas.card.headings.title;
 		},
