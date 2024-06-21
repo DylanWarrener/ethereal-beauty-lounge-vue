@@ -1,6 +1,6 @@
 export default interface IHeaderNavigationState {
 	mobileMenu: IHeaderNavigationMobileMenuState;
-	nonMobileMenu: IHeaderNavigationNonMobileMenuState;
+	pcMenu: IHeaderNavigationNonMobileMenuState;
 }
 
 // ---------------------------------------------------------------------------------------------------------

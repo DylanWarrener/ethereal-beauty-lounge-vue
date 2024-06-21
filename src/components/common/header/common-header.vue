@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" density="comfortable" v-model="data_appBarDrawerState">
+	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" density="comfortable">
 		<!-- APP BAR LEFT -->
 		<common-card-container-component
 			hover
@@ -10,7 +10,7 @@
 			width="150"
 			height="100%"
 			style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 119, 145, 1) 100%)"
-			:to="txt_homePageLink"
+			:to="computed_link_appBar_btnHome_local"
 			v-ripple="{ class: 'text-accent' }"
 		>
 			<template #card-img>
@@ -19,45 +19,89 @@
 				</v-col>
 			</template>
 		</common-card-container-component>
-		<common-btn-tooltip-container-component :tooltip="tooltip_appBarMobileMenuBtn">
-			<template #tooltip-btn="{ tooltipProps }">
+		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
+			<template #activator="{ props }">
 				<common-btn-container-component
 					varient="flat"
 					class="d-flex d-md-none"
-					:id="id_appBarMobileMenuBtn"
-					:icon="icon_appBarMobileMenuBtn"
-					v-bind="tooltipProps"
-					@click="data_appBarMobileMenuDrawerState = !data_appBarMobileMenuDrawerState"
+					:id="computed_id_appBar_btnMobileMenu_local"
+					:icon="computed_icon_appBar_btnMobileMenu_local"
+					v-bind="props"
+					@click="computed_data_appBar_btnMobileMenu_show_state = !computed_data_appBar_btnMobileMenu_show_state"
 				></common-btn-container-component>
 			</template>
-		</common-btn-tooltip-container-component>
+		</v-tooltip>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
-		<common-navigation-pages-non-mobile-menu></common-navigation-pages-non-mobile-menu>
+		<common-btn-container-component
+			class="d-none d-md-flex"
+			:id="computed_id_appBar_btnHome_local"
+			:text="computed_text_appBar_btnHome_local"
+			:to="computed_link_appBar_btnHome_local"
+		></common-btn-container-component>
+		<common-btn-container-component
+			class="d-none d-md-flex"
+			:id="computed_id_appBar_btnTreatments_local"
+			:text="computed_text_appBar_btnTreatments_local"
+			:to="computed_link_appBar_btnTreatments_local"
+		></common-btn-container-component>
+		<common-btn-container-component
+			class="d-none d-md-flex"
+			:id="computed_id_appBar_btnStore_local"
+			:text="computed_text_appBar_btnStore_local"
+			:to="computed_link_appBar_btnStore_local"
+		></common-btn-container-component>
+		<common-btn-menu-container-component>
+			<template #menu-btn="{ menuProps, tooltipProps }">
+				<common-btn-container-component
+					class="d-flex d-md-flex"
+					:id="computed_id_appBar_btnInformation_local"
+					:text="computed_text_appBar_btnInformation_local"
+					v-bind="mergeProps(menuProps, tooltipProps)"
+					@click="computed_data_appBar_btnInformation_show_state = !computed_data_appBar_btnInformation_show_state"
+				></common-btn-container-component>
+			</template>
+			<template #menu-items>
+				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
+					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnContact_local">
+						<span class="text-default" v-text="computed_text_appBar_btnContact_local"></span>
+					</v-list-item>
+					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnReviews_local">
+						<span class="text-default" v-text="computed_text_appBar_btnReviews_local"></span>
+					</v-list-item>
+					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnAbout_local">
+						<span class="text-default" v-text="computed_text_appBar_btnAbout_local"></span>
+					</v-list-item>
+				</v-list>
+			</template>
+		</common-btn-menu-container-component>
 
 		<v-divider vertical inset class="mx-2 d-flex d-lg-none border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
-		<common-btn-menu-container-component :tooltip-text="tooltip_appBarBasketBtn">
+		<common-btn-menu-container-component :tooltip-text="computed_tooltip_appBar_btnBasket_local">
 			<template #menu-btn="{ menuProps, tooltipProps }">
 				<common-btn-container-component
 					class="d-flex d-md-flex"
-					:id="id_appBarBasketBtn"
-					:icon="icon_appBarBasketBtn"
+					:id="computed_id_appBar_btnBasket_local"
+					:icon="computed_icon_appBar_btnBasket_local"
 					v-bind="mergeProps(menuProps, tooltipProps)"
-					@click="data_appBarBasketDrawerState = !data_appBarBasketDrawerState"
+					@click="computed_data_appBar_btnBasketShow_show_state = !computed_data_appBar_btnBasketShow_show_state"
 				></common-btn-container-component>
 			</template>
 		</common-btn-menu-container-component>
-		<common-btn-menu-container-component :tooltip-text="tooltip_appBarAccountBtn" v-if="!data_isUserLoggedIn">
+		<common-btn-menu-container-component
+			:tooltip-text="computed_tooltip_appBar_btnAccount_local"
+			v-if="!computed_data_user_isLoggedIn"
+		>
 			<template #menu-btn="{ menuProps, tooltipProps }">
 				<common-btn-container-component
 					class="d-flex d-md-flex"
-					:id="id_appbarAccountBtn"
-					:icon="icon_appBarAccountBtn"
+					:id="computed_id_appBar_btnAccount_local"
+					:icon="computed_icon_appBar_btnAccount_local"
 					v-bind="mergeProps(menuProps, tooltipProps)"
-					@click="data_appBarAccountDrawerState = !data_appBarAccountDrawerState"
+					@click="computed_data_appBar_btnAccountShow_show_state = !computed_data_appBar_btnAccountShow_show_state"
 				></common-btn-container-component>
 			</template>
 			<template #menu-items>
@@ -71,26 +115,26 @@
 				</v-list>
 			</template>
 		</common-btn-menu-container-component>
-		<v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
+		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount" v-else>
 			<template #activator="{ props }">
 				<v-btn
 					icon
 					variant="flat"
 					density="compact"
 					class="bg-white d-flex d-lg-none"
-					:to="txt_accountPageLink"
+					:to="computed_link_pageAccount"
 					v-text="computed_data_user_initials"
 					v-bind="props"
 				></v-btn>
 			</template>
 		</v-tooltip>
-
-		<!-- <v-tooltip location="bottom" :text="tooltip_appBarAccountBtn" v-else>
-			<template #activator="{ props }">
-				<v-btn :icon="icon_appBarAccountBtn" v-bind="props" @click="method_event_navigateToAccount"></v-btn>
-			</template>
-		</v-tooltip> -->
 	</v-app-bar>
+
+	<common-navigation-container-component
+		location="bottom"
+		:navigation="computed_data_navigation_mobileMenu"
+		v-model="computed_data_appBar_btnMobileMenu"
+	></common-navigation-container-component>
 </template>
 
 <script lang="ts">
@@ -103,21 +147,16 @@ import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
 import CardContainerComp from "@components/common/card/common-card.vue";
-import BtnTooltipContainerComp from "@components/common/button/tooltip/common-btn-tooltip.vue";
 import BtnContainerComp from "@components/common/button/common-btn.vue";
 import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
-import DialogLoginComp from "@components/uncommon/dialog/uncommon-dialog-login.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
-
-// Interfaces
-import { IHeaderAppbarIconsState } from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
-import { IHeaderNavigationCommonNonMobileItemState } from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
+import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
 
 // Enums
 import { ElementIDs } from "@enums/enums.js";
 
 // Constants
-import { txtRouteNames, txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
+import { txtRouteLinks } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiAccount, mdiBasket, mdiMenu } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -126,28 +165,80 @@ export default defineComponent({
 	name: "header-container-component",
 	components: {
 		"common-card-container-component": CardContainerComp,
-		"common-btn-tooltip-container-component": BtnTooltipContainerComp,
 		"common-btn-container-component": BtnContainerComp,
 		"common-navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
 		"common-btn-menu-container-component": BtnMenuContainerComp,
-		"dialog-login-component": DialogLoginComp,
+		"common-navigation-container-component": NavigationContainerComp,
 	},
-	data() {
+	data(): any {
 		return {
-			appbar: {
-				navigation: {
-					btn: {
-						mobileMenu: {
-							icon: mdiMenu,
-							tooltip: "Menu",
+			header: {
+				appbar: {
+					buttons: {
+						icons: {
+							mobileMenu: {
+								id: "header_appbar_btnMobileMenu_id",
+								icon: mdiMenu,
+								tooltip: "Menu",
+							},
+							basket: {
+								id: "header_appbar_btnBasket_id",
+								icon: mdiBasket,
+								tooltip: "Basket",
+								link: "",
+							},
+							account: {
+								id: "header_appbar_btnAccount_id",
+								icon: mdiAccount,
+								tooltip: "Account",
+								link: "",
+							},
 						},
-						basket: {
-							icon: mdiBasket,
-							tooltip: "Basket",
-						},
-						account: {
-							icon: mdiAccount,
-							tooltip: "Account",
+						text: {
+							home: {
+								id: "header_appbar_btnHome_id",
+								text: "Home",
+								link: "",
+							},
+							treatments: {
+								id: "header_appbar_btnTreatments_id",
+								text: "Treatments",
+								link: "",
+							},
+							store: {
+								id: "header_appbar_btnStore_id",
+								text: "Store",
+								link: "",
+							},
+							information: {
+								id: "header_appbar_btnInformation_id",
+								text: "Information",
+							},
+							contact: {
+								id: "header_appbar_btnContact_id",
+								text: "Contact",
+								link: "",
+							},
+							reviews: {
+								id: "header_appbar_btnReviews_id",
+								text: "Reviews",
+								link: "",
+							},
+							about: {
+								id: "header_appbar_btnAbout_id",
+								text: "About",
+								link: "",
+							},
+							login: {
+								id: "header_appbar_btnLogin_id",
+								text: "Login",
+								link: "",
+							},
+							register: {
+								id: "header_appbar_btnRegister_id",
+								text: "Register",
+								link: "",
+							},
 						},
 					},
 				},
@@ -155,138 +246,151 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		/* Text */
-		txt_homePageLink(): string {
-			return txtRouteLinks.home;
+		computed_id_appBar_btnMobileMenu_local(): string {
+			return this.header.appbar.buttons.icons.mobileMenu.id;
 		},
-		txt_accountPageLink(): string {
-			return txtRouteLinks.account;
+		computed_id_appBar_btnHome_local(): string {
+			return this.header.appbar.buttons.text.home.id;
 		},
-		// IDs
-		id_appBarMobileMenuBtn(): string {
-			return ElementIDs.APPBAR_MENU_BTN;
+		computed_id_appBar_btnTreatments_local(): string {
+			return this.header.appbar.buttons.text.treatments.id;
 		},
-		id_appBarSearchBtn(): string {
-			return ElementIDs.APPBAR_SEARCH_BTN;
+		computed_id_appBar_btnStore_local(): string {
+			return this.header.appbar.buttons.text.store.id;
 		},
-		id_appBarBasketBtn(): string {
-			return ElementIDs.APPBAR_BASKET_BTN;
+		computed_id_appBar_btnInformation_local(): string {
+			return this.header.appbar.buttons.text.information.id;
 		},
-		id_appbarAccountBtn(): string {
-			return ElementIDs.APPBAR_ACCOUNT_BTN;
+		computed_id_appBar_btnBasket_local(): string {
+			return this.header.appbar.buttons.icons.basket.id;
 		},
-		id_appBarOptionsBtn(): string {
-			return ElementIDs.APPBAR_OPTIONS_BTN;
-		},
-		// Tooltips
-		tooltip_appBarMobileMenuBtn(): string {
-			return this.icons_appBar.menu.tooltip;
-		},
-		tooltip_appBarSearchBtn(): string {
-			return this.icons_appBar.search.tooltip;
-		},
-		tooltip_appBarBasketBtn(): string {
-			return this.icons_appBar.basket.tooltip;
-		},
-		tooltip_appBarAccountBtn(): string {
-			return this.icons_appBar.account.tooltip;
-		},
-		tooltip_appBarOptionsBtn(): string {
-			return this.icons_appBar.options.tooltip;
+		computed_id_appBar_btnAccount_local(): string {
+			return this.header.appbar.buttons.icons.account.id;
 		},
 
-		/* Icons */
-		icons_appBar(): IHeaderAppbarIconsState {
-			return this.storeHeader.getAppBarIcons;
+		computed_text_appBar_btnHome_local(): string {
+			return this.header.appbar.buttons.text.home.text;
 		},
-		icon_appBarMobileMenuBtn(): string {
-			return this.icons_appBar.menu.icon;
+		computed_text_appBar_btnTreatments_local(): string {
+			return this.header.appbar.buttons.text.treatments.text;
 		},
-		icon_appBarSearchBtn(): string {
-			return this.icons_appBar.search.icon;
+		computed_text_appBar_btnStore_local(): string {
+			return this.header.appbar.buttons.text.store.text;
 		},
-		icon_appBarBasketBtn(): string {
-			return this.icons_appBar.basket.icon;
+		computed_text_appBar_btnInformation_local(): string {
+			return this.header.appbar.buttons.text.information.text;
 		},
-		icon_appBarAccountBtn(): string {
-			return this.icons_appBar.account.icon;
+		computed_text_appBar_btnContact_local(): string {
+			return this.header.appbar.buttons.text.contact.text;
 		},
-		icon_appBarOptionsBtn(): string {
-			return this.icons_appBar.options.icon;
+		computed_text_appBar_btnReviews_local(): string {
+			return this.header.appbar.buttons.text.reviews.text;
+		},
+		computed_text_appBar_btnAbout_local(): string {
+			return this.header.appbar.buttons.text.about.text;
 		},
 
-		/* Data */
+		computed_link_appBar_btnHome_local(): string {
+			return this.header.appbar.buttons.text.home.link;
+		},
+		computed_link_appBar_btnTreatments_local(): string {
+			return this.header.appbar.buttons.text.treatments.link;
+		},
+		computed_link_appBar_btnStore_local(): string {
+			return this.header.appbar.buttons.text.store.link;
+		},
+		computed_link_appBar_btnContact_local(): string {
+			return this.header.appbar.buttons.text.contact.link;
+		},
+		computed_link_appBar_btnReviews_local(): string {
+			return this.header.appbar.buttons.text.reviews.link;
+		},
+		computed_link_appBar_btnAbout_local(): string {
+			return this.header.appbar.buttons.text.about.link;
+		},
+		computed_link_appBar_btnBasket_local(): string {
+			return this.header.appbar.buttons.icons.basket.link;
+		},
+		computed_link_appBar_btnAccount_local(): string {
+			return this.header.appbar.buttons.icons.account.link;
+		},
+
+		computed_tooltip_appBar_btnMobileMenu_local(): string {
+			return this.header.appbar.buttons.icons.mobileMenu.tooltip;
+		},
+		computed_tooltip_appBar_btnBasket_local(): string {
+			return this.header.appbar.buttons.icons.basket.tooltip;
+		},
+		computed_tooltip_appBar_btnAccount_local(): string {
+			return this.header.appbar.buttons.icons.account.tooltip;
+		},
+
+		computed_icon_appBar_btnMobileMenu_local(): string {
+			return this.header.appbar.buttons.mobileMenu.icon;
+		},
+		computed_icon_appBar_btnBasket_local(): string {
+			return this.header.appbar.buttons.basket.icon;
+		},
+		computed_icon_appBar_btnAccount_local(): string {
+			return this.header.appbar.buttons.account.icon;
+		},
+
 		computed_data_user_initials(): string | null {
 			let retval: string | null = null;
-			if (this.computed_data_userDisplayName !== null) {
-				const [firstname, lastname] = this.computed_data_userDisplayName.split(" ");
+			if (this.computed_data_user_displayName !== null) {
+				const [firstname, lastname] = this.computed_data_user_displayName.split(" ");
 				retval = `${firstname[0]}${lastname[0]}`.toUpperCase();
 			}
 			return retval;
 		},
-		computed_data_userDisplayName(): string | null {
-			return this.storeFirebase.get_userAuth_displayName_state ?? "No data";
+		computed_data_user_displayName(): string | null {
+			return this.storeFirebase.get_userAuth_displayName_state;
 		},
-		data_isUserLoggedIn(): boolean {
+		computed_data_user_isLoggedIn(): boolean {
 			return this.storeFirebase.get_userAuth_isLoggedIn_state;
 		},
-		navigationNonMobileMenu(): IHeaderNavigationCommonNonMobileItemState[] {
-			return this.storeHeader.getNavigationNonMobileMenuState;
+		computed_data_navigation_mobileMenu(): any[] {
+			return this.storeHeader.get_navigation_mobileMenu_state;
 		},
-		data_appBarDrawerState: {
+		computed_data_navigation_pcMenu(): any[] {
+			return this.storeHeader.get_navigation_pcMenu_state;
+		},
+
+		computed_data_appBar_btnMobileMenu_show_state: {
 			get(): boolean {
-				return this.storeCommon.getAppbar_show_state;
+				return this.storeHeader.get_appBar_mobileMenu_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeCommon.setAppbar_show_state(newValue);
+				this.storeHeader.set_appBar_mobileMenu_show_state(newValue);
 			},
 		},
-		data_appBarMobileMenuDrawerState: {
+		computed_data_appBar_btnInformation_show_state: {
 			get(): boolean {
-				return this.storeHeader.getAppBarMobileMenuDrawerState;
+				return this.storeHeader.get_appBar_information_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarMobileMenuDrawerState(newValue);
+				this.storeHeader.set_appBar_information_show_state(newValue);
 			},
 		},
-		data_appBarSearchDrawerState: {
+		computed_data_appBar_btnBasketShow_show_state: {
 			get(): boolean {
-				return this.storeHeader.getAppBarSearchDrawerState;
+				return this.storeHeader.get_appBar_basket_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarSearchDrawerState(newValue);
+				this.storeHeader.set_appBar_basket_show_state(newValue);
 			},
 		},
-		data_appBarBasketDrawerState: {
+		computed_data_appBar_btnAccountShow_show_state: {
 			get(): boolean {
-				return this.storeHeader.getAppBarBasketDrawerState;
+				return this.storeHeader.get_appBar_account_show_state;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.setAppBarBasketDrawerState(newValue);
-			},
-		},
-		data_appBarAccountDrawerState: {
-			get(): boolean {
-				return this.storeHeader.getAppBarAccountDrawerState;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarAccountDrawerState(newValue);
-			},
-		},
-		data_appBarOptionsDrawerState: {
-			get(): boolean {
-				return this.storeHeader.getAppBarOptionsDrawerState;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.setAppBarOptionsDrawerState(newValue);
+				this.storeHeader.set_appBar_account_show_state(newValue);
 			},
 		},
 	},
 	methods: {
 		mergeProps,
-		method_event_navigateToAccount(): void {
-			this.$router.push({ name: txtRouteNames.account });
-		},
 		method_event_logout(): void {
 			this.storeFirebase.logout_userAuth();
 		},

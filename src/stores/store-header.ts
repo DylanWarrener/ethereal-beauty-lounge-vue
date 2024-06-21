@@ -2,17 +2,9 @@ import { defineStore } from "pinia";
 
 // Interfaces
 import IHeaderState from "@declarations/common/header/interfaces/common-interface-header.js";
-import IHeaderAppBarState, {
-	IHeaderAppbarIconsState,
-} from "@declarations/common/header/interfaces/appbar/common-interface-header-appbar.js";
-import {
-	IHeaderNavigationCommonItemState,
-	IHeaderNavigationCommonNonMobileItemState,
-} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 // Constants
 import { NAVIGATION_MOBLE_MENU, NAVIGATION_NON_MOBILE_MENU } from "@constants/common/arrays/common-constants-arrays.js";
-import { iconsAppBar, tooltipsAppBar } from "@base/src/constants/common/objects/common-constants-objects.js";
 
 // Enums
 import { StoreIDs } from "@enums/enums.js";
@@ -21,41 +13,17 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 	state: (): IHeaderState => ({
 		appBar: {
 			icons: {
-				menu: {
-					icon: iconsAppBar.menu,
-					tooltip: tooltipsAppBar.menu,
-					showTooltip: false,
-					showDrawer: false,
+				mobileMenu: {
+					show: false,
 				},
-				search: {
-					icon: iconsAppBar.search,
-					tooltip: tooltipsAppBar.search,
-					showTooltip: false,
-					showDrawer: false,
+				information: {
+					show: false,
 				},
 				basket: {
-					icon: iconsAppBar.basket,
-					tooltip: tooltipsAppBar.basket,
-					showTooltip: false,
-					showDrawer: false,
+					show: false,
 				},
 				account: {
-					icon: iconsAppBar.account,
-					tooltip: tooltipsAppBar.account,
-					showTooltip: false,
-					showDrawer: false,
-				},
-				profile: {
-					icon: iconsAppBar.profile,
-					tooltip: tooltipsAppBar.profile,
-					showTooltip: false,
-					showDrawer: false,
-				},
-				options: {
-					icon: iconsAppBar.options,
-					tooltip: tooltipsAppBar.options,
-					showTooltip: false,
-					showDrawer: false,
+					show: false,
 				},
 			},
 		},
@@ -63,65 +31,32 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 			mobileMenu: {
 				items: NAVIGATION_MOBLE_MENU,
 			},
-			nonMobileMenu: {
+			pcMenu: {
 				items: NAVIGATION_NON_MOBILE_MENU,
 			},
 		},
 	}),
 	getters: {
-		/* AppBar */
-		getAppBar: (state: IHeaderState): IHeaderAppBarState => state.appBar,
-		getAppBarIcons: (state: IHeaderState): IHeaderAppbarIconsState => state.appBar.icons,
-		getAppBarMobileMenuDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showDrawer,
-		getAppBarMobileMenuTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.menu.showTooltip,
-		getAppBarSearchDrawerState: (state: IHeaderState): boolean => state.appBar.icons.search.showDrawer,
-		getAppBarSearchTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.search.showTooltip,
-		getAppBarBasketDrawerState: (state: IHeaderState): boolean => state.appBar.icons.basket.showDrawer,
-		getAppBarBasketTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.basket.showTooltip,
-		getAppBarAccountDrawerState: (state: IHeaderState): boolean => state.appBar.icons.account.showDrawer,
-		getAppBarLoginTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.account.showTooltip,
-		getAppBarProfileDrawerState: (state: IHeaderState): boolean => state.appBar.icons.profile.showDrawer,
-		getAppBarProfileTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.profile.showTooltip,
-		getAppBarOptionsDrawerState: (state: IHeaderState): boolean => state.appBar.icons.options.showDrawer,
-		getAppBarOptionsTooltipDrawerState: (state: IHeaderState): boolean => state.appBar.icons.options.showTooltip,
+		get_appBar_mobileMenu_show_state: (state: IHeaderState): boolean => state.appBar.icons.mobileMenu.show,
+		get_appBar_information_show_state: (state: IHeaderState): boolean => state.appBar.icons.information.show,
+		get_appBar_basket_show_state: (state: IHeaderState): boolean => state.appBar.icons.basket.show,
+		get_appBar_account_show_state: (state: IHeaderState): boolean => state.appBar.icons.account.show,
 
-		/* Navigation */
-		getNavigationMobileMenuState: (state: IHeaderState): IHeaderNavigationCommonItemState[] =>
-			state.navigation.mobileMenu.items,
-		getNavigationNonMobileMenuState: (state: IHeaderState): IHeaderNavigationCommonNonMobileItemState[] =>
-			state.navigation.nonMobileMenu.items,
+		get_navigation_mobileMenu_state: (state: IHeaderState): any[] => state.navigation.mobileMenu.items,
+		get_navigation_pcMenu_state: (state: IHeaderState): any[] => state.navigation.pcMenu.items,
 	},
 	actions: {
-		/* AppBar */
-		setAppBarMobileMenuDrawerState(newValue: boolean): void {
-			this.appBar.icons.menu.showDrawer = newValue;
+		set_appBar_mobileMenu_show_state(newValue: boolean): void {
+			this.appBar.icons.mobileMenu.show = newValue;
 		},
-		setAppBarMobileMenuTooltipDrawerState(newValue: boolean): void {
-			this.appBar.icons.menu.showTooltip = newValue;
+		set_appBar_information_show_state(newValue: boolean): void {
+			this.appBar.icons.information.show = newValue;
 		},
-		setAppBarSearchDrawerState(newValue: boolean): void {
-			this.appBar.icons.search.showDrawer = newValue;
+		set_appBar_basket_show_state(newValue: boolean): void {
+			this.appBar.icons.basket.show = newValue;
 		},
-		setAppBarSearchTooltipDrawer(newValue: boolean): void {
-			this.appBar.icons.search.showTooltip = newValue;
-		},
-		setAppBarBasketDrawerState(newValue: boolean): void {
-			this.appBar.icons.basket.showDrawer = newValue;
-		},
-		setAppBarBasketTooltipDrawer(newValue: boolean): void {
-			this.appBar.icons.basket.showTooltip = newValue;
-		},
-		setAppBarAccountDrawerState(newValue: boolean): void {
-			this.appBar.icons.account.showDrawer = newValue;
-		},
-		setAppBarLoginTooltipDrawer(newValue: boolean): void {
-			this.appBar.icons.account.showTooltip = newValue;
-		},
-		setAppBarOptionsDrawerState(newValue: boolean): void {
-			this.appBar.icons.options.showDrawer = newValue;
-		},
-		setAppBarOptionsTooltipDrawer(newValue: boolean): void {
-			this.appBar.icons.options.showTooltip = newValue;
+		set_appBar_account_show_state(newValue: boolean): void {
+			this.appBar.icons.account.show = newValue;
 		},
 	},
 });

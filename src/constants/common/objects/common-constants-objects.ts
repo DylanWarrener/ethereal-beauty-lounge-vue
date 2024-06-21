@@ -28,152 +28,19 @@ import {
 // ---------------------------------------------------------------------------------------------------------
 // IDs
 // ---------------------------------------------------------------------------------------------------------
-export const btnIDs = {
-	header: {
-		appBar: {
-			pcMenu: {
-				btn: {
-					home: {
-						id: "btnID_pcMenu_home",
-					},
-					treatments: {
-						id: "btnID_pcMenu_treatments",
-					},
-					portfolio: {
-						id: "btnID_pcMenu_portfolio",
-					},
-					store: {
-						id: "btnID_pcMenu_store",
-					},
-					information: {
-						id: "btnID_pcMenu_information",
-					},
-					contact: {
-						id: "btnID_pcMenu_contact",
-					},
-					reviews: {
-						id: "btnID_pcMenu_reviews",
-					},
-					about: {
-						id: "btnID_pcMenu_account",
-					},
-				},
-			},
-			mobileMenu: {
-				btn: {
-					home: {
-						id: "btnID_mobileMenu_home",
-					},
-					treatments: {
-						id: "btnID_mobileMenu_treatments",
-					},
-					portfolio: {
-						id: "btnID_mobileMenu_portfolio",
-					},
-					store: {
-						id: "btnID_mobileMenu_store",
-					},
-					information: {
-						id: "btnID_mobileMenu_information",
-					},
-					contact: {
-						id: "btnID_mobileMenu_contact",
-					},
-					reviews: {
-						id: "btnID_mobileMenu_reviews",
-					},
-					about: {
-						id: "btnID_mobileMenu_about",
-					},
-				},
-			},
-		},
-	},
-	pages: {
-		home: {
-			canvas: {
-				btn: {
-					id: "btnID_home_canvas",
-				},
-			},
-			portfolio: {
-				cards: {
-					btn: {
-						id: "btnID_home_portfolio",
-					},
-				},
-			},
-		},
-		treatments: {
-			canvas: {
-				btn: {
-					id: "btnID_treatments_canvas",
-				},
-			},
-		},
-		portfolio: {
-			canvas: {
-				btn: {
-					id: "btnID_portfolio_canvas",
-				},
-			},
-		},
-		store: {
-			canvas: {
-				btn: {
-					id: "btnID_store_canvas",
-				},
-			},
-		},
-		information: {
-			canvas: {
-				btn: {
-					id: "btnID_information_canvas",
-				},
-			},
-		},
-		contact: {
-			canvas: {
-				btn: {
-					id: "btnID_contact_canvas",
-				},
-			},
-		},
-		reviews: {
-			canvas: {
-				btn: {
-					id: "btnID_reviews_canvas",
-				},
-			},
-		},
-		about: {
-			canvas: {
-				btn: {
-					id: "btnID_about_canvas",
-				},
-			},
-		},
-		login: {
-			canvas: {
-				btn: {
-					id: "btnID_login_canvas",
-				},
-			},
-		},
-	},
-	footer: {},
-};
 
 // ---------------------------------------------------------------------------------------------------------
 // TEXT
 // ---------------------------------------------------------------------------------------------------------
-export const txtGeneral = {
+export const CONST_OBJECT_TEXT_GENERAL = {
 	toggle: "Toggle",
 };
-export const txtDialog = {
+/* Dialog */
+export const CONST_OBJECT_TEXT_DIALOG_GENERAL = {
 	close: "Close",
 };
-export const txtAppBar = {
+/* Appbar */
+export const CONST_OBJECT_TEXT_APPBAR_GENERAL = {
 	menu: "Menu",
 	search: "Search",
 	basket: "Basket",
@@ -181,9 +48,11 @@ export const txtAppBar = {
 	profile: "Profile",
 	options: "Options",
 };
-export const txtNavigationGroups = {
+/* Navigation groups */
+export const CONST_OBJECT_TEXT_NAVIGATION_GROUPS = {
 	information: "information",
 };
+/* Route names */
 export const txtRouteNames = {
 	home: "home",
 	treatments: "treatments",
@@ -197,6 +66,7 @@ export const txtRouteNames = {
 	account: "Account",
 	basket: "Basket",
 };
+/* Route links */
 export const txtRouteLinks = {
 	home: "/",
 	treatments: "/treatments",
@@ -214,7 +84,8 @@ export const txtRouteLinks = {
 // ---------------------------------------------------------------------------------------------------------
 // ICONS
 // ---------------------------------------------------------------------------------------------------------
-export const iconsAppBar = {
+/* App bar */
+export const CONST_OBJECT_ICONS_APPBAR_GENERAL = {
 	menu: mdiMenu,
 	search: mdiMagnify,
 	basket: mdiBasketOutline,
@@ -222,7 +93,8 @@ export const iconsAppBar = {
 	profile: mdiAccount,
 	options: mdiDotsVertical,
 };
-export const iconsNavigation = {
+/* Navigation */
+export const CONST_OBJECT_ICONS_NAVIGATION = {
 	home: mdiHome,
 	treatments: mdiLotion,
 	store: mdiStore,
@@ -231,43 +103,46 @@ export const iconsNavigation = {
 	about: mdiInformation,
 	information: mdiMenuDown,
 };
+/* Side bar */
 export const iconsSidebarNavigation = {
 	account: mdiAccount,
 	basket: mdiBasket,
 	logout: mdiLogout,
 };
+/* List groups */
 export const iconsAccountNavigation = {
 	profile: mdiAccountEdit,
 	security: mdiSecurity,
 	notifications: mdiBell,
 };
-export const iconsAccountProfile = {
+/* Actions */
+export const CONST_OBJECT_ICONS_ACTIONS = {
 	editImage: mdiImageEdit,
 };
-export const iconsDialog = {
+/* Dialog */
+export const CONST_OBJECT_ICONS_DIALOG = {
 	close: mdiClose,
 };
-export const iconsContactDetails = {
+/* Form */
+export const CONST_OBJECT_ICONS_FORM = {
+	show: mdiEye,
+	hide: mdiEyeOff,
 	location: mdiMapMarker,
 	email: mdiEmailFast,
 	phone: mdiPhone,
-};
-export const iconsFormPassword = {
-	show: mdiEye,
-	hide: mdiEyeOff,
 };
 
 // ---------------------------------------------------------------------------------------------------------
 // TOOLTIPS
 // ---------------------------------------------------------------------------------------------------------
-export const tooltipsAppBar = {
-	menu: txtAppBar.menu,
-	search: txtAppBar.search,
-	basket: txtAppBar.basket,
-	account: txtAppBar.account,
-	profile: txtAppBar.profile,
-	options: txtAppBar.options,
+export const CONST_OBJECT_TOOLTIPS_APPBAR = {
+	menu: CONST_OBJECT_TEXT_APPBAR_GENERAL.menu,
+	search: CONST_OBJECT_TEXT_APPBAR_GENERAL.search,
+	basket: CONST_OBJECT_TEXT_APPBAR_GENERAL.basket,
+	account: CONST_OBJECT_TEXT_APPBAR_GENERAL.account,
+	profile: CONST_OBJECT_TEXT_APPBAR_GENERAL.profile,
+	options: CONST_OBJECT_TEXT_APPBAR_GENERAL.options,
 };
-export const tooltipsDialog = {
-	close: txtDialog.close,
+export const CONST_OBJECT_TOOLTIPS_DIALOG = {
+	close: CONST_OBJECT_TEXT_DIALOG_GENERAL.close,
 };

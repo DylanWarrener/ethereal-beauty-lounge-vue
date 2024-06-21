@@ -2,16 +2,11 @@ export default interface IHeaderAppBarState {
 	icons: IHeaderAppbarIconsState;
 }
 export interface IHeaderAppBarCommonIconState {
-	icon: string;
-	tooltip: string;
-	showTooltip: boolean;
-	showDrawer: boolean;
+	show: boolean;
 }
 export interface IHeaderAppbarIconsState {
-	menu: IHeaderAppBarCommonIconState;
-	search: IHeaderAppBarCommonIconState;
+	mobileMenu: IHeaderAppBarCommonIconState;
+	information: IHeaderAppBarCommonIconState;
 	basket: IHeaderAppBarCommonIconState;
 	account: IHeaderAppBarCommonIconState;
-	profile: IHeaderAppBarCommonIconState;
-	options: IHeaderAppBarCommonIconState;
 }

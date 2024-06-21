@@ -28,3 +28,10 @@ coverage
 *.sln
 *.sw?
 *.tsbuildinfo
+
+# Plugins
+src/plugins/firebase
+
+# Firebase
+.firebaserc
+firebase.json
