@@ -151,11 +151,11 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
 // Constants
-import { txtRouteNames } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
-import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "login-container-component",
@@ -171,8 +171,8 @@ export default defineComponent({
 					password: {
 						show: false,
 						icon: {
-							show: iconsFormPassword.show,
-							hide: iconsFormPassword.hide,
+							show: CONST_OBJECT_ICONS_FORM.show,
+							hide: CONST_OBJECT_ICONS_FORM.hide,
 						},
 						label: "Password",
 						value: null,
@@ -260,7 +260,7 @@ export default defineComponent({
 							"You have successfully logged into your account. Redirecting you to your account now."
 						);
 						setTimeout(() => {
-							this.$router.replace({ name: txtRouteNames.account, hash: "#section-account" });
+							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" });
 						}, this.computed_data_timeout_value);
 					})
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))

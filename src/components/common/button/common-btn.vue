@@ -1,14 +1,5 @@
 <template>
-	<v-btn
-		size="large"
-		:color="color"
-		:id="id"
-		:class="class"
-		:style="style"
-		:icon="icon"
-		:to="to"
-		@click.once="$emit('click')"
-	>
+	<v-btn size="large" :color="color" :class="class" :style="style" :icon="icon" :to="to">
 		<template #default v-if="text">
 			<small :class="textClass" :style="textStyle" v-text="text"></small>
 		</template>
@@ -21,7 +12,6 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "btn-container-component",
 	props: {
-		id: { type: String, required: false },
 		color: { type: String, required: false, default: "accent" },
 		style: { type: String, required: false },
 		class: { type: String, required: false },

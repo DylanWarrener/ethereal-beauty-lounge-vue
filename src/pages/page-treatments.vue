@@ -1,10 +1,10 @@
 <template>
-	<common-canvas-container-component :src="computed_img_canvas">
+	<container-canvas :src="computed_img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
+						<container-card variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
 							<template #card-headings>
 								<!-- Title -->
 								<v-col cols="12">
@@ -18,26 +18,22 @@
 							</template>
 							<template #card-actions>
 								<v-spacer></v-spacer>
-								<common-btn-container-component
+								<container-btn
 									variant="flat"
 									:text="computed_text_canvasCard_actions_btnSeeTreatments"
 									@click="method_event_scrollToElement"
-								></common-btn-container-component>
+								></container-btn>
 							</template>
-						</common-card-container-component>
+						</container-card>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</common-canvas-container-component>
+	</container-canvas>
 
-	<common-divider-container-component></common-divider-container-component>
+	<container-divider></container-divider>
 
-	<common-section-container-component
-		id="section-treatments"
-		title-class="text-inverted"
-		:title="computed_text_section_title"
-	>
+	<container-section id="section-treatments" title-class="text-inverted" :title="computed_text_section_title">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense>
@@ -83,7 +79,7 @@
 										cols="auto"
 										v-if="method_utils_treatmentCardShouldRender(treatmentType.treatmentCategory)"
 									>
-										<common-card-container-component
+										<container-card
 											variant="outlined"
 											action-col-class="d-flex flex-column justify-center align-center"
 											:width="computed_css_dynamicWidth"
@@ -202,7 +198,7 @@
 												></common-btn-text-container-component>
 												<v-spacer></v-spacer>
 											</template>
-										</common-card-container-component>
+										</container-card>
 									</v-col>
 								</template>
 							</v-row>
@@ -211,9 +207,9 @@
 				</v-row>
 			</v-container>
 		</template>
-	</common-section-container-component>
+	</container-section>
 
-	<common-dialog-container-component
+	<container-dialog
 		:toolbar-title="computed_text_dialogCard_toolbarTitle"
 		@close="computed_data_dialogCard_show_value = false"
 		v-model="computed_data_dialogCard_show_value"
@@ -221,13 +217,13 @@
 		<template #dialog-card-content></template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
-			<common-btn-container-component
+			<container-btn
 				variant="flat"
 				:text="computed_text_dialogCard_actions_btnBook"
 				@click="method_event_bookTreatmentNow"
-			></common-btn-container-component>
+			></container-btn>
 		</template>
-	</common-dialog-container-component>
+	</container-dialog>
 </template>
 
 <script lang="ts">
@@ -235,14 +231,6 @@ import { defineComponent } from "vue";
 
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
-
-// Components
-import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
-import BtnContainerComp from "@components/common/button/common-btn.vue";
-import DividerContainerComp from "@components/common/divider/common-divider.vue";
-import CardContainerComp from "@components/common/card/common-card.vue";
-import SectionContainerComp from "@components/common/section/common-section.vue";
-import DialogContainerComp from "@components/common/dialog/common-dialog.vue";
 
 // Constants
 import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
@@ -255,14 +243,6 @@ import { mdiInformationVariant } from "@constants/common/primitives/icons/common
 
 export default defineComponent({
 	name: "treatments-page-component",
-	components: {
-		"common-canvas-container-component": CanvasContainerComp,
-		"common-btn-container-component": BtnContainerComp,
-		"common-divider-container-component": DividerContainerComp,
-		"common-card-container-component": CardContainerComp,
-		"common-section-container-component": SectionContainerComp,
-		"common-dialog-container-component": DialogContainerComp,
-	},
 	data() {
 		return {
 			treatmentsPage: {

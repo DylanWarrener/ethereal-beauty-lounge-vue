@@ -5,39 +5,37 @@
 		:max-width="computed_css_maxWidth"
 		:max-height="computed_css_maxHeight"
 	>
-		<common-card-container-component elevation="0">
+		<container-card>
 			<template #card-toolbar>
-				<v-col cols="12">
+				<v-col cols="12" class="pa-0">
 					<v-toolbar flat class="px-2 bg-accent">
 						<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 						<v-spacer></v-spacer>
 						<slot name="card-toolbar-buttons"></slot>
 						<v-tooltip location="bottom" :text="computed_tooltip_dialog_closeBtn_state">
 							<template #activator="{ props }">
-								<v-btn
-									icon
+								<container-btn
 									variant="flat"
 									class="ma-0 bg-transparent"
+									:icon="computed_icon_dialog_closeBtn_state"
 									v-bind="props"
 									@click="$emit('close')"
-								>
-									<v-icon class="text-default" :icon="computed_icon_dialog_closeBtn_state"></v-icon>
-								</v-btn>
+								></container-btn>
 							</template>
 						</v-tooltip>
 					</v-toolbar>
 				</v-col>
 			</template>
-			<template #card-content>
+			<template #card-content v-if="method_event_slotIsPopulated('dialog-card-content')">
 				<v-col cols="12">
 					<slot name="dialog-card-content"></slot>
 				</v-col>
 			</template>
 			<v-divider></v-divider>
-			<template #card-actions>
+			<template #card-actions v-if="method_event_slotIsPopulated('dialog-card-actions')">
 				<slot name="dialog-card-actions"></slot>
 			</template>
-		</common-card-container-component>
+		</container-card>
 	</v-dialog>
 </template>
 
@@ -48,14 +46,8 @@ import { defineComponent } from "vue";
 import useEventStore from "@stores/store-events.js";
 import useCommonStore from "@stores/store-common.js";
 
-// Components
-import CardContainerComp from "@components/common/card/common-card.vue";
-
 export default defineComponent({
 	name: "dialog-container-component",
-	components: {
-		"common-card-container-component": CardContainerComp,
-	},
 	props: {
 		toolbarTitle: { type: String, required: false },
 	},
@@ -82,6 +74,11 @@ export default defineComponent({
 		},
 		computed_css_maxHeight(): string {
 			return "80%";
+		},
+	},
+	methods: {
+		method_event_slotIsPopulated(slotName: string): boolean {
+			return this.$slots[slotName] !== undefined;
 		},
 	},
 	setup() {

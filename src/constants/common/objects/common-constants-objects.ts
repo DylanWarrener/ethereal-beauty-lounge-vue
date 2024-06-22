@@ -68,6 +68,8 @@ export const CONST_OBJECT_TEXT_ROUTE_NAMES = {
 	register: "register",
 	account: "account",
 	basket: "basket",
+	signIn: "signIn",
+	signUp: "signUp",
 };
 /* Route links */
 export const CONST_OBJECT_TEXT_ROUTE_LINKS = {
@@ -78,8 +80,6 @@ export const CONST_OBJECT_TEXT_ROUTE_LINKS = {
 	contact: "/contact",
 	reviews: "/reviews",
 	about: "/about",
-	login: "/login",
-	register: "/register",
 	account: "/account",
 	basket: "/basket",
 };

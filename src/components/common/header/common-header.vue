@@ -1,7 +1,7 @@
 <template>
 	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" density="comfortable">
 		<!-- APP BAR LEFT -->
-		<common-card-container-component
+		<container-card
 			hover
 			exact
 			elevation="0"
@@ -18,51 +18,44 @@
 					<v-img cover src="logo-transparent.png" width="100%" height="100%"></v-img>
 				</v-col>
 			</template>
-		</common-card-container-component>
-		<template v-if="computed_data_appBar_btnMobileMenu_show_state">
-			<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
+		</container-card>
+		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
 			<template #activator="{ props }">
-				<common-btn-container-component
+				<container-btn
 					varient="flat"
 					class="d-flex d-md-none"
-					:id="computed_id_appBar_btnMobileMenu_local"
 					:icon="computed_icon_appBar_btnMobileMenu_local"
 					v-bind="props"
 					@click="computed_data_appBar_btnMobileMenu_show_state = !computed_data_appBar_btnMobileMenu_show_state"
-				></common-btn-container-component>
+				></container-btn>
 			</template>
 		</v-tooltip>
-		</template>
 		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
-		<common-btn-container-component
+		<container-btn
 			class="d-none d-md-flex"
-			:id="computed_id_appBar_btnHome_local"
 			:text="computed_text_appBar_btnHome_local"
 			:to="computed_link_appBar_btnHome_local"
-		></common-btn-container-component>
-		<common-btn-container-component
+		></container-btn>
+		<container-btn
 			class="d-none d-md-flex"
-			:id="computed_id_appBar_btnTreatments_local"
 			:text="computed_text_appBar_btnTreatments_local"
 			:to="computed_link_appBar_btnTreatments_local"
-		></common-btn-container-component>
-		<common-btn-container-component
+		></container-btn>
+		<container-btn
 			class="d-none d-md-flex"
-			:id="computed_id_appBar_btnStore_local"
 			:text="computed_text_appBar_btnStore_local"
 			:to="computed_link_appBar_btnStore_local"
-		></common-btn-container-component>
-		<common-btn-menu-container-component>
-			<template #menu-btn="{ menuProps, tooltipProps }">
-				<common-btn-container-component
-					class="d-flex d-md-flex"
-					:id="computed_id_appBar_btnInformation_local"
+		></container-btn>
+		<container-menu>
+			<template #menu-btn="{ props }">
+				<container-btn
+					class="d-none d-md-flex"
 					:text="computed_text_appBar_btnInformation_local"
-					v-bind="mergeProps(menuProps, tooltipProps)"
+					v-bind="props"
 					@click="computed_data_appBar_btnInformation_show_state = !computed_data_appBar_btnInformation_show_state"
-				></common-btn-container-component>
+				></container-btn>
 			</template>
 			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
@@ -77,34 +70,57 @@
 					</v-list-item>
 				</v-list>
 			</template>
-		</common-btn-menu-container-component>
+		</container-menu>
+		<v-spacer></v-spacer>
 
-		<v-divider vertical inset class="mx-2 d-flex d-lg-none border-opacity-100"></v-divider>
+		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
-		<common-btn-menu-container-component :tooltip-text="computed_tooltip_appBar_btnBasket_local">
-			<template #menu-btn="{ menuProps, tooltipProps }">
-				<common-btn-container-component
-					class="d-flex d-md-flex"
-					:id="computed_id_appBar_btnBasket_local"
-					:icon="computed_icon_appBar_btnBasket_local"
-					v-bind="mergeProps(menuProps, tooltipProps)"
-					@click="computed_data_appBar_btnBasketShow_show_state = !computed_data_appBar_btnBasketShow_show_state"
-				></common-btn-container-component>
+		<container-menu>
+			<template #menu-btn="{ props: menuProps }">
+				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnBasket_local">
+					<template #activator="{ props: tooltipProps }">
+						<container-btn
+							class="d-flex d-md-flex"
+							:icon="computed_icon_appBar_btnBasket_local"
+							v-bind="mergeProps(menuProps, tooltipProps)"
+							@click="computed_data_appBar_btnBasket_show_state = !computed_data_appBar_btnBasket_show_state"
+						></container-btn>
+					</template>
+				</v-tooltip>
 			</template>
-		</common-btn-menu-container-component>
-		<common-btn-menu-container-component
-			:tooltip-text="computed_tooltip_appBar_btnAccount_local"
-			v-if="!computed_data_user_isLoggedIn"
-		>
-			<template #menu-btn="{ menuProps, tooltipProps }">
-				<common-btn-container-component
-					class="d-flex d-md-flex"
-					:id="computed_id_appBar_btnAccount_local"
-					:icon="computed_icon_appBar_btnAccount_local"
-					v-bind="mergeProps(menuProps, tooltipProps)"
-					@click="computed_data_appBar_btnAccountShow_show_state = !computed_data_appBar_btnAccountShow_show_state"
-				></common-btn-container-component>
+			<template #menu-items>
+				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
+					<v-list-item class="text-inverted text-uppercase">
+						<span class="text-uppercase">Not sure yet...</span>
+					</v-list-item>
+				</v-list>
+			</template>
+		</container-menu>
+		<container-btn
+			variant="flat"
+			text="Sign in"
+			@click="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
+		></container-btn>
+		<container-btn
+			variant="flat"
+			color="inverted"
+			text="Sign Up"
+			@click="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
+		></container-btn>
+		<!-- <container-menu>
+			<template #menu-btn>
+				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount_local">
+					<template #activator="{ props }">
+						<container-btn
+							class="d-flex d-md-flex"
+							:icon="computed_icon_appBar_btnAccount_local"
+							v-bind="props"
+							v-if="!computed_data_user_isLoggedIn"
+							@click="method_event_account_clickHandler"
+						></container-btn>
+					</template>
+				</v-tooltip>
 			</template>
 			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
@@ -116,25 +132,49 @@
 					</v-list-item>
 				</v-list>
 			</template>
-		</common-btn-menu-container-component>
-		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount" v-else>
+		</container-menu> -->
+		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount" v-if="computed_data_user_isLoggedIn">
 			<template #activator="{ props }">
-				<common-btn-container-component
+				<container-btn
 					class="d-flex d-lg-none"
 					:text="computed_text_appBar_btnAccount_local"
 					:to="computed_link_appBar_btnAccount_local"
 					v-bind="props"
 					@click="computed_data_appBar_btnAccount_show_state = !computed_data_appBar_btnAccount_show_state"
-				></common-btn-container-component>
+				></container-btn>
 			</template>
 		</v-tooltip>
 	</v-app-bar>
 
-	<common-navigation-container-component
+	<container-dialog
+		:toolbar-title="computed_text_dialog_signIn_toolbarTitle_local"
+		@close="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
+		v-model="computed_data_appBar_btnSignIn_show_state"
+	>
+		<template #dialog-card-content>
+			<component
+				:is="computed_data_dialog_signIn_selectedComponent"
+				@change.self="method_event_setSignUpSelectedComponent"
+			></component>
+		</template>
+	</container-dialog>
+	<container-dialog
+		:toolbar-title="computed_text_dialog_signUp_toolbarTitle_local"
+		@close="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
+		v-model="computed_data_appBar_btnSignUp_show_state"
+	>
+		<template #dialog-card-content>
+			<component
+				:is="computed_data_dialog_signUp_selectedComponent"
+				@change.self="method_event_setSignInSelectedComponent"
+			></component>
+		</template>
+	</container-dialog>
+	<container-navigation
 		location="bottom"
 		:navigation="computed_data_navigation_mobileMenu"
-		v-model="computed_data_appBar_btnMobileMenu"
-	></common-navigation-container-component>
+		v-model="computed_data_appBar_btnMobileMenu_show_state"
+	></container-navigation>
 </template>
 
 <script lang="ts">
@@ -146,11 +186,9 @@ import useHeaderStore from "@stores/store-header.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
-import CardContainerComp from "@components/common/card/common-card.vue";
-import BtnContainerComp from "@components/common/button/common-btn.vue";
-import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
-import NavigationContainerComp from "@components/common/navigation/common-navigation.vue";
+import SignInComp from "@components/common/form/signIn/common-form-sign-in.vue";
+import SignUpComp from "@components/common/form/signUp/common-form-sign-up.vue";
 
 // Constants
 import {
@@ -164,11 +202,9 @@ import {
 export default defineComponent({
 	name: "header-container-component",
 	components: {
-		"common-card-container-component": CardContainerComp,
-		"common-btn-container-component": BtnContainerComp,
 		"common-navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
-		"common-btn-menu-container-component": BtnMenuContainerComp,
-		"common-navigation-container-component": NavigationContainerComp,
+		"container-sign-in": SignInComp,
+		"container-sign-up": SignUpComp,
 	},
 	data(): any {
 		return {
@@ -219,18 +255,42 @@ export default defineComponent({
 								text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
 								link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 							},
-							login: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.login,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.login,
+							signIn: {
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.signIn,
 							},
-							register: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.register,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.register,
+							signUp: {
+								text: CONST_OBJECT_TEXT_ROUTE_NAMES.signUp,
 							},
 							account: {
 								text: CONST_OBJECT_TEXT_ROUTE_NAMES.account,
 								link: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
 							},
+						},
+					},
+				},
+				dialog: {
+					signInCard: {
+						toolbar: {
+							title: "Sign In",
+						},
+						content: {
+							signInSelectedComponent: "container-sign-in",
+							signInComponent: ["container-sign-in"],
+						},
+						actions: {
+							buttons: {},
+						},
+					},
+					signUpCard: {
+						toolbar: {
+							title: "Sign Up",
+						},
+						content: {
+							signUpSelectedComponent: "container-sign-up",
+							signUpComponent: ["container-sign-up"],
+						},
+						actions: {
+							buttons: {},
 						},
 					},
 				},
@@ -259,14 +319,20 @@ export default defineComponent({
 		computed_text_appBar_btnAbout_local(): string {
 			return this.header.appbar.buttons.text.about.text;
 		},
-		computed_text_appBar_btnLogin_local(): string {
-			return this.header.appbar.buttons.text.login.text;
+		computed_text_appBar_btnSignIn_local(): string {
+			return this.header.appbar.buttons.text.signIn.text;
 		},
-		computed_text_appBar_btnRegister_local(): string {
-			return this.header.appbar.buttons.text.register.text;
+		computed_text_appBar_btnSignUp_local(): string {
+			return this.header.appbar.buttons.text.signUp.text;
 		},
 		computed_text_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.text.account.text;
+		},
+		computed_text_dialog_signIn_toolbarTitle_local(): string {
+			return this.header.dialog.signInCard.toolbar.title;
+		},
+		computed_text_dialog_signUp_toolbarTitle_local(): string {
+			return this.header.dialog.signUpCard.toolbar.title;
 		},
 
 		computed_link_appBar_btnHome_local(): string {
@@ -292,12 +358,6 @@ export default defineComponent({
 		},
 		computed_link_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.link;
-		},
-		computed_link_appBar_btnLogin_local(): string {
-			return this.header.appbar.buttons.text.login.link;
-		},
-		computed_link_appBar_btnRegister_local(): string {
-			return this.header.appbar.buttons.text.register.link;
 		},
 
 		computed_tooltip_appBar_btnMobileMenu_local(): string {
@@ -333,6 +393,18 @@ export default defineComponent({
 		},
 		computed_data_user_isLoggedIn(): boolean {
 			return this.storeFirebase.get_userAuth_isLoggedIn_state;
+		},
+		computed_data_dialog_signIn_selectedComponent(): string {
+			return this.header.dialog.signInCard.content.signInSelectedComponent;
+		},
+		computed_data_dialog_signUp_selectedComponent(): string {
+			return this.header.dialog.signUpCard.content.signUpSelectedComponent;
+		},
+		computed_data_dialog_signIn_availableComponents(): string[] {
+			return this.header.dialog.signInCard.content.signInComponent;
+		},
+		computed_data_dialog_signUp_availableComponents(): string[] {
+			return this.header.dialog.signUpCard.content.signUpComponent;
 		},
 		computed_data_navigation_mobileMenu(): any[] {
 			return this.storeHeader.get_navigation_mobileMenu_state;
@@ -373,38 +445,37 @@ export default defineComponent({
 				this.storeHeader.set_appBar_account_show_state(newValue);
 			},
 		},
+		computed_data_appBar_btnSignIn_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_signIn_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_signIn_show_state(newValue);
+			},
+		},
+		computed_data_appBar_btnSignUp_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_signUp_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_signUp_show_state(newValue);
+			},
+		},
 	},
 	methods: {
 		mergeProps,
 		method_event_logout(): void {
 			this.storeFirebase.logout_userAuth();
 		},
+		method_event_setSignInSelectedComponent(selectedComponent: string): void {},
+		method_event_setSignUpSelectedComponent(): void {},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
 		const storeCommon = useCommonStore();
 		const storeHeader = useHeaderStore();
 
-		const routeNames = CONST_OBJECT_TEXT_ROUTE_NAMES;
-		const routeLinks = CONST_OBJECT_TEXT_ROUTE_LINKS;
-
-		const appbarTooltips = CONST_OBJECT_TOOLTIPS_APPBAR;
-		const appbarIcons = CONST_OBJECT_ICONS_APPBAR_GENERAL;
-		const navigationGroups = CONST_OBJECT_TEXT_NAVIGATION_GROUPS;
-
-
-		return { 
-			storeFirebase, 
-			storeCommon, 
-			storeHeader, 
-			
-			routeNames, 
-			routeLinks,
-
-			appbarTooltips,
-			appbarIcons,
-			navigationGroups,
-		};
+		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>

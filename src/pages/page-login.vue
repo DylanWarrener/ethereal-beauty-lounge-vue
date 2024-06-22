@@ -1,10 +1,10 @@
 <template>
-	<common-canvas-container-component :src="computed_data_canvas_img">
+	<container-canvas :src="computed_data_canvas_img">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
+						<container-card variant="flat" style="background-color: rgba(0, 0, 0, 0.3)">
 							<template #card-headings>
 								<!-- Title -->
 								<v-col cols="12">
@@ -18,22 +18,22 @@
 							</template>
 							<template #card-actions>
 								<v-spacer></v-spacer>
-								<common-btn-container-component
+								<container-btn
 									variant="flat"
 									:text="computed_text_canvasCard_btn"
 									@click="method_event_scrollToElement('section-login')"
-								></common-btn-container-component>
+								></container-btn>
 							</template>
-						</common-card-container-component>
+						</container-card>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</common-canvas-container-component>
+	</container-canvas>
 
-	<common-divider-container-component></common-divider-container-component>
+	<container-divider></container-divider>
 
-	<common-section-container-component
+	<container-section
 		id="section-login"
 		title-class="text-inverted"
 		subtitle-class="text-inverted"
@@ -55,7 +55,7 @@
 				</v-row>
 			</v-container>
 		</template>
-	</common-section-container-component>
+	</container-section>
 </template>
 
 <script lang="ts">
@@ -66,11 +66,6 @@ import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 
 /* Components */
-import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
-import CardContainerComp from "@components/common/card/common-card.vue";
-import BtnContainerComp from "@components/common/button/common-btn.vue";
-import DividerContainerComp from "@components/common/divider/common-divider.vue";
-import SectionContainerComp from "@components/common/section/common-section.vue";
 import LoginContainerComp from "@components/common/form/login/common-form-login.vue";
 import ForgottenPasswordContainerComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 import RecoverAccountContainerComp from "@components/common/form/recover-account/common-form-recover-account.vue";
@@ -85,11 +80,6 @@ import CanvasPNG from "@assets/jpg/temp.jpg";
 export default defineComponent({
 	name: "common-login-page-container-component",
 	components: {
-		"common-canvas-container-component": CanvasContainerComp,
-		"common-card-container-component": CardContainerComp,
-		"common-btn-container-component": BtnContainerComp,
-		"common-divider-container-component": DividerContainerComp,
-		"common-section-container-component": SectionContainerComp,
 		"common-login-container-component": LoginContainerComp,
 		"common-forgotten-password-container-component": ForgottenPasswordContainerComp,
 		"common-recover-account-container-component": RecoverAccountContainerComp,

@@ -55,6 +55,15 @@ import {
 	VItemGroup,
 	VFooter,
 } from "vuetify/components";
+import ContainerBtn from "@components/common/button/common-btn.vue";
+import ContainerCard from "@components/common/card/common-card.vue";
+import ContainerNavigation from "@components/common/navigation/common-navigation.vue";
+import ContainerCanvas from "@components/common/canvas/common-canvas.vue";
+import ContainerDivider from "@components/common/divider/common-divider.vue";
+import ContainerSection from "@components/common/section/common-section.vue";
+import ContainerDialog from "@components/common/dialog/common-dialog.vue";
+import ContainerMenu from "@components/common/menu/common-menu.vue";
+import ContainerForm from "@components/common/form/common-form.vue";
 import { VExpandTransition } from "vuetify/components/transitions";
 import { Resize, Ripple, Scroll } from "vuetify/directives";
 
@@ -138,6 +147,16 @@ const vuetify = createVuetify({
 		VItem,
 		VItemGroup,
 		VFooter,
+		// Custom components
+		ContainerBtn,
+		ContainerCard,
+		ContainerNavigation,
+		ContainerCanvas,
+		ContainerDivider,
+		ContainerSection,
+		ContainerDialog,
+		ContainerMenu,
+		ContainerForm,
 
 		// Transitions
 		VExpandTransition,

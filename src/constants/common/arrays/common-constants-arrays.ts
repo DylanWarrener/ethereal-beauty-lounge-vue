@@ -2,7 +2,7 @@
 import {
 	IHeaderNavigationCommonItemState,
 	IHeaderNavigationCommonNonMobileItemState,
-} from '@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js';
+} from "@declarations/common/header/interfaces/navigation/common-interface-header-navigation.js";
 
 // Constants
 import {
@@ -13,7 +13,7 @@ import {
 
 	// Icons
 	CONST_OBJECT_ICONS_NAVIGATION,
-} from '@base/src/constants/common/objects/common-constants-objects.js';
+} from "@base/src/constants/common/objects/common-constants-objects.js";
 
 export const NAVIGATION_MOBLE_MENU: IHeaderNavigationCommonItemState[] = [
 	{

@@ -2,18 +2,23 @@
 	<v-card class="d-flex flex-column" :style="cardStyle" :class="computed_css_cardClass">
 		<v-container
 			fluid
-			class="h-100 d-flex flex-column"
-			style="border: 4px solid red"
+			class="pa-0 h-100 d-flex flex-column overflow-hidden"
 			:class="containerClass"
 			:style="containerStyle"
 		>
 			<!-- Toolbar -->
-			<v-row :class="toolbarRowClass" :style="toolbarRowStyle" v-if="method_event_slotIsPopulated('card-toolbar')">
+			<v-row
+				dense
+				:class="toolbarRowClass"
+				:style="toolbarRowStyle"
+				v-if="method_event_slotIsPopulated('card-toolbar')"
+			>
 				<slot name="card-toolbar"></slot>
 			</v-row>
 
 			<!-- Images -->
 			<v-row
+				dense
 				class="overflow-hidden"
 				:class="imageRowClass"
 				:style="imageRowStyle"
@@ -24,6 +29,7 @@
 
 			<!-- Headings -->
 			<v-row
+				dense
 				style="border: 4px solid green"
 				:class="headingRowClass"
 				:style="headingRowStyle"
@@ -34,6 +40,7 @@
 
 			<!-- Content -->
 			<v-row
+				dense
 				class="h-100"
 				style="border: 4px solid green"
 				:class="contentRowClass"
@@ -45,6 +52,7 @@
 
 			<!-- Actions -->
 			<v-row
+				dense
 				style="border: 4px solid green"
 				:class="actionRowClass"
 				:style="actionRowStyle"

@@ -7,12 +7,8 @@
 		:left="computed_data_menuLocationLeft"
 		:transition="menuTransition"
 	>
-		<template #activator="{ props: menu }">
-			<v-tooltip location="bottom" :text="tooltipText">
-				<template #activator="{ props: tooltip }">
-					<slot name="menu-btn" :menu-props="menu" :tooltip-props="tooltip"></slot>
-				</template>
-			</v-tooltip>
+		<template #activator="{ props }">
+			<slot name="menu-btn" :props="props"></slot>
 		</template>
 		<slot name="menu-items"></slot>
 	</v-menu>
@@ -26,8 +22,6 @@ export default defineComponent({
 	props: {
 		menuLocation: { type: String, required: false, default: "bottom" },
 		menuTransition: { type: String, required: false, default: "slide-y-transition" },
-
-		tooltipText: { type: String, required: false, default: "" },
 	},
 	computed: {
 		computed_data_menuLocationTop(): boolean {

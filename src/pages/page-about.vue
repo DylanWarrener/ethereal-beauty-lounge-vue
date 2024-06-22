@@ -1,10 +1,10 @@
 <template>
-	<common-canvas-container-component :src="computed_img_canvas">
+	<container-canvas :src="computed_img_canvas">
 		<template #canvas-content>
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<common-card-container-component variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
+						<container-card variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
 							<template #card-headings>
 								<!-- Title -->
 								<v-col cols="12">
@@ -18,22 +18,22 @@
 							</template>
 							<template #card-actions>
 								<v-spacer></v-spacer>
-								<common-btn-container-component
+								<container-btn
 									variant="flat"
 									:text="computed_text_canvasCard_btn"
 									@click="method_event_scrollToElement('section-about')"
-								></common-btn-container-component>
+								></container-btn>
 							</template>
-						</common-card-container-component>
+						</container-card>
 					</v-col>
 				</v-row>
 			</v-container>
 		</template>
-	</common-canvas-container-component>
+	</container-canvas>
 
-	<common-divider-container-component></common-divider-container-component>
+	<container-divider></container-divider>
 
-	<common-section-container-component id="section-about" title-class="text-inverted" :title="computed_text_section_title">
+	<container-section id="section-about" title-class="text-inverted" :title="computed_text_section_title">
 		<template #section-content>
 			<v-container fluid class="text-inverted">
 				<v-row dense class="d-flex ga-4">
@@ -50,7 +50,7 @@
 						</v-row>
 					</v-col>
 
-					<common-divider-container-component></common-divider-container-component>
+					<container-divider></container-divider>
 
 					<!-- Our services -->
 					<v-col cols="12">
@@ -75,7 +75,7 @@
 						</v-row>
 					</v-col>
 
-					<common-divider-container-component></common-divider-container-component>
+					<container-divider></container-divider>
 
 					<!-- Our team -->
 					<v-col cols="12">
@@ -92,18 +92,11 @@
 				</v-row>
 			</v-container>
 		</template>
-	</common-section-container-component>
+	</container-section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-// Components
-import CanvasContainerComp from "@components/common/canvas/common-canvas.vue";
-import BtnContainerComp from "@components/common/button/common-btn.vue";
-import DividerContainerComp from "@components/common/divider/common-divider.vue";
-import CardContainerComp from "@components/common/card/common-card.vue";
-import SectionContainerComp from "@components/common/section/common-section.vue";
 
 // Constants
 import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
@@ -113,13 +106,6 @@ import CanvasPNG from "@assets/jpg/temp.jpg";
 
 export default defineComponent({
 	name: "about-page-container-component",
-	components: {
-		"common-canvas-container-component": CanvasContainerComp,
-		"common-card-container-component": CardContainerComp,
-		"common-btn-container-component": BtnContainerComp,
-		"common-divider-container-component": DividerContainerComp,
-		"common-section-container-component": SectionContainerComp,
-	},
 	data() {
 		return {
 			aboutPage: {

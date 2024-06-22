@@ -1,5 +1,5 @@
 <template>
-	<common-section-container-component
+	<container-section
 		id="section-account"
 		style-container="margin-top: 64px; min-height: calc(100vh - 64px)"
 		class-title="text-inverted"
@@ -111,25 +111,23 @@
 				</v-row>
 			</v-container>
 		</template>
-	</common-section-container-component>
+	</container-section>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 // Components
-import SectionContainerComp from "@components/common/section/common-section.vue";
 import AccountProfileComp from "@components/uncommon/account/profile/uncommon-account-profile.vue";
 import AccountSecurityComp from "@components/uncommon/account/security/uncommon-account-security.vue";
 import AccountNotificationsComp from "@components/uncommon/account/notifications/uncommon-account-notifications.vue";
 
 // Icons
-import { iconsAccountNavigation } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_LIST_GROUPS } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "common-account-page-container-component",
 	components: {
-		"common-section-container-component": SectionContainerComp,
 		"uncommon-account-profile-component": AccountProfileComp,
 		"uncommon-account-security-component": AccountSecurityComp,
 		"uncommon-account-notifications-component": AccountNotificationsComp,
@@ -146,17 +144,17 @@ export default defineComponent({
 					profile: {
 						text: "Profile",
 						value: "profile",
-						icon: iconsAccountNavigation.profile,
+						icon: CONST_OBJECT_ICONS_LIST_GROUPS.profile,
 					},
 					security: {
 						text: "Security",
 						value: "security",
-						icon: iconsAccountNavigation.security,
+						icon: CONST_OBJECT_ICONS_LIST_GROUPS.security,
 					},
 					notifications: {
 						text: "Notifications",
 						value: "notifications",
-						icon: iconsAccountNavigation.notifications,
+						icon: CONST_OBJECT_ICONS_LIST_GROUPS.notifications,
 					},
 				},
 				content: {

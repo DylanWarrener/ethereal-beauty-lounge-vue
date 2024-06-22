@@ -1,27 +1,27 @@
 <template>
-	<common-btn-container-component
+	<container-btn
 		class="d-none d-md-flex"
 		:text="computed_text_appBar_btnHome"
 		:to="computed_link_appBar_homeBtn"
-	></common-btn-container-component>
-	<common-btn-container-component
+	></container-btn>
+	<container-btn
 		class="d-none d-md-flex"
 		:text="computed_text_appBar_btnTreatments"
 		:to="computed_link_appBar_treatmentBtn"
-	></common-btn-container-component>
-	<common-btn-container-component
+	></container-btn>
+	<container-btn
 		class="d-none d-md-flex"
 		:text="computed_text_appBar_btnStore"
 		:to="computed_link_appBar_storeBtn"
-	></common-btn-container-component>
+	></container-btn>
 	<common-btn-menu-container-component>
 		<template #menu-btn="{ menuProps, tooltipProps }">
-			<common-btn-container-component
+			<container-btn
 				class="d-flex d-md-flex"
 				:text="computed_text_appBar_btnInformation"
 				v-bind="mergeProps(menuProps, tooltipProps)"
 				@click="navigation.information.drawer = !navigation.information.drawer"
-			></common-btn-container-component>
+			></container-btn>
 		</template>
 		<template #menu-items>
 			<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
@@ -43,11 +43,13 @@
 import { defineComponent, mergeProps } from "vue";
 
 // Components
-import BtnContainerComp from "@components/common/button/common-btn.vue";
 import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 
 // Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES, CONST_OBJECT_TEXT_ROUTE_LINKS } from "@constants/common/objects/common-constants-objects.js";
+import {
+	CONST_OBJECT_TEXT_ROUTE_NAMES,
+	CONST_OBJECT_TEXT_ROUTE_LINKS,
+} from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -55,7 +57,6 @@ import { mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/commo
 export default defineComponent({
 	name: "navigation-pages-non-mobile-menu-container-component",
 	components: {
-		"common-btn-container-component": BtnContainerComp,
 		"common-btn-menu-container-component": BtnMenuContainerComp,
 	},
 	data() {

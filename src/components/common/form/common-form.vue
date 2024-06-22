@@ -1,5 +1,5 @@
 <template>
-	<v-form validate-on="input lazy" @submit.prevent="submit_handler">
+	<v-form validate-on="input lazy" @submit.prevent="$emit('submit')">
 		<slot name="form-content"></slot>
 	</v-form>
 </template>
@@ -18,10 +18,5 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
 	name: "form-container-component",
-	methods: {
-		submit_handler(): void {
-			this.$emit("submit");
-		},
-	},
 });
 </script>

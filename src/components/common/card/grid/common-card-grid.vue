@@ -10,7 +10,7 @@
 			>
 				<template :key="index" v-for="(row, index) in column">
 					<v-hover v-slot:default="{ isHovering, props }">
-						<common-card-container-component
+						<container-card
 							class="d-flex justify-center align-center"
 							width="100%"
 							:is-hovering="isHovering"
@@ -25,15 +25,14 @@
 										class="w-100 d-flex justify-center align-center transition-fast-in-fast-out v-card--reveal"
 										v-if="isHovering"
 									>
-										<common-btn-container-component
+										<container-btn
 											variant="flat"
-											:id="computed_id_section_card_actions_btnSeeTreatments"
 											:text="computed_text_section_card_actions_btnSeeTreatments"
-										></common-btn-container-component>
+										></container-btn>
 									</div>
 								</v-expand-transition>
 							</template>
-						</common-card-container-component>
+						</container-card>
 					</v-hover>
 				</template>
 			</v-col>
@@ -44,19 +43,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Components
-import CardContainerComp from "@components/common/card/common-card.vue";
-import BtnContainerComp from "@components/common/button/common-btn.vue";
-
 // Constants
 import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "card-grid-container-component",
-	components: {
-		"common-card-container-component": CardContainerComp,
-		"common-btn-container-component": BtnContainerComp,
-	},
 	data() {
 		return {
 			grid: {
@@ -87,7 +78,6 @@ export default defineComponent({
 					actions: {
 						buttons: {
 							seeTreatments: {
-								id: CONST_OBJECT_IDS_SECTION_BUTTONS.seeTreatments,
 								text: "See treatments?",
 							},
 						},
@@ -97,10 +87,6 @@ export default defineComponent({
 		};
 	},
 	computed: {
-		computed_id_section_card_actions_btnSeeTreatments(): string {
-			return this.grid.card.actions.buttons.seeTreatments.id;
-		},
-
 		computed_text_section_card_actions_btnSeeTreatments(): string {
 			return this.grid.card.actions.buttons.seeTreatments.text;
 		},
