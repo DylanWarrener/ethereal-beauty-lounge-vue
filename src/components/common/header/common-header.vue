@@ -146,6 +146,7 @@
 		</v-tooltip>
 	</v-app-bar>
 
+	<!-- Sign in dialog -->
 	<container-dialog
 		:toolbar-title="computed_text_dialog_signIn_toolbarTitle_local"
 		@close="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
@@ -154,10 +155,20 @@
 		<template #dialog-card-content>
 			<component
 				:is="computed_data_dialog_signIn_selectedComponent"
-				@change.self="method_event_setSignUpSelectedComponent"
+				@change.self="method_event_setSignInSelectedComponent"
 			></component>
 		</template>
+		<template #dialog-card-actions>
+			<v-spacer></v-spacer>
+			<container-btn
+				variant="flat"
+				:text="computed_text_dialog_btnForgottenPassword_local"
+				@click="method_event_dialog_forgottenPassword_clickHandler"
+			></container-btn>
+		</template>
 	</container-dialog>
+
+	<!-- Sign up dialog -->
 	<container-dialog
 		:toolbar-title="computed_text_dialog_signUp_toolbarTitle_local"
 		@close="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
@@ -166,7 +177,7 @@
 		<template #dialog-card-content>
 			<component
 				:is="computed_data_dialog_signUp_selectedComponent"
-				@change.self="method_event_setSignInSelectedComponent"
+				@change.self="method_event_setSignUpSelectedComponent"
 			></component>
 		</template>
 	</container-dialog>
@@ -189,6 +200,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import NavigationPagesNonMobileMenuContainerComp from "@components/uncommon/navigation/pages/non-mobile-menu/uncommon-navigation-pages-non-mobile-menu.vue";
 import SignInComp from "@components/common/form/signIn/common-form-sign-in.vue";
 import SignUpComp from "@components/common/form/signUp/common-form-sign-up.vue";
+import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 
 // Constants
 import {
@@ -205,6 +217,7 @@ export default defineComponent({
 		"common-navigation-pages-non-mobile-menu": NavigationPagesNonMobileMenuContainerComp,
 		"container-sign-in": SignInComp,
 		"container-sign-up": SignUpComp,
+		"container-forgotten-password": ForgottenPasswordComp,
 	},
 	data(): any {
 		return {
@@ -275,10 +288,14 @@ export default defineComponent({
 						},
 						content: {
 							signInSelectedComponent: "container-sign-in",
-							signInComponent: ["container-sign-in"],
+							signInComponent: ["container-sign-in", "container-forgotten-password"],
 						},
 						actions: {
-							buttons: {},
+							buttons: {
+								forgottenPassword: {
+									text: "Forgotten password?",
+								},
+							},
 						},
 					},
 					signUpCard: {
@@ -330,6 +347,9 @@ export default defineComponent({
 		},
 		computed_text_dialog_signIn_toolbarTitle_local(): string {
 			return this.header.dialog.signInCard.toolbar.title;
+		},
+		computed_text_dialog_btnForgottenPassword_local(): string {
+			return this.header.dialog.signInCard.actions.buttons.forgottenPassword.text;
 		},
 		computed_text_dialog_signUp_toolbarTitle_local(): string {
 			return this.header.dialog.signUpCard.toolbar.title;
@@ -394,12 +414,6 @@ export default defineComponent({
 		computed_data_user_isLoggedIn(): boolean {
 			return this.storeFirebase.get_userAuth_isLoggedIn_state;
 		},
-		computed_data_dialog_signIn_selectedComponent(): string {
-			return this.header.dialog.signInCard.content.signInSelectedComponent;
-		},
-		computed_data_dialog_signUp_selectedComponent(): string {
-			return this.header.dialog.signUpCard.content.signUpSelectedComponent;
-		},
 		computed_data_dialog_signIn_availableComponents(): string[] {
 			return this.header.dialog.signInCard.content.signInComponent;
 		},
@@ -413,6 +427,22 @@ export default defineComponent({
 			return this.storeHeader.get_navigation_pcMenu_state;
 		},
 
+		computed_data_dialog_signIn_selectedComponent: {
+			get(): string {
+				return this.header.dialog.signInCard.content.signInSelectedComponent;
+			},
+			set(newValue: string): void {
+				this.header.dialog.signInCard.content.signInSelectedComponent = newValue;
+			},
+		},
+		computed_data_dialog_signUp_selectedComponent: {
+			get(): string {
+				return this.header.dialog.signUpCard.content.signUpSelectedComponent;
+			},
+			set(newValue: string): void {
+				this.header.dialog.signUpCard.content.signUpSelectedComponent = newValue;
+			},
+		},
 		computed_data_appBar_btnMobileMenu_show_state: {
 			get(): boolean {
 				return this.storeHeader.get_appBar_mobileMenu_show_state;
@@ -467,8 +497,15 @@ export default defineComponent({
 		method_event_logout(): void {
 			this.storeFirebase.logout_userAuth();
 		},
-		method_event_setSignInSelectedComponent(selectedComponent: string): void {},
-		method_event_setSignUpSelectedComponent(): void {},
+		method_event_setSignInSelectedComponent(selectedComponent: string): void {
+			this.computed_data_dialog_signIn_selectedComponent = selectedComponent;
+		},
+		method_event_setSignUpSelectedComponent(selectedComponent: string): void {
+			this.computed_data_dialog_signUp_selectedComponent = selectedComponent;
+		},
+		method_event_dialog_forgottenPassword_clickHandler(): void {
+			this.computed_data_dialog_signIn_selectedComponent = "container-forgotten-password";
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

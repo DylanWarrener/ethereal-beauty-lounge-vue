@@ -1,5 +1,5 @@
 <template>
-	<v-btn size="large" :color="color" :class="class" :style="style" :icon="icon" :to="to">
+	<v-btn size="large" :color="color" :class="computed_css_class" :style="style" :icon="icon" :to="to">
 		<template #default v-if="text">
 			<small :class="textClass" :style="textStyle" v-text="text"></small>
 		</template>
@@ -26,7 +26,8 @@ export default defineComponent({
 		computed_css_class(): any {
 			let retval: any = [];
 			if (this.class !== undefined) {
-				retval.push(this.class);
+				const classList = this.class.split(" ");
+				retval.push(...classList);
 			}
 
 			if (!!this.icon) {

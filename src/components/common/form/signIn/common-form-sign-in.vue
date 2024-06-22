@@ -1,22 +1,19 @@
 <template>
 	<container-form @submit="method_event_signIn_clickHandler">
 		<template #form-content>
-			<v-col class="d-flex flex-column">
-				<v-text-field
-					clearable
-					variant="outlined"
-					type="email"
-					style="min-width: 150px; max-width: 300px"
-					:rules="computed_validation_emailRules"
-					v-model="computed_data_formInput_emailValue_local"
-				>
-					<template #label>
-						<span class="text-inverted" v-text="computed_text_formInput_email"></span>
-					</template>
-				</v-text-field>
-			</v-col>
-			<v-col class="d-flex flex-column">
-				<!-- <div
+			<v-text-field
+				clearable
+				variant="outlined"
+				type="email"
+				style="min-width: 150px; max-width: 300px"
+				:rules="computed_validation_emailRules"
+				v-model="computed_data_formInput_email_value_local"
+			>
+				<template #label>
+					<span class="text-inverted" v-text="computed_text_formInput_email"></span>
+				</template>
+			</v-text-field>
+			<!-- <div
 					class="w-100 d-flex justify-end"
 					@click="() => $emit('change', 'common-forgotten-password-container-component')"
 				>
@@ -26,25 +23,24 @@
 						</template>
 					</v-btn>
 				</div> -->
-				<v-text-field
-					clearable
-					variant="outlined"
-					style="min-width: 150px; max-width: 300px"
-					:append-inner-icon="
-						computed_data_formInput_password_show_local ? computed_icon_showPassword : computed_icon_hidePassword
-					"
-					:type="computed_data_formInput_password_show_local ? 'text' : 'password'"
-					:rules="computed_validation_passwordRules"
-					v-model="computed_data_formInput_passwordValue_local"
-					@click:appendInner="
-						computed_data_formInput_password_show_local = !computed_data_formInput_password_show_local
-					"
-				>
-					<template #label>
-						<span class="text-inverted" v-text="computed_text_formInput_password"></span>
-					</template>
-				</v-text-field>
-			</v-col>
+			<v-text-field
+				clearable
+				variant="outlined"
+				style="min-width: 150px; max-width: 300px"
+				:append-inner-icon="
+					computed_data_formInput_password_show_local ? computed_icon_showPassword : computed_icon_hidePassword
+				"
+				:type="computed_data_formInput_password_show_local ? 'text' : 'password'"
+				:rules="computed_validation_passwordRules"
+				v-model="computed_data_formInput_password_value_local"
+				@click:appendInner="
+					computed_data_formInput_password_show_local = !computed_data_formInput_password_show_local
+				"
+			>
+				<template #label>
+					<span class="text-inverted" v-text="computed_text_formInput_password"></span>
+				</template>
+			</v-text-field>
 		</template>
 	</container-form>
 </template>
@@ -65,9 +61,6 @@ export default defineComponent({
 						label: "Email",
 						value: "",
 					},
-					forgottenPassword: {
-						label: "Forgotten password",
-					},
 					password: {
 						label: "Password",
 						value: "",
@@ -75,6 +68,13 @@ export default defineComponent({
 						icons: {
 							show: CONST_OBJECT_ICONS_FORM.show,
 							hide: CONST_OBJECT_ICONS_FORM.hide,
+						},
+					},
+				},
+				actions: {
+					buttons: {
+						forgottenPassword: {
+							text: "Forgotten password",
 						},
 					},
 				},
@@ -86,7 +86,7 @@ export default defineComponent({
 			return this.form.inputs.email.label;
 		},
 		computed_text_formInput_forgottenPassword(): string {
-			return this.form.inputs.forgottenPassword.label;
+			return this.form.actions.buttons.forgottenPassword.text;
 		},
 		computed_text_formInput_password(): string {
 			return this.form.inputs.password.label;
@@ -110,13 +110,22 @@ export default defineComponent({
 			];
 		},
 
-		computed_data_formInput_emailValue_local(): string {
-			return this.form.inputs.email.value;
+		computed_data_formInput_email_value_local: {
+			get(): string {
+				return this.form.inputs.email.value;
+			},
+			set(newValue: string): void {
+				this.form.inputs.email.value = newValue;
+			},
 		},
-		computed_data_formInput_passwordValue_local(): string {
-			return this.form.inputs.password.value;
+		computed_data_formInput_password_value_local: {
+			get(): string {
+				return this.form.inputs.password.value;
+			},
+			set(newValue: string): void {
+				this.form.inputs.password.value = newValue;
+			},
 		},
-
 		computed_data_formInput_password_show_local: {
 			get(): boolean {
 				return this.form.inputs.password.show;
