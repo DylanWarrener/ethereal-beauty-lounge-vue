@@ -9,6 +9,7 @@
 			<!-- Toolbar -->
 			<v-row
 				dense
+				class="flex-shrink-1 flex-grow-0"
 				:class="toolbarRowClass"
 				:style="toolbarRowStyle"
 				v-if="method_event_slotIsPopulated('card-toolbar')"
@@ -20,6 +21,7 @@
 			<v-row
 				dense
 				class="overflow-hidden"
+				style="border: 4px solid green"
 				:class="imageRowClass"
 				:style="imageRowStyle"
 				v-if="method_event_slotIsPopulated('card-img')"
@@ -31,6 +33,7 @@
 			<v-row
 				dense
 				style="border: 4px solid green"
+				class="flex-shrink-1 flex-grow-0"
 				:class="headingRowClass"
 				:style="headingRowStyle"
 				v-if="method_event_slotIsPopulated('card-headings')"
@@ -41,7 +44,7 @@
 			<!-- Content -->
 			<v-row
 				dense
-				class="h-100"
+				class="flex-shrink-1 flex-grow-1"
 				style="border: 4px solid green"
 				:class="contentRowClass"
 				:style="contentRowStyle"
@@ -54,6 +57,7 @@
 			<v-row
 				dense
 				style="border: 4px solid green"
+				class="flex-shrink-1 flex-grow-0"
 				:class="actionRowClass"
 				:style="actionRowStyle"
 				v-if="method_event_slotIsPopulated('card-actions')"

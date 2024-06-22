@@ -6,7 +6,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-	name: "container-sign-up-component",
+	name: "sign-up-container-component",
 	methods: {
 		method_event_signUp_clickHandler(): void {},
 	},

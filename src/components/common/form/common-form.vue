@@ -1,6 +1,10 @@
 <template>
-	<v-form validate-on="input lazy" @submit.prevent="$emit('submit')">
-		<slot name="form-content"></slot>
+	<v-form validate-on="input lazy" style="border: 2px solid orange" @submit.prevent="$emit('submit')">
+		<v-container fluid style="border: 2px solid black">
+			<v-row style="border: 2px solid red">
+				<slot name="form-content"></slot>
+			</v-row>
+		</v-container>
 	</v-form>
 </template>
 

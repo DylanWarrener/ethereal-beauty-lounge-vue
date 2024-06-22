@@ -7,7 +7,7 @@
 	>
 		<container-card>
 			<template #card-toolbar>
-				<v-col cols="12" class="pa-0">
+				<v-col cols="12">
 					<v-toolbar flat class="px-2 bg-accent">
 						<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 						<v-spacer></v-spacer>
