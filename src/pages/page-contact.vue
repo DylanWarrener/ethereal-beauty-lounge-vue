@@ -4,18 +4,11 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<container-card variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
-							<template #card-headings>
-								<!-- Title -->
-								<v-col cols="12">
-									<h1 v-text="computed_text_canvas_cardTitle"></h1>
-								</v-col>
-
-								<!-- Subtitle -->
-								<v-col cols="12">
-									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
-								</v-col>
-							</template>
+						<container-card 
+							variant="flat" 
+							:style="computed_css_canvas_cardBackgroundOpacity"
+							:card-title="computed_text_canvas_cardTitle"
+							:card-subtitle="computed_text_canvas_cardSubtitle">
 							<template #card-actions>
 								<v-spacer></v-spacer>
 								<container-btn
@@ -78,14 +71,15 @@
 
 					<!-- Form -->
 					<v-col cols="12" lg="6">
-						<container-card variant="flat" class="bg-accent rounded">
+						<container-card 
+							variant="flat" 
+							class="bg-accent rounded">
 							<template #card-headings>
-								<v-col cols="12">
-									<h4 class="text-default" v-text="computed_text_section_form_title"></h4>
-								</v-col>
-								<v-col cols="12">
-									<p class="pa-4 text-wrap text-center" v-text="computed_text_section_form_note"></p>
-								</v-col>
+								<!-- Title -->
+								<h3 v-text="computed_text_section_form_title"></h3>
+								
+								<!-- Subtitle -->
+								<h4 v-text="computed_text_section_form_note"></h4>
 							</template>
 							<template #card-content>
 								<v-col cols="12">

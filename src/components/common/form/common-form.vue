@@ -1,24 +1,15 @@
 <template>
 	<v-form
 		validate-on="input lazy"
-		class="ga-4 d-flex justify-center align-center flex-wrap"
-		style="border: 2px solid orange"
 		@submit.prevent="$emit('submit')"
 	>
-		<slot name="form-content"></slot>
+		<v-container fluid class="d-flex flex-column">
+			<slot name="form-content"></slot>
+		</v-container>
 	</v-form>
 </template>
 
 <script lang="ts">
-/*
-<v-text-field type="string" :label="labelFirstname" v-if="labelFirstname"></v-text-field>
-<v-text-field type="string" :label="labelLastname" v-if="labelLastname"></v-text-field>
-<v-text-field type="email" :label="labelEmail" v-if="labelEmail"></v-text-field>
-<v-text-field type="password" :label="labelPassword" v-if="labelPassword"></v-text-field>
-<v-text-field type="repeatPassword" :label="labelRepeatPassword" v-if="labelRepeatPassword"></v-text-field>
-<v-text-field type="number" :label="labelPhoneNumber" v-if="labelPhoneNumber"></v-text-field>
-<v-text-field type="string" :label="labelMessage" v-if="labelMessage"></v-text-field>
-*/
 import { defineComponent } from "vue";
 
 export default defineComponent({

@@ -1,5 +1,5 @@
 <template>
-	<v-btn size="large" :color="color" :class="computed_css_class" :style="style" :icon="icon" :to="to">
+	<v-btn :size="size" :color="color" :class="computed_css_class" :style="style" :icon="icon" :to="to">
 		<template #default v-if="text">
 			<small :class="textClass" :style="textStyle" v-text="text"></small>
 		</template>
@@ -12,6 +12,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "btn-container-component",
 	props: {
+		size: { type: String, required: false, default: "large" },
 		color: { type: String, required: false, default: "accent" },
 		style: { type: String, required: false },
 		class: { type: String, required: false },

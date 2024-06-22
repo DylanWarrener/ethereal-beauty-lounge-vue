@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid>
+	<container-form @submit="method_event_sendEmail_clickHandler">
 		<v-row dense>
 			<v-col cols="12">
 				<v-form
@@ -63,7 +63,7 @@
 				</v-btn>
 			</v-col>
 		</v-row>
-	</v-container>
+	</container-form>
 </template>
 
 <script lang="ts">

@@ -9,7 +9,7 @@
 				v-for="(column, index) in grid.items"
 			>
 				<template :key="index" v-for="(row, index) in column">
-					<v-hover v-slot:default="{ isHovering, props }">
+					<v-hover #default="{ isHovering, props }">
 						<container-card
 							class="d-flex justify-center align-center"
 							width="100%"
@@ -19,7 +19,7 @@
 							:image="row.image"
 							v-bind="props"
 						>
-							<template #card-content>
+							<template #card-information>
 								<v-expand-transition>
 									<div
 										class="w-100 d-flex justify-center align-center transition-fast-in-fast-out v-card--reveal"

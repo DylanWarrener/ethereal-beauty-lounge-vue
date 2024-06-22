@@ -7,24 +7,22 @@
 	>
 		<container-card>
 			<template #card-toolbar>
-				<v-col cols="12">
-					<v-toolbar flat class="px-2 bg-accent">
-						<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
-						<v-spacer></v-spacer>
-						<slot name="card-toolbar-buttons"></slot>
-						<v-tooltip location="bottom" :text="computed_tooltip_dialog_closeBtn_state">
-							<template #activator="{ props }">
-								<container-btn
-									variant="flat"
-									class="ma-0 bg-transparent"
-									:icon="computed_icon_dialog_closeBtn_state"
-									v-bind="props"
-									@click="$emit('close')"
-								></container-btn>
-							</template>
-						</v-tooltip>
-					</v-toolbar>
-				</v-col>
+				<v-toolbar flat class="px-2 bg-accent">
+					<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
+					<v-spacer></v-spacer>
+					<slot name="card-toolbar-buttons"></slot>
+					<v-tooltip location="bottom" :text="computed_tooltip_dialog_closeBtn_state">
+						<template #activator="{ props }">
+							<container-btn
+								variant="flat"
+								class="ma-0 bg-transparent"
+								:icon="computed_icon_dialog_closeBtn_state"
+								v-bind="props"
+								@click="$emit('close')"
+							></container-btn>
+						</template>
+					</v-tooltip>
+				</v-toolbar>
 			</template>
 			<template #card-content v-if="method_event_slotIsPopulated('dialog-card-content')">
 				<v-col cols="12">

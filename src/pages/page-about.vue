@@ -4,18 +4,11 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<container-card variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
-							<template #card-headings>
-								<!-- Title -->
-								<v-col cols="12">
-									<h1 v-text="computed_text_canvas_cardTitle"></h1>
-								</v-col>
-
-								<!-- Subtitle -->
-								<v-col cols="12">
-									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
-								</v-col>
-							</template>
+						<container-card 
+							variant="flat" 
+							:style="computed_css_canvas_cardBackgroundOpacity"
+							:card-title="computed_text_canvas_cardTitle"
+							:card-subtitle="computed_text_canvas_cardSubtitle">
 							<template #card-actions>
 								<v-spacer></v-spacer>
 								<container-btn

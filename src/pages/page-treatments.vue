@@ -4,18 +4,11 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<container-card variant="flat" :style="computed_css_canvas_cardBackgroundOpacity">
-							<template #card-headings>
-								<!-- Title -->
-								<v-col cols="12">
-									<h1 v-text="computed_text_canvas_cardTitle"></h1>
-								</v-col>
-
-								<!-- Subtitle -->
-								<v-col cols="12">
-									<h3 v-text="computed_text_canvas_cardSubtitle"></h3>
-								</v-col>
-							</template>
+						<container-card 
+							variant="flat" 
+							:style="computed_css_canvas_cardBackgroundOpacity"
+							:card-title="computed_text_canvas_cardTitle"
+							:card-subtitle="computed_text_canvas_cardSubtitle">
 							<template #card-actions>
 								<v-spacer></v-spacer>
 								<container-btn
@@ -35,9 +28,9 @@
 
 	<container-section id="section-treatments" title-class="text-inverted" :title="computed_text_section_title">
 		<template #section-content>
-			<v-container fluid class="text-inverted">
+			<v-container fluid class="d-flex flex-column text-inverted">
+				<!-- Filter options -->
 				<v-row dense>
-					<!-- Filter options -->
 					<v-col cols="12">
 						<v-sheet elevation="0" class="d-flex flex-wrap justify-center align-center">
 							<v-chip-group
@@ -56,8 +49,10 @@
 							</v-chip-group>
 						</v-sheet>
 					</v-col>
+				</v-row>
 
-					<!-- Notes -->
+				<!-- Notes -->
+				<v-row dense>
 					<v-col cols="12">
 						<h5 class="text-left text-inverted" v-if="computed_data_section_categoryHasNote">
 							{{ computed_text_section_noteDefault }}
@@ -66,8 +61,10 @@
 							</span>
 						</h5>
 					</v-col>
+				</v-row>
 
-					<!-- Treatment options -->
+				<!-- Treatment options -->
+				<v-row dense>
 					<v-col cols="12">
 						<v-container fluid>
 							<v-row class="d-flex justify-center align-center">
@@ -76,45 +73,27 @@
 									v-for="(treatmentType, index) in computed_data_section_treatments_items"
 								>
 									<v-col
+										:key="index"
 										cols="auto"
 										v-if="method_utils_treatmentCardShouldRender(treatmentType.treatmentCategory)"
 									>
 										<container-card
 											variant="outlined"
-											action-col-class="d-flex flex-column justify-center align-center"
+											color="accent"
+											class="d-flex flex-column justify-center align-center"
 											:width="computed_css_dynamicWidth"
 											:height="computed_css_dynamicHeight"
 										>
 											<template #card-headings>
 												<!-- Title -->
-												<v-col
-													cols="12"
-													sm="10"
-													class="d-flex flex-column justify-center align-center"
-												>
-													<v-card-item class="w-100 pa-0 flex-shrink-1 flex-grow-0">
-														<v-card-title
-															class="d-flex flex-row justify-center align-center text-wrap"
-														>
-															<h4 class="text-inverted">
-																{{ treatmentType.title }}
-															</h4>
-														</v-card-title>
-													</v-card-item>
-												</v-col>
-
-												<!-- More information -->
-												<v-col
-													cols="12"
-													sm="2"
-													class="d-flex flex-column justify-center align-center"
-												>
-													<common-tooltip-container-component
-														location="bottom"
-														:tooltip="computed_tooltip_section_treatmentCard_moreInformation"
-														:icon="computed_icon_moreInformation"
-													></common-tooltip-container-component>
-												</v-col>
+												<div class="w-100 d-flex justify-center align-center">
+													<h5 class="text-inverted" v-text="treatmentType.title"></h5>
+													<v-tooltip location="bottom" :text="computed_tooltip_section_treatmentCard_moreInformation">
+														<template #activator="{ props }">
+															<container-btn variant="flat" density="compact" :icon="computed_icon_moreInformation" v-bind="props"></container-btn>
+														</template>
+													</v-tooltip>
+												</div>
 											</template>
 											<template #card-content>
 												<!-- Treatment price filter -->
@@ -140,7 +119,7 @@
 												<!-- Treatments include -->
 												<v-col
 													cols="12"
-													class="d-flex flex-column justify-center"
+													class="d-flex flex-column justify-center align-center"
 													v-if="treatmentType.includes"
 												>
 													<p class="text-left">
@@ -156,7 +135,7 @@
 												</v-col>
 
 												<!-- Treatments duration -->
-												<v-col cols="12" sm="6" class="d-flex flex-column justify-center">
+												<v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
 													<p>
 														<span class="text-inverted font-weight-bold">
 															{{
@@ -174,7 +153,7 @@
 												</v-col>
 
 												<!-- Treatments consultation fee -->
-												<v-col cols="12" sm="6" class="d-flex flex-column justify-center">
+												<v-col cols="12" sm="6" class="d-flex flex-column justify-center align-center">
 													<p>
 														<span class="text-inverted font-weight-bold">
 															{{
@@ -193,10 +172,10 @@
 											</template>
 											<template #card-actions>
 												<v-spacer></v-spacer>
-												<common-btn-text-container-component
+												<container-btn 
+													variant="flat"
 													:text="computed_text_section_treatmentCard_actions_btnBook"
-												></common-btn-text-container-component>
-												<v-spacer></v-spacer>
+												></container-btn>
 											</template>
 										</container-card>
 									</v-col>
@@ -694,6 +673,9 @@ export default defineComponent({
 			const filteredCategoryIndex_value = this.computed_data_section_filterableCategories_value;
 			return filterableCategories_items[filteredCategoryIndex_value].note;
 		},
+		computed_text_section_treatmentCards_title(): string {
+			return this.treatmentsPage.section.treatments.cards.actions.buttons.book.text;
+		},
 		computed_text_section_treatmentCard_contentInformation_includes(): string {
 			return this.treatmentsPage.section.treatments.cards.content.information.includes.text;
 		},
@@ -727,8 +709,6 @@ export default defineComponent({
 		},
 		computed_css_dynamicHeight(): string {
 			let retVal: string = "100%";
-			if (this.$vuetify.display.mdAndUp) retVal = "400";
-			if (this.$vuetify.display.xlAndUp) retVal = "325";
 			return retVal;
 		},
 		computed_css_canvas_cardBackgroundOpacity(): string {

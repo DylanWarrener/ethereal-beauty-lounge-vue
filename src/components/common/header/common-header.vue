@@ -14,9 +14,7 @@
 			v-ripple="{ class: 'text-accent' }"
 		>
 			<template #card-img>
-				<v-col cols="12" class="pa-0" style="height: 100%">
-					<v-img cover src="logo-transparent.png" width="100%" height="100%"></v-img>
-				</v-col>
+				<v-img cover src="logo-transparent.png" width="100%" height="100%"></v-img>
 			</template>
 		</container-card>
 		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
@@ -99,13 +97,13 @@
 		</container-menu>
 		<container-btn
 			variant="flat"
-			text="Sign in"
+			:text="computed_text_appBar_btnSignIn_local"
 			@click="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
 		></container-btn>
 		<container-btn
 			variant="flat"
 			color="inverted"
-			text="Sign Up"
+			:text="computed_text_appBar_btnSignUp_local"
 			@click="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
 		></container-btn>
 		<!-- <container-menu>
@@ -153,17 +151,20 @@
 		v-model="computed_data_appBar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<component
-				:is="computed_data_dialog_signIn_selectedComponent"
-				@change.self="method_event_setSignInSelectedComponent"
-			></component>
+			<component :is="computed_data_dialog_signIn_selectedComponent"></component>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
 			<container-btn
 				variant="flat"
+				color="inverted"
 				:text="computed_text_dialog_btnForgottenPassword_local"
 				@click="method_event_dialog_forgottenPassword_clickHandler"
+			></container-btn>
+			<container-btn
+				variant="flat"
+				:text="computed_text_dialog_btnSubmitForm_local"
+				@click="method_event_dialog_submitForm_clickHandler"
 			></container-btn>
 		</template>
 	</container-dialog>
@@ -175,10 +176,15 @@
 		v-model="computed_data_appBar_btnSignUp_show_state"
 	>
 		<template #dialog-card-content>
-			<component
-				:is="computed_data_dialog_signUp_selectedComponent"
-				@change.self="method_event_setSignUpSelectedComponent"
-			></component>
+			<component :is="computed_data_dialog_signUp_selectedComponent"></component>
+		</template>
+		<template #dialog-card-actions>
+			<v-spacer></v-spacer>
+			<container-btn
+				variant="flat"
+				:text="computed_text_dialog_btnSubmitForm_local"
+				@click="method_event_dialog_submitForm_clickHandler"
+			></container-btn>
 		</template>
 	</container-dialog>
 	<container-navigation
@@ -269,10 +275,10 @@ export default defineComponent({
 								link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
 							},
 							signIn: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.signIn,
+								text: "Sign in",
 							},
 							signUp: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.signUp,
+								text: "Sign up",
 							},
 							account: {
 								text: CONST_OBJECT_TEXT_ROUTE_NAMES.account,
@@ -282,6 +288,13 @@ export default defineComponent({
 					},
 				},
 				dialog: {
+					commonActions: {
+						buttons: {
+							submit: {
+								text: "Submit form"
+							}
+						}
+					},
 					signInCard: {
 						toolbar: {
 							title: "Sign In",
@@ -294,7 +307,7 @@ export default defineComponent({
 							buttons: {
 								forgottenPassword: {
 									text: "Forgotten password?",
-								},
+								}
 							},
 						},
 					},
@@ -350,6 +363,9 @@ export default defineComponent({
 		},
 		computed_text_dialog_btnForgottenPassword_local(): string {
 			return this.header.dialog.signInCard.actions.buttons.forgottenPassword.text;
+		},
+		computed_text_dialog_btnSubmitForm_local(): string {
+			return this.header.dialog.commonActions.buttons.submit.text;
 		},
 		computed_text_dialog_signUp_toolbarTitle_local(): string {
 			return this.header.dialog.signUpCard.toolbar.title;
@@ -506,6 +522,53 @@ export default defineComponent({
 		method_event_dialog_forgottenPassword_clickHandler(): void {
 			this.computed_data_dialog_signIn_selectedComponent = "container-forgotten-password";
 		},
+		method_event_dialog_submitForm_clickHandler(): void {
+			const signInDialog_show: boolean = this.computed_data_appBar_btnSignIn_show_state;
+			const signUpDialog_show: boolean = this.computed_data_appBar_btnSignUp_show_state;
+			
+			if (signInDialog_show) {
+				switch (this.computed_data_dialog_signIn_selectedComponent) {
+					case "container-sign-in":
+						this.method_utils_dialog_submitForm_signIn_clickHandler();
+						break;
+					case "container-forgotten-password": 
+						break;
+				}
+			}
+
+			if (signUpDialog_show) {
+
+			}
+		},
+
+		method_utils_dialog_submitForm_signIn_clickHandler(): void {
+			const isFormValid: boolean = this.computed_data_isFormValid;
+
+			if (isFormValid) {
+				const email: string = this.data_dialogFormLogin.input.email.value!;
+				const password: string = this.data_dialogFormLogin.input.password.value!;
+
+				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				this.storeFirebase
+					.login_userAuth_withEmailAndPassword({ email, password })
+					.then(() => {
+						this.storeCommon.setSnackbar_success_state(
+							"You have successfully logged into your account. Redirecting you to your account now."
+						);
+						setTimeout(() => {
+							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" });
+						}, this.computed_data_timeout_value);
+					})
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
+					.finally(() => {
+						setTimeout(() => {
+							this.storeCommon.setSnackbar_reset_state();
+							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
+							this.resetFormInputs();
+						}, this.computed_data_timeout_value);
+					});
+			}
+		}
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

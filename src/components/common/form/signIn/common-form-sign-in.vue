@@ -1,46 +1,47 @@
 <template>
-	<container-form @submit="method_event_signIn_clickHandler">
+	<container-form>
 		<template #form-content>
-			<v-text-field
-				clearable
-				variant="outlined"
-				type="email"
-				style="min-width: 150px; max-width: 300px"
-				:rules="computed_validation_emailRules"
-				v-model="computed_data_formInput_email_value_local"
-			>
-				<template #label>
-					<span class="text-inverted" v-text="computed_text_formInput_email"></span>
-				</template>
-			</v-text-field>
-			<!-- <div
-					class="w-100 d-flex justify-end"
-					@click="() => $emit('change', 'common-forgotten-password-container-component')"
-				>
-					<v-btn variant="flat">
-						<template #default>
-							<sub class="text-accent" v-text="computed_text_formInput_forgottenPassword"></sub>
+			<v-row dense>
+				<!-- First name field -->
+				<v-col class="d-flex flex-column">
+					<v-text-field
+						clearable
+						variant="outlined"
+						type="email"
+						class="w-100 align-self-center"
+						style="min-width: 150px; max-width: 300px"
+						:rules="computed_validation_emailRules"
+						v-model="computed_data_formInput_email_value_local"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="computed_text_formInput_email"></span>
 						</template>
-					</v-btn>
-				</div> -->
-			<v-text-field
-				clearable
-				variant="outlined"
-				style="min-width: 150px; max-width: 300px"
-				:append-inner-icon="
-					computed_data_formInput_password_show_local ? computed_icon_showPassword : computed_icon_hidePassword
-				"
-				:type="computed_data_formInput_password_show_local ? 'text' : 'password'"
-				:rules="computed_validation_passwordRules"
-				v-model="computed_data_formInput_password_value_local"
-				@click:appendInner="
-					computed_data_formInput_password_show_local = !computed_data_formInput_password_show_local
-				"
-			>
-				<template #label>
-					<span class="text-inverted" v-text="computed_text_formInput_password"></span>
-				</template>
-			</v-text-field>
+					</v-text-field>
+				</v-col>
+
+				<!-- Last name field -->
+				<v-col class="d-flex flex-column">
+					<v-text-field
+						clearable
+						variant="outlined"
+						class="w-100 align-self-center"
+						style="min-width: 150px; max-width: 300px"
+						:append-inner-icon="
+							computed_data_formInput_password_show_local ? computed_icon_showPassword : computed_icon_hidePassword
+						"
+						:type="computed_data_formInput_password_show_local ? 'text' : 'password'"
+						:rules="computed_validation_passwordRules"
+						v-model="computed_data_formInput_password_value_local"
+						@click:appendInner="
+							computed_data_formInput_password_show_local = !computed_data_formInput_password_show_local
+						"
+					>
+						<template #label>
+							<span class="text-inverted" v-text="computed_text_formInput_password"></span>
+						</template>
+					</v-text-field>
+				</v-col>
+			</v-row>
 		</template>
 	</container-form>
 </template>
@@ -136,8 +137,6 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		method_event_signIn_clickHandler(): void {},
-
 		method_validation_isNotEmpty(newValue: string): boolean | string {
 			let retVal: boolean | string = false;
 			// Checks for null & undefined
