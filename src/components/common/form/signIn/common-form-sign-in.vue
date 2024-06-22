@@ -49,7 +49,7 @@
 import { defineComponent } from "vue";
 
 // Constants
-import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects";
+import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "sign-in-container-component",
