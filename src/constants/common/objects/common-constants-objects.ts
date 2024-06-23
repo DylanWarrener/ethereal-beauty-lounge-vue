@@ -67,7 +67,6 @@ export const CONST_OBJECT_TEXT_ROUTE_NAMES = {
 	login: "login",
 	register: "register",
 	account: "account",
-	basket: "basket",
 	signIn: "signIn",
 	signUp: "signUp",
 };
@@ -81,7 +80,6 @@ export const CONST_OBJECT_TEXT_ROUTE_LINKS = {
 	reviews: "/reviews",
 	about: "/about",
 	account: "/account",
-	basket: "/basket",
 };
 
 // ---------------------------------------------------------------------------------------------------------

@@ -1,68 +1,70 @@
 <template>
-	<container-form @submit="method_event_sendEmail_clickHandler">
-		<v-row dense>
-			<v-col cols="12">
-				<v-form
-					class="d-flex flex-column align-center"
-					validate-on="input lazy"
-					v-model="data_forgottenPassword.valid"
-					@submit.prevent="method_event_sendEmail_clickHandler"
-				>
-					<div
-						class="w-100 d-flex justify-end"
-						:style="computed_css_dynamicWidth"
-						@click="() => $emit('change', 'common-recover-account-container-component')"
-					>
-						<v-btn variant="flat">
-							<template v-slot:default>
-								<sub
-									class="text-accent"
-									v-text="data_forgottenPassword.actions.links.forgottenEmail.text"
-								></sub>
-							</template>
-						</v-btn>
-					</div>
+	<container-form
+		v-model="computed_data_form_isValid_local"
+		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_local)"
+	>
+		<template #form-content>
+			<v-row dense>
+				<v-col class="d-flex flex-column">
 					<v-text-field
 						clearable
 						variant="outlined"
 						type="email"
-						:style="computed_css_dynamicWidth"
+						class="w-100 align-self-center"
+						style="min-width: 150px; max-width: 300px"
 						:rules="computed_data_emailValidationRules"
-						v-model="data_forgottenPassword.input.email.value"
+						v-model="computed_data_formInput_email_state"
 					>
 						<template #label>
-							<span class="text-inverted" v-text="data_forgottenPassword.input.email.label"></span>
+							<span class="text-inverted" v-text="computed_text_formInput_email_label_local"></span>
 						</template>
 					</v-text-field>
-					<v-btn
-						height="60"
-						class="mt-4 px-4 bg-accent"
-						type="submit"
-						size="large"
-						:style="computed_css_dynamicWidth"
-						:disabled="!computed_data_isFormValid"
-						:text="data_forgottenPassword.actions.btn.send.text"
-						@click=""
-					></v-btn>
-				</v-form>
-			</v-col>
-			<v-col class="d-flex flex-column justify-center align-center">
-				<v-btn
-					variant="flat"
-					class="px-4"
-					style="min-width: 100px"
-					size="large"
-					@click="() => $emit('change', 'common-login-container-component')"
-				>
-					<template #default>
-						<small
-							class="font-weight-bold text-inverted"
-							v-text="data_forgottenPassword.actions.links.backToLogin.text"
-						></small>
-					</template>
-				</v-btn>
-			</v-col>
-		</v-row>
+					<!-- <v-form
+						class="d-flex flex-column align-center"
+						validate-on="input lazy"
+						v-model="data_forgottenPassword.valid"
+						@submit.prevent="method_event_sendEmail_clickHandler"
+					>
+						<div
+							class="w-100 d-flex justify-end"
+							:style="computed_css_dynamicWidth"
+							@click="() => $emit('change', 'common-recover-account-container-component')"
+						>
+							<v-btn variant="flat">
+								<template v-slot:default>
+									<sub
+										class="text-accent"
+										v-text="data_forgottenPassword.actions.links.forgottenEmail.text"
+									></sub>
+								</template>
+							</v-btn>
+						</div>
+						<v-text-field
+							clearable
+							variant="outlined"
+							type="email"
+							:style="computed_css_dynamicWidth"
+							:rules="computed_data_emailValidationRules"
+							v-model="data_forgottenPassword.input.email.value"
+						>
+							<template #label>
+								<span class="text-inverted" v-text="data_forgottenPassword.input.email.label"></span>
+							</template>
+						</v-text-field>
+						<v-btn
+							height="60"
+							class="mt-4 px-4 bg-accent"
+							type="submit"
+							size="large"
+							:style="computed_css_dynamicWidth"
+							:disabled="!computed_data_isFormValid"
+							:text="data_forgottenPassword.actions.btn.send.text"
+							@click=""
+						></v-btn>
+					</v-form> -->
+				</v-col>
+			</v-row>
+		</template>
 	</container-form>
 </template>
 
@@ -70,8 +72,9 @@
 import { defineComponent } from "vue";
 
 // Stores
-import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
+import useHeaderStore from "@stores/store-header.js";
+import useFirebaseStore from "@stores/store-firebase.js";
 
 // Constants
 import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
@@ -80,37 +83,19 @@ export default defineComponent({
 	name: "forgotten-password-container-component",
 	data() {
 		return {
-			data_forgottenPassword: {
+			form: {
 				valid: false,
-				input: {
+				inputs: {
 					email: {
 						label: "Email address",
-						value: null,
-					},
-				},
-				actions: {
-					links: {
-						forgottenEmail: {
-							text: "Forgot your email address?",
-						},
-						backToLogin: {
-							text: "Back to login?",
-						},
-					},
-					btn: {
-						send: {
-							text: "Send email",
-							isLoading: false,
-						},
 					},
 				},
 			},
 		};
 	},
 	computed: {
-		computed_css_dynamicWidth(): string {
-			let retVal: string = "width: 100%; max-width: 400px";
-			return retVal;
+		computed_text_formInput_email_label_local(): string {
+			return this.form.inputs.email.label;
 		},
 
 		computed_data_isFormValid(): boolean {
@@ -121,6 +106,22 @@ export default defineComponent({
 		},
 		computed_data_timeout_value(): number {
 			return this.storeCommon.getSnackbar_timeout_state;
+		},
+		computed_data_form_isValid_local: {
+			get(): boolean {
+				return this.form.valid;
+			},
+			set(newValue: boolean): void {
+				this.form.valid = newValue;
+			},
+		},
+		computed_data_formInput_email_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_forgottenPassword_email_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_forgottenPassword_email_state(newValue);
+			},
 		},
 	},
 	methods: {
@@ -184,8 +185,9 @@ export default defineComponent({
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
+		const storeHeader = useHeaderStore();
 		const storeCommon = useCommonStore();
-		return { storeFirebase, storeCommon };
+		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>

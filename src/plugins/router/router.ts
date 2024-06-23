@@ -17,7 +17,6 @@ const ContactComp = () => import("@pages/page-contact.vue");
 const ReviewsComp = () => import("@pages/page-reviews.vue");
 const AboutComp = () => import("@pages/page-about.vue");
 const AccountComp = () => import("@pages/page-account.vue");
-const BasketComp = () => import("@pages/page-basket.vue");
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +42,6 @@ const router = createRouter({
 			component: AccountComp,
 			meta: { requiresAuth: true },
 		},
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.basket, name: CONST_OBJECT_TEXT_ROUTE_NAMES.basket, component: BasketComp },
 		{ path: "/:notFound(.*)", name: "NotFound", redirect: "/" },
 	],
 	scrollBehavior(to, from, savedPosition) {

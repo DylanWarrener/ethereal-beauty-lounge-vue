@@ -151,9 +151,9 @@
 		v-model="computed_data_appBar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<component 
-				:is="computed_data_dialog_signIn_selectedComponent"
-				v-model="computed_data_form_isValid_value_local"
+			<component
+				:is="computed_data_dialog_signIn_selectedComponent_local"
+				@is-form-valid="(validity: boolean) => computed_data_dialog_signIn_isSubmitDisabled_local = validity"
 			></component>
 		</template>
 		<template #dialog-card-actions>
@@ -166,7 +166,9 @@
 			></container-btn>
 			<container-btn
 				variant="flat"
+				type="submit"
 				:text="computed_text_dialog_btnSubmitForm_local"
+				:disabled="!computed_data_dialog_signIn_isSubmitDisabled_local"
 				@click="method_event_dialog_submitForm_clickHandler"
 			></container-btn>
 		</template>
@@ -179,13 +181,18 @@
 		v-model="computed_data_appBar_btnSignUp_show_state"
 	>
 		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signUp_selectedComponent"></component>
+			<component
+				:is="computed_data_dialog_signUp_selectedComponent_local"
+				@is-form-valid="(validity: boolean) => computed_data_dialog_signIn_isSubmitDisabled_local = validity"
+			></component>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
 			<container-btn
 				variant="flat"
+				type="submit"
 				:text="computed_text_dialog_btnSubmitForm_local"
+				:disabled="!computed_data_dialog_signIn_isSubmitDisabled_local"
 				@click="method_event_dialog_submitForm_clickHandler"
 			></container-btn>
 		</template>
@@ -212,13 +219,7 @@ import SignUpComp from "@components/common/form/signUp/common-form-sign-up.vue";
 import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 
 // Constants
-import {
-	CONST_OBJECT_TEXT_ROUTE_NAMES,
-	CONST_OBJECT_TEXT_ROUTE_LINKS,
-	CONST_OBJECT_TEXT_NAVIGATION_GROUPS,
-	CONST_OBJECT_TOOLTIPS_APPBAR,
-	CONST_OBJECT_ICONS_APPBAR_GENERAL,
-} from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -230,110 +231,12 @@ export default defineComponent({
 	},
 	data(): any {
 		return {
-			header: {
-				appbar: {
-					buttons: {
-						icons: {
-							mobileMenu: {
-								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.menu,
-								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.menu,
-							},
-							basket: {
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.basket,
-								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.basket,
-								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.basket,
-							},
-							account: {
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
-								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.account,
-								icon: CONST_OBJECT_ICONS_APPBAR_GENERAL.account,
-							},
-						},
-						text: {
-							home: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
-							},
-							treatments: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
-							},
-							store: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
-							},
-							information: {
-								text: CONST_OBJECT_TEXT_NAVIGATION_GROUPS.information,
-							},
-							contact: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
-							},
-							reviews: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
-							},
-							about: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
-							},
-							signIn: {
-								text: "Sign in",
-							},
-							signUp: {
-								text: "Sign up",
-							},
-							account: {
-								text: CONST_OBJECT_TEXT_ROUTE_NAMES.account,
-								link: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
-							},
-						},
-					},
-				},
-				dialog: {
-					commonActions: {
-						buttons: {
-							submit: {
-								disabled: false,
-								text: "Submit form"
-							}
-						}
-					},
-					signInCard: {
-						toolbar: {
-							title: "Sign In",
-						},
-						content: {
-							signInSelectedComponent: "container-sign-in",
-							signInComponent: ["container-sign-in", "container-forgotten-password"],
-						},
-						actions: {
-							buttons: {
-								forgottenPassword: {
-									text: "Forgotten password?",
-								}
-							},
-						},
-					},
-					signUpCard: {
-						toolbar: {
-							title: "Sign Up",
-						},
-						content: {
-							signUpSelectedComponent: "container-sign-up",
-							signUpComponent: ["container-sign-up"],
-						},
-						actions: {
-							buttons: {},
-						},
-					},
-				},
-			},
+			header: {},
 		};
 	},
 	computed: {
-		computed_text_appBar_btnHome_local(): string {
-			return this.header.appbar.buttons.text.home.text;
+		computed_text_appBar_btnHome_state(): string {
+			return this.storeHeader.;
 		},
 		computed_text_appBar_btnTreatments_local(): string {
 			return this.header.appbar.buttons.text.treatments.text;
@@ -362,17 +265,11 @@ export default defineComponent({
 		computed_text_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.text.account.text;
 		},
-		computed_text_dialog_signIn_toolbarTitle_local(): string {
-			return this.header.dialog.signInCard.toolbar.title;
-		},
 		computed_text_dialog_btnForgottenPassword_local(): string {
 			return this.header.dialog.signInCard.actions.buttons.forgottenPassword.text;
 		},
 		computed_text_dialog_btnSubmitForm_local(): string {
 			return this.header.dialog.commonActions.buttons.submit.text;
-		},
-		computed_text_dialog_signUp_toolbarTitle_local(): string {
-			return this.header.dialog.signUpCard.toolbar.title;
 		},
 
 		computed_link_appBar_btnHome_local(): string {
@@ -420,6 +317,9 @@ export default defineComponent({
 			return this.header.appbar.buttons.icons.account.icon;
 		},
 
+		computed_data_timeout_state(): number {
+			return this.storeCommon.getSnackbar_timeout_state;
+		},
 		computed_data_user_initials(): string | null {
 			let retval: string | null = null;
 			if (this.computed_data_user_displayName !== null) {
@@ -447,7 +347,24 @@ export default defineComponent({
 			return this.storeHeader.get_navigation_pcMenu_state;
 		},
 
-		computed_data_dialog_signIn_selectedComponent: {
+		computed_text_dialog_signIn_toolbarTitle_local: {
+			get(): string {
+				return this.header.dialog.signInCard.toolbar.title;
+			},
+			set(newValue: string): void {
+				this.header.dialog.signInCard.toolbar.title = newValue;
+			},
+		},
+		computed_text_dialog_signUp_toolbarTitle_local: {
+			get(): string {
+				return this.header.dialog.signUpCard.toolbar.title;
+			},
+			set(newValue: string): void {
+				this.header.dialog.signUpCard.toolbar.title = newValue;
+			},
+		},
+
+		computed_data_dialog_signIn_selectedComponent_local: {
 			get(): string {
 				return this.header.dialog.signInCard.content.signInSelectedComponent;
 			},
@@ -455,15 +372,23 @@ export default defineComponent({
 				this.header.dialog.signInCard.content.signInSelectedComponent = newValue;
 			},
 		},
-		computed_data_dialog_signIn_isFormValid: {
+		computed_data_dialog_signIn_isSubmitDisabled_local: {
 			get(): boolean {
 				return this.header.dialog.commonActions.buttons.submit.disabled;
 			},
 			set(newValue: boolean): void {
-				this.header.dialog = newValue;
-			}
+				this.header.dialog.commonActions.buttons.submit.disabled = newValue;
+			},
 		},
-		computed_data_dialog_signUp_selectedComponent: {
+		computed_data_dialog_signIn_isSubmitLoading_local: {
+			get(): boolean {
+				return this.header.dialog.commonActions.buttons.submit.isLoading;
+			},
+			set(newValue: boolean): void {
+				this.header.dialog.commonActions.buttons.submit.isLoading = newValue;
+			},
+		},
+		computed_data_dialog_signUp_selectedComponent_local: {
 			get(): string {
 				return this.header.dialog.signUpCard.content.signUpSelectedComponent;
 			},
@@ -519,37 +444,75 @@ export default defineComponent({
 				this.storeHeader.set_appBar_signUp_show_state(newValue);
 			},
 		},
+		computed_data_dialog_formInput_email_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signIn_email_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signIn_email_state(newValue);
+			},
+		},
+		computed_data_dialog_formInput_password_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signIn_password_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signIn_password_state(newValue);
+			},
+		},
 	},
 	methods: {
 		mergeProps,
 		method_event_logout(): void {
 			this.storeFirebase.logout_userAuth();
 		},
-		method_event_setSignInSelectedComponent(selectedComponent: string): void {
-			this.computed_data_dialog_signIn_selectedComponent = selectedComponent;
+		method_event_dialog_setSignInselectedComponent(selectedComponent: string): void {
+			this.computed_data_dialog_signIn_selectedComponent_local = selectedComponent;
 		},
-		method_event_setSignUpSelectedComponent(selectedComponent: string): void {
-			this.computed_data_dialog_signUp_selectedComponent = selectedComponent;
+		method_event_dialog_setSignUpSelectedComponent(selectedComponent: string): void {
+			this.computed_data_dialog_signUp_selectedComponent_local = selectedComponent;
 		},
 		method_event_dialog_forgottenPassword_clickHandler(): void {
-			this.computed_data_dialog_signIn_selectedComponent = "container-forgotten-password";
+			this.method_event_dialog_setSignInselectedComponent("container-forgotten-password");
+			this.computed_text_dialog_signIn_toolbarTitle_local = "Forgotten password";
 		},
 		method_event_dialog_submitForm_clickHandler(): void {
 			const signInDialog_show: boolean = this.computed_data_appBar_btnSignIn_show_state;
 			const signUpDialog_show: boolean = this.computed_data_appBar_btnSignUp_show_state;
-			
-			if (signInDialog_show) {
-				switch (this.computed_data_dialog_signIn_selectedComponent) {
+
+			/*
+			actions: {
+						links: {
+							forgottenEmail: {
+								text: "Forgot your email address?",
+							},
+							backToLogin: {
+								text: "Back to login?",
+							},
+						},
+						btn: {
+							send: {
+								text: "Send email",
+								isLoading: false,
+							},
+						},
+					},
+			*/
+			if (signInDialog_show && !signUpDialog_show) {
+				switch (this.computed_data_dialog_signIn_selectedComponent_local) {
 					case "container-sign-in":
 						this.method_utils_dialog_submitForm_signIn_clickHandler();
 						break;
-					case "container-forgotten-password": 
+					case "container-forgotten-password":
+						this.method_utils_dialog_submitForm_forgottenPassword_clickHandler();
 						break;
 				}
-			}
-
-			if (signUpDialog_show) {
-
+			} else {
+				switch (this.computed_data_dialog_signIn_selectedComponent_local) {
+					case "container-sign-up":
+						this.method_utils_dialog_submitForm_signUp_clickHandler();
+						break;
+				}
 			}
 		},
 
@@ -557,10 +520,10 @@ export default defineComponent({
 			const isFormValid: boolean = this.computed_data_isFormValid;
 
 			if (isFormValid) {
-				const email: string = this.data_dialogFormLogin.input.email.value!;
-				const password: string = this.data_dialogFormLogin.input.password.value!;
+				const email: string = this.computed_data_dialog_formInput_email_state;
+				const password: string = this.computed_data_dialog_formInput_password_state;
 
-				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				this.computed_data_dialog_signIn_isSubmitLoading_local = true;
 				this.storeFirebase
 					.login_userAuth_withEmailAndPassword({ email, password })
 					.then(() => {
@@ -569,18 +532,26 @@ export default defineComponent({
 						);
 						setTimeout(() => {
 							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" });
-						}, this.computed_data_timeout_value);
+						}, this.computed_data_timeout_state);
 					})
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
-							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
+							this.computed_data_dialog_signIn_isSubmitLoading_local = false;
 							this.resetFormInputs();
-						}, this.computed_data_timeout_value);
+						}, this.computed_data_timeout_state);
 					});
 			}
-		}
+		},
+		method_utils_dialog_submitForm_forgottenPassword_clickHandler(): void {
+			debugger;
+			//* Add functionality for submit form, when on the forgotten password component.
+		},
+		method_utils_dialog_submitForm_signUp_clickHandler(): void {
+			debugger;
+			//* Add functionality for submit form, when on the forgotten password component.
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

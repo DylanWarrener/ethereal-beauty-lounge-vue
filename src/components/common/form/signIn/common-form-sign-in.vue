@@ -1,7 +1,8 @@
 <template>
-	<container-form 
-		v-model="computed_data_form_isValid_value_local" 
-		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_value_local)">
+	<container-form
+		v-model="computed_data_form_isValid_local"
+		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_local)"
+	>
 		<template #form-content>
 			<v-row dense>
 				<!-- First name field -->
@@ -13,7 +14,7 @@
 						class="w-100 align-self-center"
 						style="min-width: 150px; max-width: 300px"
 						:rules="computed_validation_emailRules"
-						v-model="computed_data_formInput_email_value_local"
+						v-model="computed_data_formInput_email_state"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="computed_text_formInput_email"></span>
@@ -29,13 +30,16 @@
 						class="w-100 align-self-center"
 						style="min-width: 150px; max-width: 300px"
 						:append-inner-icon="
-							computed_data_formInput_password_show_local ? computed_icon_showPassword : computed_icon_hidePassword
+							computed_data_formInput_password_showPassword_local
+								? computed_icon_showPassword
+								: computed_icon_hidePassword
 						"
-						:type="computed_data_formInput_password_show_local ? 'text' : 'password'"
+						:type="computed_data_formInput_password_showPassword_local ? 'text' : 'password'"
 						:rules="computed_validation_passwordRules"
-						v-model="computed_data_formInput_password_value_local"
+						v-model="computed_data_formInput_password_state"
 						@click:appendInner="
-							computed_data_formInput_password_show_local = !computed_data_formInput_password_show_local
+							computed_data_formInput_password_showPassword_local =
+								!computed_data_formInput_password_showPassword_local
 						"
 					>
 						<template #label>
@@ -51,6 +55,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+// Stores
+import useCommonStore from "@stores/store-common.js";
+import useHeaderStore from "@stores/store-header.js";
+import useFirebaseStore from "@stores/store-firebase.js";
+
 // Constants
 import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
 
@@ -58,31 +67,7 @@ export default defineComponent({
 	name: "sign-in-container-component",
 	data() {
 		return {
-			form: {
-				valid: false,
-				inputs: {
-					email: {
-						label: "Email",
-						value: "",
-					},
-					password: {
-						label: "Password",
-						value: "",
-						show: false,
-						icons: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
-						},
-					},
-				},
-				actions: {
-					buttons: {
-						forgottenPassword: {
-							text: "Forgotten password",
-						},
-					},
-				},
-			},
+			form: {},
 		};
 	},
 	computed: {
@@ -114,7 +99,7 @@ export default defineComponent({
 			];
 		},
 
-		computed_data_form_isValid_value_local: {
+		computed_data_form_isValid_local: {
 			get(): boolean {
 				return this.form.valid;
 			},
@@ -122,28 +107,28 @@ export default defineComponent({
 				this.form.valid = newValue;
 			},
 		},
-		computed_data_formInput_email_value_local: {
-			get(): string {
-				return this.form.inputs.email.value;
-			},
-			set(newValue: string): void {
-				this.form.inputs.email.value = newValue;
-			},
-		},
-		computed_data_formInput_password_value_local: {
-			get(): string {
-				return this.form.inputs.password.value;
-			},
-			set(newValue: string): void {
-				this.form.inputs.password.value = newValue;
-			},
-		},
-		computed_data_formInput_password_show_local: {
+		computed_data_formInput_password_showPassword_local: {
 			get(): boolean {
 				return this.form.inputs.password.show;
 			},
 			set(newValue: boolean) {
 				this.form.inputs.password.show = newValue;
+			},
+		},
+		computed_data_formInput_email_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signIn_email_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signIn_email_state(newValue);
+			},
+		},
+		computed_data_formInput_password_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signIn_password_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signIn_password_state(newValue);
 			},
 		},
 	},
@@ -203,6 +188,12 @@ export default defineComponent({
 			}
 			return retVal;
 		},
+	},
+	setup() {
+		const storeFirebase = useFirebaseStore();
+		const storeHeader = useHeaderStore();
+		const storeCommon = useCommonStore();
+		return { storeFirebase, storeCommon, storeHeader };
 	},
 });
 </script>
