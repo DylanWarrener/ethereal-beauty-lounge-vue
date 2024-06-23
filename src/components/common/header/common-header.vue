@@ -151,7 +151,10 @@
 		v-model="computed_data_appBar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signIn_selectedComponent"></component>
+			<component 
+				:is="computed_data_dialog_signIn_selectedComponent"
+				v-model="computed_data_form_isValid_value_local"
+			></component>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
@@ -291,6 +294,7 @@ export default defineComponent({
 					commonActions: {
 						buttons: {
 							submit: {
+								disabled: false,
 								text: "Submit form"
 							}
 						}
@@ -450,6 +454,14 @@ export default defineComponent({
 			set(newValue: string): void {
 				this.header.dialog.signInCard.content.signInSelectedComponent = newValue;
 			},
+		},
+		computed_data_dialog_signIn_isFormValid: {
+			get(): boolean {
+				return this.header.dialog.commonActions.buttons.submit.disabled;
+			},
+			set(newValue: boolean): void {
+				this.header.dialog = newValue;
+			}
 		},
 		computed_data_dialog_signUp_selectedComponent: {
 			get(): string {

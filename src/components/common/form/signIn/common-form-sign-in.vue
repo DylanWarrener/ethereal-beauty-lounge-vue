@@ -1,5 +1,7 @@
 <template>
-	<container-form>
+	<container-form 
+		v-model="computed_data_form_isValid_value_local" 
+		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_value_local)">
 		<template #form-content>
 			<v-row dense>
 				<!-- First name field -->
@@ -57,6 +59,7 @@ export default defineComponent({
 	data() {
 		return {
 			form: {
+				valid: false,
 				inputs: {
 					email: {
 						label: "Email",
@@ -111,6 +114,14 @@ export default defineComponent({
 			];
 		},
 
+		computed_data_form_isValid_value_local: {
+			get(): boolean {
+				return this.form.valid;
+			},
+			set(newValue: boolean): void {
+				this.form.valid = newValue;
+			},
+		},
 		computed_data_formInput_email_value_local: {
 			get(): string {
 				return this.form.inputs.email.value;

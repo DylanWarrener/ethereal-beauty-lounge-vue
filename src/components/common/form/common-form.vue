@@ -1,8 +1,5 @@
 <template>
-	<v-form
-		validate-on="input lazy"
-		@submit.prevent="$emit('submit')"
-	>
+	<v-form validate-on="input lazy">
 		<v-container fluid class="d-flex flex-column">
 			<slot name="form-content"></slot>
 		</v-container>
