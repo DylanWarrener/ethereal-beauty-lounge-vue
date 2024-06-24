@@ -155,7 +155,7 @@ import useCommonStore from "@stores/store-common.js";
 import { IAccountProfileData } from "@declarations/common/account/profile/common-interface-account-profile.js";
 
 // Icons
-import { iconsAccountProfile } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_ACTIONS } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
@@ -211,7 +211,7 @@ export default defineComponent({
 	},
 	computed: {
 		computed_icon_editImage(): string {
-			return iconsAccountProfile.editImage;
+			return CONST_OBJECT_ICONS_ACTIONS.editImage;
 		},
 		computed_icon_dialog_closeBtn_state(): string {
 			return this.storeCommon.getDialog_default_btnClose_icon_state;

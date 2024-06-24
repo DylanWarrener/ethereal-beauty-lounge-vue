@@ -1,5 +1,7 @@
 import {
 	mdiMenu,
+	mdiMenuUp,
+	mdiMenuDown,
 	mdiHome,
 	mdiEmail,
 	mdiCommentQuestion,
@@ -12,8 +14,6 @@ import {
 	mdiMagnify,
 	mdiAccount,
 	mdiDotsVertical,
-	mdiMenuUp,
-	mdiMenuDown,
 	mdiClose,
 	mdiInformationVariant,
 	mdiMapMarker,
@@ -30,6 +30,8 @@ import {
 
 export {
 	mdiMenu,
+	mdiMenuUp,
+	mdiMenuDown,
 	mdiHome,
 	mdiEmail,
 	mdiCommentQuestion,
@@ -42,8 +44,6 @@ export {
 	mdiMagnify,
 	mdiAccount,
 	mdiDotsVertical,
-	mdiMenuUp,
-	mdiMenuDown,
 	mdiClose,
 	mdiInformationVariant,
 	mdiMapMarker,

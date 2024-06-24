@@ -1,8 +1,5 @@
 <template>
-	<container-form
-		v-model="computed_data_form_isValid_local"
-		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_local)"
-	>
+	<container-form v-model="computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state">
 		<template #form-content>
 			<v-row dense>
 				<v-col class="d-flex flex-column">
@@ -13,7 +10,7 @@
 						class="w-100 align-self-center"
 						style="min-width: 150px; max-width: 300px"
 						:rules="computed_data_emailValidationRules"
-						v-model="computed_data_formInput_email_state"
+						v-model="computed_data_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state"
 					>
 						<template #label>
 							<span class="text-inverted" v-text="computed_text_formInput_email_label_local"></span>
@@ -76,9 +73,6 @@ import useCommonStore from "@stores/store-common.js";
 import useHeaderStore from "@stores/store-header.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
-// Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
-
 export default defineComponent({
 	name: "forgotten-password-container-component",
 	data() {
@@ -98,53 +92,54 @@ export default defineComponent({
 			return this.form.inputs.email.label;
 		},
 
-		computed_data_isFormValid(): boolean {
-			return this.data_forgottenPassword.valid;
-		},
 		computed_data_emailValidationRules(): any {
 			return [this.method_validation_isNotEmpty, this.method_validation_isEmailFormatValid];
 		},
-		computed_data_timeout_value(): number {
-			return this.storeCommon.getSnackbar_timeout_state;
-		},
-		computed_data_form_isValid_local: {
+		computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state: {
 			get(): boolean {
-				return this.form.valid;
+				return this.storeHeader.get_dialog_signInCard_content_forgottenPasswordForm_valid_state;
 			},
 			set(newValue: boolean): void {
-				this.form.valid = newValue;
+				this.storeHeader.set_dialog_signInCard_content_forgottenPasswordForm_valid_state(newValue);
 			},
 		},
-		computed_data_formInput_email_state: {
+		computed_data_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state: {
 			get(): string {
-				return this.storeHeader.get_dialog_forgottenPassword_email_state;
+				return this.storeHeader.get_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state;
 			},
 			set(newValue: string): void {
-				this.storeHeader.set_dialog_forgottenPassword_email_state(newValue);
+				this.storeHeader.set_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_forgottenPasswordForm_isLoading_state: {
+			get(): boolean {
+				return this.storeHeader.get_dialog_commonForm_cardActions_btnSubmit_isLoading_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_dialog_commonForm_cardActions_btnSubmit_isLoading_state(newValue);
 			},
 		},
 	},
 	methods: {
 		method_event_sendEmail_clickHandler(): void {
-			const isFormValid: boolean = this.computed_data_isFormValid;
+			const isFormValid: boolean = this.computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state;
 
 			if (isFormValid) {
-				const email: string = this.data_forgottenPassword.input.email.value!;
+				const email: string =
+					this.computed_data_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state;
 
-				this.data_forgottenPassword.actions.btn.send.isLoading = true;
+				this.computed_data_dialog_signInCard_content_forgottenPasswordForm_isLoading_state = true;
 				this.storeFirebase
 					.send_userAuth_passwordResetLink(email)
 					.then(() => {
 						this.storeCommon.setSnackbar_success_state("Successfully sent a password reset link to your email.");
-						setTimeout(() => {
-							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.login, hash: "#section-login" });
-						}, this.computed_data_timeout_value);
+						//* Navigate user back to login dialog
 					})
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
-							this.data_forgottenPassword.actions.btn.send.isLoading = false;
+							this.computed_data_dialog_signInCard_content_forgottenPasswordForm_isLoading_state = false;
 							this.method_utils_resetFormInputs();
 						}, this.computed_data_timeout_value);
 					});
@@ -152,7 +147,7 @@ export default defineComponent({
 		},
 
 		method_utils_resetFormInputs(): void {
-			this.data_forgottenPassword.input.email.value = null;
+			this.computed_data_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state = "";
 		},
 
 		method_validation_isNotEmpty(newValue: string): boolean | string {

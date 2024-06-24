@@ -11,18 +11,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-// Stores
-import useHeaderStore from "@stores/store-header.js";
-
 export default defineComponent({
 	name: "navigation-container",
 	props: {
 		classDrawer: { type: String, required: false },
 		navigation: { type: Array as () => any[], required: true },
-	},
-	setup() {
-		const storeHeader = useHeaderStore();
-		return { storeHeader };
 	},
 });
 </script>

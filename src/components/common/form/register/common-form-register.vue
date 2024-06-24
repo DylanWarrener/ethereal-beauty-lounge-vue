@@ -163,7 +163,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
 // Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
@@ -287,9 +287,7 @@ export default defineComponent({
 						return this.method_utils_store_userInFirestore();
 					})
 					.then(() => this.method_utils_store_userInState())
-					.then(() =>
-						this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" })
-					)
+					.then(() => this.$router.replace({ name: CONST_OBJECT_TEXT_PAGES.account, hash: "#section-account" }))
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
 					.finally(() => {
 						setTimeout(() => {

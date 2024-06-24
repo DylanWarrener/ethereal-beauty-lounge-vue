@@ -151,7 +151,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import useCommonStore from "@stores/store-common.js";
 
 // Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
@@ -260,7 +260,7 @@ export default defineComponent({
 							"You have successfully logged into your account. Redirecting you to your account now."
 						);
 						setTimeout(() => {
-							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" });
+							this.$router.replace({ name: CONST_OBJECT_TEXT_PAGES.account, hash: "#section-account" });
 						}, this.computed_data_timeout_value);
 					})
 					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))

@@ -46,10 +46,7 @@ import { defineComponent, mergeProps } from "vue";
 import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 
 // Constants
-import {
-	CONST_OBJECT_TEXT_ROUTE_NAMES,
-	CONST_OBJECT_TEXT_ROUTE_LINKS,
-} from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_PAGES, CONST_OBJECT_LINKS_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
 import { mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
@@ -63,16 +60,16 @@ export default defineComponent({
 		return {
 			navigation: {
 				home: {
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
+					text: CONST_OBJECT_TEXT_PAGES.home,
+					link: CONST_OBJECT_LINKS_PAGES.home,
 				},
 				treatments: {
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
+					text: CONST_OBJECT_TEXT_PAGES.treatments,
+					link: CONST_OBJECT_LINKS_PAGES.treatments,
 				},
 				store: {
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
+					text: CONST_OBJECT_TEXT_PAGES.store,
+					link: CONST_OBJECT_LINKS_PAGES.store,
 				},
 				information: {
 					drawer: false,
@@ -80,16 +77,16 @@ export default defineComponent({
 					icon: mdiMenuDown,
 					items: {
 						contact: {
-							text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
-							link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
+							text: CONST_OBJECT_TEXT_PAGES.contact,
+							link: CONST_OBJECT_LINKS_PAGES.contact,
 						},
 						reviews: {
-							text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
-							link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
+							text: CONST_OBJECT_TEXT_PAGES.reviews,
+							link: CONST_OBJECT_LINKS_PAGES.reviews,
 						},
 						about: {
-							text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
-							link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
+							text: CONST_OBJECT_TEXT_PAGES.about,
+							link: CONST_OBJECT_LINKS_PAGES.about,
 						},
 					},
 				},

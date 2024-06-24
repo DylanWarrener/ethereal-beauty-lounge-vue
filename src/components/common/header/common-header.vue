@@ -24,7 +24,7 @@
 					class="d-flex d-md-none"
 					:icon="computed_icon_appBar_btnMobileMenu_local"
 					v-bind="props"
-					@click="computed_data_appBar_btnMobileMenu_show_state = !computed_data_appBar_btnMobileMenu_show_state"
+					@click="computed_data_appbar_btnMobileMenu_show_state = !computed_data_appbar_btnMobileMenu_show_state"
 				></container-btn>
 			</template>
 		</v-tooltip>
@@ -52,7 +52,6 @@
 					class="d-none d-md-flex"
 					:text="computed_text_appBar_btnInformation_local"
 					v-bind="props"
-					@click="computed_data_appBar_btnInformation_show_state = !computed_data_appBar_btnInformation_show_state"
 				></container-btn>
 			</template>
 			<template #menu-items>
@@ -82,7 +81,7 @@
 							class="d-flex d-md-flex"
 							:icon="computed_icon_appBar_btnBasket_local"
 							v-bind="mergeProps(menuProps, tooltipProps)"
-							@click="computed_data_appBar_btnBasket_show_state = !computed_data_appBar_btnBasket_show_state"
+							@click="computed_data_appbar_btnBasket_show_state = !computed_data_appbar_btnBasket_show_state"
 						></container-btn>
 					</template>
 				</v-tooltip>
@@ -98,93 +97,71 @@
 		<container-btn
 			variant="flat"
 			:text="computed_text_appBar_btnSignIn_local"
-			@click="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
+			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
 		<container-btn
 			variant="flat"
 			color="inverted"
 			:text="computed_text_appBar_btnSignUp_local"
-			@click="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
+			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
 		></container-btn>
-		<!-- <container-menu>
-			<template #menu-btn>
-				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount_local">
-					<template #activator="{ props }">
-						<container-btn
-							class="d-flex d-md-flex"
-							:icon="computed_icon_appBar_btnAccount_local"
-							v-bind="props"
-							v-if="!computed_data_user_isLoggedIn"
-							@click="method_event_account_clickHandler"
-						></container-btn>
-					</template>
-				</v-tooltip>
-			</template>
-			<template #menu-items>
-				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-					<v-list-item class="text-inverted text-uppercase" :to="computed_link_appBar_btnLogin_local">
-						<span class="text-uppercase" v-text="computed_text_appBar_btnLogin_local"></span>
-					</v-list-item>
-					<v-list-item class="text-inverted text-uppercase" :to="computed_link_appBar_btnLogin_local">
-						<span class="text-uppercase" v-text="computed_text_appBar_btnRegister_local"></span>
-					</v-list-item>
-				</v-list>
-			</template>
-		</container-menu> -->
-		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnAccount" v-if="computed_data_user_isLoggedIn">
-			<template #activator="{ props }">
-				<container-btn
-					class="d-flex d-lg-none"
-					:text="computed_text_appBar_btnAccount_local"
-					:to="computed_link_appBar_btnAccount_local"
-					v-bind="props"
-					@click="computed_data_appBar_btnAccount_show_state = !computed_data_appBar_btnAccount_show_state"
-				></container-btn>
-			</template>
-		</v-tooltip>
 	</v-app-bar>
 
 	<!-- Sign in dialog -->
 	<container-dialog
-		:toolbar-title="computed_text_dialog_signIn_toolbarTitle_local"
-		@close="computed_data_appBar_btnSignIn_show_state = !computed_data_appBar_btnSignIn_show_state"
-		v-model="computed_data_appBar_btnSignIn_show_state"
+		:toolbar-title="computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state"
+		@close="computed_data_appbar_btnSignIn_show_state = false"
+		v-model="computed_data_appbar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<component
-				:is="computed_data_dialog_signIn_selectedComponent_local"
-				@is-form-valid="(validity: boolean) => computed_data_dialog_signIn_isSubmitDisabled_local = validity"
-			></component>
+			<component :is="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state"></component>
 		</template>
 		<template #dialog-card-actions>
-			<v-spacer></v-spacer>
 			<container-btn
 				variant="flat"
 				color="inverted"
-				:text="computed_text_dialog_btnForgottenPassword_local"
-				@click="method_event_dialog_forgottenPassword_clickHandler"
+				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_local"
+				v-if="
+					computed_data_dialog_signInCard_content_signInForm_selectedComponent_state ===
+					'container-forgotten-password'
+				"
+				@click="method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler"
+			></container-btn>
+			<container-btn
+				variant="flat"
+				color="inverted"
+				:text="computed_text_dialog_signInCard_actions_signInForm_btnForgottenPassword_local"
+				v-if="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state === 'container-sign-in'"
+				@click="method_event_dialog_signInCard_actions_signInForm_btnForgottenPassword_clickHandler"
+			></container-btn>
+			<v-spacer></v-spacer>
+			<container-btn
+				variant="flat"
+				type="submit"
+				:text="computed_text_dialog_signInCard_actions_signInForm_btnSignIn_local"
+				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
+				:loading="computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state"
+				@click="method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler"
 			></container-btn>
 			<container-btn
 				variant="flat"
 				type="submit"
-				:text="computed_text_dialog_btnSubmitForm_local"
-				:disabled="!computed_data_dialog_signIn_isSubmitDisabled_local"
-				@click="method_event_dialog_submitForm_clickHandler"
+				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_local"
+				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
+				:loading="computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state"
+				@click="method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler"
 			></container-btn>
 		</template>
 	</container-dialog>
 
 	<!-- Sign up dialog -->
 	<container-dialog
-		:toolbar-title="computed_text_dialog_signUp_toolbarTitle_local"
-		@close="computed_data_appBar_btnSignUp_show_state = !computed_data_appBar_btnSignUp_show_state"
-		v-model="computed_data_appBar_btnSignUp_show_state"
+		:toolbar-title="computed_data_dialog_signUpCard_content_signUpForm_toolbarTitle_state"
+		@close="computed_data_appbar_btnSignUp_show_state = false"
+		v-model="computed_data_appbar_btnSignUp_show_state"
 	>
 		<template #dialog-card-content>
-			<component
-				:is="computed_data_dialog_signUp_selectedComponent_local"
-				@is-form-valid="(validity: boolean) => computed_data_dialog_signIn_isSubmitDisabled_local = validity"
-			></component>
+			<component :is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"></component>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
@@ -192,15 +169,18 @@
 				variant="flat"
 				type="submit"
 				:text="computed_text_dialog_btnSubmitForm_local"
-				:disabled="!computed_data_dialog_signIn_isSubmitDisabled_local"
-				@click="method_event_dialog_submitForm_clickHandler"
+				:disabled="!computed_data_dialog_signUpCard_content_signUpForm_valid_state"
+				:loading="computed_data_dialog_signUpCard_content_signUpForm_btnSignUp_isLoading_state"
+				@click="method_event_dialog_signUpCard_actions_signUpForm_btnSignUp_clickHandler"
 			></container-btn>
 		</template>
 	</container-dialog>
+
+	<!-- Mobile navigation-->
 	<container-navigation
 		location="bottom"
-		:navigation="computed_data_navigation_mobileMenu"
-		v-model="computed_data_appBar_btnMobileMenu_show_state"
+		:navigation="computed_data_navigation_mobileMenu_state"
+		v-model="computed_data_appbar_btnMobileMenu_show_state"
 	></container-navigation>
 </template>
 
@@ -219,7 +199,14 @@ import SignUpComp from "@components/common/form/signUp/common-form-sign-up.vue";
 import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
 
 // Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES } from "@constants/common/objects/common-constants-objects.js";
+import {
+	CONST_OBJECT_TEXT_PAGES,
+	CONST_OBJECT_TEXT_APPBAR,
+	CONST_OBJECT_LINKS_APPBAR,
+	CONST_OBJECT_TOOLTIPS_APPBAR,
+	CONST_OBJECT_ICONS_APPBAR,
+	CONST_OBJECT_ICONS,
+} from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -231,12 +218,106 @@ export default defineComponent({
 	},
 	data(): any {
 		return {
-			header: {},
+			header: {
+				appbar: {
+					buttons: {
+						icons: {
+							mobileMenu: {
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.menu,
+								icon: CONST_OBJECT_ICONS_APPBAR.menu,
+							},
+							basket: {
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.basket,
+								icon: CONST_OBJECT_ICONS_APPBAR.basket,
+							},
+							account: {
+								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.account,
+								icon: CONST_OBJECT_ICONS_APPBAR.account,
+								link: CONST_OBJECT_LINKS_APPBAR.account,
+							},
+						},
+						text: {
+							home: {
+								text: CONST_OBJECT_TEXT_APPBAR.home,
+								link: CONST_OBJECT_LINKS_APPBAR.home,
+							},
+							treatments: {
+								text: CONST_OBJECT_TEXT_APPBAR.treatments,
+								link: CONST_OBJECT_LINKS_APPBAR.treatments,
+							},
+							store: {
+								text: CONST_OBJECT_TEXT_APPBAR.store,
+								link: CONST_OBJECT_LINKS_APPBAR.store,
+							},
+							information: {
+								text: CONST_OBJECT_TEXT_APPBAR.information,
+								icons: {
+									menuUp: CONST_OBJECT_ICONS.menuUp,
+									menuDown: CONST_OBJECT_ICONS.menuDown,
+								},
+							},
+							contact: {
+								text: CONST_OBJECT_TEXT_APPBAR.contact,
+								link: CONST_OBJECT_LINKS_APPBAR.contact,
+							},
+							reviews: {
+								text: CONST_OBJECT_TEXT_APPBAR.reviews,
+								link: CONST_OBJECT_LINKS_APPBAR.reviews,
+							},
+							about: {
+								text: CONST_OBJECT_TEXT_APPBAR.about,
+								link: CONST_OBJECT_LINKS_APPBAR.about,
+							},
+							signIn: {
+								text: CONST_OBJECT_TEXT_APPBAR.signIn,
+							},
+							signUp: {
+								text: CONST_OBJECT_TEXT_APPBAR.signUp,
+							},
+						},
+					},
+				},
+				dialog: {
+					signInCard: {
+						actions: {
+							buttons: {
+								signIn: {
+									text: "Sign in",
+									isLoading: false,
+								},
+								forgottenPassword: {
+									text: "Forgotten password?",
+									isLoading: false,
+								},
+							},
+						},
+					},
+					forgottenPasswordCard: {
+						actions: {
+							buttons: {
+								backToSignIn: {
+									text: "Back to sign in",
+								},
+							},
+						},
+					},
+					signUpCard: {
+						actions: {
+							buttons: {
+								signUp: {
+									text: "Sign up",
+									isLoading: false,
+								},
+							},
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {
-		computed_text_appBar_btnHome_state(): string {
-			return this.storeHeader.;
+		computed_text_appBar_btnHome_local(): string {
+			return this.header.appbar.buttons.text.home.text;
 		},
 		computed_text_appBar_btnTreatments_local(): string {
 			return this.header.appbar.buttons.text.treatments.text;
@@ -262,14 +343,17 @@ export default defineComponent({
 		computed_text_appBar_btnSignUp_local(): string {
 			return this.header.appbar.buttons.text.signUp.text;
 		},
-		computed_text_appBar_btnAccount_local(): string {
-			return this.header.appbar.buttons.text.account.text;
-		},
-		computed_text_dialog_btnForgottenPassword_local(): string {
+		computed_text_dialog_signInCard_actions_signInForm_btnForgottenPassword_local(): string {
 			return this.header.dialog.signInCard.actions.buttons.forgottenPassword.text;
 		},
-		computed_text_dialog_btnSubmitForm_local(): string {
-			return this.header.dialog.commonActions.buttons.submit.text;
+		computed_text_dialog_signInCard_actions_signInForm_btnSignIn_local(): string {
+			return this.header.dialog.signInCard.actions.buttons.signIn.text;
+		},
+		computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_local(): string {
+			return this.header.dialog.forgottenPasswordCard.actions.buttons.backToSignIn.text;
+		},
+		computed_text_dialog_signUpCard_actions_signUpForm_btnSignUp_local(): string {
+			return this.header.dialog.signUpCard.actions.buttons.signUp.text;
 		},
 
 		computed_link_appBar_btnHome_local(): string {
@@ -290,9 +374,6 @@ export default defineComponent({
 		computed_link_appBar_btnAbout_local(): string {
 			return this.header.appbar.buttons.text.about.link;
 		},
-		computed_link_appBar_btnBasket_local(): string {
-			return this.header.appbar.buttons.icons.basket.link;
-		},
 		computed_link_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.link;
 		},
@@ -307,157 +388,169 @@ export default defineComponent({
 			return this.header.appbar.buttons.icons.account.tooltip;
 		},
 
-		computed_icon_appBar_btnMobileMenu_local(): any {
+		computed_icon_appBar_btnMobileMenu_local(): string {
 			return this.header.appbar.buttons.icons.mobileMenu.icon;
 		},
-		computed_icon_appBar_btnBasket_local(): any {
+		computed_icon_appBar_btnInformation_menuUp_local(): string {
+			return this.header.appbar.buttons.text.information.icons.menuUp;
+		},
+		computed_icon_appBar_btnInformation_menuDown_local(): string {
+			return this.header.appbar.buttons.text.information.icons.menuDown;
+		},
+		computed_icon_appBar_btnBasket_local(): string {
 			return this.header.appbar.buttons.icons.basket.icon;
 		},
-		computed_icon_appBar_btnAccount_local(): any {
+		computed_icon_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.icon;
 		},
 
-		computed_data_timeout_state(): number {
-			return this.storeCommon.getSnackbar_timeout_state;
+		computed_data_dialog_signInForm_formComponents_state(): string[] {
+			return this.storeHeader.get_dialog_signInCard_content_formComponents_state;
 		},
-		computed_data_user_initials(): string | null {
-			let retval: string | null = null;
-			if (this.computed_data_user_displayName !== null) {
-				const [firstname, lastname] = this.computed_data_user_displayName.split(" ");
-				retval = `${firstname[0]}${lastname[0]}`.toUpperCase();
-			}
-			return retval;
+		computed_data_dialog_signUpForm_formComponents_state(): string[] {
+			return this.storeHeader.get_dialog_signUpCard_content_formComponents_state;
 		},
-		computed_data_user_displayName(): string | null {
-			return this.storeFirebase.get_userAuth_displayName_state;
-		},
-		computed_data_user_isLoggedIn(): boolean {
-			return this.storeFirebase.get_userAuth_isLoggedIn_state;
-		},
-		computed_data_dialog_signIn_availableComponents(): string[] {
-			return this.header.dialog.signInCard.content.signInComponent;
-		},
-		computed_data_dialog_signUp_availableComponents(): string[] {
-			return this.header.dialog.signUpCard.content.signUpComponent;
-		},
-		computed_data_navigation_mobileMenu(): any[] {
+		computed_data_navigation_mobileMenu_state(): any[] {
 			return this.storeHeader.get_navigation_mobileMenu_state;
 		},
-		computed_data_navigation_pcMenu(): any[] {
+		computed_data_navigation_pcMenu_state(): any[] {
 			return this.storeHeader.get_navigation_pcMenu_state;
 		},
 
-		computed_text_dialog_signIn_toolbarTitle_local: {
+		computed_data_appbar_btnMobileMenu_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_btnIconMobileMenu_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_btnIconMobileMenu_show_state(newValue);
+			},
+		},
+		computed_data_appbar_btnBasket_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_btnIconBasket_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_btnIconBasket_show_state(newValue);
+			},
+		},
+		computed_data_appbar_btnSignIn_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_btnTextSignIn_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_btnTextSignIn_show_state(newValue);
+			},
+		},
+		computed_data_appbar_btnSignUp_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_btnTextSignUp_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_btnTextSignUp_show_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state: {
 			get(): string {
-				return this.header.dialog.signInCard.toolbar.title;
+				return this.storeHeader.get_dialog_signInCard_toolbarTitle_state;
 			},
 			set(newValue: string): void {
-				this.header.dialog.signInCard.toolbar.title = newValue;
+				this.storeHeader.set_dialog_signInCard_toolbarTitle_state(newValue);
 			},
 		},
-		computed_text_dialog_signUp_toolbarTitle_local: {
+		computed_data_dialog_signInCard_content_signInForm_selectedComponent_state: {
 			get(): string {
-				return this.header.dialog.signUpCard.toolbar.title;
+				return this.storeHeader.get_dialog_signInCard_content_selectedComponent_state;
 			},
 			set(newValue: string): void {
-				this.header.dialog.signUpCard.toolbar.title = newValue;
+				this.storeHeader.set_dialog_signInCard_content_selectedComponent_state(newValue);
 			},
 		},
-
-		computed_data_dialog_signIn_selectedComponent_local: {
+		computed_data_dialog_signInCard_content_signInForm_valid_state: {
+			get(): boolean {
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_valid_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_valid_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state: {
+			get(): boolean {
+				return this.header.dialog.signInCard.actions.buttons.signIn.isLoading;
+			},
+			set(newValue: boolean): void {
+				this.header.dialog.signInCard.actions.buttons.signIn.isLoading = newValue;
+			},
+		},
+		computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state: {
+			get(): boolean {
+				return this.storeHeader.get_dialog_signInCard_content_forgottenPasswordForm_valid_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_dialog_signInCard_content_forgottenPasswordForm_valid_state(newValue);
+			},
+		},
+		computed_data_dialog_signUpCard_content_signUpForm_toolbarTitle_state: {
 			get(): string {
-				return this.header.dialog.signInCard.content.signInSelectedComponent;
+				return this.storeHeader.get_dialog_signUpCard_toolbarTitle_state;
 			},
 			set(newValue: string): void {
-				this.header.dialog.signInCard.content.signInSelectedComponent = newValue;
+				this.storeHeader.set_dialog_signUpCard_toolbarTitle_state(newValue);
 			},
 		},
-		computed_data_dialog_signIn_isSubmitDisabled_local: {
-			get(): boolean {
-				return this.header.dialog.commonActions.buttons.submit.disabled;
-			},
-			set(newValue: boolean): void {
-				this.header.dialog.commonActions.buttons.submit.disabled = newValue;
-			},
-		},
-		computed_data_dialog_signIn_isSubmitLoading_local: {
-			get(): boolean {
-				return this.header.dialog.commonActions.buttons.submit.isLoading;
-			},
-			set(newValue: boolean): void {
-				this.header.dialog.commonActions.buttons.submit.isLoading = newValue;
-			},
-		},
-		computed_data_dialog_signUp_selectedComponent_local: {
+		computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state: {
 			get(): string {
-				return this.header.dialog.signUpCard.content.signUpSelectedComponent;
+				return this.storeHeader.get_dialog_signUpCard_content_selectedComponent_state;
 			},
 			set(newValue: string): void {
-				this.header.dialog.signUpCard.content.signUpSelectedComponent = newValue;
+				this.storeHeader.set_dialog_signUpCard_content_selectedComponent_state(newValue);
 			},
 		},
-		computed_data_appBar_btnMobileMenu_show_state: {
+		computed_data_dialog_signUpCard_content_signUpForm_valid_state: {
 			get(): boolean {
-				return this.storeHeader.get_appBar_mobileMenu_show_state;
+				return this.storeHeader.get_dialog_signUpCard_content_signUpForm_valid_state;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_mobileMenu_show_state(newValue);
+				this.storeHeader.set_dialog_signUpCard_content_signUpForm_valid_state(newValue);
 			},
 		},
-		computed_data_appBar_btnInformation_show_state: {
+		computed_data_dialog_signUpCard_content_signUpForm_btnSignUp_isLoading_state: {
 			get(): boolean {
-				return this.storeHeader.get_appBar_information_show_state;
+				return this.header.dialog.signUpCard.actions.buttons.signUp.isLoading;
 			},
 			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_information_show_state(newValue);
+				this.header.dialog.signUpCard.actions.buttons.signUp.isLoading = newValue;
 			},
 		},
-		computed_data_appBar_btnBasket_show_state: {
-			get(): boolean {
-				return this.storeHeader.get_appBar_basket_show_state;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_basket_show_state(newValue);
-			},
-		},
-		computed_data_appBar_btnAccount_show_state: {
-			get(): boolean {
-				return this.storeHeader.get_appBar_account_show_state;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_account_show_state(newValue);
-			},
-		},
-		computed_data_appBar_btnSignIn_show_state: {
-			get(): boolean {
-				return this.storeHeader.get_appBar_signIn_show_state;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_signIn_show_state(newValue);
-			},
-		},
-		computed_data_appBar_btnSignUp_show_state: {
-			get(): boolean {
-				return this.storeHeader.get_appBar_signUp_show_state;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_signUp_show_state(newValue);
-			},
-		},
-		computed_data_dialog_formInput_email_state: {
+		computed_data_dialog_signUpCard_content_signUpForm_emailInput_value_state: {
 			get(): string {
-				return this.storeHeader.get_dialog_signIn_email_state;
+				return this.storeHeader.get_dialog_signUpCard_content_signUpForm_emailInput_value_state;
 			},
 			set(newValue: string): void {
-				this.storeHeader.set_dialog_signIn_email_state(newValue);
+				this.storeHeader.set_dialog_signUpCard_content_signUpForm_emailInput_value_state(newValue);
 			},
 		},
-		computed_data_dialog_formInput_password_state: {
+		computed_data_dialog_signUpCard_content_signUpForm_passwordInput_value_state: {
 			get(): string {
-				return this.storeHeader.get_dialog_signIn_password_state;
+				return this.storeHeader.get_dialog_signUpCard_content_signUpForm_passwordInput_value_state;
 			},
 			set(newValue: string): void {
-				this.storeHeader.set_dialog_signIn_password_state(newValue);
+				this.storeHeader.set_dialog_signUpCard_content_signUpForm_passwordInput_value_state(newValue);
+			},
+		},
+		computed_data_dialog_signUpCard_content_forgottenPasswordForm_valid_state: {
+			get(): boolean {
+				return this.storeHeader.get_dialog_signUpCard_content_forgottenPasswordForm_valid_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_dialog_signUpCard_content_forgottenPasswordForm_valid_state(newValue);
+			},
+		},
+		computed_data_dialog_signUpCard_content_forgottenPasswordForm_emailInput_value_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signUpCard_content_forgottenPasswordForm_emailInput_value_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signUpCard_content_forgottenPasswordForm_emailInput_value_state(newValue);
 			},
 		},
 	},
@@ -467,90 +560,25 @@ export default defineComponent({
 			this.storeFirebase.logout_userAuth();
 		},
 		method_event_dialog_setSignInselectedComponent(selectedComponent: string): void {
-			this.computed_data_dialog_signIn_selectedComponent_local = selectedComponent;
+			this.computed_data_dialog_signInCard_content_signInForm_selectedComponent_state = selectedComponent;
 		},
 		method_event_dialog_setSignUpSelectedComponent(selectedComponent: string): void {
-			this.computed_data_dialog_signUp_selectedComponent_local = selectedComponent;
+			this.computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state = selectedComponent;
 		},
-		method_event_dialog_forgottenPassword_clickHandler(): void {
+		method_event_dialog_signInCard_actions_signInForm_btnForgottenPassword_clickHandler(): void {
 			this.method_event_dialog_setSignInselectedComponent("container-forgotten-password");
-			this.computed_text_dialog_signIn_toolbarTitle_local = "Forgotten password";
+			this.computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state = "Forgotten password";
 		},
-		method_event_dialog_submitForm_clickHandler(): void {
-			const signInDialog_show: boolean = this.computed_data_appBar_btnSignIn_show_state;
-			const signUpDialog_show: boolean = this.computed_data_appBar_btnSignUp_show_state;
-
-			/*
-			actions: {
-						links: {
-							forgottenEmail: {
-								text: "Forgot your email address?",
-							},
-							backToLogin: {
-								text: "Back to login?",
-							},
-						},
-						btn: {
-							send: {
-								text: "Send email",
-								isLoading: false,
-							},
-						},
-					},
-			*/
-			if (signInDialog_show && !signUpDialog_show) {
-				switch (this.computed_data_dialog_signIn_selectedComponent_local) {
-					case "container-sign-in":
-						this.method_utils_dialog_submitForm_signIn_clickHandler();
-						break;
-					case "container-forgotten-password":
-						this.method_utils_dialog_submitForm_forgottenPassword_clickHandler();
-						break;
-				}
-			} else {
-				switch (this.computed_data_dialog_signIn_selectedComponent_local) {
-					case "container-sign-up":
-						this.method_utils_dialog_submitForm_signUp_clickHandler();
-						break;
-				}
-			}
+		method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler(): void {
+			this.method_event_dialog_setSignInselectedComponent("container-sign-in");
+			this.computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state = "Sign in";
 		},
-
-		method_utils_dialog_submitForm_signIn_clickHandler(): void {
-			const isFormValid: boolean = this.computed_data_isFormValid;
-
-			if (isFormValid) {
-				const email: string = this.computed_data_dialog_formInput_email_state;
-				const password: string = this.computed_data_dialog_formInput_password_state;
-
-				this.computed_data_dialog_signIn_isSubmitLoading_local = true;
-				this.storeFirebase
-					.login_userAuth_withEmailAndPassword({ email, password })
-					.then(() => {
-						this.storeCommon.setSnackbar_success_state(
-							"You have successfully logged into your account. Redirecting you to your account now."
-						);
-						setTimeout(() => {
-							this.$router.replace({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.account, hash: "#section-account" });
-						}, this.computed_data_timeout_state);
-					})
-					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
-					.finally(() => {
-						setTimeout(() => {
-							this.storeCommon.setSnackbar_reset_state();
-							this.computed_data_dialog_signIn_isSubmitLoading_local = false;
-							this.resetFormInputs();
-						}, this.computed_data_timeout_state);
-					});
-			}
-		},
-		method_utils_dialog_submitForm_forgottenPassword_clickHandler(): void {
+		//method_event_dialog_signInCard_actions_signInForm_btnBackToLogin_clickHandler
+		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {
 			debugger;
-			//* Add functionality for submit form, when on the forgotten password component.
 		},
-		method_utils_dialog_submitForm_signUp_clickHandler(): void {
+		method_event_dialog_signUpCard_actions_signUpForm_btnSignUp_clickHandler(): void {
 			debugger;
-			//* Add functionality for submit form, when on the forgotten password component.
 		},
 	},
 	setup() {

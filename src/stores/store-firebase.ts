@@ -198,7 +198,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						switch (error.code) {
 							case "auth/invalid-credential":
 								const errorMessage: string = "Either the email or password is incorrect";
-								console.error(`${errorMessage}. ${error}`);
 								reject(errorMessage);
 								break;
 						}
@@ -237,7 +236,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						switch (error.code) {
 							case "auth/email-already-in-use":
 								const errorMessage: string = "Email already in use! Try logging in";
-								console.error(`${errorMessage}. ${error}`);
 								reject(errorMessage);
 								break;
 						}
@@ -312,7 +310,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 							.then(() => resolve())
 							.catch((error) => {
 								const errorMessage: string = "You are offline, so you cannot store user data!";
-								console.error(`${errorMessage}. ${error}`);
 								reject(errorMessage);
 							});
 					} else {
@@ -334,7 +331,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 								case "auth/operation-not-allowed":
 									errorMessage =
 										"Cannot update email. This operation requires that you have logged in recently. Reauthenticate now.";
-									console.error(`${errorMessage}. ${error}`);
 									reject(errorMessage);
 									break;
 							}
@@ -368,7 +364,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 								case "auth/requires-recent-login":
 									const errorMessage: string =
 										"Cannot delete account. A recent login is required. Please re-log first and try again!";
-									console.error(`${errorMessage}. ${error}`);
 									reject(errorMessage);
 									break;
 							}
@@ -469,7 +464,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						})
 						.catch((error) => {
 							let errorMessage: string = "You are offline, so you cannot store user data";
-							console.error(`${errorMessage}. ${error}`);
 							reject(errorMessage);
 						});
 				} else {
@@ -502,7 +496,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 						.catch((error) => {
 							const errorMessage: string =
 								"You are offline. Your data cannot be stored. Please reconnect your internet if you can";
-							console.error(`${errorMessage}. ${error}`);
 							reject(errorMessage);
 						});
 				} else {
@@ -533,7 +526,6 @@ const useFirebaseStore = defineStore("firebase-store", {
 							.then(() => resolve())
 							.catch((error) => {
 								const errorMessage: string = "You are offline, so you cannot update your data";
-								console.error(`${errorMessage}. ${error}`);
 								reject(errorMessage);
 							});
 					} else {

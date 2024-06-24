@@ -10,7 +10,15 @@
 				<v-divider color="default" vertical v-else></v-divider>
 				<v-col cols="12" sm="6" class="d-flex" style="height: 75px">
 					<div class="footer_socials w-100 d-flex flex-row justify-space-evenly align-center">
-						<v-btn icon variant="flat" class="bg-accent" target="_blank" :href="svg.link" :key="index" v-for="(svg, index) in socials">
+						<v-btn
+							icon
+							variant="flat"
+							class="bg-accent"
+							target="_blank"
+							:href="svg.link"
+							:key="index"
+							v-for="(svg, index) in socials"
+						>
 							<v-icon size="x-large">
 								<template #default>
 									<v-img :src="svg.icon"></v-img>
@@ -40,16 +48,12 @@
 
 				<!-- Information -->
 				<v-col cols="12" md="6" class="d-flex align-center" style="height: 75px">
-					<small class="w-100 text-center">
-						48 Papyrus Road, Peterborough, Cambridgeshire, PE4 5BH, UK
-					</small>
+					<small class="w-100 text-center"> 48 Papyrus Road, Peterborough, Cambridgeshire, PE4 5BH, UK </small>
 				</v-col>
 				<v-divider color="default" v-if="isDeviceMedium"></v-divider>
 				<v-divider color="default" vertical v-else></v-divider>
 				<v-col cols="12" md="6" class="d-flex align-center" style="height: 75px">
-					<small class="w-100 text-center">
-						Copyright © 2024 Ethereal Beauty Lounge - All Rights Reserved.
-					</small>
+					<small class="w-100 text-center"> Copyright © 2024 Ethereal Beauty Lounge - All Rights Reserved. </small>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -60,7 +64,7 @@
 import { defineComponent } from "vue";
 
 // Constants
-import { CONST_OBJECT_TEXT_ROUTE_NAMES, CONST_OBJECT_TEXT_ROUTE_LINKS } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_PAGES, CONST_OBJECT_LINKS_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // SVGs
 import FacebookSVG from "@assets/svg/socials/facebook.svg";
@@ -74,42 +78,42 @@ export default defineComponent({
 			socials: {
 				facebook: {
 					icon: FacebookSVG,
-					link: "https://www.facebook.com/profile.php?id=61551908105553"
+					link: "https://www.facebook.com/profile.php?id=61551908105553",
 				},
 				instagram: {
 					icon: InstagramSVG,
-					link: "https://www.instagram.com/etherealbeautylounge_?igsh=MTBpMmVzZWd1Nzh6OQ%3D%3D&utm_source=qr"
+					link: "https://www.instagram.com/etherealbeautylounge_?igsh=MTBpMmVzZWd1Nzh6OQ%3D%3D&utm_source=qr",
 				},
 				tiktok: {
 					icon: TikTokSVG,
-					link: "https://www.tiktok.com/@etherealbeautylounge_?_t=8k5mo2SiR4S&_r=1"
-				}
+					link: "https://www.tiktok.com/@etherealbeautylounge_?_t=8k5mo2SiR4S&_r=1",
+				},
 			},
 			//[FacebookSVG, InstagramSVG, TikTokSVG],
 			navigation: [
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.home,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.home,
+					text: CONST_OBJECT_TEXT_PAGES.home,
+					link: CONST_OBJECT_LINKS_PAGES.home,
 				},
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
+					text: CONST_OBJECT_TEXT_PAGES.treatments,
+					link: CONST_OBJECT_LINKS_PAGES.treatments,
 				},
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.store,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.store,
+					text: CONST_OBJECT_TEXT_PAGES.store,
+					link: CONST_OBJECT_LINKS_PAGES.store,
 				},
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.contact,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.contact,
+					text: CONST_OBJECT_TEXT_PAGES.contact,
+					link: CONST_OBJECT_LINKS_PAGES.contact,
 				},
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews,
+					text: CONST_OBJECT_TEXT_PAGES.reviews,
+					link: CONST_OBJECT_LINKS_PAGES.reviews,
 				},
 				{
-					text: CONST_OBJECT_TEXT_ROUTE_NAMES.about,
-					link: CONST_OBJECT_TEXT_ROUTE_LINKS.about,
+					text: CONST_OBJECT_TEXT_PAGES.about,
+					link: CONST_OBJECT_LINKS_PAGES.about,
 				},
 			],
 		};
@@ -140,10 +144,8 @@ export default defineComponent({
 		},
 	},
 	methods: {
-		openSocial(): void {
-
-		}
-	}
+		openSocial(): void {},
+	},
 });
 </script>
 

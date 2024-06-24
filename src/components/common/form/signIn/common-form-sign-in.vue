@@ -1,8 +1,5 @@
 <template>
-	<container-form
-		v-model="computed_data_form_isValid_local"
-		@update:modelValue="$emit('is-form-valid', computed_data_form_isValid_local)"
-	>
+	<container-form v-model="computed_data_dialog_signInCard_content_signInForm_valid_state">
 		<template #form-content>
 			<v-row dense>
 				<!-- First name field -->
@@ -14,10 +11,13 @@
 						class="w-100 align-self-center"
 						style="min-width: 150px; max-width: 300px"
 						:rules="computed_validation_emailRules"
-						v-model="computed_data_formInput_email_state"
+						v-model="computed_data_dialog_signInCard_content_signInForm_emailInput_value_state"
 					>
 						<template #label>
-							<span class="text-inverted" v-text="computed_text_formInput_email"></span>
+							<span
+								class="text-inverted"
+								v-text="computed_data_dialog_signInCard_content_signInForm_emailInput_label_local"
+							></span>
 						</template>
 					</v-text-field>
 				</v-col>
@@ -30,20 +30,25 @@
 						class="w-100 align-self-center"
 						style="min-width: 150px; max-width: 300px"
 						:append-inner-icon="
-							computed_data_formInput_password_showPassword_local
-								? computed_icon_showPassword
-								: computed_icon_hidePassword
+							computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state
+								? computed_icon_showPassword_local
+								: computed_icon_hidePassword_local
 						"
-						:type="computed_data_formInput_password_showPassword_local ? 'text' : 'password'"
+						:type="
+							computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state ? 'text' : 'password'
+						"
 						:rules="computed_validation_passwordRules"
-						v-model="computed_data_formInput_password_state"
+						v-model="computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state"
 						@click:appendInner="
-							computed_data_formInput_password_showPassword_local =
-								!computed_data_formInput_password_showPassword_local
+							computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state =
+								!computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state
 						"
 					>
 						<template #label>
-							<span class="text-inverted" v-text="computed_text_formInput_password"></span>
+							<span
+								class="text-inverted"
+								v-text="computed_data_dialog_signInCard_content_signInForm_passwordInput_label_local"
+							></span>
 						</template>
 					</v-text-field>
 				</v-col>
@@ -67,25 +72,41 @@ export default defineComponent({
 	name: "sign-in-container-component",
 	data() {
 		return {
-			form: {},
+			form: {
+				content: {
+					forms: {
+						signIn: {
+							inputs: {
+								email: {
+									label: "Email address",
+								},
+								password: {
+									label: "Password",
+									icons: {
+										show: CONST_OBJECT_ICONS_FORM.show,
+										hide: CONST_OBJECT_ICONS_FORM.hide,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 		};
 	},
 	computed: {
-		computed_text_formInput_email(): string {
-			return this.form.inputs.email.label;
+		computed_data_dialog_signInCard_content_signInForm_emailInput_label_local(): string {
+			return this.form.content.forms.signIn.inputs.email.label;
 		},
-		computed_text_formInput_forgottenPassword(): string {
-			return this.form.actions.buttons.forgottenPassword.text;
-		},
-		computed_text_formInput_password(): string {
-			return this.form.inputs.password.label;
+		computed_data_dialog_signInCard_content_signInForm_passwordInput_label_local(): string {
+			return this.form.content.forms.signIn.inputs.password.label;
 		},
 
-		computed_icon_showPassword(): string {
-			return this.form.inputs.password.icons.show;
+		computed_icon_showPassword_local(): string {
+			return this.form.content.forms.signIn.inputs.password.icons.show;
 		},
-		computed_icon_hidePassword(): string {
-			return this.form.inputs.password.icons.hide;
+		computed_icon_hidePassword_local(): string {
+			return this.form.content.forms.signIn.inputs.password.icons.hide;
 		},
 
 		computed_validation_emailRules(): any {
@@ -99,36 +120,36 @@ export default defineComponent({
 			];
 		},
 
-		computed_data_form_isValid_local: {
+		computed_data_dialog_signInCard_content_signInForm_valid_state: {
 			get(): boolean {
-				return this.form.valid;
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_valid_state;
 			},
 			set(newValue: boolean): void {
-				this.form.valid = newValue;
+				this.storeHeader.set_dialog_signInCard_content_signInForm_valid_state(newValue);
 			},
 		},
-		computed_data_formInput_password_showPassword_local: {
+		computed_data_dialog_signInCard_content_signInForm_emailInput_value_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_emailInput_value_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_emailInput_value_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_passwordInput_value_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_passwordInput_value_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state: {
 			get(): boolean {
-				return this.form.inputs.password.show;
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_passwordInput_show_state;
 			},
-			set(newValue: boolean) {
-				this.form.inputs.password.show = newValue;
-			},
-		},
-		computed_data_formInput_email_state: {
-			get(): string {
-				return this.storeHeader.get_dialog_signIn_email_state;
-			},
-			set(newValue: string): void {
-				this.storeHeader.set_dialog_signIn_email_state(newValue);
-			},
-		},
-		computed_data_formInput_password_state: {
-			get(): string {
-				return this.storeHeader.get_dialog_signIn_password_state;
-			},
-			set(newValue: string): void {
-				this.storeHeader.set_dialog_signIn_password_state(newValue);
+			set(newValue: boolean): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_passwordInput_show_state(newValue);
 			},
 		},
 	},

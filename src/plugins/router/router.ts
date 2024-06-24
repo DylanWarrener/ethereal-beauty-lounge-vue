@@ -1,17 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // Constants
-import {
-	CONST_OBJECT_TEXT_ROUTE_NAMES,
-	CONST_OBJECT_TEXT_ROUTE_LINKS,
-} from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TEXT_PAGES, CONST_OBJECT_LINKS_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Routes to be loaded straight away
 import Home from "@pages/page-home.vue";
 
 // Routes to be loaded when used (dynamic)
 const TreatmentsComp = () => import("@pages/page-treatments.vue");
-const PortfolioComp = () => import("@pages/page-portfolio.vue");
 const StoreComp = () => import("@pages/page-store.vue");
 const ContactComp = () => import("@pages/page-contact.vue");
 const ReviewsComp = () => import("@pages/page-reviews.vue");
@@ -21,24 +17,19 @@ const AccountComp = () => import("@pages/page-account.vue");
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.home, name: CONST_OBJECT_TEXT_ROUTE_NAMES.home, component: Home },
+		{ path: CONST_OBJECT_LINKS_PAGES.home, name: CONST_OBJECT_TEXT_PAGES.home, component: Home },
 		{
-			path: CONST_OBJECT_TEXT_ROUTE_LINKS.treatments,
-			name: CONST_OBJECT_TEXT_ROUTE_NAMES.treatments,
+			path: CONST_OBJECT_LINKS_PAGES.treatments,
+			name: CONST_OBJECT_TEXT_PAGES.treatments,
 			component: TreatmentsComp,
 		},
+		{ path: CONST_OBJECT_LINKS_PAGES.store, name: CONST_OBJECT_TEXT_PAGES.store, component: StoreComp },
+		{ path: CONST_OBJECT_LINKS_PAGES.contact, name: CONST_OBJECT_TEXT_PAGES.contact, component: ContactComp },
+		{ path: CONST_OBJECT_LINKS_PAGES.reviews, name: CONST_OBJECT_TEXT_PAGES.reviews, component: ReviewsComp },
+		{ path: CONST_OBJECT_LINKS_PAGES.about, name: CONST_OBJECT_TEXT_PAGES.about, component: AboutComp },
 		{
-			path: CONST_OBJECT_TEXT_ROUTE_LINKS.portfolio,
-			name: CONST_OBJECT_TEXT_ROUTE_NAMES.portfolio,
-			component: PortfolioComp,
-		},
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.store, name: CONST_OBJECT_TEXT_ROUTE_NAMES.store, component: StoreComp },
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.contact, name: CONST_OBJECT_TEXT_ROUTE_NAMES.contact, component: ContactComp },
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.reviews, name: CONST_OBJECT_TEXT_ROUTE_NAMES.reviews, component: ReviewsComp },
-		{ path: CONST_OBJECT_TEXT_ROUTE_LINKS.about, name: CONST_OBJECT_TEXT_ROUTE_NAMES.about, component: AboutComp },
-		{
-			path: CONST_OBJECT_TEXT_ROUTE_LINKS.account,
-			name: CONST_OBJECT_TEXT_ROUTE_NAMES.account,
+			path: CONST_OBJECT_LINKS_PAGES.account,
+			name: CONST_OBJECT_TEXT_PAGES.account,
 			component: AccountComp,
 			meta: { requiresAuth: true },
 		},
@@ -99,7 +90,7 @@ router.beforeEach((to, _, next) => {
 	const routeRequiresAuth: boolean = to.meta.requiresAuth as boolean;
 	const isUserLoggedIn: boolean = useFirebaseStore.getIsUserLoggedIn;
 	if (routeRequiresAuth && !isUserLoggedIn) {
-		next({ name: CONST_OBJECT_TEXT_ROUTE_NAMES.login, hash: "#section-login" });
+		next({ name: CONST_OBJECT_TEXT_PAGES.login, hash: "#section-login" });
 	} else {
 		next();
 	}

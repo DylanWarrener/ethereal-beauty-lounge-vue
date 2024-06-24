@@ -157,7 +157,7 @@ import FormContainerComp from "@components/common/form/common-form.vue";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
-import { iconsFormPassword } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "uncommon-form-login-component",
@@ -178,8 +178,8 @@ export default defineComponent({
 					password: {
 						show: false,
 						icon: {
-							show: iconsFormPassword.show,
-							hide: iconsFormPassword.hide,
+							show: CONST_OBJECT_ICONS_FORM.show,
+							hide: CONST_OBJECT_ICONS_FORM.hide,
 						},
 						label: "Password",
 						value: null,
@@ -252,17 +252,6 @@ export default defineComponent({
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
 				this.isLoading = true;
-				this.storeFirebase
-					.loginWithEmailAndPassword({ email, password })
-					.then((response) => {
-						//console.log("Logged in user: ", response);
-					})
-					.catch((error) => {
-						//console.log(error);
-					})
-					.finally(() => {
-						this.isLoading = false;
-					});
 			}
 		},
 		// Emit
