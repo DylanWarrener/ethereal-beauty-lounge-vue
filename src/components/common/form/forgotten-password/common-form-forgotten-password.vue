@@ -95,6 +95,9 @@ export default defineComponent({
 		computed_data_emailValidationRules(): any {
 			return [this.method_validation_isNotEmpty, this.method_validation_isEmailFormatValid];
 		},
+		computed_data_timeout_value(): number {
+			return this.storeCommon.getSnackbar_timeout_state;
+		},
 		computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state: {
 			get(): boolean {
 				return this.storeHeader.get_dialog_signInCard_content_forgottenPasswordForm_valid_state;
