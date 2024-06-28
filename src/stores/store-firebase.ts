@@ -182,6 +182,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		login_userAuth_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
 			return new Promise((resolve, reject) => {
+				debugger;
 				signInWithEmailAndPassword(auth, user.email, user.password)
 					.then(() => this.get_userFirestore_user())
 					.then((userData: DocumentData | undefined) => {
@@ -438,6 +439,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		// User FIRESTORE actions
 		get_userFirestore_user(): Promise<DocumentData> {
 			return new Promise((resolve, reject) => {
+				debugger;
 				const uid: string | null = this.user.authData.uid;
 
 				if (uid !== null) {
@@ -445,6 +447,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 					getDoc(userDocumentRef)
 						.then((userDocument) => {
+							debugger;
 							const doesUserDocumentExist: boolean = userDocument.exists();
 							const userDocumentData: DocumentData | undefined = userDocument.data();
 
@@ -463,6 +466,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 							}
 						})
 						.catch((error) => {
+							debugger;
 							let errorMessage: string = "You are offline, so you cannot store user data";
 							reject(errorMessage);
 						});

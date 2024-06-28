@@ -5,7 +5,9 @@
 		v-model="computed_data_appbar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state"></component>
+			<v-expand-x-transition>
+				<component :is="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state"></component>
+			</v-expand-x-transition>
 		</template>
 		<template #dialog-card-actions>
 			<!-- Back to login -->
@@ -70,6 +72,9 @@ import useFirebaseStore from "@stores/store-firebase.js";
 // Components
 import SignInComp from "@components/common/form/signIn/common-form-sign-in.vue";
 import ForgottenPasswordComp from "@components/common/form/forgotten-password/common-form-forgotten-password.vue";
+
+// Constants
+import { CONST_OBJECT_TEXT_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 export default defineComponent({
 	name: "dialog-sign-in-container-component",
@@ -184,7 +189,39 @@ export default defineComponent({
 		method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler(): void {
 			this.method_event_dialog_setSignInselectedComponent("container-sign-in");
 		},
-		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {},
+		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {
+			debugger;
+			const isFormValid: boolean = this.computed_data_isFormValid;
+
+			if (isFormValid) {
+				const email: string = this.data_dialogFormLogin.input.email.value!;
+				const password: string = this.data_dialogFormLogin.input.password.value!;
+
+				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				this.storeFirebase
+					.login_userAuth_withEmailAndPassword({ email, password })
+					.then(() => {
+						debugger;
+						this.storeCommon.setSnackbar_success_state(
+							"You have successfully logged into your account. Redirecting you to your account now."
+						);
+						setTimeout(() => {
+							this.$router.replace({ name: CONST_OBJECT_TEXT_PAGES.account, hash: "#section-account" });
+						}, this.computed_data_timeout_value);
+					})
+					.catch((errorMessage: string) => this.storeCommon.setSnackbar_error_state(errorMessage))
+					.finally(() => {
+						setTimeout(() => {
+							this.storeCommon.setSnackbar_reset_state();
+							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
+							this.resetFormInputs();
+						}, this.computed_data_timeout_value);
+					});
+			}
+		},
+		method_event_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_clickHandler(): void {
+			debugger;
+		},
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

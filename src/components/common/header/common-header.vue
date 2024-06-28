@@ -109,7 +109,7 @@
 
 	<!-- Dialogs -->
 	<container-sign-in-dialog></container-sign-in-dialog>
-	<container-sign-in-dialog></container-sign-in-dialog>
+	<container-sign-up-dialog></container-sign-up-dialog>
 
 	<!-- Mobile navigation-->
 	<container-navigation
@@ -384,6 +384,7 @@ export default defineComponent({
 				this.storeHeader.set_appBar_btnTextSignUp_show_state(newValue);
 			},
 		},
+
 		computed_data_dialog_signInCard_content_signInForm_selectedComponent_state: {
 			get(): string {
 				return this.storeHeader.get_dialog_signInCard_content_selectedComponent_state;

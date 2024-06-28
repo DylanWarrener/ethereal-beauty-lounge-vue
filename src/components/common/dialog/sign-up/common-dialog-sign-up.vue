@@ -5,7 +5,9 @@
 		v-model="computed_data_appbar_btnSignUp_show_state"
 	>
 		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"></component>
+			<v-expand-x-transition>
+				<component :is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"></component>
+			</v-expand-x-transition>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>

@@ -66,7 +66,7 @@ import ContainerMenu from "@components/common/menu/common-menu.vue";
 import ContainerForm from "@components/common/form/common-form.vue";
 import ContainerSignInDialog from "@components/common/dialog/sign-in/common-dialog-sign-in.vue";
 import ContainerSignUpDialog from "@components/common/dialog/sign-up/common-dialog-sign-up.vue";
-import { VExpandTransition } from "vuetify/components/transitions";
+import { VExpandTransition, VExpandXTransition } from "vuetify/components/transitions";
 import { Resize, Ripple, Scroll } from "vuetify/directives";
 
 // Material design icons
@@ -164,6 +164,7 @@ const vuetify = createVuetify({
 
 		// Transitions
 		VExpandTransition,
+		VExpandXTransition,
 	},
 	directives: {
 		Resize,
