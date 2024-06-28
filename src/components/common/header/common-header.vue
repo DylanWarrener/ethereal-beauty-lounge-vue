@@ -107,74 +107,9 @@
 		></container-btn>
 	</v-app-bar>
 
-	<!-- Sign in dialog -->
-	<container-dialog
-		:toolbar-title="computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state"
-		@close="computed_data_appbar_btnSignIn_show_state = false"
-		v-model="computed_data_appbar_btnSignIn_show_state"
-	>
-		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state"></component>
-		</template>
-		<template #dialog-card-actions>
-			<container-btn
-				variant="flat"
-				color="inverted"
-				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_local"
-				v-if="
-					computed_data_dialog_signInCard_content_signInForm_selectedComponent_state ===
-					'container-forgotten-password'
-				"
-				@click="method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler"
-			></container-btn>
-			<container-btn
-				variant="flat"
-				color="inverted"
-				:text="computed_text_dialog_signInCard_actions_signInForm_btnForgottenPassword_local"
-				v-if="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state === 'container-sign-in'"
-				@click="method_event_dialog_signInCard_actions_signInForm_btnForgottenPassword_clickHandler"
-			></container-btn>
-			<v-spacer></v-spacer>
-			<container-btn
-				variant="flat"
-				type="submit"
-				:text="computed_text_dialog_signInCard_actions_signInForm_btnSignIn_local"
-				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
-				:loading="computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state"
-				@click="method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler"
-			></container-btn>
-			<container-btn
-				variant="flat"
-				type="submit"
-				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_local"
-				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
-				:loading="computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state"
-				@click="method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler"
-			></container-btn>
-		</template>
-	</container-dialog>
-
-	<!-- Sign up dialog -->
-	<container-dialog
-		:toolbar-title="computed_data_dialog_signUpCard_content_signUpForm_toolbarTitle_state"
-		@close="computed_data_appbar_btnSignUp_show_state = false"
-		v-model="computed_data_appbar_btnSignUp_show_state"
-	>
-		<template #dialog-card-content>
-			<component :is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"></component>
-		</template>
-		<template #dialog-card-actions>
-			<v-spacer></v-spacer>
-			<container-btn
-				variant="flat"
-				type="submit"
-				:text="computed_text_dialog_btnSubmitForm_local"
-				:disabled="!computed_data_dialog_signUpCard_content_signUpForm_valid_state"
-				:loading="computed_data_dialog_signUpCard_content_signUpForm_btnSignUp_isLoading_state"
-				@click="method_event_dialog_signUpCard_actions_signUpForm_btnSignUp_clickHandler"
-			></container-btn>
-		</template>
-	</container-dialog>
+	<!-- Dialogs -->
+	<container-sign-in-dialog></container-sign-in-dialog>
+	<container-sign-in-dialog></container-sign-in-dialog>
 
 	<!-- Mobile navigation-->
 	<container-navigation
@@ -447,14 +382,6 @@ export default defineComponent({
 			},
 			set(newValue: boolean): void {
 				this.storeHeader.set_appBar_btnTextSignUp_show_state(newValue);
-			},
-		},
-		computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state: {
-			get(): string {
-				return this.storeHeader.get_dialog_signInCard_toolbarTitle_state;
-			},
-			set(newValue: string): void {
-				this.storeHeader.set_dialog_signInCard_toolbarTitle_state(newValue);
 			},
 		},
 		computed_data_dialog_signInCard_content_signInForm_selectedComponent_state: {
