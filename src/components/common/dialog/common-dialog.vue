@@ -2,6 +2,7 @@
 	<v-dialog
 		persistent
 		transition="dialog-top-transition"
+		:min-width="computed_css_minWidth"
 		:max-width="computed_css_maxWidth"
 		:max-height="computed_css_maxHeight"
 	>
@@ -48,6 +49,7 @@ export default defineComponent({
 	name: "dialog-container-component",
 	props: {
 		toolbarTitle: { type: String, required: false },
+		maxWidth: { type: String, required: false },
 	},
 	computed: {
 		computed_icon_dialog_closeBtn_state(): string {
@@ -58,13 +60,26 @@ export default defineComponent({
 			return this.storeCommon.getDialog_default_btnClose_tooltip_state;
 		},
 
+		computed_css_minWidth(): string {
+			return "100px";
+		},
 		computed_css_maxWidth(): string {
-			let retVal: string = "80%";
+			let retVal: string = "";
 			switch (this.$vuetify.display.name) {
+				case "xs":
+					retVal = "100%";
+					break;
+				case "sm":
+					retVal = "80%";
+					break;
+				case "md":
 				case "lg":
 				case "xl":
 				case "xxl":
-					retVal = "50%";
+					retVal = this.maxWidth ? this.maxWidth : "60%";
+					break;
+				default:
+					retVal = "60%";
 					break;
 			}
 			return retVal;

@@ -18,21 +18,18 @@
 			></h2>
 		</slot>
 		<v-card-text 
-			style="border: 2px solid orange" 
 			:class="computed_css_cardContentClass" 
 			:style="computed_css_cardContentStyle" 
 			v-if="method_event_slotIsPopulated('card-content')">
 			<v-container 
 				fluid 
 				class="pa-0 d-flex flex-column"		
-				style="border: 10px solid black" 
 				:class="computed_css_cardContentContainerClass" 
 				:style="computed_css_cardContentContainerStyle"
 				>
 				<!-- Content -->
 				<v-row
 					dense
-					style="border: 4px solid red"
 					:class="computed_css_cardContentContainerRowClass" 
 					:style="computed_css_cardContentContainerRowStyle"
 					v-if="method_event_slotIsPopulated('card-content')"
@@ -41,6 +38,7 @@
 				</v-row>
 			</v-container>
 		</v-card-text>
+		<v-divider></v-divider>
 		<v-card-actions 
 			class="w-100 pa-2"
 			:class="computed_css_cardActionsClass" 
@@ -130,11 +128,9 @@ export default defineComponent({
 			return retval;
 		},
 		computed_css_cardContentClass(): string[] {
-			let retval: string[] = [];
-			if (this.cardContentClass !== undefined) {
-				const cardContentClassList = this.cardContentClass.split(" ");
-				retval.push(...cardContentClassList);
-			}
+			let retval: string[] = ["pa-0"];
+			if (this.cardContentClass)
+				this.cardContentClass.split(" ").forEach(element => retval.push(element));
 			return retval;
 		},
 		computed_css_cardContentStyle(): string {

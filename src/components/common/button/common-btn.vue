@@ -24,19 +24,13 @@ export default defineComponent({
 		text: { type: String, required: false },
 	},
 	computed: {
-		computed_css_class(): any {
-			let retval: any = [];
-			if (this.class !== undefined) {
-				const classList = this.class.split(" ");
-				retval.push(...classList);
-			}
+		computed_css_class(): any[] {
+			let retval: string[] = [];
 
-			if (!!this.icon) {
-				retval.push("pa-2");
-			} else {
-				retval.push("px-4");
-			}
-			return retval;
+			retval.push(!!this.icon ? "pa-2" : "px-4");
+            if (this.class)
+                this.class.split(" ").forEach(element => retval.push(element));
+            return retval;
 		},
 	},
 });

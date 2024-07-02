@@ -97,12 +97,14 @@
 		<container-btn
 			variant="flat"
 			:text="computed_text_appBar_btnSignIn_local"
+			v-if=""
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
 		<container-btn
 			variant="flat"
 			color="inverted"
 			:text="computed_text_appBar_btnSignUp_local"
+			v-if=""
 			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
 		></container-btn>
 	</v-app-bar>
@@ -384,7 +386,6 @@ export default defineComponent({
 				this.storeHeader.set_appBar_btnTextSignUp_show_state(newValue);
 			},
 		},
-
 		computed_data_dialog_signInCard_content_signInForm_selectedComponent_state: {
 			get(): string {
 				return this.storeHeader.get_dialog_signInCard_content_selectedComponent_state;

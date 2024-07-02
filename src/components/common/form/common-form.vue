@@ -1,6 +1,6 @@
 <template>
 	<v-form validate-on="input lazy">
-		<v-container fluid class="d-flex flex-column">
+		<v-container fluid class="pa-4 d-flex flex-column">
 			<slot name="form-content"></slot>
 		</v-container>
 	</v-form>

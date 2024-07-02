@@ -2,8 +2,8 @@
 	<container-section
 		id="section-account"
 		style-container="margin-top: 64px; min-height: calc(100vh - 64px)"
-		class-title="text-inverted"
-		class-subtitle="text-inverted"
+		title-class="text-inverted"
+		subtitle-class="text-inverted"
 		:title="accountPage.section.title"
 		:subtitle="accountPage.section.subtitle"
 	>

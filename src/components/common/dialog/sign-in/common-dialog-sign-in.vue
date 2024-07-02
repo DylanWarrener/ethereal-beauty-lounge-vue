@@ -1,5 +1,6 @@
 <template>
 	<container-dialog
+		max-width="500px"
 		:toolbar-title="computed_data_dialog_signInCard_header_toolbarTitle_state"
 		@close="computed_data_appbar_btnSignIn_show_state = false"
 		v-model="computed_data_appbar_btnSignIn_show_state"
@@ -226,17 +227,17 @@ export default defineComponent({
 		},
 		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {
 			debugger;
-			const isFormValid: boolean = this.computed_data_isFormValid;
+			const isFormValid: boolean = this.computed_data_dialog_signInCard_content_signInForm_valid_state;
 
 			if (isFormValid) {
-				const email: string = this.data_dialogFormLogin.input.email.value!;
-				const password: string = this.data_dialogFormLogin.input.password.value!;
+				const email: string = this.computed_data_dialog_signInCard_content_signInForm_emailInput_value_state;
+				const password: string = this.computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state;
 
 				this.computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state = true;
 				this.storeFirebase
 					.login_userAuth_withEmailAndPassword({ email, password })
 					.then(() => {
-						debugger;
+						this.computed_data_appbar_btnSignIn_show_state = false;
 						this.storeCommon.setSnackbar_success_state(
 							"You have successfully logged into your account. Redirecting you to your account now."
 						);

@@ -131,48 +131,28 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		/* Dialog */
 		// Sign in
 		get_dialog_signInCard_toolbarTitle_state: (state: any): string => state.dialog.signInCard.toolbar.title,
-		get_dialog_signInCard_content_selectedComponent_state: (state: any): string =>
-			state.dialog.signInCard.content.selectedComponent,
-		get_dialog_signInCard_content_formComponents_state: (state: any): string[] =>
-			state.dialog.signInCard.content.formComponents,
-		get_dialog_signInCard_content_signInForm_valid_state: (state: any): boolean =>
-			state.dialog.signInCard.content.forms.signIn.valid,
-		get_dialog_signInCard_content_signInForm_emailInput_value_state: (state: any): string =>
-			state.dialog.signInCard.content.forms.signIn.inputs.email.value,
-		get_dialog_signInCard_content_signInForm_passwordInput_show_state: (state: any): boolean =>
-			state.dialog.signInCard.content.forms.signIn.inputs.password.show,
-		get_dialog_signInCard_content_signInForm_passwordInput_value_state: (state: any): string =>
-			state.dialog.signInCard.content.forms.signIn.inputs.password.value,
-		get_dialog_signInCard_content_forgottenPasswordForm_valid_state: (state: any): boolean =>
-			state.dialog.signInCard.content.forms.forgottenPassword.valid,
-		get_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state: (state: any): string =>
-			state.dialog.signInCard.content.forms.forgottenPassword.inputs.email.value,
+		get_dialog_signInCard_content_selectedComponent_state: (state: any): string => state.dialog.signInCard.content.selectedComponent,
+		get_dialog_signInCard_content_formComponents_state: (state: any): string[] => state.dialog.signInCard.content.formComponents,
+		get_dialog_signInCard_content_signInForm_valid_state: (state: any): boolean => state.dialog.signInCard.content.forms.signIn.valid,
+		get_dialog_signInCard_content_signInForm_emailInput_value_state: (state: any): string => state.dialog.signInCard.content.forms.signIn.inputs.email.value,
+		get_dialog_signInCard_content_signInForm_passwordInput_show_state: (state: any): boolean => state.dialog.signInCard.content.forms.signIn.inputs.password.show,
+		get_dialog_signInCard_content_signInForm_passwordInput_value_state: (state: any): string => state.dialog.signInCard.content.forms.signIn.inputs.password.value,
+		get_dialog_signInCard_content_forgottenPasswordForm_valid_state: (state: any): boolean => state.dialog.signInCard.content.forms.forgottenPassword.valid,
+		get_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state: (state: any): string => state.dialog.signInCard.content.forms.forgottenPassword.inputs.email.value,
 		// Sign up
 		get_dialog_signUpCard_toolbarTitle_state: (state: any): string => state.dialog.signUpCard.toolbar.title,
-		get_dialog_signUpCard_content_selectedComponent_state: (state: any): string =>
-			state.dialog.signUpCard.content.selectedComponent,
-		get_dialog_signUpCard_content_formComponents_state: (state: any): string[] =>
-			state.dialog.signUpCard.content.formComponents,
-		get_dialog_signUpCard_content_signUpForm_valid_state: (state: any): boolean =>
-			state.dialog.signUpCard.content.forms.signUp.valid,
-		get_dialog_signUpCard_content_signUpForm_titleInput_value_state: (state: any): string | null =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.title.value,
-		get_dialog_signUpCard_content_signUpForm_firstnameInput_value_state: (state: any): string =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.firstname.value,
-		get_dialog_signUpCard_content_signUpForm_lastnameInput_value_state: (state: any): string =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.lastname.value,
-		get_dialog_signUpCard_content_signUpForm_emailInput_value_state: (state: any): string =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.email.value,
-		get_dialog_signUpCard_content_signUpForm_phoneNumberInput_value_state: (state: any): number | null =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.phoneNumber.value,
-		get_dialog_signUpCard_content_signUpForm_passwordInput_show_state: (state: any): boolean =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.password.show,
-		get_dialog_signUpCard_content_signUpForm_passwordInput_value_state: (state: any): string =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.password.value,
-		get_dialog_signUpCard_content_signUpForm_repeatPasswordInput_show_state: (state: any): boolean =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.repeatPassword.show,
-		get_dialog_signUpCard_content_signUpForm_repeatPasswordInput_value_state: (state: any): string =>
-			state.dialog.signUpCard.content.forms.signUp.inputs.repeatPassword.value,
+		get_dialog_signUpCard_content_selectedComponent_state: (state: any): string => state.dialog.signUpCard.content.selectedComponent,
+		get_dialog_signUpCard_content_formComponents_state: (state: any): string[] => state.dialog.signUpCard.content.formComponents,
+		get_dialog_signUpCard_content_signUpForm_valid_state: (state: any): boolean => state.dialog.signUpCard.content.forms.signUp.valid,
+		get_dialog_signUpCard_content_signUpForm_titleInput_value_state: (state: any): string | null => state.dialog.signUpCard.content.forms.signUp.inputs.title.value,
+		get_dialog_signUpCard_content_signUpForm_firstnameInput_value_state: (state: any): string => state.dialog.signUpCard.content.forms.signUp.inputs.firstname.value,
+		get_dialog_signUpCard_content_signUpForm_lastnameInput_value_state: (state: any): string => state.dialog.signUpCard.content.forms.signUp.inputs.lastname.value,
+		get_dialog_signUpCard_content_signUpForm_emailInput_value_state: (state: any): string => state.dialog.signUpCard.content.forms.signUp.inputs.email.value,
+		get_dialog_signUpCard_content_signUpForm_phoneNumberInput_value_state: (state: any): number | null => state.dialog.signUpCard.content.forms.signUp.inputs.phoneNumber.value,
+		get_dialog_signUpCard_content_signUpForm_passwordInput_show_state: (state: any): boolean => state.dialog.signUpCard.content.forms.signUp.inputs.password.show,
+		get_dialog_signUpCard_content_signUpForm_passwordInput_value_state: (state: any): string => state.dialog.signUpCard.content.forms.signUp.inputs.password.value,
+		get_dialog_signUpCard_content_signUpForm_repeatPasswordInput_show_state: (state: any): boolean => state.dialog.signUpCard.content.forms.signUp.inputs.repeatPassword.show,
+		get_dialog_signUpCard_content_signUpForm_repeatPasswordInput_value_state: (state: any): string => state.dialog.signUpCard.content.forms.signUp.inputs.repeatPassword.value,
 
 		/* Navigation */
 		get_navigation_mobileMenu_state: (state: any): any[] => state.navigation.mobileMenu.items,
@@ -209,7 +189,7 @@ const useHeaderStore = defineStore(StoreIDs.HEADER_STORE, {
 		set_dialog_signInCard_content_selectedComponent_state(newValue: string): void {
 			this.dialog.signInCard.content.selectedComponent = newValue;
 		},
-		set_dialog_signInCard_content_signInForm_valid_state(newValue: string): void {
+		set_dialog_signInCard_content_signInForm_valid_state(newValue: boolean): void {
 			this.dialog.signInCard.content.forms.signIn.valid = newValue;
 		},
 		set_dialog_signInCard_content_signInForm_emailInput_value_state(newValue: string): void {
