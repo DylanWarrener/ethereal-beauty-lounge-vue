@@ -9,7 +9,7 @@
 						variant="outlined"
 						type="email"
 						class="w-100 align-self-center"
-						style="min-width: 150px; max-width: 300px"
+						style="min-width: 150px; max-width: 500px"
 						:rules="computed_validation_emailRules"
 						v-model="computed_data_dialog_signInCard_content_signInForm_emailInput_value_state"
 					>
@@ -28,7 +28,7 @@
 						clearable
 						variant="outlined"
 						class="w-100 align-self-center"
-						style="min-width: 150px; max-width: 300px"
+						style="min-width: 150px; max-width: 500px"
 						:append-inner-icon="
 							computed_data_dialog_signInCard_content_signInForm_passwordInput_show_state
 								? computed_icon_showPassword_local

@@ -181,10 +181,14 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		login_userAuth_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
+			debugger;
 			return new Promise((resolve, reject) => {
 				debugger;
 				signInWithEmailAndPassword(auth, user.email, user.password)
-					.then(() => this.get_userFirestore_user())
+					.then(() => {
+						debugger;
+						return this.get_userFirestore_user();
+					})
 					.then((userData: DocumentData | undefined) => {
 						if (userData !== undefined) {
 							this.set_userFirestore_title_state(userData.title);
@@ -192,8 +196,9 @@ const useFirebaseStore = defineStore("firebase-store", {
 							this.set_userFirestore_lastname_state(userData.lastname);
 							this.set_userFirestore_phoneNumber_state(userData.phoneNumber);
 							resolve();
+						} else {
+							reject("The user data object is empty when signing in. Something went wrong!");
 						}
-						reject("The user data object is empty when signing in. Something went wrong!");
 					})
 					.catch((error) => {
 						switch (error.code) {
@@ -438,6 +443,7 @@ const useFirebaseStore = defineStore("firebase-store", {
 		},
 		// User FIRESTORE actions
 		get_userFirestore_user(): Promise<DocumentData> {
+			debugger;
 			return new Promise((resolve, reject) => {
 				debugger;
 				const uid: string | null = this.user.authData.uid;

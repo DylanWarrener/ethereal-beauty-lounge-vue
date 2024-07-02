@@ -1,13 +1,16 @@
 <template>
 	<container-dialog
-		:toolbar-title="computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state"
+		:toolbar-title="computed_data_dialog_signInCard_header_toolbarTitle_state"
 		@close="computed_data_appbar_btnSignIn_show_state = false"
 		v-model="computed_data_appbar_btnSignIn_show_state"
 	>
 		<template #dialog-card-content>
-			<v-expand-x-transition>
-				<component :is="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state"></component>
-			</v-expand-x-transition>
+			<transition name="component" mode="out-in">
+				<component
+					:is="computed_data_dialog_signInCard_content_selectedComponent_state"
+					:key="computed_data_dialog_signInCard_content_selectedComponent_state"
+				></component>
+			</transition>
 		</template>
 		<template #dialog-card-actions>
 			<!-- Back to login -->
@@ -15,10 +18,7 @@
 				variant="flat"
 				color="inverted"
 				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_local"
-				v-if="
-					computed_data_dialog_signInCard_content_signInForm_selectedComponent_state ===
-					'container-forgotten-password'
-				"
+				v-if="computed_data_dialog_signInCard_content_selectedComponent_state === 'container-forgotten-password'"
 				@click="method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler"
 			></container-btn>
 
@@ -27,7 +27,7 @@
 				variant="flat"
 				color="inverted"
 				:text="computed_text_dialog_signInCard_actions_signInForm_btnForgottenPassword_local"
-				v-if="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state === 'container-sign-in'"
+				v-if="computed_data_dialog_signInCard_content_selectedComponent_state === 'container-sign-in'"
 				@click="method_event_dialog_signInCard_actions_signInForm_btnForgottenPassword_clickHandler"
 			></container-btn>
 
@@ -40,7 +40,7 @@
 				:text="computed_text_dialog_signInCard_actions_signInForm_btnSignIn_local"
 				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
 				:loading="computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state"
-				v-if="computed_data_dialog_signInCard_content_signInForm_selectedComponent_state === 'container-sign-in'"
+				v-if="computed_data_dialog_signInCard_content_selectedComponent_state === 'container-sign-in'"
 				@click="method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler"
 			></container-btn>
 
@@ -51,10 +51,7 @@
 				:text="computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_local"
 				:disabled="!computed_data_dialog_signInCard_content_signInForm_valid_state"
 				:loading="computed_data_dialog_signInCard_actions_forgottenPasswordForm_btnSignText_isLoading_state"
-				v-if="
-					computed_data_dialog_signInCard_content_signInForm_selectedComponent_state ===
-					'container-forgotten-password'
-				"
+				v-if="computed_data_dialog_signInCard_content_selectedComponent_state === 'container-forgotten-password'"
 				@click="method_event_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_clickHandler"
 			></container-btn>
 		</template>
@@ -86,6 +83,9 @@ export default defineComponent({
 		return {
 			dialog: {
 				signInCard: {
+					header: {
+						toolbarTitle: "Sign in",
+					},
 					actions: {
 						buttons: {
 							forgottenPassword: {
@@ -100,6 +100,9 @@ export default defineComponent({
 					},
 				},
 				forgottenPasswordCard: {
+					header: {
+						toolbarTitle: "Forgotten password",
+					},
 					actions: {
 						buttons: {
 							backToSignIn: {
@@ -117,6 +120,12 @@ export default defineComponent({
 		};
 	},
 	computed: {
+		computed_text_dialog_signInCard_header_signInForm_toolbarTitle_local(): string {
+			return this.dialog.signInCard.header.toolbarTitle;
+		},
+		computed_text_dialog_signInCard_header_forgottenPasswordForm_toolbarTitle_local(): string {
+			return this.dialog.forgottenPasswordCard.header.toolbarTitle;
+		},
 		computed_text_dialog_signInCard_actions_signInForm_btnForgottenPassword_local(): string {
 			return this.dialog.signInCard.actions.buttons.forgottenPassword.text;
 		},
@@ -130,12 +139,52 @@ export default defineComponent({
 			return this.dialog.forgottenPasswordCard.actions.buttons.sendText.text;
 		},
 
+		computed_data_appbar_btnSignIn_show_state: {
+			get(): boolean {
+				return this.storeHeader.get_appBar_btnTextSignIn_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeHeader.set_appBar_btnTextSignIn_show_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_header_toolbarTitle_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_toolbarTitle_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_toolbarTitle_state(newValue);
+			},
+		},
 		computed_data_dialog_signInCard_content_signInForm_valid_state: {
 			get(): boolean {
 				return this.storeHeader.get_dialog_signInCard_content_signInForm_valid_state;
 			},
 			set(newValue: boolean): void {
 				this.storeHeader.set_dialog_signInCard_content_signInForm_valid_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_selectedComponent_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_content_selectedComponent_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_content_selectedComponent_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_signInForm_emailInput_value_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_emailInput_value_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_emailInput_value_state(newValue);
+			},
+		},
+		computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state: {
+			get(): string {
+				return this.storeHeader.get_dialog_signInCard_content_signInForm_passwordInput_value_state;
+			},
+			set(newValue: string): void {
+				this.storeHeader.set_dialog_signInCard_content_signInForm_passwordInput_value_state(newValue);
 			},
 		},
 		computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state: {
@@ -154,40 +203,26 @@ export default defineComponent({
 				this.dialog.forgottenPasswordCard.actions.buttons.sendText.isLoading = newValue;
 			},
 		},
-		computed_data_appbar_btnSignIn_show_state: {
-			get(): boolean {
-				return this.storeHeader.get_appBar_btnTextSignIn_show_state;
-			},
-			set(newValue: boolean): void {
-				this.storeHeader.set_appBar_btnTextSignIn_show_state(newValue);
-			},
-		},
-		computed_data_dialog_signInCard_content_signInForm_toolbarTitle_state: {
-			get(): string {
-				return this.storeHeader.get_dialog_signInCard_toolbarTitle_state;
-			},
-			set(newValue: string): void {
-				this.storeHeader.set_dialog_signInCard_toolbarTitle_state(newValue);
-			},
-		},
-		computed_data_dialog_signInCard_content_signInForm_selectedComponent_state: {
-			get(): string {
-				return this.storeHeader.get_dialog_signInCard_content_selectedComponent_state;
-			},
-			set(newValue: string): void {
-				this.storeHeader.set_dialog_signInCard_content_selectedComponent_state(newValue);
-			},
-		},
 	},
 	methods: {
-		method_event_dialog_setSignInselectedComponent(selectedComponent: string): void {
-			this.computed_data_dialog_signInCard_content_signInForm_selectedComponent_state = selectedComponent;
+		method_event_dialog_setSignInSelectedComponent(component: string): void {
+			this.computed_data_dialog_signInCard_content_selectedComponent_state = component;
 		},
 		method_event_dialog_signInCard_actions_signInForm_btnForgottenPassword_clickHandler(): void {
-			this.method_event_dialog_setSignInselectedComponent("container-forgotten-password");
+			const forgottenPasswordTitle: string =
+				this.computed_text_dialog_signInCard_header_forgottenPasswordForm_toolbarTitle_local;
+			const componentToChangeTo: string = this.dialog.signInCard.actions.buttons.forgottenPassword.changeComponent;
+
+			this.method_event_dialog_setSignInSelectedComponent(componentToChangeTo);
+			this.computed_data_dialog_signInCard_header_toolbarTitle_state = forgottenPasswordTitle;
 		},
 		method_event_dialog_signInCard_actions_forgottenPasswordForm_btnBackToLogin_clickHandler(): void {
-			this.method_event_dialog_setSignInselectedComponent("container-sign-in");
+			const signInTitle: string = this.computed_text_dialog_signInCard_header_signInForm_toolbarTitle_local;
+			const componentToChangeTo: string =
+				this.dialog.forgottenPasswordCard.actions.buttons.backToSignIn.changeComponent;
+
+			this.method_event_dialog_setSignInSelectedComponent(componentToChangeTo);
+			this.computed_data_dialog_signInCard_header_toolbarTitle_state = signInTitle;
 		},
 		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {
 			debugger;
@@ -197,7 +232,7 @@ export default defineComponent({
 				const email: string = this.data_dialogFormLogin.input.email.value!;
 				const password: string = this.data_dialogFormLogin.input.password.value!;
 
-				this.data_dialogFormLogin.actions.btn.login.isLoading = true;
+				this.computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state = true;
 				this.storeFirebase
 					.login_userAuth_withEmailAndPassword({ email, password })
 					.then(() => {
@@ -213,8 +248,8 @@ export default defineComponent({
 					.finally(() => {
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
-							this.data_dialogFormLogin.actions.btn.login.isLoading = false;
-							this.resetFormInputs();
+							this.computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state = false;
+							this.method_utils_dialog_signInCard_actions_signInForm_btnSignIn_resetFormElements();
 						}, this.computed_data_timeout_value);
 					});
 			}
@@ -222,6 +257,11 @@ export default defineComponent({
 		method_event_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_clickHandler(): void {
 			debugger;
 		},
+
+		method_utils_dialog_signInCard_actions_signInForm_btnSignIn_resetFormElements(): void {
+			this.computed_data_dialog_signInCard_content_signInForm_emailInput_value_state = "";
+			this.computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state = "";
+		}
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
@@ -232,3 +272,15 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style lang="scss">
+.component-enter-active,
+.component-leave-active {
+	transition: opacity 0.3s ease-in-out;
+	opacity: 1;
+}
+.component-enter-from,
+.component-leave-to {
+	opacity: 0;
+}
+</style>

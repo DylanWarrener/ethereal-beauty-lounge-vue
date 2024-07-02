@@ -61,7 +61,6 @@ export default defineComponent({
 		computed_css_maxWidth(): string {
 			let retVal: string = "80%";
 			switch (this.$vuetify.display.name) {
-				case "md":
 				case "lg":
 				case "xl":
 				case "xxl":

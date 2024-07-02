@@ -21,7 +21,7 @@ export default defineComponent({
 	name: "section-container-component",
 	props: {
 		containerId: { type: String, required: false },
-		containerStyle: { type: String, required: false },
+		containerStyle: { type: String, required: false, default: "padding: 0 300px" },
 		containerClass: { type: String, required: false },
 
 		rowStyle: { type: String, required: false },

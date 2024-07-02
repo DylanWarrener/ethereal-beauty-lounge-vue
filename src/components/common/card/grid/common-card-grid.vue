@@ -7,6 +7,7 @@
 				class="ga-2 d-flex flex-column justify-start align-center"
 				:key="index"
 				v-for="(column, index) in grid.items"
+				style="border: 2px solid blue"
 			>
 				<template :key="index" v-for="(row, index) in column">
 					<v-hover #default="{ isHovering, props }">

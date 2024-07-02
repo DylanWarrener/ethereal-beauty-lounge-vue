@@ -4,11 +4,12 @@
 			<v-container fluid class="pa-4 fill-height">
 				<v-row dense class="d-flex justify-center">
 					<v-col cols="12" md="8">
-						<container-card 
-							variant="flat" 
+						<container-card
+							variant="flat"
 							:style="computed_css_canvas_cardBackgroundOpacity"
 							:card-title="computed_text_canvas_cardTitle"
-							:card-subtitle="computed_text_canvas_cardSubtitle">
+							:card-subtitle="computed_text_canvas_cardSubtitle"
+						>
 							<template #card-actions>
 								<v-spacer></v-spacer>
 								<container-btn
@@ -30,6 +31,7 @@
 		id="section-portfolio"
 		title-class="text-inverted"
 		subtitle-class="text-inverted"
+		container-style="padding: 0"
 		:title="computed_text_section_title"
 		:subtitle="computed_text_section_subtitle"
 	>

@@ -5,12 +5,16 @@
 		v-model="computed_data_appbar_btnSignUp_show_state"
 	>
 		<template #dialog-card-content>
-			<v-expand-x-transition>
-				<component :is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"></component>
-			</v-expand-x-transition>
+			<transition name="component" mode="out-in">
+				<component
+					:is="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"
+					:key="computed_data_dialog_signUpCard_content_signUpForm_selectedComponent_state"
+				></component>
+			</transition>
 		</template>
 		<template #dialog-card-actions>
 			<v-spacer></v-spacer>
+			<!-- Sign up -->
 			<container-btn
 				variant="flat"
 				type="submit"
