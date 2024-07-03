@@ -181,31 +181,62 @@ const useFirebaseStore = defineStore("firebase-store", {
 			});
 		},
 		login_userAuth_withEmailAndPassword(user: { email: string; password: string }): Promise<void> {
-			debugger;
 			return new Promise((resolve, reject) => {
-				debugger;
 				signInWithEmailAndPassword(auth, user.email, user.password)
-					.then(() => {
-						debugger;
-						return this.get_userFirestore_user();
-					})
-					.then((userData: DocumentData | undefined) => {
-						if (userData !== undefined) {
+					.then(() => this.get_userFirestore_user())
+					.then((userData: DocumentData | string) => {
+						if (typeof userData === "string")
+							reject(userData);
+						else {
 							this.set_userFirestore_title_state(userData.title);
 							this.set_userFirestore_firstname_state(userData.firstname);
 							this.set_userFirestore_lastname_state(userData.lastname);
 							this.set_userFirestore_phoneNumber_state(userData.phoneNumber);
 							resolve();
-						} else {
-							reject("The user data object is empty when signing in. Something went wrong!");
 						}
 					})
 					.catch((error) => {
-						switch (error.code) {
-							case "auth/invalid-credential":
-								const errorMessage: string = "Either the email or password is incorrect";
-								reject(errorMessage);
-								break;
+						if (typeof error === "string")
+							reject(error);
+						else {
+							switch (error.code) {
+								case "auth/invalid-email":
+									reject("The email address is malformed.");
+									break;
+								case "auth/user-disabled":
+									reject("The user account has been disabled.");
+									break;
+								case "auth/user-not-found":
+									reject("The user account does not exist. Please register.");
+									break;
+								case "auth/wrong-password":
+									reject("The password provided is incorrect.");
+									break;
+								case "auth/too-many-requests":
+									reject("Too many requests have been sent from this account. Please try again later.");
+									break;
+								case "auth/operation-not-allowed":
+									reject("This operation is not allowed for this user. Please contact us.");
+									break;
+								case "auth/weak-password":
+									reject("The password provided is too weak. Please try again.");
+									break;
+								case "auth/invalid-credential":
+									reject("The provided credentials are invalid. Please try again.");
+									break;
+								case "auth/account-exists-with-different-credential":
+									reject("An account already exists with the same email address, but a different sign-in method was used.");
+									break;
+								case "auth/email-already-in-use":
+									reject("The email address is already in use by another account.");
+									break;
+								case "auth/requires-recent-login":
+									reject("The user must have recently logged in to perform this operation.");
+									break;
+								case "auth/network-request-failed":
+									reject("The network request failed.");
+									break;
+							}
 						}
 					});
 			});
@@ -442,10 +473,8 @@ const useFirebaseStore = defineStore("firebase-store", {
 			this.user.authData.isAnonymous = isAnonymous;
 		},
 		// User FIRESTORE actions
-		get_userFirestore_user(): Promise<DocumentData> {
-			debugger;
+		get_userFirestore_user(): Promise<DocumentData | string> {
 			return new Promise((resolve, reject) => {
-				debugger;
 				const uid: string | null = this.user.authData.uid;
 
 				if (uid !== null) {
@@ -453,28 +482,87 @@ const useFirebaseStore = defineStore("firebase-store", {
 
 					getDoc(userDocumentRef)
 						.then((userDocument) => {
-							debugger;
-							const doesUserDocumentExist: boolean = userDocument.exists();
+							const userDocumentExists: boolean = userDocument.exists();
 							const userDocumentData: DocumentData | undefined = userDocument.data();
 
-							if (doesUserDocumentExist && userDocumentData !== undefined) {
-								this.set_userFirestore_state({
-									title: userDocumentData.title,
-									firstname: userDocumentData.firstname,
-									lastname: userDocumentData.lastname,
-									phoneNumber: userDocumentData.phoneNumber,
-								});
-								resolve(userDocumentData);
-							} else {
-								reject(
-									"User data object is empty after retrieval. It seems you may have a connection issue"
-								);
-							}
+							if (!userDocumentExists) 
+								reject("The requested user document does not exist! Please register!");
+
+							if (userDocumentData === undefined)
+								reject("The requested user data is empty. Please try again later.");
+
+							this.set_userFirestore_state({
+								title: userDocumentData!.title,
+								firstname: userDocumentData!.firstname,
+								lastname: userDocumentData!.lastname,
+								phoneNumber: userDocumentData!.phoneNumber,
+							});
+							resolve(userDocumentData as DocumentData);
 						})
 						.catch((error) => {
-							debugger;
-							let errorMessage: string = "You are offline, so you cannot store user data";
-							reject(errorMessage);
+							switch (error.code) {
+								case "auth/user-not-found":
+									// This error occurs when the user document you're trying to retrieve 
+									// doesn't exist in the Firestore database. This could be due to the following reasons
+									// - The user has been deleted
+									// - The document ID is incorrect
+									reject("The requested user document does not exist! Please register!");
+									break;
+								case "auth/invalid-credential":
+									// This error indicates that the credentials used to access Firestore are invalid. 
+									// This could be due to the following reasons:
+									// - Incorrect API key
+									// - A missing authentication token
+									// - Or an expired token.
+									reject("Either the email or password is incorrect! Try again.");
+									break;
+								case "permission-denied":
+									// This error means that the user doesn't have the necessary permissions 
+									// to access the document. This could be due to the following reasons:
+									// - Icorrect security rules
+									// - Or a lack of authorization.
+									reject("You are not authorized to access this data.");
+									break;
+								case "unavailable":
+									// This error indicates that the Firestore service is temporarily unavailable. 
+									// This could be due to the following reasons:
+									// - Network issue 
+									// - Or a server outage.
+									reject("The Firestore service is temporarily unavailable.");
+									break;
+								case "cancelled":
+									// This error occurs when the getDoc operation is cancelled before it completes. 
+									// This could be due to the following reasons:
+									// - User action 
+									// - Or a network interruption.
+									reject("The operation was cancelled because of user action or network interruption.");
+									break;
+								case "failed-precondition":
+									// This error indicates that the getDoc operation failed due to a precondition 
+									// failure. This could be due to the following reasons:
+									// - A concurrent modification of the document 
+									// - Or data inconsistency.
+									reject("The operation failed because of concurrent modifications or data inconsitency.");
+									break;
+								case "aborted":
+									// This error occurs when the getDoc operation is aborted due to an unexpected error.
+									// This could be due to the following reasons:
+									// - Network issue 
+									// - Or a server error.
+									reject("The operation was aborted because of a network or server issue.");
+									break;
+								case "out-of-range":
+									// This error indicates that the document ID is invalid. 
+									// This could be due to the following reasons:
+									// - A typo 
+									// - Or an incorrect format.
+									reject("Could not find the requested document.");
+									break;
+								case "already-exists":
+									//  This error occurs when you try to create a document with an ID that already exists. 
+									reject("The document ID already exists.");
+									break;
+							}
 						});
 				} else {
 					reject("You must be logged in, to get your account credentials");

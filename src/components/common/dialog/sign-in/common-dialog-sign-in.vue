@@ -140,6 +140,9 @@ export default defineComponent({
 			return this.dialog.forgottenPasswordCard.actions.buttons.sendText.text;
 		},
 
+		computed_data_timeout_value(): number {
+			return this.storeCommon.getSnackbar_timeout_state;
+		},
 		computed_data_appbar_btnSignIn_show_state: {
 			get(): boolean {
 				return this.storeHeader.get_appBar_btnTextSignIn_show_state;
@@ -203,7 +206,7 @@ export default defineComponent({
 			set(newValue: boolean): void {
 				this.dialog.forgottenPasswordCard.actions.buttons.sendText.isLoading = newValue;
 			},
-		},
+		}
 	},
 	methods: {
 		method_event_dialog_setSignInSelectedComponent(component: string): void {
@@ -226,7 +229,6 @@ export default defineComponent({
 			this.computed_data_dialog_signInCard_header_toolbarTitle_state = signInTitle;
 		},
 		method_event_dialog_signInCard_actions_signInForm_btnSignIn_clickHandler(): void {
-			debugger;
 			const isFormValid: boolean = this.computed_data_dialog_signInCard_content_signInForm_valid_state;
 
 			if (isFormValid) {
@@ -238,6 +240,7 @@ export default defineComponent({
 					.login_userAuth_withEmailAndPassword({ email, password })
 					.then(() => {
 						this.computed_data_appbar_btnSignIn_show_state = false;
+						this.method_utils_dialog_signInCard_actions_signInForm_btnSignIn_resetFormElements();
 						this.storeCommon.setSnackbar_success_state(
 							"You have successfully logged into your account. Redirecting you to your account now."
 						);
@@ -250,7 +253,6 @@ export default defineComponent({
 						setTimeout(() => {
 							this.storeCommon.setSnackbar_reset_state();
 							this.computed_data_dialog_signInCard_actions_signInForm_btnSignIn_isLoading_state = false;
-							this.method_utils_dialog_signInCard_actions_signInForm_btnSignIn_resetFormElements();
 						}, this.computed_data_timeout_value);
 					});
 			}
@@ -260,8 +262,8 @@ export default defineComponent({
 		},
 
 		method_utils_dialog_signInCard_actions_signInForm_btnSignIn_resetFormElements(): void {
-			this.computed_data_dialog_signInCard_content_signInForm_emailInput_value_state = "";
-			this.computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state = "";
+			this.computed_data_dialog_signInCard_content_signInForm_emailInput_value_state = null;
+			this.computed_data_dialog_signInCard_content_signInForm_passwordInput_value_state = null;
 		}
 	},
 	setup() {

@@ -100,3 +100,15 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style lang="scss">
+.dialog-enter-active,
+.dialog-leave-active {
+	transition: opacity 0.3s ease-in-out;
+	opacity: 1;
+}
+.dialog-enter-from,
+.component-leave-to {
+	opacity: 0;
+}
+</style>

@@ -2,7 +2,7 @@
 	<v-layout id="layout">
 		<header-container-component></header-container-component>
 
-		<!-- Snackbar -->
+		<!-- Snackbar feedback -->
 		<user-feedback-container-component></user-feedback-container-component>
 
 		<user-account-navigation-component></user-account-navigation-component>
@@ -32,6 +32,7 @@ import { defineComponent } from "vue";
 import { auth } from "@plugins/firebase/firebase.js";
 
 // Stores
+import useCommonStore from "@stores/store-common.js";
 import useFirebaseStore from "@stores/store-firebase.js";
 
 // Components
@@ -53,7 +54,7 @@ export default defineComponent({
 		"user-account-navigation-component": UserAccountNavComp,
 		"footer-container-component": FooterComp,
 	},
-	data(): { targetElement: HTMLElement | null; showWhatsappChatbot: boolean } {
+	data(): any {
 		return {
 			targetElement: null,
 			showWhatsappChatbot: false,
@@ -63,6 +64,15 @@ export default defineComponent({
 		computed_icon_whatsapp(): string {
 			return WhatsAppSVG;
 		},
+
+		computed_data_show_state: {
+			get(): boolean {
+				return this.storeCommon.getSnackbar_show_state;
+			},
+			set(newValue: boolean): void {
+				this.storeCommon.setSnackbar_show_state(newValue);
+			},
+		}
 	},
 	methods: {
 		method_utils_monitorTargetElement(targetElement: string): void {
@@ -98,7 +108,8 @@ export default defineComponent({
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();
-		return { storeFirebase };
+		const storeCommon = useCommonStore();
+		return { storeCommon, storeFirebase };
 	},
 });
 </script>

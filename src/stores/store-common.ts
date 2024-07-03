@@ -12,9 +12,12 @@ export const useCommonStore = defineStore("common-store", {
 		snackbar: {
 			show: false,
 			timeout: 5000,
-			color: null,
-			btnColor: null,
-			message: null,
+			backgroundColour: "",
+			message: "",
+			button: {
+				text: "Close",
+				colour: ""
+			}
 		},
 		dialog: {
 			default: {
@@ -53,14 +56,17 @@ export const useCommonStore = defineStore("common-store", {
 		getSnackbar_timeout_state: (state: ICommonState): number => {
 			return state.snackbar.timeout;
 		},
-		getSnackbar_color_state: (state: ICommonState): string => {
-			return state.snackbar.color;
-		},
-		getSnackbar_btnColor_state: (state: ICommonState): string => {
-			return state.snackbar.btnColor;
+		getSnackbar_backgroundColour_state: (state: ICommonState): string => {
+			return state.snackbar.backgroundColour;
 		},
 		getSnackbar_message_state: (state: ICommonState): string => {
 			return state.snackbar.message;
+		},
+		getSnackbar_btnText_state: (state: ICommonState): string => {
+			return state.snackbar.button.text;
+		},
+		getSnackbar_btnColour_state: (state: ICommonState): string => {
+			return state.snackbar.button.colour;
 		},
 
 		/* Dialog */
@@ -90,38 +96,40 @@ export const useCommonStore = defineStore("common-store", {
 		setSnackbar_timeout_state(timeout: number): void {
 			this.snackbar.timeout = timeout;
 		},
-		setSnackbar_color_state(color: string): void {
-			this.snackbar.color = color;
-		},
-		setSnackbar_btnColor_state(btnColor: string): void {
-			this.snackbar.btnColor = btnColor;
+		setSnackbar_backgroundColour_state(colour: string): void {
+			this.snackbar.backgroundColour = colour;
 		},
 		setSnackbar_message_state(message: string): void {
 			this.snackbar.message = message;
 		},
+		setSnackbar_btnColour_state(colour: string): void {
+			this.snackbar.button.colour = colour;
+		},
 		setSnackbar_reset_state(): void {
 			this.setSnackbar_show_state(false);
-			this.setSnackbar_color_state("");
-			this.setSnackbar_btnColor_state("");
+			this.setSnackbar_backgroundColour_state("");
 			this.setSnackbar_message_state("");
+			this.setSnackbar_btnColour_state("");
 		},
 		setSnackbar_success_state(message: string): void {
 			this.setSnackbar_show_state(true);
-			this.setSnackbar_color_state("success");
-			this.setSnackbar_btnColor_state("default");
+			this.setSnackbar_backgroundColour_state("success");
 			this.setSnackbar_message_state(message);
+			this.setSnackbar_btnColour_state("default");
 		},
 		setSnackbar_warning_state(message: string): void {
 			this.setSnackbar_show_state(true);
-			this.setSnackbar_color_state("warning");
-			this.setSnackbar_btnColor_state("inverted");
+			this.setSnackbar_backgroundColour_state("warning");
 			this.setSnackbar_message_state(message);
+			this.setSnackbar_btnColour_state("inverted");
 		},
 		setSnackbar_error_state(message: string): void {
+			const snackbarBefore = this.snackbar;
 			this.setSnackbar_show_state(true);
-			this.setSnackbar_color_state("error");
-			this.setSnackbar_btnColor_state("default");
+			this.setSnackbar_backgroundColour_state("error");
 			this.setSnackbar_message_state(message);
+			this.setSnackbar_btnColour_state("default");
+			const snackbarAfter = this.snackbar;
 		},
 
 		/* Dialog */

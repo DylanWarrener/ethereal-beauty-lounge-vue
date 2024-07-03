@@ -97,14 +97,14 @@
 		<container-btn
 			variant="flat"
 			:text="computed_text_appBar_btnSignIn_local"
-			v-if=""
+			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
 		<container-btn
 			variant="flat"
 			color="inverted"
 			:text="computed_text_appBar_btnSignUp_local"
-			v-if=""
+			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
 		></container-btn>
 	</v-app-bar>
@@ -353,7 +353,9 @@ export default defineComponent({
 		computed_data_navigation_pcMenu_state(): any[] {
 			return this.storeHeader.get_navigation_pcMenu_state;
 		},
-
+		computed_data_user_isLoggedIn_state(): boolean {
+			return this.storeHeader.get_userAuth_isLoggedIn_state;
+		},
 		computed_data_appbar_btnMobileMenu_show_state: {
 			get(): boolean {
 				return this.storeHeader.get_appBar_btnIconMobileMenu_show_state;
