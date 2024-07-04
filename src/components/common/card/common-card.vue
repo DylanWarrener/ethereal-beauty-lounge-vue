@@ -23,10 +23,8 @@
 			v-if="method_event_slotIsPopulated('card-content')">
 			<v-container 
 				fluid 
-				class="pa-0 d-flex flex-column"		
 				:class="computed_css_cardContentContainerClass" 
-				:style="computed_css_cardContentContainerStyle"
-				>
+				:style="computed_css_cardContentContainerStyle">
 				<!-- Content -->
 				<v-row
 					dense
@@ -40,7 +38,6 @@
 		</v-card-text>
 		<v-divider></v-divider>
 		<v-card-actions 
-			class="w-100 pa-2"
 			:class="computed_css_cardActionsClass" 
 			:style="computed_css_cardActionsStyle" 
 			v-if="method_event_slotIsPopulated('card-actions')">
@@ -86,45 +83,46 @@ export default defineComponent({
 	computed: {
 		computed_css_cardClass(): string[] {
 			let retval: string[] = ["d-flex", "flex-column"];
-			if (this.cardClass !== undefined) {
+			if (this.cardClass) {
 				retval = [];
-				const cardClassList = this.cardClass.split(" ");
-				retval.push(...cardClassList);
+				this.cardClass.split(" ").forEach(element => retval.push(element));
 			}
-			if (this.isHovering) retval.push("on-hover");
+			if (this.isHovering) 	
+				retval.push("on-hover");
 			return retval;
 		},
 		computed_css_cardStyle(): string {
 			let retval: string = "";
-			if (this.cardStyle !== undefined) retval += this.cardStyle;
+			if (this.cardStyle) 
+				retval += this.cardStyle;
 			return retval;
 		},
 		computed_css_cardTitleClass(): string[] {
 			let retval: string[] = ["text-default", "text-h1"];
-			if (this.cardTitleClass !== undefined) {
+			if (this.cardTitleClass) {
 				retval = [];
-				const cardTitleClassList = this.cardTitleClass.split(" ");
-				retval.push(...cardTitleClassList);
+				this.cardTitleClass.split(" ").forEach(element => retval.push(element));
 			}
 			return retval;
 		},
 		computed_css_cardTitleStyle(): string {
 			let retval: string = "";
-			if (this.cardTitleStyle !== undefined) retval += this.cardTitleStyle;
+			if (this.cardTitleStyle)
+				retval += this.cardTitleStyle;
 			return retval;
 		},
 		computed_css_cardSubtitleClass(): string[] {
 			let retval: string[] = ["text-default"];
-			if (this.cardSubtitleClass !== undefined) {
+			if (this.cardSubtitleClass) {
 				retval = [];
-				const cardSubtitleClassList = this.cardSubtitleClass.split(" ");
-				retval.push(...cardSubtitleClassList);
+				this.cardSubtitleClass.split(" ").forEach(element => retval.push(element));
 			}
 			return retval;
 		},
 		computed_css_cardSubtitleStyle(): string {
 			let retval: string = "";
-			if (this.cardSubtitleStyle !== undefined) retval += this.cardSubtitleStyle;
+			if (this.cardSubtitleStyle) 
+				retval += this.cardSubtitleStyle;
 			return retval;
 		},
 		computed_css_cardContentClass(): string[] {
@@ -135,47 +133,46 @@ export default defineComponent({
 		},
 		computed_css_cardContentStyle(): string {
 			let retval: string = "";
-			if (this.cardContentStyle !== undefined) retval += this.cardContentStyle;
+			if (this.cardContentStyle) 
+				retval += this.cardContentStyle;
 			return retval;
 		},
 		computed_css_cardContentContainerClass(): string[] {
-			let retval: string[] = [];
-			if (this.cardContentContainerClass !== undefined) {
-				const cardContentContainerClassList = this.cardContentContainerClass.split(" ");
-				retval.push(...cardContentContainerClassList);
-			}
+			let retval: string[] = ["pa-2", "h-100", "d-flex", "flex-column", "overflow-x-hidden", "overflow-y-auto"];
+			if (this.cardContentContainerClass)
+				this.cardContentContainerClass.split(" ").forEach(element => retval.push(element));
 			return retval;
 		},
 		computed_css_cardContentContainerStyle(): string {
 			let retval: string = "";
-			if (this.cardContentContainerStyle !== undefined) retval += this.cardContentContainerStyle;
+			if (this.cardContentContainerStyle) 
+				retval += this.cardContentContainerStyle;
 			return retval;
 		},
 		computed_css_cardContentContainerRowClass(): string[] {
 			let retval: string[] = ["flex-shrink-1", "flex-grow-1"];
-			if (this.cardContentContainerRowClass !== undefined) {
+			if (this.cardContentContainerRowClass) {
 				retval = [];
-				const cardContentContainerRowClassList = this.cardContentContainerRowClass.split(" ");
-				retval.push(...cardContentContainerRowClassList);
+				this.cardContentContainerRowClass.split(" ").forEach(element => retval.push(element));
 			}
 			return retval;
 		},
 		computed_css_cardContentContainerRowStyle(): string {
 			let retval: string = "";
-			if (this.cardContentContainerRowStyle !== undefined) retval += this.cardContentContainerRowStyle;
+			if (this.cardContentContainerRowStyle) 
+				retval += this.cardContentContainerRowStyle;
 			return retval;
 		},
 		computed_css_cardActionsClass(): string[] {
-			let retval: string[] = [];
-			if (this.cardActionsClass !== undefined) {
-				const cardActionsClassList = this.cardActionsClass.split(" ");
-				retval.push(...cardActionsClassList);
-			}
+			let retval: string[] = ["w-100", "pa-2"];
+			if (this.cardActionsClass)
+				this.cardActionsClass.split(" ").forEach(element => retval.push(element));
 			return retval;
 		},
 		computed_css_cardActionsStyle(): string {
 			let retval: string = "";
-			if (this.cardActionsStyle !== undefined) retval += this.cardActionsStyle;
+			if (this.cardActionsStyle) 
+				retval += this.cardActionsStyle;
 			return retval;
 		},
 	},

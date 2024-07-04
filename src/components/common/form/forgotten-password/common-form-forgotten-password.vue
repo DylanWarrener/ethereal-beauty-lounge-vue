@@ -2,20 +2,15 @@
 	<container-form v-model="computed_data_dialog_signInCard_content_forgottenPasswordForm_valid_state">
 		<template #form-content>
 			<v-row dense>
+				<!-- Email field -->
 				<v-col class="d-flex flex-column">
-					<v-text-field
-						clearable
+					<container-text-field
 						variant="outlined"
 						type="email"
-						class="w-100 align-self-center"
-						style="min-width: 150px; max-width: 300px"
+						:label="computed_text_formInput_email_label_local"
 						:rules="computed_data_emailValidationRules"
 						v-model="computed_data_dialog_signInCard_content_forgottenPasswordForm_emailInput_value_state"
-					>
-						<template #label>
-							<span class="text-inverted" v-text="computed_text_formInput_email_label_local"></span>
-						</template>
-					</v-text-field>
+					></container-text-field>
 					<!-- <v-form
 						class="d-flex flex-column align-center"
 						validate-on="input lazy"

@@ -1,12 +1,22 @@
 <template>
     <v-text-field
         clearable
-        :class="computed_css_class_textField"
-        :style="computed_css_style_textField"
-        :rules="computed_rules_validation_textField"
+        :class="computed_css_class"
+        :style="computed_css_style"
+        :rules="computed_rules_validation"
     >
         <template #label>
-            <span :class="computed_css_class_label_textField" v-text="label"></span>
+            <span :class="computed_css_class_label" v-text="label"></span>
+        </template>
+        <template #clear>
+            <v-icon></v-icon>
+        </template>
+        <template #append-inner v-if="appendInnerIcon && appendInnerIconColor">
+            <v-icon 
+                :icon="appendInnerIcon" 
+                :color="appendInnerIconColor"
+                @click="$emit('append-inner-click')"
+            ></v-icon>
         </template>
     </v-text-field>
 </template>
@@ -19,39 +29,29 @@ export default defineComponent({
     props: {
         class: { type: String, required: false },
         style: { type: String, required: false },
-        minWidth: { type: String, required: false },
-        maxWidth: { type: String, required: false },
         rules: { type: Array, required: false },
         labelClass: { type: String, required: false },
-        label: { type: String, required: true }
+        label: { type: String, required: true },
+        appendInnerIcon: { type: String, required: false },
+        appendInnerIconColor: { type: String, required: false, default: "inverted" },
     },
     computed: {
-        computed_css_class_textField(): string[] {
+        computed_css_class(): string[] {
             let retval: string[] = ["w-100", "align-self-center"];
             if (this.class)
                 this.class.split(" ").forEach(element => retval.push(element));
             return retval;
         },
-        computed_css_style_textField(): string {
+        computed_css_style(): string {
             let retval: string = "";
-            let minWidth: string = "250px";
-            let maxWidth: string = "";
-            
-            if (this.$vuetify.display.mdAndDown) {
-                minWidth = this.minWidth ? this.minWidth : "150px";
-                maxWidth = this.maxWidth ? this.maxWidth : "100%";
-            }
-            else {
-                minWidth = this.minWidth ? this.minWidth : "300px";
-                maxWidth = this.maxWidth ? this.maxWidth : "100%";
-            }
-            retval += `min-width: ${minWidth}; max-width: ${maxWidth};`;
-
-            if (this.style) 
-                retval += this.style;
+            if (this.style)
+                retval += this.style; 
             return retval;
         },
-        computed_css_class_label_textField(): string[] {
+        computed_css_minWidth(): string {
+            return "150px";
+        },
+        computed_css_class_label(): string[] {
             let retval: string[] = [];
             if (this.labelClass)
                 this.labelClass.split(" ").forEach(element => retval.push(element));
@@ -60,12 +60,12 @@ export default defineComponent({
             return retval;
         },
 
-        computed_rules_validation_textField(): any[] {
+        computed_rules_validation(): any[] {
             let retval: any[] = [this.method_validation_isNotEmpty];
             if (this.rules)
                 this.rules.forEach(element => retval.push(element));
             return retval;
-		},
+		}
     },
     methods: {
         method_validation_isNotEmpty(newValue: string): boolean | string {

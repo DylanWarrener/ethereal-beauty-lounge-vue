@@ -1,6 +1,7 @@
 <template>
 	<container-dialog
-		max-width="500px"
+		width="40%"
+		:image="computed_image_dialog_card_content"
 		:toolbar-title="computed_data_dialog_signInCard_header_toolbarTitle_state"
 		@close="computed_data_appbar_btnSignIn_show_state = false"
 		v-model="computed_data_appbar_btnSignIn_show_state"
@@ -138,6 +139,10 @@ export default defineComponent({
 		},
 		computed_text_dialog_signInCard_actions_forgottenPasswordForm_btnSendText_local(): string {
 			return this.dialog.forgottenPasswordCard.actions.buttons.sendText.text;
+		},
+
+		computed_image_dialog_card_content(): string {
+			return 'Designer.png';
 		},
 
 		computed_data_timeout_value(): number {

@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
 
 // Constants
-import { CONST_OBJECT_ICONS_DIALOG, CONST_OBJECT_TOOLTIPS_DIALOG } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_ICONS_DIALOG, CONST_OBJECT_TOOLTIPS_DIALOG, CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
 
 // Main store
 export const useCommonStore = defineStore("common-store", {
@@ -44,6 +44,18 @@ export const useCommonStore = defineStore("common-store", {
 		appbar: {
 			show: true,
 		},
+		form: {
+			default: {
+				inputs: {
+					password: {
+						icons: {
+							show: CONST_OBJECT_ICONS_FORM.show,
+							hide: CONST_OBJECT_ICONS_FORM.hide,
+						}
+					}
+				}
+			}
+		}
 	}),
 	getters: {
 		/* Snackbar - Feedback */
@@ -87,6 +99,14 @@ export const useCommonStore = defineStore("common-store", {
 		getAppbar_show_state: (state: ICommonState): boolean => {
 			return state.appbar.show;
 		},
+
+		/* Form */
+		get_form_default_input_password_icon_show_state: (state: ICommonState): string => {
+			return state.form.default.inputs.password.icons.show;
+		},
+		get_form_default_input_password_icon_hide_state: (state: ICommonState): string => {
+			return state.form.default.inputs.password.icons.hide;
+		}
 	},
 	actions: {
 		/* Snackbar - Feedback */

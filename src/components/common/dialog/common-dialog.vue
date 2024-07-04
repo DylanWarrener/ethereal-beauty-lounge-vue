@@ -1,15 +1,16 @@
 <template>
-	<v-dialog
-		persistent
+	<v-dialog 
+		persistent 
 		transition="dialog-top-transition"
-		:min-width="computed_css_minWidth"
-		:max-width="computed_css_maxWidth"
-		:max-height="computed_css_maxHeight"
-	>
-		<container-card>
+		:width="computed_css_dialog_width"
+		:max-height="computed_css_dialog_maxHeight">
+		<container-card 
+			card-content-class="overflow-hidden" 
+			card-actions-class="bg-accent"
+			:card-content-style="computed_css_dialog_card_content_style">
 			<template #card-toolbar>
 				<v-toolbar flat class="px-2 bg-accent">
-					<h5 class="text-default" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
+					<h5 class="text-default text-capitalize" v-if="toolbarTitle">{{ toolbarTitle }}</h5>
 					<v-spacer></v-spacer>
 					<slot name="card-toolbar-buttons"></slot>
 					<v-tooltip location="bottom" :text="computed_tooltip_dialog_closeBtn_state">
@@ -26,7 +27,7 @@
 				</v-toolbar>
 			</template>
 			<template #card-content v-if="method_event_slotIsPopulated('dialog-card-content')">
-				<v-col cols="12">
+				<v-col cols="12" class="pa-0" :style="cardContentStyle">
 					<slot name="dialog-card-content"></slot>
 				</v-col>
 			</template>
@@ -49,7 +50,11 @@ export default defineComponent({
 	name: "dialog-container-component",
 	props: {
 		toolbarTitle: { type: String, required: false },
-		maxWidth: { type: String, required: false },
+		width: { type: String, required: false },
+		minHeight: { type: String, required: false },
+		maxHeight: { type: String, required: false },
+		image: { type: String, required: false },
+		cardContentStyle: { type: String, required: false }
 	},
 	computed: {
 		computed_icon_dialog_closeBtn_state(): string {
@@ -60,32 +65,40 @@ export default defineComponent({
 			return this.storeCommon.getDialog_default_btnClose_tooltip_state;
 		},
 
-		computed_css_minWidth(): string {
-			return "100px";
-		},
-		computed_css_maxWidth(): string {
-			let retVal: string = "";
+		computed_css_dialog_width(): string {
+			let retval: string = "";
 			switch (this.$vuetify.display.name) {
 				case "xs":
-					retVal = "100%";
-					break;
 				case "sm":
-					retVal = "80%";
+					retval = "80%";
 					break;
 				case "md":
 				case "lg":
 				case "xl":
 				case "xxl":
-					retVal = this.maxWidth ? this.maxWidth : "60%";
-					break;
-				default:
-					retVal = "60%";
+					retval = this.width ? this.width : "60%";
 					break;
 			}
-			return retVal;
+			return retval;
 		},
-		computed_css_maxHeight(): string {
-			return "80%";
+		computed_css_dialog_maxHeight(): string {
+			let retval: string = "";
+			switch (this.$vuetify.display.name) {
+				case "xs":
+				case "sm":
+					retval = "80%";
+					break;
+				case "md":
+				case "lg":
+				case "xl":
+				case "xxl":
+					retval = this.maxHeight ? this.maxHeight : "60%";
+					break;
+			}
+			return retval;
+		},
+		computed_css_dialog_card_content_style(): string {
+			return `height: 300px; background-image: url(${this.image}); background-size: cover; background-position: center;`;
 		},
 	},
 	methods: {

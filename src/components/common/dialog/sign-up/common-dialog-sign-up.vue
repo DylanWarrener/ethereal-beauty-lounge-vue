@@ -1,5 +1,7 @@
 <template>
 	<container-dialog
+		width="30%"
+		card-content-height="300px"
 		:toolbar-title="computed_data_dialog_signUpCard_content_signUpForm_toolbarTitle_state"
 		@close="computed_data_appbar_btnSignUp_show_state = false"
 		v-model="computed_data_appbar_btnSignUp_show_state"
