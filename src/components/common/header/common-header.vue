@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar elevation="0" scroll-behavior="hide" color="accent" density="comfortable">
+	<v-app-bar elevation="0" scroll-behavior="hide" color="primary" density="comfortable">
 		<!-- APP BAR LEFT -->
 		<container-card
 			hover
@@ -9,12 +9,12 @@
 			color="transparent"
 			width="150"
 			height="100%"
-			style="background: linear-gradient(90deg, rgba(255, 255, 255, 0.75) 0%, rgba(186, 119, 145, 1) 100%)"
+			style="background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(90,90,84,1) 100%);"
 			:to="computed_link_appBar_btnHome_local"
-			v-ripple="{ class: 'text-accent' }"
+			v-ripple="{ class: 'text-secondary-tint-3' }"
 		>
 			<template #card-img>
-				<v-img cover src="logo-transparent.png" width="100%" height="100%"></v-img>
+				<v-img src="logo-transparent-without-slogan.png" width="100%" height="100%"></v-img>
 			</template>
 		</container-card>
 		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
@@ -95,14 +95,14 @@
 			</template>
 		</container-menu>
 		<container-btn
-			variant="flat"
+			variant="outlined"
 			:text="computed_text_appBar_btnSignIn_local"
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
 		<container-btn
-			variant="flat"
-			color="inverted"
+			variant="outlined"
+			color="accent"
 			:text="computed_text_appBar_btnSignUp_local"
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"

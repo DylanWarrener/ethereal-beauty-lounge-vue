@@ -89,17 +89,17 @@ h6 {
 	border-radius: 100vw;
 }
 ::-webkit-scrollbar-thumb {
-	background: rgba(var(--v-theme-accent), 1);
+	background: rgba(var(--v-theme-primary), 1);
 	border-radius: 100vw;
 	border: 0.1em solid rgb(var(--v-theme-default));
 
 	&:hover {
-		background: rgba(var(--v-theme-accent), 0.8);
+		background: rgba(var(--v-theme-primary), 0.8);
 	}
 }
-@supports (scrollbar-color: rgb(var(--v-theme-accent)) rgb(var(--v-theme-default))) {
+@supports (scrollbar-color: rgb(var(--v-theme-primary)) rgb(var(--v-theme-default))) {
 	* {
-		scrollbar-color: rgb(var(--v-theme-accent)) rgb(var(--v-theme-default));
+		scrollbar-color: rgb(var(--v-theme-primary)) rgb(var(--v-theme-default));
 	}
 }
 

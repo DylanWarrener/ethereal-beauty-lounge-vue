@@ -1,5 +1,5 @@
 <template>
-	<v-footer tag="footer" class="d-flex flex-column bg-accent">
+	<v-footer tag="footer" class="d-flex flex-column bg-primary">
 		<v-container fluid>
 			<v-row dense>
 				<!-- Socials -->
