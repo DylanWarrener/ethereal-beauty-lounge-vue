@@ -28,6 +28,7 @@
 									>
 										<container-btn
 											variant="flat"
+											color="accent"
 											:text="computed_text_section_card_actions_btnSeeTreatments"
 										></container-btn>
 									</div>

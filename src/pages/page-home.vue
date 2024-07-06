@@ -14,6 +14,7 @@
 								<v-spacer></v-spacer>
 								<container-btn
 									variant="flat"
+									color="accent"
 									:text="computed_text_canvas_cardBtnText"
 									@click="method_event_scrollToElement"
 								></container-btn>

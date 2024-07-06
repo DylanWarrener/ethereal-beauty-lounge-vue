@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar elevation="0" scroll-behavior="hide" color="primary" density="comfortable">
+	<v-app-bar flat scroll-behavior="hide" color="primary" density="comfortable">
 		<!-- APP BAR LEFT -->
 		<container-card
 			hover
@@ -100,13 +100,18 @@
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
-		<container-btn
-			variant="outlined"
-			color="accent"
-			:text="computed_text_appBar_btnSignUp_local"
-			v-if="!computed_data_user_isLoggedIn_state"
-			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
-		></container-btn>
+		<v-hover>
+			<template #default="{ isHovering, props }">
+				<container-btn
+					variant="flat"
+					color="accent"
+					:text="computed_text_appBar_btnSignUp_local"
+					v-if="!computed_data_user_isLoggedIn_state"
+					v-bind="props"
+					@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
+				></container-btn>
+			</template>
+		</v-hover>
 	</v-app-bar>
 
 	<!-- Dialogs -->
