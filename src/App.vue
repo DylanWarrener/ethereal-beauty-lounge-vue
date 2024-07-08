@@ -8,7 +8,7 @@
 		<user-account-navigation-component></user-account-navigation-component>
 
 		<!-- Pages -->
-		<v-main style="--v-layout-top: 0">
+		<v-main class="w-100 d-flex flex-column" style="--v-layout-top: 0">
 			<router-view></router-view>
 		</v-main>
 

@@ -98,7 +98,7 @@ export default defineComponent({
 			return retval;
 		},
 		computed_css_cardTitleClass(): string[] {
-			let retval: string[] = ["text-default", "text-h1"];
+			let retval: string[] = ["text-default", "text-h1", "text-uppercase"];
 			if (this.cardTitleClass) {
 				retval = [];
 				this.cardTitleClass.split(" ").forEach(element => retval.push(element));
