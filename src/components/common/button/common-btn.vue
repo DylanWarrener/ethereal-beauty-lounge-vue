@@ -8,23 +8,18 @@
 		:style="computed_style" 
 		:to="to"
 		v-ripple="{ class: rippleColor }">
-		<template #append>
-			<v-icon 
-				:color="iconAppendColor" 
-				:icon="iconAppend" 
-				v-if="iconAppend && iconAppendColor"
-			></v-icon>
+		<template #prepend>
+			<v-icon :color="iconPrependColor" :icon="iconPrepend" v-if="iconPrepend"></v-icon>
 		</template>
+
+		<!-- Default -->
 		<small :class="textClass" :style="textStyle" v-text="text" v-if="text"></small>
-		<v-icon :color="iconColor" :icon="icon" v-if="icon"></v-icon>
+		<v-icon :class="iconClass" :color="iconColor" :icon="icon" v-if="icon"></v-icon>
 		<v-img :src="src" :alt="alt" v-if="src && alt"></v-img>
 		<slot name="custom-svg" class="custom-svg"></slot>
-		<template #prepend>
-			<v-icon 
-				:color="iconPrependColor" 
-				:icon="iconPrepend" 
-				v-if="iconPrepend && iconPrependColor"
-			></v-icon>
+
+		<template #append>
+			<v-icon :class="computed_classIconAppend" :color="iconAppendColor" :icon="iconAppend" v-if="iconAppend"></v-icon>
 		</template>
 	</v-btn>
 </template>
@@ -37,13 +32,14 @@ export default defineComponent({
 	props: {
 		variant: { type: String, required: false },
 		size: { type: String, required: false },
-		color: { type: String, required: false, default: "primary" },
+		color: { type: String, required: false },
 		class: { type: String, required: false },
 		style: { type: String, required: false },
 		to: { type: String, required: false },
 		rippleColor: { type: String, required: false, default: "text-accent" },
 
 		/* Append */
+		iconAppendClass: { type: String, required: false },
 		iconAppend: { type: String, required: false },
 		iconAppendColor: { type: String, required: false },
 
@@ -51,6 +47,8 @@ export default defineComponent({
 		textClass: { type: String, required: false, default: "text-default" },
 		textStyle: { type: String, required: false },
 		text: { type: String, required: false },
+		iconClass: { type: String, required: false },
+		iconStyle: { type: String, required: false },
 		icon: { type: String, required: false },
 		iconColor: { type: String, required: false },
 		src: { type: String, required: false },
@@ -77,19 +75,29 @@ export default defineComponent({
             return retval;
 		},
 		computed_size(): string {
-			let retval: string = "large";
+			let retval: string = "";
 			if (this.size)
 				retval = this.size;
-			if (this.icon)
-				retval = "small";
+			else {
+				if (this.text)
+					retval = "large";
+
+				if (this.icon)
+					retval += "default";
+			}
             return retval;
 		},
 		computed_color(): string {
-			let retval: string = "primary";
+			let retval: string = "";
 			if (this.color)
 				retval = this.color;
-			if (this.icon)
-				retval += "default";
+			else {
+				if (this.text)
+					retval = "primary";
+				
+				if (this.icon)
+					retval += "default";
+			}
             return retval;
 		},
 
@@ -117,6 +125,24 @@ export default defineComponent({
 			let retval: string = "";
             if (this.textStyle)
 				retval += this.textStyle;
+            return retval;
+		},
+		computed_classIcon(): string[] {
+			let retval: string[] = [];
+            if (this.iconClass)
+                this.iconClass.split(" ").forEach(element => retval.push(element));
+            return retval;
+		},
+		computed_styleIcon(): string {
+			let retval: string = "";
+            if (this.iconStyle)
+				retval += this.iconStyle;
+            return retval;
+		},
+		computed_classIconAppend(): string[] {
+			let retval: string[] = [];
+            if (this.iconAppendClass)
+                this.iconAppendClass.split(" ").forEach(element => retval.push(element));
             return retval;
 		}
 	},

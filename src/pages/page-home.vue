@@ -30,12 +30,13 @@
 					<!-- Button to go down to the next section -->
 					<div style="position: absolute; bottom: 2%">
 						<v-hover>
-							<template v-slot:default="{ isHovering, props: hoverProps }">
+							<template #default="{ isHovering, props: hoverProps }">
 								<v-tooltip text="Scroll to recent portfolio">
-									<template v-slot:activator="{ props: tooltipProps }">
+									<template #activator="{ props: tooltipProps }">
 										<container-btn
 											id="scroll_down_btn"
-											variant="flat"
+											color="primary"
+											size="large"
 											:class="isHovering ? 'scroll_down_btn' : ''"
 											:icon="computed_icon_canvas_actions_btnSeeRecentPortfolio"
 											@click="method_utils_scrollToElement('section-portfolio')"

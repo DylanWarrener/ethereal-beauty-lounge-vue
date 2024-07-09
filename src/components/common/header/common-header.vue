@@ -36,26 +36,45 @@
 				:text="computed_text_appBar_btnHome_local"
 				:to="computed_link_appBar_btnHome_local"
 			></container-btn> -->
-			<container-btn
-				class="d-none d-md-flex"
-				text-class="text-inverted"
-				:text="computed_text_appBar_btnTreatments_local"
-				:to="computed_link_appBar_btnTreatments_local"
-			></container-btn>
-			<container-btn
-				class="d-none d-md-flex"
-				text-class="text-inverted"
-				:text="computed_text_appBar_btnStore_local"
-				:to="computed_link_appBar_btnStore_local"
-			></container-btn>
-			<container-menu>
-				<template #menu-btn="{ props }">
+			<v-hover>
+				<template #default="{ isHovering, props }">
 					<container-btn
 						class="d-none d-md-flex"
-						text-class="text-inverted"
-						:text="computed_text_appBar_btnInformation_local"
+						:class="isHovering ? 'bg-accent' : ''"
+						:text-class="isHovering ? 'text-default' : 'text-inverted'"
+						:text="computed_text_appBar_btnTreatments_local"
+						:to="computed_link_appBar_btnTreatments_local"
 						v-bind="props"
 					></container-btn>
+				</template>
+			</v-hover>
+			<v-hover>
+				<template #default="{ isHovering, props }">
+					<container-btn
+						class="d-none d-md-flex"
+						:class="isHovering ? 'bg-accent' : ''"
+						:text-class="isHovering ? 'text-default' : 'text-inverted'"
+						:text="computed_text_appBar_btnStore_local"
+						:to="computed_link_appBar_btnStore_local"
+						v-bind="props"
+					></container-btn>
+				</template>
+			</v-hover>
+			<container-menu>
+				<template #menu-btn="{ props: menuProps }">
+					<v-hover>
+						<template #default="{ isHovering, props: hoverProps }">
+							<container-btn
+								class="d-none d-md-flex"
+								:class="isHovering ? 'bg-accent' : ''"
+								:text-class="isHovering ? 'text-default' : 'text-inverted'"
+								:text="computed_text_appBar_btnInformation_local"
+								:icon-append="computed_icon_appBar_btnInformation_menuDown_local"
+								:icon-append-class="isHovering ? 'text-default' : 'text-inverted'"
+								v-bind="mergeProps(menuProps, hoverProps)"
+							></container-btn>
+						</template>
+					</v-hover>
 				</template>
 				<template #menu-items>
 					<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
@@ -79,17 +98,22 @@
 		<!-- APP BAR RIGHT - Icon navs -->
 		<container-menu>
 			<template #menu-btn="{ props: menuProps }">
-				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnBasket_local">
-					<template #activator="{ props: tooltipProps }">
-						<container-btn
-							class="mr-2"
-							icon-color="inverted"
-							:icon="computed_icon_appBar_btnBasket_local"
-							v-bind="mergeProps(menuProps, tooltipProps)"
-							@click="computed_data_appbar_btnBasket_show_state = !computed_data_appbar_btnBasket_show_state"
-						></container-btn>
+				<v-hover>
+					<template #default="{ isHovering, props: hoverProps }">
+						<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnBasket_local">
+							<template #activator="{ props: tooltipProps }">
+								<container-btn
+									class="mr-2"
+									:icon-class="isHovering ? 'text-default' : 'text-inverted'"
+									:icon="computed_icon_appBar_btnBasket_local"
+									:class="isHovering ? 'bg-accent' : ''"
+									v-bind="mergeProps(menuProps, hoverProps, tooltipProps)"
+									@click="computed_data_appbar_btnBasket_show_state = !computed_data_appbar_btnBasket_show_state"
+								></container-btn>
+							</template>
+						</v-tooltip>
 					</template>
-				</v-tooltip>
+				</v-hover>
 			</template>
 			<template #menu-items>
 				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
@@ -107,24 +131,26 @@
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
-		<container-btn
-			class="mr-2 d-md-none"
-			:icon="computed_icon_appBar_btnSignIn_local"
-			v-if="!computed_data_user_isLoggedIn_state"
-			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
-		></container-btn>
 		<v-hover>
 			<template #default="{ isHovering, props }">
 				<container-btn
-					variant="flat"
-					color="accent"
-					:text="computed_text_appBar_btnSignUp_local"
+					class="mr-2 d-md-none"
+					:icon-class="isHovering ? 'text-default' : 'text-inverted'"
+					:icon="computed_icon_appBar_btnSignIn_local"
+					:class="isHovering ? 'bg-accent' : ''"
 					v-if="!computed_data_user_isLoggedIn_state"
 					v-bind="props"
-					@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
+					@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 				></container-btn>
 			</template>
 		</v-hover>
+		<container-btn
+			variant="flat"
+			color="accent"
+			:text="computed_text_appBar_btnSignUp_local"
+			v-if="!computed_data_user_isLoggedIn_state"
+			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
+		></container-btn>
 	</v-app-bar>
 
 	<!-- Dialogs -->
@@ -162,7 +188,7 @@ import {
 	CONST_OBJECT_ICONS_APPBAR,
 	CONST_OBJECT_ICONS,
 } from "@constants/common/objects/common-constants-objects.js";
-import { mdiLogin, mdiLogout } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiMenuDown, mdiMenuUp, mdiLogin, mdiLogout } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -216,8 +242,8 @@ export default defineComponent({
 							information: {
 								text: CONST_OBJECT_TEXT_APPBAR.information,
 								icons: {
-									menuUp: CONST_OBJECT_ICONS.menuUp,
-									menuDown: CONST_OBJECT_ICONS.menuDown,
+									menuUp: mdiMenuUp,
+									menuDown: mdiMenuDown,
 								},
 							},
 							contact: {

@@ -69,11 +69,11 @@ import TikTokSVG from "@assets/svg/socials/tiktok.svg";
 
 export default defineComponent({
 	name: "footer-container-component",
-	components: {
-		'svg-facebook': FacebookSVG,
-		'svg-instagram': InstagramSVG,
-		'svg-tiktok': TikTokSVG,
-	},
+	// components: {
+	// 	'svg-facebook': FacebookSVG,
+	// 	'svg-instagram': InstagramSVG,
+	// 	'svg-tiktok': TikTokSVG,
+	// },
 	data() {
 		return {
 			footer: {
