@@ -36,7 +36,7 @@
 				</v-row>
 			</v-container>
 		</v-card-text>
-		<v-divider></v-divider>
+		<v-divider v-if="method_event_slotIsPopulated('card-content')"></v-divider>
 		<v-card-actions 
 			:class="computed_css_cardActionsClass" 
 			:style="computed_css_cardActionsStyle" 
@@ -98,7 +98,7 @@ export default defineComponent({
 			return retval;
 		},
 		computed_css_cardTitleClass(): string[] {
-			let retval: string[] = ["text-default", "text-h1", "text-uppercase"];
+			let retval: string[] = ["text-default", "text-uppercase"];
 			if (this.cardTitleClass) {
 				retval = [];
 				this.cardTitleClass.split(" ").forEach(element => retval.push(element));

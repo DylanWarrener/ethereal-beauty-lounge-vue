@@ -26,6 +26,7 @@ import {
 	mdiSecurity,
 	mdiBell,
 	mdiImageEdit,
+	mdiArrowDownThick
 } from "@mdi/js";
 
 export {
@@ -56,4 +57,5 @@ export {
 	mdiSecurity,
 	mdiBell,
 	mdiImageEdit,
+	mdiArrowDownThick
 };

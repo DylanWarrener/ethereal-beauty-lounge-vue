@@ -10,7 +10,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "canvas-container-component",
 	props: {
-		src: { type: String, required: true },
+		src: { type: String, required: false }
 	},
 });
 </script>

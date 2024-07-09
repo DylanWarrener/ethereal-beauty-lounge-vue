@@ -1,22 +1,22 @@
 <template>
-	<v-app-bar flat scroll-behavior="hide" color="primary" density="comfortable">
+	<v-app-bar flat scroll-behavior="hide" color="white">
 		<!-- APP BAR LEFT -->
-		<container-card
-			hover
-			exact
+		<container-card hover exact
 			elevation="0"
 			variant="flat"
 			color="transparent"
-			width="150"
+			min-width="150"
 			height="100%"
-			style="background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(90,90,84,1) 100%);"
 			:to="computed_link_appBar_btnHome_local"
-			v-ripple="{ class: 'text-secondary-tint-3' }"
+			v-ripple="{ class: 'text-accent' }"
 		>
 			<template #card-img>
-				<v-img src="logo-transparent-without-slogan.png" width="100%" height="100%"></v-img>
+				<v-img src="logo.png" width="100%" height="100%"></v-img>
 			</template>
 		</container-card>
+		
+		<v-divider vertical inset class="mx-2"></v-divider>
+
 		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
 			<template #activator="{ props }">
 				<container-btn
@@ -28,49 +28,53 @@
 				></container-btn>
 			</template>
 		</v-tooltip>
-		<v-spacer></v-spacer>
 
 		<!-- APP BAR MIDDLE - Text navs -->
-		<container-btn
-			class="d-none d-md-flex"
-			:text="computed_text_appBar_btnHome_local"
-			:to="computed_link_appBar_btnHome_local"
-		></container-btn>
-		<container-btn
-			class="d-none d-md-flex"
-			:text="computed_text_appBar_btnTreatments_local"
-			:to="computed_link_appBar_btnTreatments_local"
-		></container-btn>
-		<container-btn
-			class="d-none d-md-flex"
-			:text="computed_text_appBar_btnStore_local"
-			:to="computed_link_appBar_btnStore_local"
-		></container-btn>
-		<container-menu>
-			<template #menu-btn="{ props }">
-				<container-btn
-					class="d-none d-md-flex"
-					:text="computed_text_appBar_btnInformation_local"
-					v-bind="props"
-				></container-btn>
-			</template>
-			<template #menu-items>
-				<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
-					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnContact_local">
-						<span class="text-default" v-text="computed_text_appBar_btnContact_local"></span>
-					</v-list-item>
-					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnReviews_local">
-						<span class="text-default" v-text="computed_text_appBar_btnReviews_local"></span>
-					</v-list-item>
-					<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnAbout_local">
-						<span class="text-default" v-text="computed_text_appBar_btnAbout_local"></span>
-					</v-list-item>
-				</v-list>
-			</template>
-		</container-menu>
+		<div class="ga-2 d-flex">
+			<!-- <container-btn
+				class="d-none d-md-flex"
+				:text="computed_text_appBar_btnHome_local"
+				:to="computed_link_appBar_btnHome_local"
+			></container-btn> -->
+			<container-btn
+				class="d-none d-md-flex"
+				text-class="text-inverted"
+				:text="computed_text_appBar_btnTreatments_local"
+				:to="computed_link_appBar_btnTreatments_local"
+			></container-btn>
+			<container-btn
+				class="d-none d-md-flex"
+				text-class="text-inverted"
+				:text="computed_text_appBar_btnStore_local"
+				:to="computed_link_appBar_btnStore_local"
+			></container-btn>
+			<container-menu>
+				<template #menu-btn="{ props }">
+					<container-btn
+						class="d-none d-md-flex"
+						text-class="text-inverted"
+						:text="computed_text_appBar_btnInformation_local"
+						v-bind="props"
+					></container-btn>
+				</template>
+				<template #menu-items>
+					<v-list nav variant="text" bg-color="accent" base-color="white" color="black">
+						<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnContact_local">
+							<span class="text-default" v-text="computed_text_appBar_btnContact_local"></span>
+						</v-list-item>
+						<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnReviews_local">
+							<span class="text-default" v-text="computed_text_appBar_btnReviews_local"></span>
+						</v-list-item>
+						<v-list-item class="text-inverted text-capitalize" :to="computed_link_appBar_btnAbout_local">
+							<span class="text-default" v-text="computed_text_appBar_btnAbout_local"></span>
+						</v-list-item>
+					</v-list>
+				</template>
+			</container-menu>
+		</div>
 		<v-spacer></v-spacer>
 
-		<v-divider vertical inset class="mx-2 d-none d-md-flex border-opacity-100"></v-divider>
+		<v-divider vertical inset class="mx-2 d-none d-md-flex"></v-divider>
 
 		<!-- APP BAR RIGHT - Icon navs -->
 		<container-menu>
@@ -78,7 +82,8 @@
 				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnBasket_local">
 					<template #activator="{ props: tooltipProps }">
 						<container-btn
-							class="d-flex d-md-flex"
+							class="mr-2"
+							icon-color="inverted"
 							:icon="computed_icon_appBar_btnBasket_local"
 							v-bind="mergeProps(menuProps, tooltipProps)"
 							@click="computed_data_appbar_btnBasket_show_state = !computed_data_appbar_btnBasket_show_state"
@@ -96,7 +101,15 @@
 		</container-menu>
 		<container-btn
 			variant="outlined"
+			class="mr-2 d-none d-md-flex"
+			text-class="text-inverted"
 			:text="computed_text_appBar_btnSignIn_local"
+			v-if="!computed_data_user_isLoggedIn_state"
+			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
+		></container-btn>
+		<container-btn
+			class="mr-2 d-md-none"
+			:icon="computed_icon_appBar_btnSignIn_local"
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignIn_show_state = !computed_data_appbar_btnSignIn_show_state"
 		></container-btn>
@@ -149,6 +162,7 @@ import {
 	CONST_OBJECT_ICONS_APPBAR,
 	CONST_OBJECT_ICONS,
 } from "@constants/common/objects/common-constants-objects.js";
+import { mdiLogin, mdiLogout } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -176,6 +190,14 @@ export default defineComponent({
 								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.account,
 								icon: CONST_OBJECT_ICONS_APPBAR.account,
 								link: CONST_OBJECT_LINKS_APPBAR.account,
+							},
+							signIn: {
+								icon: mdiLogin,
+								tooltip: ""
+							},
+							signUp: {
+								icon: mdiLogout,
+								tooltip: ""
 							},
 						},
 						text: {
@@ -344,6 +366,12 @@ export default defineComponent({
 		},
 		computed_icon_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.icon;
+		},
+		computed_icon_appBar_btnSignIn_local(): string {
+			return this.header.appbar.buttons.icons.signIn.icon;
+		},
+		computed_icon_appBar_btnSignUp_local(): string {
+			return this.header.appbar.buttons.icons.signUp.icon;
 		},
 
 		computed_data_dialog_signInForm_formComponents_state(): string[] {

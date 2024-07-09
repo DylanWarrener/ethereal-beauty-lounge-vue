@@ -1,20 +1,30 @@
 <template>
 	<v-btn 
-		:size="size" 
-		:color="color" 
-		:rounded="rounded" 
-		:class="computed_css_class" 
-		:style="computed_css_style" 
-		:to="to">
+		:variant="computed_variant"
+		:icon="icon"
+		:size="computed_size" 
+		:color="computed_color" 
+		:class="computed_class" 
+		:style="computed_style" 
+		:to="to"
+		v-ripple="{ class: rippleColor }">
 		<template #append>
-			<v-icon :color="iconAppendColor" :icon="iconAppend" v-if="iconAppend && iconAppendColor"></v-icon>
+			<v-icon 
+				:color="iconAppendColor" 
+				:icon="iconAppend" 
+				v-if="iconAppend && iconAppendColor"
+			></v-icon>
 		</template>
 		<small :class="textClass" :style="textStyle" v-text="text" v-if="text"></small>
-		<v-icon :color="iconColor" :icon="icon" v-if="icon && iconColor"></v-icon>
+		<v-icon :color="iconColor" :icon="icon" v-if="icon"></v-icon>
 		<v-img :src="src" :alt="alt" v-if="src && alt"></v-img>
 		<slot name="custom-svg" class="custom-svg"></slot>
 		<template #prepend>
-			<v-icon :color="iconPrependColor" :icon="iconPrepend" v-if="iconPrepend && iconPrependColor"></v-icon>
+			<v-icon 
+				:color="iconPrependColor" 
+				:icon="iconPrepend" 
+				v-if="iconPrepend && iconPrependColor"
+			></v-icon>
 		</template>
 	</v-btn>
 </template>
@@ -25,12 +35,13 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "btn-container-component",
 	props: {
-		size: { type: String, required: false, default: "large" },
+		variant: { type: String, required: false },
+		size: { type: String, required: false },
 		color: { type: String, required: false, default: "primary" },
-		rounded: { type: String, required: false, default: "lg" },
 		class: { type: String, required: false },
 		style: { type: String, required: false },
 		to: { type: String, required: false },
+		rippleColor: { type: String, required: false, default: "text-accent" },
 
 		/* Append */
 		iconAppend: { type: String, required: false },
@@ -53,32 +64,61 @@ export default defineComponent({
 		iconPrependColor: { type: String, required: false },
 	},
 	computed: {
-		computed_css_class(): string[] {
+		computed_variant(): string {
+			let retval: string = "";
+			if (this.variant)
+				retval = this.variant;
+			else {
+				if (this.text)
+					retval = "text";
+				if (this.icon)
+					retval = "flat";
+			}
+            return retval;
+		},
+		computed_size(): string {
+			let retval: string = "large";
+			if (this.size)
+				retval = this.size;
+			if (this.icon)
+				retval = "small";
+            return retval;
+		},
+		computed_color(): string {
+			let retval: string = "primary";
+			if (this.color)
+				retval = this.color;
+			if (this.icon)
+				retval += "default";
+            return retval;
+		},
+
+		computed_class(): string[] {
 			let retval: string[] = [];
 
-			retval.push(!!this.icon ? "pa-2" : "px-4");
+			retval.push(this.icon ? "" : "px-4");
             if (this.class)
                 this.class.split(" ").forEach(element => retval.push(element));
             return retval;
 		},
-		computed_css_style(): string {
+		computed_style(): string {
 			let retval: string = "";
             if (this.style)
 				retval += this.style;
             return retval;
 		},
-		computed_css_classText(): string[] {
+		computed_classText(): string[] {
 			let retval: string[] = [];
             if (this.textClass)
                 this.textClass.split(" ").forEach(element => retval.push(element));
             return retval;
 		},
-		computed_css_styleText(): string {
+		computed_styleText(): string {
 			let retval: string = "";
             if (this.textStyle)
 				retval += this.textStyle;
             return retval;
-		},
+		}
 	},
 });
 </script>
