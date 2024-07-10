@@ -1,5 +1,5 @@
 <template>
-	<v-layout id="layout">
+	<v-layout id="layout" class="ma-0 pa-0 d-flex flex-column w-screen h-screen">
 		<header-container-component></header-container-component>
 
 		<!-- Snackbar feedback -->
@@ -8,11 +8,11 @@
 		<user-account-navigation-component></user-account-navigation-component>
 
 		<!-- Pages -->
-		<v-main class="w-100 d-flex flex-column">
+		<v-main class="d-flex flex-column">
 			<router-view></router-view>
 		</v-main>
 
-		<footer-container-component id="footer"></footer-container-component>
+		<!-- <footer-container-component id="footer"></footer-container-component> -->
 
 		<!-- Whatsapp -->
 		<!-- <v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
@@ -75,36 +75,36 @@ export default defineComponent({
 		}
 	},
 	methods: {
-		method_utils_monitorTargetElement(targetElement: string): void {
-			window.addEventListener(
-				"load",
-				() => {
-					this.targetElement = document.querySelector(targetElement) as HTMLElement;
-					this.method_utils_createObserver();
-				},
-				false
-			);
-		},
-		method_utils_createObserver(): void {
-			let observer;
-			let options = {
-				root: null,
-				rootMargin: "0px",
-				threshold: 0,
-			};
+		// method_utils_monitorTargetElement(targetElement: string): void {
+		// 	window.addEventListener(
+		// 		"load",
+		// 		() => {
+		// 			this.targetElement = document.querySelector(targetElement) as HTMLElement;
+		// 			this.method_utils_createObserver();
+		// 		},
+		// 		false
+		// 	);
+		// },
+		// method_utils_createObserver(): void {
+		// 	let observer;
+		// 	let options = {
+		// 		root: null,
+		// 		rootMargin: "0px",
+		// 		threshold: 0,
+		// 	};
 
-			observer = new IntersectionObserver(this.method_utils_handleIntersect, options);
-			observer.observe(this.targetElement!);
-		},
-		method_utils_handleIntersect(entries: any): void {
-			this.showWhatsappChatbot = entries[0].isIntersecting;
-		},
+		// 	observer = new IntersectionObserver(this.method_utils_handleIntersect, options);
+		// 	observer.observe(this.targetElement!);
+		// },
+		// method_utils_handleIntersect(entries: any): void {
+		// 	this.showWhatsappChatbot = entries[0].isIntersecting;
+		// },
 	},
 	created(): void {
-		this.storeFirebase.monitor_userAuth_state({ auth }).then(() => this.storeFirebase.get_userFirestore_user());
+		//this.storeFirebase.monitor_userAuth_state({ auth }).then(() => this.storeFirebase.get_userFirestore_user());
 	},
 	mounted(): void {
-		this.method_utils_monitorTargetElement("#footer");
+		// this.method_utils_monitorTargetElement("#footer");
 	},
 	setup() {
 		const storeFirebase = useFirebaseStore();

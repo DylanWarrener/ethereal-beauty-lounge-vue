@@ -1,11 +1,10 @@
 <template>
 	<container-canvas>
 		<template #canvas-content>
-			<v-container fluid class="h-100 pa-4">
+			<!-- <v-container fluid class="w-100 h-screen pa-0">
 				<v-row dense class="position-relative h-100 d-flex justify-center">
 					<v-col></v-col>
 					<v-col class="bg-accent"></v-col>
-					<!-- Absolute containers -->
 					<div tag="img" :style="computed_css_canvas_imgBackground_style"></div>
 					<div :style="computed_css_canvas_card_style">
 						<container-card
@@ -28,7 +27,6 @@
 						</container-card>
 					</div>
 
-					<!-- Button to go down to the next section -->
 					<div style="position: absolute; bottom: 2%">
 						<v-hover>
 							<template #default="{ isHovering, props: hoverProps }">
@@ -49,10 +47,9 @@
 						</v-hover>
 					</div>
 
-					<!-- <v-col cols="12" md="8">
+					<v-col cols="12" md="8">
 						<container-card
 							variant="flat"
-							:style="computed_css_canvas_cardBackgroundOpacity"
 							:card-title="computed_text_canvas_cardTitle"
 							:card-subtitle="computed_text_canvas_cardSubtitle"
 						>
@@ -62,13 +59,13 @@
 									variant="flat"
 									color="accent"
 									:text="computed_text_canvas_cardBtnText"
-									@click="method_event_scrollToElement"
+									@click="method_utils_scrollToElement"
 								></container-btn>
 							</template>
 						</container-card>
-					</v-col> -->
+					</v-col>
 				</v-row>
-			</v-container>
+			</v-container> -->
 		</template>
 	</container-canvas>
 
@@ -152,7 +149,6 @@ export default defineComponent({
 
 		computed_css_canvas_imgBackground_style(): string {
 			let retval: string = "position: absolute; outline: 15px solid white; background-image: url('Designer.png'); background-size: cover; background-position: center;";
-			// Dynamic properties
 			switch (this.$vuetify.display.name) {
 				case "xs":
 				case "sm":
@@ -177,7 +173,6 @@ export default defineComponent({
 					retval += "width: 100%; height: 300px; top: 0%; right: 50%; transform: translateY(0%)"
 					break;
 			}
-			// Dynamic properties
 			return retval;
 		},
 
