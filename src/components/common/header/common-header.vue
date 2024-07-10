@@ -123,6 +123,7 @@
 				</v-list>
 			</template>
 		</container-menu>
+		<!-- Sign In -->
 		<container-btn
 			variant="outlined"
 			class="mr-2 d-none d-md-flex"
@@ -144,13 +145,28 @@
 				></container-btn>
 			</template>
 		</v-hover>
+		<!-- Sign Up -->
 		<container-btn
 			variant="flat"
+			class="d-none d-md-flex"
 			color="accent"
 			:text="computed_text_appBar_btnSignUp_local"
 			v-if="!computed_data_user_isLoggedIn_state"
 			@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
 		></container-btn>
+		<v-hover>
+			<template #default="{ isHovering, props }">
+				<container-btn
+					class="mr-2 d-md-none"
+					:icon-class="isHovering ? 'text-default' : 'text-inverted'"
+					:icon="computed_icon_appBar_btnSignUp_local"
+					:class="isHovering ? 'bg-accent' : ''"
+					v-if="!computed_data_user_isLoggedIn_state"
+					v-bind="props"
+					@click="computed_data_appbar_btnSignUp_show_state = !computed_data_appbar_btnSignUp_show_state"
+				></container-btn>
+			</template>
+		</v-hover>
 	</v-app-bar>
 
 	<!-- Dialogs -->

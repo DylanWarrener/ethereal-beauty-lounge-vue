@@ -4,29 +4,30 @@
 			<v-container fluid class="h-100 pa-4">
 				<v-row dense class="position-relative h-100 d-flex justify-center">
 					<v-col></v-col>
-					<v-col class="bg-accent">
-						<div tag="img" :style="computed_css_canvas_imgBackground"></div>
-						<div :style="computed_css_canvas_card_style">
-							<container-card
-								variant="flat"
-								color="primary"
-								width="500px"
-								height="300px"
-								:card-title="computed_text_canvas_cardTitle"
-							>
-								<template #card-actions>
-									<v-spacer></v-spacer>
-									<container-btn
-										variant="flat"
-										color="accent"
-										to="/treatments"
-										:text="computed_text_canvas_cardBtnText"
-									></container-btn>
-									<v-spacer></v-spacer>
-								</template>
-							</container-card>
-						</div>
-					</v-col>
+					<v-col class="bg-accent"></v-col>
+					<!-- Absolute containers -->
+					<div tag="img" :style="computed_css_canvas_imgBackground_style"></div>
+					<div :style="computed_css_canvas_card_style">
+						<container-card
+							variant="flat"
+							color="primary"
+							width="100%"
+							height="100%"
+							:card-title="computed_text_canvas_cardTitle"
+						>
+							<template #card-actions>
+								<v-spacer></v-spacer>
+								<container-btn
+									variant="flat"
+									color="accent"
+									to="/treatments"
+									:text="computed_text_canvas_cardBtnText"
+								></container-btn>
+								<v-spacer></v-spacer>
+							</template>
+						</container-card>
+					</div>
+
 					<!-- Button to go down to the next section -->
 					<div style="position: absolute; bottom: 2%">
 						<v-hover>
@@ -149,11 +150,35 @@ export default defineComponent({
 			return this.homePage.section.subtitle;
 		},
 
-		computed_css_canvas_imgBackground(): string {
-			return `width: 60%; height: 70%; position: absolute; bottom: 47%; left: 10%; transform: translateY(50%); outline: 15px solid white; background-image: url('Designer.png'); background-size: cover; background-position: center;`;
+		computed_css_canvas_imgBackground_style(): string {
+			let retval: string = "position: absolute; outline: 15px solid white; background-image: url('Designer.png'); background-size: cover; background-position: center;";
+			// Dynamic properties
+			switch (this.$vuetify.display.name) {
+				case "xs":
+				case "sm":
+				case "md":
+				case "lg":
+				case "xl":
+				case "xxl":
+					retval += "width: 200px; height: 150px; top: 50%; right: 50%; transform: translateX(50%) translateY(50%);"
+					break;
+			}
+			return retval;
 		},
 		computed_css_canvas_card_style(): string {
-			return `position: absolute; bottom: 47%; left: 60%; transform: translateY(50%); border: 15px solid white;`;
+			let retval: string = "position: absolute;";
+			switch (this.$vuetify.display.name) {
+				case "xs":
+				case "sm":
+				case "md":
+				case "lg":
+				case "xl":
+				case "xxl":
+					retval += "width: 100%; height: 300px; top: 0%; right: 50%; transform: translateY(0%)"
+					break;
+			}
+			// Dynamic properties
+			return retval;
 		},
 
 		computed_icon_canvas_actions_btnSeeRecentPortfolio(): string {
