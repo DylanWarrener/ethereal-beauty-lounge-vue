@@ -5,6 +5,7 @@
 			elevation="0"
 			variant="flat"
 			color="transparent"
+			card-class="d-none d-md-flex"
 			min-width="150"
 			height="100%"
 			:to="computed_link_appBar_btnHome_local"
@@ -15,19 +16,25 @@
 			</template>
 		</container-card>
 		
-		<v-divider vertical inset class="mx-2"></v-divider>
+		<v-divider vertical inset class="mx-2 d-none d-md-flex"></v-divider>
 
-		<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
-			<template #activator="{ props }">
-				<container-btn
-					varient="flat"
-					class="d-flex d-md-none"
-					:icon="computed_icon_appBar_btnMobileMenu_local"
-					v-bind="props"
-					@click="computed_data_appbar_btnMobileMenu_show_state = !computed_data_appbar_btnMobileMenu_show_state"
-				></container-btn>
+		<v-hover>
+			<template #default="{ isHovering, props: hoverProps }">
+				<v-tooltip location="bottom" :text="computed_tooltip_appBar_btnMobileMenu_local">
+					<template #activator="{ props: tooltipProps }">
+						<container-btn
+							varient="flat"
+							class="d-flex d-md-none"
+							:class="isHovering ? 'bg-accent' : ''"
+							:text-class="isHovering ? 'text-default' : 'text-inverted'"
+							:icon="computed_icon_appBar_btnMobileMenu_local"
+							v-bind="mergeProps(hoverProps, tooltipProps)"
+							@click="computed_data_appbar_btnMobileMenu_show_state = !computed_data_appbar_btnMobileMenu_show_state"
+						></container-btn>
+					</template>
+				</v-tooltip>
 			</template>
-		</v-tooltip>
+		</v-hover>
 
 		<!-- APP BAR MIDDLE - Text navs -->
 		<div class="ga-2 d-flex">

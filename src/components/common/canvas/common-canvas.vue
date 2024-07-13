@@ -1,5 +1,5 @@
 <template>
-	<v-parallax class="w-100 h-screen" :src="src">
+	<v-parallax :src="src" class="h-screen" style="border: 4px solid orange">
 		<slot name="canvas-content"></slot>
 	</v-parallax>
 </template>
@@ -14,3 +14,7 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style lang="scss">
+
+</style>

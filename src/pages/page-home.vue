@@ -1,9 +1,9 @@
 <template>
 	<container-canvas>
 		<template #canvas-content>
-			<!-- <v-container fluid class="w-100 h-screen pa-0">
-				<v-row dense class="position-relative h-100 d-flex justify-center">
-					<v-col></v-col>
+			<v-container fluid class="pa-0" style="border: 4px solid black">
+				<v-row dense class="pa-0 h-100 d-flex justify-center">
+					<v-col class=""></v-col>
 					<v-col class="bg-accent"></v-col>
 					<div tag="img" :style="computed_css_canvas_imgBackground_style"></div>
 					<div :style="computed_css_canvas_card_style">
@@ -65,7 +65,7 @@
 						</container-card>
 					</v-col>
 				</v-row>
-			</v-container> -->
+			</v-container>
 		</template>
 	</container-canvas>
 
@@ -156,7 +156,7 @@ export default defineComponent({
 				case "lg":
 				case "xl":
 				case "xxl":
-					retval += "width: 200px; height: 150px; top: 50%; right: 50%; transform: translateX(50%) translateY(50%);"
+					retval += "width: 100px; height: 100px; top: 0%; left: 0%"
 					break;
 			}
 			return retval;
@@ -170,7 +170,7 @@ export default defineComponent({
 				case "lg":
 				case "xl":
 				case "xxl":
-					retval += "width: 100%; height: 300px; top: 0%; right: 50%; transform: translateY(0%)"
+					retval += "width: 100px; height: 100px; top: 0%; left: 0%"
 					break;
 			}
 			return retval;

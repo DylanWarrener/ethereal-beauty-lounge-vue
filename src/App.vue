@@ -1,5 +1,5 @@
 <template>
-	<v-layout id="layout" class="ma-0 pa-0 d-flex flex-column h-screen" style="border: 4px solid red">
+	<v-layout id="layout" class="d-flex flex-column" style="border: 4px solid red">
 		<header-container-component></header-container-component>
 
 		<!-- Snackbar feedback -->
@@ -8,11 +8,11 @@
 		<user-account-navigation-component></user-account-navigation-component>
 
 		<!-- Pages -->
-		<v-main class="d-flex flex-column">
+		<v-main class="d-flex flex-column w-100" style="border: 4px solid black">
 			<router-view></router-view>
 		</v-main>
 
-		<!-- <footer-container-component id="footer"></footer-container-component> -->
+		<footer-container-component id="footer"></footer-container-component>
 
 		<!-- Whatsapp -->
 		<!-- <v-btn icon class="whatsapp" v-if="showWhatsappChatbot">
