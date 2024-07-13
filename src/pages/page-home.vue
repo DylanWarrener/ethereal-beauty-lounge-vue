@@ -91,7 +91,7 @@ import { defineComponent, mergeProps } from "vue";
 // Components
 import CardGridContainerComp from "@components/common/card/grid/common-card-grid.vue";
 
-import { mdiArrowDownThick } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiArrowDownThick } from "@mdi/js";
 
 export default defineComponent({
 	name: "common-home-page-container-component",

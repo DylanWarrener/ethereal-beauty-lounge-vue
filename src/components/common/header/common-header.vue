@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar flat scroll-behavior="hide" color="white">
+	<v-app-bar flat scroll-behavior="hide" color="white" class="w-screen" style="border: 2px solid black">
 		<!-- APP BAR LEFT -->
 		<container-card hover exact
 			elevation="0"
@@ -201,10 +201,8 @@ import {
 	CONST_OBJECT_TEXT_APPBAR,
 	CONST_OBJECT_LINKS_APPBAR,
 	CONST_OBJECT_TOOLTIPS_APPBAR,
-	CONST_OBJECT_ICONS_APPBAR,
-	CONST_OBJECT_ICONS,
 } from "@constants/common/objects/common-constants-objects.js";
-import { mdiMenuDown, mdiMenuUp, mdiLogin, mdiLogout } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiMenu, mdiBasket, mdiAccount, mdiMenuDown, mdiMenuUp, mdiLogin, mdiLogout } from "@mdi/js";
 
 export default defineComponent({
 	name: "header-container-component",
@@ -222,15 +220,15 @@ export default defineComponent({
 						icons: {
 							mobileMenu: {
 								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.menu,
-								icon: CONST_OBJECT_ICONS_APPBAR.menu,
+								icon: mdiMenu,
 							},
 							basket: {
 								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.basket,
-								icon: CONST_OBJECT_ICONS_APPBAR.basket,
+								icon: mdiBasket,
 							},
 							account: {
 								tooltip: CONST_OBJECT_TOOLTIPS_APPBAR.account,
-								icon: CONST_OBJECT_ICONS_APPBAR.account,
+								icon: mdiAccount,
 								link: CONST_OBJECT_LINKS_APPBAR.account,
 							},
 							signIn: {

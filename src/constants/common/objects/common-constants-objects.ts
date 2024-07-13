@@ -1,31 +1,3 @@
-import {
-	mdiMenu,
-	mdiMenuUp,
-	mdiMenuDown,
-	mdiHome,
-	mdiEmail,
-	mdiCommentQuestion,
-	mdiInformation,
-	mdiStore,
-	mdiLotion,
-	mdiBasketOutline,
-	mdiMagnify,
-	mdiAccount,
-	mdiDotsVertical,
-	mdiClose,
-	mdiMapMarker,
-	mdiEmailFast,
-	mdiPhone,
-	mdiEye,
-	mdiEyeOff,
-	mdiLogout,
-	mdiBasket,
-	mdiAccountEdit,
-	mdiSecurity,
-	mdiBell,
-	mdiImageEdit,
-} from "@constants/common/primitives/icons/common-constants-primative-icons.js";
-
 // ---------------------------------------------------------------------------------------------------------
 // IDs
 // ---------------------------------------------------------------------------------------------------------
@@ -86,54 +58,6 @@ export const CONST_OBJECT_LINKS_APPBAR = {
 	reviews: CONST_OBJECT_LINKS_PAGES.reviews,
 	about: CONST_OBJECT_LINKS_PAGES.about,
 	account: CONST_OBJECT_LINKS_PAGES.account,
-};
-
-// ---------------------------------------------------------------------------------------------------------
-// ICONS
-// ---------------------------------------------------------------------------------------------------------
-export const CONST_OBJECT_ICONS = {
-	menuUp: mdiMenuUp,
-	menuDown: mdiMenuDown,
-};
-export const CONST_OBJECT_ICONS_APPBAR = {
-	menu: mdiMenu,
-	search: mdiMagnify,
-	basket: mdiBasketOutline,
-	account: mdiAccount,
-	profile: mdiAccount,
-	options: mdiDotsVertical,
-};
-export const CONST_OBJECT_ICONS_NAVIGATION = {
-	home: mdiHome,
-	treatments: mdiLotion,
-	store: mdiStore,
-	contact: mdiEmail,
-	reviews: mdiCommentQuestion,
-	about: mdiInformation,
-	information: mdiMenuDown,
-};
-export const CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR = {
-	account: mdiAccount,
-	basket: mdiBasket,
-	logout: mdiLogout,
-};
-export const CONST_OBJECT_ICONS_LIST_GROUPS = {
-	profile: mdiAccountEdit,
-	security: mdiSecurity,
-	notifications: mdiBell,
-};
-export const CONST_OBJECT_ICONS_ACTIONS = {
-	editImage: mdiImageEdit,
-};
-export const CONST_OBJECT_ICONS_DIALOG = {
-	close: mdiClose,
-};
-export const CONST_OBJECT_ICONS_FORM = {
-	show: mdiEye,
-	hide: mdiEyeOff,
-	location: mdiMapMarker,
-	email: mdiEmailFast,
-	phone: mdiPhone,
 };
 
 // ---------------------------------------------------------------------------------------------------------

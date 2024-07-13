@@ -1,4 +1,5 @@
 // Colours
+// This import is too expensive in terms of performance
 //import colors from "vuetify/lib/util/colors.mjs";
 import { type ThemeDefinition } from "vuetify";
 

@@ -4,7 +4,10 @@ import { defineStore } from "pinia";
 import ICommonState from "@declarations/common/interfaces/common-interface.js";
 
 // Constants
-import { CONST_OBJECT_ICONS_DIALOG, CONST_OBJECT_TOOLTIPS_DIALOG, CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
+import { CONST_OBJECT_TOOLTIPS_DIALOG } from "@constants/common/objects/common-constants-objects.js";
+
+// Icons
+import { mdiEye, mdiEyeOff, mdiClose } from "@mdi/js";
 
 // Main store
 export const useCommonStore = defineStore("common-store", {
@@ -23,7 +26,7 @@ export const useCommonStore = defineStore("common-store", {
 			default: {
 				buttons: {
 					close: {
-						icon: CONST_OBJECT_ICONS_DIALOG.close,
+						icon: mdiClose,
 						tooltip: CONST_OBJECT_TOOLTIPS_DIALOG.close,
 					},
 				},
@@ -49,8 +52,8 @@ export const useCommonStore = defineStore("common-store", {
 				inputs: {
 					password: {
 						icons: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
+							show: mdiEye,
+							hide: mdiEyeOff,
 						}
 					}
 				}

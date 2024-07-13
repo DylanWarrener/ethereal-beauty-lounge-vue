@@ -1,6 +1,6 @@
 <template>
-	<v-layout id="layout" class="ma-0 pa-0 d-flex flex-column w-screen h-screen">
-		<header-container-component></header-container-component>
+	<v-layout id="layout" class="ma-0 pa-0 d-flex flex-column h-screen" style="width: 100%; border: 4px solid red">
+		<!-- <header-container-component></header-container-component> -->
 
 		<!-- Snackbar feedback -->
 		<user-feedback-container-component></user-feedback-container-component>
