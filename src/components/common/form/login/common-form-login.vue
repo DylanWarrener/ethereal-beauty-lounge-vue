@@ -155,7 +155,7 @@ import { CONST_OBJECT_TEXT_PAGES } from "@constants/common/objects/common-consta
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
-import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
+import { mdiEye, mdiEyeOff } from "@mdi/js";
 
 export default defineComponent({
 	name: "login-container-component",
@@ -171,8 +171,8 @@ export default defineComponent({
 					password: {
 						show: false,
 						icon: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
+							show: mdiEye,
+							hide: mdiEyeOff,
 						},
 						label: "Password",
 						value: null,

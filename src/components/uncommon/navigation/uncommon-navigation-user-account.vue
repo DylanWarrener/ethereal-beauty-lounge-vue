@@ -83,10 +83,7 @@ import useFirebaseStore from "@stores/store-firebase.js";
 import DividerContainerComp from "@components/common/divider/common-divider.vue";
 
 // Icons
-import {
-	CONST_OBJECT_TEXT_PAGES,
-	CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR,
-} from "@constants/common/objects/common-constants-objects.js";
+import { mdiAccount, mdiBasket, mdiLogout } from "@mdi/js";
 
 export default defineComponent({
 	name: "navigation-user-account-component",
@@ -101,16 +98,16 @@ export default defineComponent({
 					account: {
 						text: "Account",
 						value: "account",
-						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.account,
+						icon: mdiAccount,
 					},
 					basket: {
 						text: "Basket",
 						value: "basket",
-						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.basket,
+						icon: mdiBasket,
 					},
 					logout: {
 						tooltip: "Log out",
-						icon: CONST_OBJECT_ICONS_NAVIGATION_SIDEBAR.logout,
+						icon: mdiLogout,
 					},
 				},
 			},

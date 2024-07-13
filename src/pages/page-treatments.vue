@@ -211,14 +211,11 @@ import { defineComponent } from "vue";
 // Stores
 import useFirebaseStore from "@stores/store-firebase.js";
 
-// Constants
-import { CONST_OBJECT_IDS_SECTION_BUTTONS } from "@constants/common/objects/common-constants-objects.js";
-
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
 
 // Icons
-import { mdiInformationVariant } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiInformationVariant } from "@mdi/js";
 
 export default defineComponent({
 	name: "treatments-page-component",

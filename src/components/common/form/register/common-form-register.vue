@@ -166,7 +166,7 @@ import useCommonStore from "@stores/store-common.js";
 import { CONST_OBJECT_TEXT_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
-import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
+import { mdiEye, mdiEyeOff } from "@mdi/js";
 
 export default defineComponent({
 	name: "create-account-container-component",
@@ -201,8 +201,8 @@ export default defineComponent({
 					password: {
 						show: false,
 						icon: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
+							show: mdiEye,
+							hide: mdiEyeOff,
 						},
 						label: "Password",
 						value: null,
@@ -210,8 +210,8 @@ export default defineComponent({
 					repeatPassword: {
 						show: false,
 						icon: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
+							show: mdiEye,
+							hide: mdiEyeOff,
 						},
 						label: "Repeat password",
 						value: null,

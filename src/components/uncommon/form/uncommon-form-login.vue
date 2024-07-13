@@ -157,7 +157,7 @@ import FormContainerComp from "@components/common/form/common-form.vue";
 
 // Icons
 import GoogleIcon from "@assets/svg/authentication/google.svg";
-import { CONST_OBJECT_ICONS_FORM } from "@constants/common/objects/common-constants-objects.js";
+import { mdiEye, mdiEyeOff } from "@mdi/js";
 
 export default defineComponent({
 	name: "uncommon-form-login-component",
@@ -178,8 +178,8 @@ export default defineComponent({
 					password: {
 						show: false,
 						icon: {
-							show: CONST_OBJECT_ICONS_FORM.show,
-							hide: CONST_OBJECT_ICONS_FORM.hide,
+							show: mdiEye,
+							hide: mdiEyeOff,
 						},
 						label: "Password",
 						value: null,

@@ -49,7 +49,7 @@ import BtnMenuContainerComp from "@components/common/menu/common-menu.vue";
 import { CONST_OBJECT_TEXT_PAGES, CONST_OBJECT_LINKS_PAGES } from "@constants/common/objects/common-constants-objects.js";
 
 // Icons
-import { mdiMenuUp, mdiMenuDown } from "@constants/common/primitives/icons/common-constants-primative-icons.js";
+import { mdiMenuUp, mdiMenuDown } from "@mdi/js";
 
 export default defineComponent({
 	name: "navigation-pages-non-mobile-menu-container-component",

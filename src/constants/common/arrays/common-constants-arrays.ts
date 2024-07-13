@@ -10,40 +10,40 @@ import {
 	CONST_OBJECT_TEXT_PAGES,
 	CONST_OBJECT_LINKS_PAGES,
 	CONST_OBJECT_TEXT_NAVIGATION_GROUPS,
-
-	// Icons
-	CONST_OBJECT_ICONS_NAVIGATION,
 } from "@base/src/constants/common/objects/common-constants-objects.js";
+
+// Icons
+import { mdiHome, mdiLotion, mdiStore, mdiAccountBox, mdiMessageDraw, mdiInformation, mdiMenuDown } from "@mdi/js";
 
 export const NAVIGATION_MOBLE_MENU: IHeaderNavigationCommonItemState[] = [
 	{
 		title: CONST_OBJECT_TEXT_PAGES.home,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.home,
+		icon: mdiHome,
 		link: CONST_OBJECT_LINKS_PAGES.home,
 	},
 	{
 		title: CONST_OBJECT_TEXT_PAGES.treatments,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.treatments,
+		icon: mdiLotion,
 		link: CONST_OBJECT_LINKS_PAGES.treatments,
 	},
 	{
 		title: CONST_OBJECT_TEXT_PAGES.store,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.store,
+		icon: mdiStore,
 		link: CONST_OBJECT_LINKS_PAGES.store,
 	},
 	{
 		title: CONST_OBJECT_TEXT_PAGES.contact,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.contact,
+		icon: mdiAccountBox,
 		link: CONST_OBJECT_LINKS_PAGES.contact,
 	},
 	{
 		title: CONST_OBJECT_TEXT_PAGES.reviews,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.reviews,
+		icon: mdiMessageDraw,
 		link: CONST_OBJECT_LINKS_PAGES.reviews,
 	},
 	{
 		title: CONST_OBJECT_TEXT_PAGES.about,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.about,
+		icon: mdiInformation,
 		link: CONST_OBJECT_LINKS_PAGES.about,
 	},
 ];
@@ -62,7 +62,7 @@ export const NAVIGATION_NON_MOBILE_MENU: IHeaderNavigationCommonNonMobileItemSta
 	},
 	{
 		title: CONST_OBJECT_TEXT_NAVIGATION_GROUPS.information,
-		icon: CONST_OBJECT_ICONS_NAVIGATION.information,
+		icon: mdiMenuDown,
 		items: [
 			{
 				title: CONST_OBJECT_TEXT_PAGES.contact,

@@ -123,7 +123,7 @@ import AccountSecurityComp from "@components/uncommon/account/security/uncommon-
 import AccountNotificationsComp from "@components/uncommon/account/notifications/uncommon-account-notifications.vue";
 
 // Icons
-import { CONST_OBJECT_ICONS_LIST_GROUPS } from "@constants/common/objects/common-constants-objects.js";
+import { mdiAccount,mdiSecurity, mdiBell } from "@mdi/js";
 
 export default defineComponent({
 	name: "common-account-page-container-component",
@@ -144,17 +144,17 @@ export default defineComponent({
 					profile: {
 						text: "Profile",
 						value: "profile",
-						icon: CONST_OBJECT_ICONS_LIST_GROUPS.profile,
+						icon: mdiAccount,
 					},
 					security: {
 						text: "Security",
 						value: "security",
-						icon: CONST_OBJECT_ICONS_LIST_GROUPS.security,
+						icon: mdiSecurity,
 					},
 					notifications: {
 						text: "Notifications",
 						value: "notifications",
-						icon: CONST_OBJECT_ICONS_LIST_GROUPS.notifications,
+						icon: mdiBell,
 					},
 				},
 				content: {

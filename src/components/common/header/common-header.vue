@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar flat scroll-behavior="hide" color="white" class="w-screen" style="border: 2px solid black">
+	<v-app-bar flat scroll-behavior="hide" color="white" class="px-2" style="border: 2px solid black">
 		<!-- APP BAR LEFT -->
 		<container-card hover exact
 			elevation="0"
@@ -11,7 +11,7 @@
 			v-ripple="{ class: 'text-accent' }"
 		>
 			<template #card-img>
-				<v-img src="logo.png" width="100%" height="100%"></v-img>
+				<v-img :src="computed_image_appBar_btnHome_local" width="100%" height="100%"></v-img>
 			</template>
 		</container-card>
 		
@@ -202,6 +202,11 @@ import {
 	CONST_OBJECT_LINKS_APPBAR,
 	CONST_OBJECT_TOOLTIPS_APPBAR,
 } from "@constants/common/objects/common-constants-objects.js";
+
+// IMGs
+import Logo from "@assets/png/logo/logo.png";
+
+// Icons
 import { mdiMenu, mdiBasket, mdiAccount, mdiMenuDown, mdiMenuUp, mdiLogin, mdiLogout } from "@mdi/js";
 
 export default defineComponent({
@@ -390,6 +395,10 @@ export default defineComponent({
 		},
 		computed_tooltip_appBar_btnAccount_local(): string {
 			return this.header.appbar.buttons.icons.account.tooltip;
+		},
+
+		computed_image_appBar_btnHome_local(): string {
+			return Logo;
 		},
 
 		computed_icon_appBar_btnMobileMenu_local(): string {

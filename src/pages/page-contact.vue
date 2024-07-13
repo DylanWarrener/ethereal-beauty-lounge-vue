@@ -154,11 +154,13 @@ import { defineComponent } from "vue";
 // Constants
 import {
 	CONST_OBJECT_IDS_SECTION_BUTTONS,
-	CONST_OBJECT_ICONS_FORM,
 } from "@constants/common/objects/common-constants-objects.js";
 
 // IMGs
 import CanvasPNG from "@assets/jpg/temp.jpg";
+
+// Icons
+import { mdiMapMarker, mdiEmail, mdiPhone } from "@mdi/js";
 
 export default defineComponent({
 	name: "contact-page-component",
@@ -192,7 +194,7 @@ export default defineComponent({
 									title: "Office Location",
 									subtitle: "48 Papyrus Road, Peterborough, <br /> Cambridgeshire, PE4 5BH, UK",
 									btn: {
-										icon: CONST_OBJECT_ICONS_FORM.location,
+										icon: mdiMapMarker,
 										tooltip: "See office location",
 										to: "section-contact-map",
 									},
@@ -201,7 +203,7 @@ export default defineComponent({
 									title: "Email",
 									subtitle: "contact@etherealbeautylounge.co.uk",
 									btn: {
-										icon: CONST_OBJECT_ICONS_FORM.email,
+										icon: mdiEmail,
 										tooltip: "No sure yet",
 										to: "",
 									},
@@ -210,7 +212,7 @@ export default defineComponent({
 									title: "Phone",
 									subtitle: "+44 (0)7778 564553",
 									btn: {
-										icon: CONST_OBJECT_ICONS_FORM.phone,
+										icon: mdiPhone,
 										tooltip: "Open whatsapp messaging service",
 										to: "",
 									},
